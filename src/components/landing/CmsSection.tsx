@@ -209,7 +209,6 @@ const FeatureRail = styled.div`
 const Feature = styled.article`
   position: relative;
   display: flex;
-  // min-height: 300px;
   padding: 28px 28px 0;
   overflow: hidden;
   border: 1px solid rgba(17, 17, 17, 0.1);
@@ -223,7 +222,7 @@ const Feature = styled.article`
     transform 300ms cubic-bezier(0.16, 1, 0.3, 1);
 
   h3 {
-    margin: 20px 0 10px;
+    margin: 0px 0px 10px;
     color: ${landingColors.ink};
     font-size: clamp(1.15rem, 1.8vw, 1.45rem);
     letter-spacing: -0.045em;

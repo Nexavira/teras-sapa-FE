@@ -3,7 +3,7 @@ import { ArrowRight01Icon } from 'hugeicons-react'
 
 import { Card, ImageContainer, TextReveal } from '#/components/ui'
 
-import { EmeraldButton, landingColors } from './shared'
+import { EmeraldButton, landingColors, LightButton } from './shared'
 
 const Hero = styled.section`
   position: relative;
@@ -39,58 +39,61 @@ const HeroMedia = styled.div`
 `
 
 const HeroTextWrapper = styled.div`
+  position: relative;
+  z-index: 2;
   display: flex;
   flex-direction: column;
-  justify-content: end;
+  justify-content: center;
   min-height: 100svh;
-
-  padding-left: clamp(16px, 4vw, 56px);
-  padding-bottom: clamp(32px, 6vh, 64px);
+  padding: clamp(96px, 12vh, 140px) clamp(16px, 4vw, 56px)
+    clamp(64px, 8vh, 96px);
 `
 
-const HeroWord = styled.div<{ $position: 'left' | 'right' }>`
-  z-index: 2;
-  overflow: hidden;
-  color: ${({ $position }) =>
-    $position === 'left' ? landingColors.white : landingColors.emerald};
-  font-size: clamp(4rem, 12vw, 12rem);
-  font-weight: 900;
-  line-height: 0.78;
-  letter-spacing: -0.035em;
+const HeroHeadline = styled.h1`
+  max-width: 980px;
+  margin: 0;
+  color: ${landingColors.white};
+  font-size: clamp(3.25rem, 7vw, 7.25rem);
+  font-weight: 800;
+  line-height: 0.92;
+  letter-spacing: -0.055em;
   text-align: left;
-  text-transform: uppercase;
 
   > span {
     display: block;
   }
 
-  @media (max-width: 720px) {
-    top: ${({ $position }) => ($position === 'left' ? '24%' : '40%')};
-    font-size: 15vw;
+  .accent {
+    color: ${landingColors.emerald};
   }
 `
 
-const HeroBottom = styled.div`
-  display: flex;
-  align-items: flex-end;
-  gap: clamp(32px, 7vw, 96px);
-  width: min(1180px, calc(100% - 32px));
-
-  margin-top: clamp(100px, 10vw, 120px);
+const HeroIntro = styled.div`
+  max-width: 690px;
+  margin-top: clamp(28px, 4vw, 48px);
 
   p {
-    max-width: 470px;
     margin: 0;
-    color: rgba(255, 255, 255, 0.78);
-    font-size: clamp(1rem, 2vw, 1.45rem);
+    color: rgba(255, 255, 255, 0.76);
+    font-size: clamp(1rem, 1.5vw, 1.2rem);
     font-weight: 300;
-    line-height: 1.55;
+    line-height: 1.65;
   }
+`
 
-  @media (max-width: 720px) {
-    align-items: flex-start;
+const HeroActions = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 30px;
+
+  @media (max-width: 520px) {
+    align-items: stretch;
     flex-direction: column;
-    gap: 22px;
+
+    a {
+      justify-content: center;
+    }
   }
 `
 
@@ -210,30 +213,40 @@ export const HeroSection = () => {
         </HeroMedia>
 
         <HeroTextWrapper>
-          <HeroWord $position="left">
+          <HeroHeadline>
             <TextReveal separator="character" revealOn="load">
-              Kendalikan
+              Bangun Bisnis Digital
             </TextReveal>
-          </HeroWord>
-          <HeroWord $position="right">
-            <TextReveal separator="character" revealOn="load">
-              Bisnismu.
+            <TextReveal
+              className="accent"
+              separator="character"
+              revealOn="load"
+            >
+              Secara Instan &amp;
             </TextReveal>
-          </HeroWord>
+            <TextReveal
+              className="accent"
+              separator="character"
+              revealOn="load"
+            >
+              Profesional.
+            </TextReveal>
+          </HeroHeadline>
 
-          <HeroBottom>
+          <HeroIntro>
             <p>
               <TextReveal separator="word" revealOn="load">
-                Tinggalkan biaya admin marketplace yang mencekik. Bangun toko
-                online premium dan blog SEO-ready dalam hitungan menit.
+                Ekosistem website dan CMS untuk UMKM &amp; startup. Pilih
+                template, kelola konten, dan mulai berjualan dalam hitungan
+                menit.
               </TextReveal>
             </p>
-            <div data-hero-fade>
-              <EmeraldButton render={<a href="#cms" />}>
-                Mulai eksplorasi <ArrowRight01Icon size={17} />
+            <HeroActions data-hero-fade>
+              <EmeraldButton render={<a href="#pricing" />}>
+                Mulai gratis sekarang <ArrowRight01Icon size={17} />
               </EmeraldButton>
-            </div>
-          </HeroBottom>
+            </HeroActions>
+          </HeroIntro>
         </HeroTextWrapper>
       </Hero>
 
