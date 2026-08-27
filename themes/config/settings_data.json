@@ -1,0 +1,139 @@
+{
+  "current": {
+    "logo": "",
+    "logo_width": 140,
+    "logo_mobile": "",
+    "logo_width_mobile": 100,
+    "favicon": "",
+    "shop_name": "Teras Sapa Modern Store",
+    "shop_tagline": "Modern Headless Commerce",
+
+    "color_schemes": {
+      "scheme-1": {
+        "settings": {
+          "background": "#FFFFFF",
+          "background_gradient": "",
+          "text": "#121212",
+          "button": "#121212",
+          "button_label": "#FFFFFF",
+          "secondary_button_label": "#121212",
+          "shadow": "#121212"
+        }
+      },
+      "scheme-2": {
+        "settings": {
+          "background": "#F3F3F3",
+          "background_gradient": "",
+          "text": "#121212",
+          "button": "#121212",
+          "button_label": "#FFFFFF",
+          "secondary_button_label": "#121212",
+          "shadow": "#121212"
+        }
+      },
+      "scheme-3": {
+        "settings": {
+          "background": "#242833",
+          "background_gradient": "",
+          "text": "#FFFFFF",
+          "button": "#FFFFFF",
+          "button_label": "#000000",
+          "secondary_button_label": "#FFFFFF",
+          "shadow": "#121212"
+        }
+      },
+      "scheme-4": {
+        "settings": {
+          "background": "#121212",
+          "background_gradient": "",
+          "text": "#FFFFFF",
+          "button": "#FFFFFF",
+          "button_label": "#121212",
+          "secondary_button_label": "#FFFFFF",
+          "shadow": "#121212"
+        }
+      },
+      "scheme-5": {
+        "settings": {
+          "background": "#334FB4",
+          "background_gradient": "",
+          "text": "#FFFFFF",
+          "button": "#FFFFFF",
+          "button_label": "#334FB4",
+          "secondary_button_label": "#FFFFFF",
+          "shadow": "#121212"
+        }
+      }
+    },
+
+    "color_success": "#16A34A",
+    "color_warning": "#F59E0B",
+    "color_error": "#DC2626",
+    "color_info": "#2563EB",
+
+    "font_heading": "Inter, sans-serif",
+    "font_heading_weight": "700",
+    "heading_scale": 100,
+    "heading_letter_spacing": 0,
+    "heading_text_transform": "none",
+    "font_body": "Inter, sans-serif",
+    "font_body_weight": "400",
+    "font_body_base_size": 15,
+    "font_body_line_height": 1.6,
+
+    "page_width": 1280,
+    "gutter_desktop": 32,
+    "gutter_mobile": 16,
+    "grid_gap_horizontal": 24,
+    "grid_gap_vertical": 32,
+    "section_space_desktop": 64,
+    "section_space_mobile": 36,
+
+    "button_border_radius": 8,
+    "button_border_width": 1,
+    "button_shadow": "subtle",
+    "button_text_transform": "none",
+    "button_letter_spacing": 0.5,
+    "button_hover_effect": "lift",
+
+    "card_style": "standard",
+    "card_corner_radius": 12,
+    "card_border_width": 1,
+    "card_shadow": "sm",
+    "card_image_padding": 0,
+    "card_text_alignment": "left",
+    "card_secondary_image": true,
+    "card_show_vendor": false,
+    "card_show_rating": true,
+    "card_quick_add": "hover_overlay",
+
+    "badge_position": "top-left",
+    "badge_shape": "pill",
+    "badge_sale_scheme": "scheme-3",
+    "badge_sale_text": "Sale",
+    "badge_sold_out_scheme": "scheme-2",
+    "badge_sold_out_text": "Sold Out",
+
+    "cart_type": "drawer",
+    "enable_free_shipping_bar": true,
+    "free_shipping_threshold": 75,
+    "cart_enable_notes": true,
+    "cart_show_upsells": true,
+
+    "search_mode": "predictive_modal",
+    "search_show_vendor": true,
+    "search_show_price": true,
+    "search_result_limit": 6,
+
+    "animations_reveal_on_scroll": true,
+    "animations_hover_zoom": true,
+    "animations_page_transition": "fade",
+
+    "social_instagram": "https://instagram.com",
+    "social_twitter": "https://x.com",
+    "social_facebook": "",
+    "social_tiktok": "",
+    "social_youtube": "",
+    "social_open_new_tab": true
+  }
+}
