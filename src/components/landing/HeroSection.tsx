@@ -56,7 +56,7 @@ const HeroHeadline = styled.h1`
   font-size: clamp(3.25rem, 7vw, 7.25rem);
   font-weight: 800;
   line-height: 0.92;
-  letter-spacing: -0.055em;
+  letter-spacing: -0.045em;
   text-align: left;
 
   > span {
@@ -215,21 +215,21 @@ export const HeroSection = () => {
         <HeroTextWrapper>
           <HeroHeadline>
             <TextReveal separator="character" revealOn="load">
-              Bangun Bisnis Digital
+              BANGUN BISNIS DIGITAL
             </TextReveal>
             <TextReveal
               className="accent"
               separator="character"
               revealOn="load"
             >
-              Secara Instan &amp;
+              SECARA INSTAN &amp;
             </TextReveal>
             <TextReveal
               className="accent"
               separator="character"
               revealOn="load"
             >
-              Profesional.
+              PROFESIONAL.
             </TextReveal>
           </HeroHeadline>
 
