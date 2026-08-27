@@ -3,7 +3,7 @@ import { ArrowUpRight01Icon, Tick02Icon } from 'hugeicons-react'
 
 import { TextReveal, Typography } from '#/components/ui'
 
-import { Container, landingColors } from './shared'
+import { Container, landingColors, SectionHeading } from './shared'
 
 const SUBSCRIPTIONS = [
   {
@@ -89,27 +89,11 @@ const SectionInner = styled(Container)`
 `
 
 const Header = styled.header`
-  max-width: 680px;
-  margin: 0 auto clamp(52px, 7vw, 78px);
-  text-align: center;
+  max-width: 900px;
+  margin-bottom: clamp(64px, 8vw, 96px);
 
-  span {
-    display: block;
-    margin-bottom: 16px;
-    color: ${landingColors.emerald};
-    font-size: 0.64rem;
-    font-weight: 800;
-    letter-spacing: 0.17em;
-    text-transform: uppercase;
-  }
-
-  h2 {
+  ${SectionHeading} {
     margin: 0;
-    color: ${landingColors.white};
-    font-size: clamp(2.3rem, 4.5vw, 4.25rem);
-    font-weight: 800;
-    line-height: 0.98;
-    letter-spacing: -0.065em;
   }
 `
 
@@ -299,12 +283,11 @@ export const PricingSection = () => {
     <Section id="pricing">
       <SectionInner>
         <Header>
-          <span>Pricing</span>
-          <h2>
+          <SectionHeading as="h2" color="inherit">
             <TextReveal separator="character">
               Pilih paket yang paling sesuai.
             </TextReveal>
-          </h2>
+          </SectionHeading>
         </Header>
 
         <PricingGrid>
