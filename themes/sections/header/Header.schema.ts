@@ -21,6 +21,20 @@ export const HeaderSchema: SectionSchema = {
       ],
     },
     {
+      type: 'text',
+      id: 'logo_text',
+      label: 'Logo text',
+      default: 'Serein',
+    },
+    {
+      type: 'textarea',
+      id: 'menu_links',
+      label: 'Menu links',
+      info: 'Comma-separated Label|URL pairs.',
+      default:
+        'New arrivals|/collections/new, Shop|/collections/all, Journal|/blogs/journal, Our story|/pages/about',
+    },
+    {
       type: 'select',
       id: 'sticky_header_type',
       label: 'Sticky header',
@@ -44,6 +58,7 @@ export const HeaderSchema: SectionSchema = {
       default: 'scheme-1',
     },
     {
+      id: 'header',
       type: 'header',
       content: 'Header Utilities',
     },
@@ -92,12 +107,15 @@ export const HeaderSchema: SectionSchema = {
         color_scheme: 'scheme-1',
         padding_top: 20,
         padding_bottom: 20,
+        logo_text: 'Serein',
+        menu_links:
+          'New arrivals|/collections/new, Shop|/collections/all, Journal|/blogs/journal, Our story|/pages/about',
       },
       blocks: [
         {
           type: 'announcement',
           settings: {
-            text: '✨ Welcome to our store — Free Shipping Available!',
+            text: 'Welcome to our store — Free Shipping Available!',
             text_alignment: 'center',
             color_scheme: 'scheme-2',
           },

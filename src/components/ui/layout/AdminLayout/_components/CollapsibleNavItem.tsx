@@ -29,7 +29,7 @@ const HeaderButton = styled.button<{ $isActive?: boolean }>`
   border-radius: 8px;
   font-size: 0.8125rem;
   font-weight: ${({ $isActive }) => ($isActive ? '700' : '500')};
-  color: ${({ $isActive }) => ($isActive ? theme.colors.primary : '#484848')};
+  color: ${({ $isActive }) => ($isActive ? theme.colors.primary.DEFAULT : '#484848')};
   background-color: ${({ $isActive }) => ($isActive ? '#fff0f1' : 'transparent')};
   border: none;
   width: 100%;
@@ -39,7 +39,7 @@ const HeaderButton = styled.button<{ $isActive?: boolean }>`
 
   &:hover {
     background-color: ${({ $isActive }) => ($isActive ? '#fff0f1' : theme.colors.muted)};
-    color: ${({ $isActive }) => ($isActive ? theme.colors.primary : '#222222')};
+    color: ${({ $isActive }) => ($isActive ? theme.colors.primary.DEFAULT : '#222222')};
   }
 `
 
@@ -64,7 +64,7 @@ const HeaderLink = styled(Link)`
 
   &.active {
     background-color: #fff0f1;
-    color: ${theme.colors.primary};
+    color: ${theme.colors.primary.DEFAULT};
     font-weight: 700;
   }
 `
@@ -115,7 +115,7 @@ const SubNavLink = styled(Link)`
 
   &.active {
     background-color: #fff0f1;
-    color: ${theme.colors.primary};
+    color: ${theme.colors.primary.DEFAULT};
     font-weight: 600;
   }
 `

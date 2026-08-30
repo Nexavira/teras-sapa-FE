@@ -14,11 +14,15 @@ export interface HeroBannerSettings {
   banner_height?: 'small' | 'medium' | 'large'
   color_scheme?: string
   overlay_opacity?: number
+  background_image?: string
+  content_position?: 'left' | 'center' | 'right'
+  show_content_box?: boolean
 }
 
 const BannerContainer = styled.section<{
   height: string
   alignment: string
+  backgroundImage?: string
 }>`
   width: 100%;
   min-height: ${({ height }) =>
@@ -35,35 +39,48 @@ const BannerContainer = styled.section<{
   overflow: hidden;
   color: rgb(var(--color-foreground));
   background-color: rgb(var(--color-background));
-  background: var(--gradient-background, rgb(var(--color-background)));
-  padding: 64px 24px;
+  background-image: ${({ backgroundImage }) =>
+    backgroundImage ? `url("${backgroundImage}")` : 'none'} !important;
+  background-position: center;
+  background-size: cover;
+  padding: 72px
+    max(
+      var(--gutter-desktop, 32px),
+      calc((100vw - var(--page-width, 1280px)) / 2)
+    );
+
+  @media (max-width: 768px) {
+    min-height: ${({ height }) =>
+      height === 'small' ? '420px' : height === 'large' ? '620px' : '520px'};
+    align-items: flex-end;
+    background-position: 68% center;
+    padding: 40px var(--gutter-mobile, 16px);
+  }
 `
 
-const BackgroundGraphic = styled.div<{ opacity?: number }>`
+const BackgroundGraphic = styled.div<{ opacity?: number; hasImage: boolean }>`
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  opacity: ${({ opacity }) => (typeof opacity === 'number' ? opacity / 100 : 0.15)};
-  background-image:
-    radial-gradient(
-      circle at 20% 40%,
-      rgba(var(--color-button), 0.3) 0%,
-      transparent 50%
-    ),
-    radial-gradient(
-      circle at 80% 60%,
-      rgba(var(--color-secondary-button), 0.3) 0%,
-      transparent 50%
-    );
+  background: ${({ hasImage }) =>
+    hasImage
+      ? 'linear-gradient(90deg, rgba(24, 22, 18, 0.42) 0%, rgba(24, 22, 18, 0.12) 52%, rgba(24, 22, 18, 0.04) 100%)'
+      : 'radial-gradient(circle at 20% 40%, rgba(var(--color-button), 0.18) 0%, transparent 55%)'};
+  opacity: ${({ opacity }) =>
+    typeof opacity === 'number' ? opacity / 100 : 0.2};
   pointer-events: none;
 `
 
-const ContentBox = styled.div<{ alignment: string }>`
+const ContentBox = styled.div<{
+  alignment: string
+  showBox: boolean
+  hasImage: boolean
+}>`
   position: relative;
   z-index: 10;
-  max-width: 720px;
+  max-width: 620px;
   width: 100%;
   text-align: ${({ alignment }) => alignment};
   display: flex;
@@ -75,6 +92,24 @@ const ContentBox = styled.div<{ alignment: string }>`
         ? 'flex-end'
         : 'center'};
   gap: 16px;
+  padding: ${({ showBox }) => (showBox ? '38px 42px' : '0')};
+  color: ${({ hasImage }) => (hasImage ? '#ffffff' : 'inherit')};
+  background: ${({ showBox }) =>
+    showBox ? 'rgba(var(--color-background), 0.94)' : 'transparent'};
+  backdrop-filter: ${({ showBox }) => (showBox ? 'blur(8px)' : 'none')};
+
+  ${({ showBox }) =>
+    showBox
+      ? `
+        color: rgb(var(--color-foreground));
+        box-shadow: 0 16px 50px rgba(0, 0, 0, 0.08);
+      `
+      : ''}
+
+  @media (max-width: 768px) {
+    max-width: 520px;
+    padding: ${({ showBox }) => (showBox ? '28px 24px' : '0')};
+  }
 `
 
 const Heading = styled.h1`
@@ -137,19 +172,29 @@ export const HeroBanner: React.FC<
     banner_height = 'medium',
     color_scheme = 'scheme-3',
     overlay_opacity = 40,
+    background_image,
+    content_position,
+    show_content_box = false,
   } = settings
 
   const hasBlocks = blockOrder.length > 0
+  const resolvedPosition = content_position || text_alignment
+  const hasImage = Boolean(background_image)
 
   return (
     <BannerContainer
       className={`color-${color_scheme} gradient`}
       data-color-scheme={color_scheme}
       height={banner_height}
-      alignment={text_alignment}
+      alignment={resolvedPosition}
+      backgroundImage={background_image}
     >
-      <BackgroundGraphic opacity={overlay_opacity} />
-      <ContentBox alignment={text_alignment}>
+      <BackgroundGraphic opacity={overlay_opacity} hasImage={hasImage} />
+      <ContentBox
+        alignment={text_alignment}
+        hasImage={hasImage}
+        showBox={show_content_box}
+      >
         {hasBlocks ? (
           blockOrder.map((blockId) => {
             const block = blocks[blockId]

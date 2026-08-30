@@ -1,5 +1,5 @@
 {
-  "name": "Home Page",
+  "name": "Serein — Dawn-inspired Home",
   "layout": "theme",
   "sections": {
     "header_main": {
@@ -9,17 +9,18 @@
         "sticky_header_type": "on-scroll-up",
         "show_line_separator": true,
         "color_scheme": "scheme-1",
-        "padding_top": 20,
-        "padding_bottom": 20,
-        "logo_text": "Teras Sapa"
+        "padding_top": 18,
+        "padding_bottom": 18,
+        "logo_text": "Serein",
+        "menu_links": "New arrivals|/collections/new, Shop|/collections/all, Journal|/blogs/journal, Our story|/pages/about"
       },
       "block_order": ["announcement_1"],
       "blocks": {
         "announcement_1": {
           "type": "announcement",
           "settings": {
-            "text": "✨ Summer Sale: Up to 50% off select apparel & accessories!",
-            "link": "/collections/summer-sale",
+            "text": "Complimentary delivery on orders over $100",
+            "link": "/pages/shipping",
             "text_alignment": "center",
             "color_scheme": "scheme-2"
           }
@@ -29,17 +30,20 @@
     "hero_banner_1": {
       "type": "hero_banner",
       "settings": {
-        "text_alignment": "center",
-        "banner_height": "medium",
+        "background_image": "/images/dawn/hero-editorial.webp",
+        "content_position": "left",
+        "text_alignment": "left",
+        "banner_height": "large",
         "color_scheme": "scheme-3",
-        "overlay_opacity": 40
+        "overlay_opacity": 65,
+        "show_content_box": false
       },
       "block_order": ["heading_1", "text_1", "button_1"],
       "blocks": {
         "heading_1": {
           "type": "heading",
           "settings": {
-            "heading": "Elevate Your Everyday Style",
+            "heading": "Quiet essentials for everyday rituals",
             "heading_size": "large",
             "heading_tag": "h1"
           }
@@ -47,14 +51,14 @@
         "text_1": {
           "type": "text",
           "settings": {
-            "text": "Discover the latest seasonal collection crafted with sustainable materials and timeless silhouettes.",
+            "text": "Natural textures, enduring forms, and a softer pace of living.",
             "text_style": "subheading"
           }
         },
         "button_1": {
           "type": "button",
           "settings": {
-            "button_label": "Shop Collection",
+            "button_label": "Explore the collection",
             "button_link": "/collections/all",
             "button_style": "primary"
           }
@@ -64,16 +68,57 @@
     "featured_collection_1": {
       "type": "featured_collection",
       "settings": {
-        "title": "Featured Collection",
-        "description": "Explore our handpicked curation of bestsellers and essential pieces.",
+        "title": "New, naturally",
+        "description": "A small collection of tactile pieces designed to settle easily into daily life.",
         "products_to_show": 4,
+        "product_image_sheet": "/images/dawn/product-grid.webp",
         "columns_desktop": "4",
         "show_view_all": true,
+        "show_quick_add": true,
         "color_scheme": "scheme-1",
-        "padding_top": 48,
-        "padding_bottom": 48
+        "padding_top": 96,
+        "padding_bottom": 104
+      }
+    },
+    "image_with_text_1": {
+      "type": "image_with_text",
+      "settings": {
+        "image": "/images/dawn/hero-editorial.webp",
+        "image_position": "left",
+        "eyebrow": "Considered by design",
+        "heading": "Fewer things. Better made.",
+        "text": "Natural materials, enduring shapes, and thoughtful details. We make everyday pieces to keep, wear, and live with for years.",
+        "button_label": "Our approach",
+        "button_link": "/pages/about",
+        "color_scheme": "scheme-2",
+        "padding_top": 88,
+        "padding_bottom": 88
+      }
+    },
+    "footer_main": {
+      "type": "footer",
+      "settings": {
+        "brand_name": "Serein",
+        "description": "Thoughtfully made essentials for slower, more intentional everyday living.",
+        "shop_links": "New arrivals, Best sellers, Home & living, Gifts",
+        "help_links": "About us, Shipping & returns, FAQs, Contact",
+        "newsletter_heading": "Stay in the loop",
+        "newsletter_text": "New stories, considered objects, and occasional notes — delivered with care.",
+        "email_placeholder": "Your email address",
+        "copyright_text": "© 2026 Serein. All rights reserved.",
+        "color_scheme": "scheme-4",
+        "show_socials": true,
+        "show_payment_methods": true,
+        "padding_top": 72,
+        "padding_bottom": 28
       }
     }
   },
-  "order": ["header_main", "hero_banner_1", "featured_collection_1"]
+  "order": [
+    "header_main",
+    "hero_banner_1",
+    "featured_collection_1",
+    "image_with_text_1",
+    "footer_main"
+  ]
 }

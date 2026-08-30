@@ -5,14 +5,17 @@ import {
   AnnouncementBlockSchema,
 } from './blocks/announcement'
 import { ButtonBlock, ButtonBlockSchema } from './blocks/button'
+import { FlexBlock, FlexBlockSchema } from './blocks/flex'
 import { HeadingBlock, HeadingBlockSchema } from './blocks/heading'
 import { TextBlock, TextBlockSchema } from './blocks/text'
 import {
   FeaturedCollection,
   FeaturedCollectionSchema,
 } from './sections/featured-collection'
+import { Footer, FooterSchema } from './sections/footer'
 import { Header, HeaderSchema } from './sections/header'
 import { HeroBanner, HeroBannerSchema } from './sections/hero-banner'
+import { ImageWithText, ImageWithTextSchema } from './sections/image-with-text'
 import type { BlockSchema, SectionSchema } from '#themes/types/theme'
 
 export interface RegisteredSection {
@@ -25,7 +28,7 @@ export interface RegisteredBlock {
   schema: BlockSchema
 }
 
-export const SectionRegistry: Record<string, RegisteredSection> = {
+export const SectionRegistry: Partial<Record<string, RegisteredSection>> = {
   header: {
     Component: Header,
     schema: HeaderSchema,
@@ -37,6 +40,14 @@ export const SectionRegistry: Record<string, RegisteredSection> = {
   featured_collection: {
     Component: FeaturedCollection,
     schema: FeaturedCollectionSchema,
+  },
+  image_with_text: {
+    Component: ImageWithText,
+    schema: ImageWithTextSchema,
+  },
+  footer: {
+    Component: Footer,
+    schema: FooterSchema,
   },
 }
 
@@ -56,5 +67,9 @@ export const BlockRegistry: Record<string, RegisteredBlock> = {
   button: {
     Component: ButtonBlock,
     schema: ButtonBlockSchema,
+  },
+  flex: {
+    Component: FlexBlock,
+    schema: FlexBlockSchema,
   },
 }

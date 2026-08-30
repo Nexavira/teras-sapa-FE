@@ -159,7 +159,7 @@ export const Sidebar = ({ className }: SidebarProps) => {
 
         <PlanBanner>
           <PlanTitleRow>
-            <SparklesIcon size={14} color={theme.colors.primary} />
+            <SparklesIcon size={14} color={theme.colors.primary.DEFAULT} />
             <Typography variant="caption" weight="bold">
               Subscribe for $1
             </Typography>

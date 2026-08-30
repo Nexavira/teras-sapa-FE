@@ -87,7 +87,7 @@ export const PageRenderer: React.FC<PageRendererProps> = ({
 
         case PREVIEW_MESSAGE_TYPES.SCROLL_TO_SECTION: {
           const sectionEl = document.getElementById(
-            `shopify-section-${data.payload.sectionId}`,
+            `teras-sapa-section-${data.payload.sectionId}`,
           )
           if (sectionEl) {
             sectionEl.scrollIntoView({ behavior: 'smooth', block: 'center' })
@@ -120,7 +120,11 @@ export const PageRenderer: React.FC<PageRendererProps> = ({
   // ============================================================================
   // User Click & Hover Dispatchers
   // ============================================================================
-  const handleSelectSection = (sectionId: string, blockId?: string) => {
+  const handleSelectSection = (
+    sectionId: string,
+    blockId?: string,
+    parentBlockId?: string,
+  ) => {
     if (!isEditor) return
 
     if (blockId) {
@@ -128,6 +132,7 @@ export const PageRenderer: React.FC<PageRendererProps> = ({
         type: 'block',
         id: blockId,
         sectionId,
+        ...(parentBlockId ? { parentBlockId } : {}),
       }
       setSelectedItem(payload)
       editorActions.selectItem(payload)
@@ -172,13 +177,14 @@ export const PageRenderer: React.FC<PageRendererProps> = ({
   // ============================================================================
   const renderedSections: React.ReactNode[] = []
   let headerSectionNode: React.ReactNode = null
+  let footerSectionNode: React.ReactNode = null
 
   template.order.forEach((sectionId) => {
     const sectionInstance = template.sections[sectionId]
-    if (!sectionInstance.id) return
 
     const registered = SectionRegistry[sectionInstance.type]
-    if (!registered.Component.displayName) {
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+    if (!registered) {
       renderedSections.push(
         <MissingSectionBox key={sectionId}>
           Unknown section type: <code>{sectionInstance.type}</code> (ID:{' '}
@@ -222,6 +228,8 @@ export const PageRenderer: React.FC<PageRendererProps> = ({
 
     if (sectionInstance.type === 'header') {
       headerSectionNode = wrappedSection
+    } else if (sectionInstance.type === 'footer') {
+      footerSectionNode = wrappedSection
     } else {
       renderedSections.push(wrappedSection)
     }
@@ -231,6 +239,7 @@ export const PageRenderer: React.FC<PageRendererProps> = ({
     <ThemeLayout
       globalSettings={globalSettings}
       headerComponent={headerSectionNode}
+      footerComponent={footerSectionNode}
     >
       {renderedSections}
     </ThemeLayout>

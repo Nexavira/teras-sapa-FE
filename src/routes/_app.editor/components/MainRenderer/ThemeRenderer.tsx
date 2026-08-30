@@ -1,6 +1,7 @@
 import React from 'react'
 
 import styled from '@emotion/styled'
+import { Layers01Icon } from 'hugeicons-react'
 
 import { Badge } from '#/components/ui'
 import {
@@ -97,7 +98,8 @@ export const ThemeRenderer: React.FC<ThemeRendererProps> = ({
     const sectionInstance = template.sections[sectionId]
 
     const registered = SectionRegistry[sectionInstance.type]
-    if (!registered.Component.displayName) {
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+    if (!registered) {
       renderedSections.push(
         <MissingSectionPlaceholder key={sectionId}>
           Unknown section type: <code>{sectionInstance.type}</code> (ID:{' '}
@@ -168,7 +170,8 @@ export const ThemeRenderer: React.FC<ThemeRendererProps> = ({
             }}
           >
             <SectionBadge $isSelected={isSelected}>
-              <span>🧩</span> {registered.schema.name || sectionInstance.type}
+              <Layers01Icon aria-hidden="true" size={12} />
+              {registered.schema.name || sectionInstance.type}
             </SectionBadge>
             {sectionContent}
           </EditorSectionBox>

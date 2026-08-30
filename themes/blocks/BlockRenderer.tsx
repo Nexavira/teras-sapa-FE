@@ -1,6 +1,7 @@
 import React from 'react'
 
 import styled from '@emotion/styled'
+import { Layers01Icon } from 'hugeicons-react'
 
 import { PREVIEW_MESSAGE_TYPES } from '#/lib/editor/previewBridge'
 import { editorActions, useEditorSelectedItem } from '#/store/editorStore'
@@ -71,6 +72,7 @@ export interface BlockRendererProps {
   blockId: string
   block: BlockInstance
   isEditor?: boolean
+  parentBlockId?: string
   children?: React.ReactNode
 }
 
@@ -79,6 +81,7 @@ export const BlockRenderer: React.FC<BlockRendererProps> = ({
   blockId,
   block,
   isEditor = false,
+  parentBlockId,
   children,
 }) => {
   const selectedItem = useEditorSelectedItem()
@@ -92,14 +95,32 @@ export const BlockRenderer: React.FC<BlockRendererProps> = ({
 
   let blockContent = children
 
-  if (!blockContent) {
+  if (blockContent === undefined) {
     const BlockComponent = registered.Component
+    const childBlocks = block.blocks || {}
+    const renderedChildren = (block.block_order || []).map((childBlockId) => {
+      const childBlock = childBlocks[childBlockId]
+
+      return (
+        <BlockRenderer
+          block={childBlock}
+          blockId={childBlockId}
+          isEditor={isEditor}
+          key={childBlockId}
+          parentBlockId={blockId}
+          sectionId={sectionId}
+        />
+      )
+    })
+
     blockContent = (
       <BlockComponent
         id={blockId}
         settings={block.settings}
         isEditor={isEditor}
-      />
+      >
+        {renderedChildren}
+      </BlockComponent>
     )
   }
 
@@ -110,6 +131,7 @@ export const BlockRenderer: React.FC<BlockRendererProps> = ({
       return (
         <div
           data-block-id={blockId}
+          data-parent-block-id={parentBlockId}
           data-section-id={sectionId}
           data-block-type={block.type}
           style={{
@@ -126,6 +148,7 @@ export const BlockRenderer: React.FC<BlockRendererProps> = ({
     return (
       <div
         data-block-id={blockId}
+        data-parent-block-id={parentBlockId}
         data-section-id={sectionId}
         data-block-type={block.type}
       >
@@ -144,6 +167,7 @@ export const BlockRenderer: React.FC<BlockRendererProps> = ({
       type: 'block' as const,
       id: blockId,
       sectionId,
+      parentBlockId,
     }
 
     // Update local editor store in iframe
@@ -163,8 +187,9 @@ export const BlockRenderer: React.FC<BlockRendererProps> = ({
 
   return (
     <EditorBlockWrapper
-      id={`shopify-block-${blockId}`}
+      id={`teras-sapa-block-${blockId}`}
       data-block-id={blockId}
+      data-parent-block-id={parentBlockId}
       data-section-id={sectionId}
       data-block-type={block.type}
       $isSelected={isSelected}
@@ -172,7 +197,7 @@ export const BlockRenderer: React.FC<BlockRendererProps> = ({
       onClick={handleBlockClick}
     >
       <BlockBadge $isSelected={isSelected}>
-        <span>🧱</span> {blockName}
+        <Layers01Icon aria-hidden="true" size={12} /> {blockName}
       </BlockBadge>
       {blockContent}
     </EditorBlockWrapper>

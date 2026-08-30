@@ -1,6 +1,7 @@
 import React from 'react'
 
 import styled from '@emotion/styled'
+import { Layers01Icon } from 'hugeicons-react'
 
 import type { SpacingValue } from '#themes/types/theme'
 
@@ -12,7 +13,7 @@ interface SectionWrapperProps {
   isEditor: boolean
   padding?: SpacingValue
   children: React.ReactNode
-  onSelect?: (id: string, blockId?: string) => void
+  onSelect?: (id: string, blockId?: string, parentBlockId?: string) => void
   onHover?: (id: string | null) => void
 }
 
@@ -85,7 +86,7 @@ export const PreviewSectionWrapper: React.FC<SectionWrapperProps> = ({
     if (padding) {
       return (
         <div
-          id={`shopify-section-${id}`}
+          id={`teras-sapa-section-${id}`}
           data-section-id={id}
           data-section-type={sectionType}
           style={{
@@ -102,7 +103,7 @@ export const PreviewSectionWrapper: React.FC<SectionWrapperProps> = ({
 
     return (
       <div
-        id={`shopify-section-${id}`}
+        id={`teras-sapa-section-${id}`}
         data-section-id={id}
         data-section-type={sectionType}
       >
@@ -123,9 +124,11 @@ export const PreviewSectionWrapper: React.FC<SectionWrapperProps> = ({
     if (blockEl) {
       const blockId = blockEl.getAttribute('data-block-id')
       const sectionIdFromBlock = blockEl.getAttribute('data-section-id') || id
+      const parentBlockId =
+        blockEl.getAttribute('data-parent-block-id') || undefined
 
       if (blockId) {
-        onSelect?.(sectionIdFromBlock, blockId)
+        onSelect?.(sectionIdFromBlock, blockId, parentBlockId)
         return
       }
     }
@@ -136,7 +139,7 @@ export const PreviewSectionWrapper: React.FC<SectionWrapperProps> = ({
 
   return (
     <StyledEditorSectionBox
-      id={`shopify-section-${id}`}
+      id={`teras-sapa-section-${id}`}
       data-section-id={id}
       data-section-type={sectionType}
       $isSelected={isSelected}
@@ -146,7 +149,8 @@ export const PreviewSectionWrapper: React.FC<SectionWrapperProps> = ({
       onMouseLeave={() => onHover?.(null)}
     >
       <SectionBadge $isSelected={isSelected}>
-        <span>🧩</span> {sectionName || sectionType}
+        <Layers01Icon aria-hidden="true" size={12} />
+        {sectionName || sectionType}
       </SectionBadge>
       {children}
     </StyledEditorSectionBox>

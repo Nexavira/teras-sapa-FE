@@ -9,7 +9,7 @@ export const AnnouncementBlockSchema: BlockSchema = {
       type: 'text',
       id: 'text',
       label: 'Announcement Text',
-      default: '✨ Free worldwide shipping on all orders over $75!',
+      default: 'Free worldwide shipping on all orders over $75!',
     },
     {
       type: 'url',

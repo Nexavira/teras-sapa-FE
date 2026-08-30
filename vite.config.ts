@@ -2,6 +2,7 @@
 import { devtools } from '@tanstack/devtools-vite'
 import { tanstackStart } from '@tanstack/react-start/plugin/vite'
 
+import netlify from '@netlify/vite-plugin-tanstack-start'
 import babel from '@rolldown/plugin-babel'
 import { storybookTest } from '@storybook/addon-vitest/vitest-plugin'
 import viteReact, { reactCompilerPreset } from '@vitejs/plugin-react'
@@ -36,6 +37,7 @@ const config = defineConfig({
       presets: [reactCompilerPreset()],
       plugins: ['@emotion/babel-plugin'],
     }),
+    netlify(),
   ],
   test: {
     projects: [

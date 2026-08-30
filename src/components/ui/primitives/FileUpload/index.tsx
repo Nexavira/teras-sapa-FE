@@ -35,7 +35,7 @@ const DropZone = styled.div<{ $isDragging: boolean; $hasError: boolean }>`
       $hasError
         ? theme.colors.error
         : $isDragging
-          ? theme.colors.primary
+          ? theme.colors.primary.DEFAULT
           : theme.colors.border};
   border-radius: ${({ theme }) => theme.radius.md};
   background-color: ${({ theme, $isDragging }) =>
@@ -47,7 +47,7 @@ const DropZone = styled.div<{ $isDragging: boolean; $hasError: boolean }>`
 
   &:hover {
     border-color: ${({ theme, $hasError }) =>
-      $hasError ? theme.colors.error : theme.colors.primary};
+      $hasError ? theme.colors.error : theme.colors.primary.DEFAULT};
     background-color: ${({ theme }) => theme.colors.muted};
   }
 `

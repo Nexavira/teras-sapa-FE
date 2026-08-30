@@ -6,6 +6,8 @@
  * and the Theme Customizer Inspector.
  */
 
+import type { ReactNode } from 'react'
+
 // ============================================================================
 // 1. Setting Types Taxonomy
 // ============================================================================
@@ -235,16 +237,23 @@ export interface BlockSchema {
   icon?: string
   limit?: number
   settings: SettingDefinition[]
+  /** Supported child blocks when this block acts as a layout container. */
+  blocks?: BlockSchema[]
+  /** Maximum number of direct child blocks allowed in this block. */
+  max_blocks?: number
+}
+
+export interface BlockPreset {
+  type: string
+  settings?: Record<string, any>
+  blocks?: BlockPreset[]
 }
 
 export interface SectionPreset {
   name: string
   category?: string
   settings?: Record<string, any>
-  blocks?: Array<{
-    type: string
-    settings?: Record<string, any>
-  }>
+  blocks?: BlockPreset[]
 }
 
 export type SectionCategory =
@@ -304,6 +313,8 @@ export interface BlockInstance {
   id?: string
   type: string
   settings: Record<string, any>
+  block_order?: string[]
+  blocks?: Record<string, BlockInstance>
 }
 
 export interface SectionInstance {
@@ -376,4 +387,5 @@ export interface BlockComponentProps<TSettings = Record<string, any>> {
   id: string
   settings: TSettings
   isEditor?: boolean
+  children?: ReactNode
 }

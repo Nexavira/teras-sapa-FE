@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/tanstack-react'
+import { ArrowRight01Icon, PlusSignIcon } from 'hugeicons-react'
 
 import { Button } from './index'
 
@@ -12,7 +13,7 @@ const meta: Meta<typeof Button> = {
   argTypes: {
     variant: {
       control: 'select',
-      options: ['solid', 'ghost', 'outline'],
+      options: ['solid', 'ghost', 'outline', 'dashed'],
     },
     color: {
       control: 'select',
@@ -57,6 +58,14 @@ export const Outline: Story = {
     variant: 'outline',
     color: 'primary',
     children: 'Outline Button',
+  },
+}
+
+export const Dashed: Story = {
+  args: {
+    variant: 'dashed',
+    color: 'primary',
+    children: 'Dashed Button',
   },
 }
 
@@ -110,5 +119,13 @@ export const Loading: Story = {
   args: {
     isLoading: true,
     children: 'Button',
+  },
+}
+
+export const WithIcons: Story = {
+  args: {
+    startIcon: <PlusSignIcon size={16} />,
+    endIcon: <ArrowRight01Icon size={16} />,
+    children: 'Button with icons',
   },
 }

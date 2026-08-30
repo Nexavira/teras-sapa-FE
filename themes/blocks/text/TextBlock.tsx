@@ -12,7 +12,8 @@ export interface TextBlockSettings {
 const StyledParagraph = styled.p<{ isSubheading: boolean }>`
   margin: 0;
   line-height: 1.6;
-  color: ${({ isSubheading }) => (isSubheading ? '#cbd5e1' : 'inherit')};
+  color: ${({ isSubheading }) =>
+    isSubheading ? 'rgba(var(--color-foreground), 0.78)' : 'inherit'};
   font-size: ${({ isSubheading }) => (isSubheading ? '1.125rem' : '0.9375rem')};
   max-width: 640px;
 

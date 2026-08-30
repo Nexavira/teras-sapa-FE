@@ -7,7 +7,7 @@ import styled from '@emotion/styled'
 import type { Theme } from '../../theme'
 import { theme as defaultTheme } from '../../theme'
 
-export type ButtonVariant = 'solid' | 'ghost' | 'outline'
+export type ButtonVariant = 'solid' | 'ghost' | 'outline' | 'dashed'
 export type ButtonColor =
   | 'primary'
   | 'secondary'
@@ -23,6 +23,8 @@ export type ButtonProps = React.ComponentProps<typeof BaseButton> & {
   color?: ButtonColor
   size?: ButtonSize
   isLoading?: boolean
+  startIcon?: ReactNode
+  endIcon?: ReactNode
   children?: ReactNode
 }
 
@@ -36,7 +38,7 @@ const getColorTokens = (theme: Theme, color: ButtonColor) => {
   switch (color) {
     case 'secondary':
       return {
-        main: theme.colors.secondary,
+        main: theme.colors.secondary.DEFAULT,
         contrast: theme.colors.text.inverse,
         subtleBg: '#E6F7F5',
         subtleBorder: '#B8EBE6',
@@ -71,15 +73,15 @@ const getColorTokens = (theme: Theme, color: ButtonColor) => {
       }
     case 'neutral':
       return {
-        main: theme.colors.text.primary,
+        main: theme.colors.gray.DEFAULT,
         contrast: theme.colors.text.inverse,
-        subtleBg: theme.colors.muted,
-        subtleBorder: theme.colors.border,
+        subtleBg: theme.colors.gray.LIGHTER,
+        subtleBorder: theme.colors.gray.DEFAULT,
       }
     case 'primary':
     default:
       return {
-        main: theme.colors.primary,
+        main: theme.colors.primary.DEFAULT,
         contrast: theme.colors.text.inverse,
         subtleBg: '#FFF0F1',
         subtleBorder: '#FFD1D4',
@@ -97,6 +99,16 @@ const getButtonStyles = (
   const tokens = getColorTokens(currentTheme, color)
 
   switch (variant) {
+    case 'dashed':
+      return `
+        background-color: transparent;
+        color: ${color === 'neutral' ? currentTheme.colors.text.primary : tokens.main};
+        border: 1px dashed ${color === 'neutral' ? currentTheme.colors.border : tokens.main};
+        &:hover:not(:disabled) {
+          background-color: ${tokens.subtleBg};
+          border-color: ${color === 'neutral' ? currentTheme.colors.text.secondary : tokens.main};
+        }
+      `
     case 'outline':
       return `
         background-color: transparent;
@@ -133,6 +145,7 @@ const StyledButton = styled(BaseButton)<StyledButtonProps>`
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  gap: ${({ theme }) => theme.spacing.sm || defaultTheme.spacing.sm};
   font-family: ${({ theme }) => theme.typography.fontFamily || defaultTheme.typography.fontFamily};
   font-weight: ${({ theme }) => theme.typography.weights.medium || defaultTheme.typography.weights.medium};
   cursor: pointer;
@@ -166,7 +179,7 @@ const StyledButton = styled(BaseButton)<StyledButtonProps>`
         `
       case 'sm':
         return `
-          padding: ${currentTheme.spacing.xs} ${currentTheme.spacing.sm};
+          padding: ${currentTheme.spacing.sm} ${currentTheme.spacing.md};
           font-size: ${currentTheme.typography.sizes.caption};
           border-radius: ${currentTheme.radius.sm};
         `
@@ -190,6 +203,33 @@ const StyledButton = styled(BaseButton)<StyledButtonProps>`
   ${({ theme, $variant, $color }) => getButtonStyles(theme, $variant, $color)}
 `
 
+const getButtonIconSize = (size: ButtonSize) => {
+  switch (size) {
+    case 'sm':
+      return '14px'
+    case 'lg':
+      return '20px'
+    case 'icon':
+    case 'md':
+    default:
+      return '16px'
+  }
+}
+
+const ButtonIcon = styled.span<{ $size: ButtonSize }>`
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  line-height: 0;
+
+  > svg,
+  > img {
+    width: ${({ $size }) => getButtonIconSize($size)};
+    height: ${({ $size }) => getButtonIconSize($size)};
+  }
+`
+
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   (
     {
@@ -197,6 +237,8 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       color = 'primary',
       size = 'md',
       isLoading,
+      startIcon,
+      endIcon,
       children,
       disabled,
       ...props
@@ -212,7 +254,23 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         disabled={isLoading || disabled}
         {...props}
       >
-        {isLoading ? 'Loading...' : children}
+        {isLoading ? (
+          'Loading...'
+        ) : (
+          <>
+            {startIcon && (
+              <ButtonIcon $size={size} data-slot="start-icon">
+                {startIcon}
+              </ButtonIcon>
+            )}
+            {children}
+            {endIcon && (
+              <ButtonIcon $size={size} data-slot="end-icon">
+                {endIcon}
+              </ButtonIcon>
+            )}
+          </>
+        )}
       </StyledButton>
     )
   },

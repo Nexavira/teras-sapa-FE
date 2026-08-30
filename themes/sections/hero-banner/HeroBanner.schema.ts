@@ -1,4 +1,5 @@
 import { ButtonBlockSchema } from '#themes/blocks/button/ButtonBlock.schema'
+import { FlexBlockSchema } from '#themes/blocks/flex/FlexBlock.schema'
 import { HeadingBlockSchema } from '#themes/blocks/heading/HeadingBlock.schema'
 import { TextBlockSchema } from '#themes/blocks/text/TextBlock.schema'
 import type { SectionSchema } from '#themes/types/theme'
@@ -12,6 +13,24 @@ export const HeroBannerSchema: SectionSchema = {
   tag: 'section',
   class: 'section-hero-banner',
   settings: [
+    {
+      type: 'image_picker',
+      id: 'background_image',
+      label: 'Background image',
+      info: 'Use a wide image with room for the content.',
+      default: '/images/dawn/hero-editorial.webp',
+    },
+    {
+      type: 'select',
+      id: 'content_position',
+      label: 'Desktop content position',
+      default: 'left',
+      options: [
+        { label: 'Left', value: 'left' },
+        { label: 'Center', value: 'center' },
+        { label: 'Right', value: 'right' },
+      ],
+    },
     {
       type: 'select',
       id: 'text_alignment',
@@ -50,16 +69,30 @@ export const HeroBannerSchema: SectionSchema = {
       unit: '%',
       default: 40,
     },
+    {
+      type: 'checkbox',
+      id: 'show_content_box',
+      label: 'Show content background',
+      default: false,
+    },
   ],
-  blocks: [HeadingBlockSchema, TextBlockSchema, ButtonBlockSchema],
+  blocks: [
+    HeadingBlockSchema,
+    TextBlockSchema,
+    ButtonBlockSchema,
+    FlexBlockSchema,
+  ],
   presets: [
     {
       name: 'Default Hero Banner',
       settings: {
+        background_image: '/images/dawn/hero-editorial.webp',
+        content_position: 'left',
         text_alignment: 'center',
-        banner_height: 'medium',
+        banner_height: 'large',
         color_scheme: 'scheme-3',
-        overlay_opacity: 40,
+        overlay_opacity: 55,
+        show_content_box: false,
       },
       blocks: [
         {

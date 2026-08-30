@@ -1,10 +1,18 @@
 import { useSelector } from '@tanstack/react-store'
 import { Store } from '@tanstack/store'
 
+import {
+  findBlockLocation,
+  getDescendantBlockIds,
+  removeBlockFromCollection,
+  updateBlockInTree,
+} from '#/lib/editor/blockTree'
+
 import defaultSettingsData from '#themes/config/settings_data.json'
 import defaultTemplateData from '#themes/templates/index.json'
 import type {
   BlockInstance,
+  BlockPreset,
   ColorSchemeSettings,
   GlobalSettingsData,
   SectionInstance,
@@ -15,6 +23,7 @@ export interface SelectedItem {
   type: 'section' | 'block' | 'global_settings_category'
   id?: string // sectionId or blockId
   sectionId?: string // parent section ID when type is 'block'
+  parentBlockId?: string // direct parent when a block is nested
   category?: string // category name when type is 'global_settings_category'
 }
 
@@ -85,6 +94,28 @@ function pushHistorySnapshot(state: EditorState): {
 
 function generateId(prefix: string): string {
   return `${prefix}_${Date.now().toString(36)}_${Math.random().toString(36).substring(2, 6)}`
+}
+
+function createBlockFromPreset(preset: BlockPreset): BlockInstance {
+  const blockId = generateId(preset.type)
+  const childBlocks: Record<string, BlockInstance> = {}
+  const childOrder: string[] = []
+
+  for (const childPreset of preset.blocks || []) {
+    const child = createBlockFromPreset(childPreset)
+    const childId = child.id!
+    childBlocks[childId] = child
+    childOrder.push(childId)
+  }
+
+  return {
+    id: blockId,
+    type: preset.type,
+    settings: preset.settings || {},
+    ...(childOrder.length > 0
+      ? { blocks: childBlocks, block_order: childOrder }
+      : {}),
+  }
 }
 
 // ============================================================================
@@ -181,9 +212,23 @@ export const editorActions = {
   ) {
     editorStore.setState((state) => {
       const currentSection = state.template.sections[sectionId]
-      if (!currentSection.blocks?.[blockId]) return state
+      const currentBlock = findBlockLocation(
+        currentSection.blocks,
+        blockId,
+      )?.block
+      if (!currentBlock) return state
 
-      const currentBlock = currentSection.blocks[blockId]
+      const blocks = updateBlockInTree(
+        currentSection.blocks,
+        blockId,
+        (block) => ({
+          ...block,
+          settings: {
+            ...block.settings,
+            ...settings,
+          },
+        }),
+      )
 
       return {
         ...state,
@@ -194,16 +239,7 @@ export const editorActions = {
             ...state.template.sections,
             [sectionId]: {
               ...currentSection,
-              blocks: {
-                ...currentSection.blocks,
-                [blockId]: {
-                  ...currentBlock,
-                  settings: {
-                    ...currentBlock.settings,
-                    ...settings,
-                  },
-                },
-              },
+              blocks,
             },
           },
         },
@@ -215,7 +251,7 @@ export const editorActions = {
   addSection(
     sectionType: string,
     presetSettings: Record<string, any> = {},
-    presetBlocks?: Array<{ type: string; settings?: Record<string, any> }>,
+    presetBlocks?: BlockPreset[],
     atIndex?: number,
   ) {
     const newSectionId = generateId(sectionType)
@@ -223,14 +259,11 @@ export const editorActions = {
     const blockOrder: string[] = []
 
     if (presetBlocks && presetBlocks.length > 0) {
-      presetBlocks.forEach((b) => {
-        const bId = generateId(b.type)
-        blockOrder.push(bId)
-        blocksMap[bId] = {
-          id: bId,
-          type: b.type,
-          settings: b.settings || {},
-        }
+      presetBlocks.forEach((preset) => {
+        const block = createBlockFromPreset(preset)
+        const blockId = block.id!
+        blockOrder.push(blockId)
+        blocksMap[blockId] = block
       })
     }
 
@@ -347,11 +380,66 @@ export const editorActions = {
     })
   },
 
+  /** Duplicate a section and all of its child blocks directly after the source */
+  duplicateSection(sectionId: string) {
+    let newSectionId = ''
+
+    editorStore.setState((state) => {
+      const sourceSection = state.template.sections[sectionId]
+      const sourceIndex = state.template.order.indexOf(sectionId)
+      if (sourceIndex === -1) return state
+
+      newSectionId = generateId(sourceSection.type)
+      const duplicatedBlocks: Record<string, BlockInstance> = {}
+      const duplicatedBlockOrder = (sourceSection.block_order || []).flatMap(
+        (sourceBlockId) => {
+          const sourceBlock = sourceSection.blocks?.[sourceBlockId]
+          if (!sourceBlock) return []
+
+          const newBlockId = generateId(sourceBlock.type)
+          duplicatedBlocks[newBlockId] = {
+            ...sourceBlock,
+            id: newBlockId,
+            settings: structuredClone(sourceBlock.settings),
+          }
+          return [newBlockId]
+        },
+      )
+
+      const duplicatedSection: SectionInstance = {
+        ...sourceSection,
+        id: newSectionId,
+        settings: structuredClone(sourceSection.settings),
+        blocks: duplicatedBlocks,
+        block_order: duplicatedBlockOrder,
+      }
+      const order = [...state.template.order]
+      order.splice(sourceIndex + 1, 0, newSectionId)
+
+      return {
+        ...state,
+        history: pushHistorySnapshot(state),
+        template: {
+          ...state.template,
+          sections: {
+            ...state.template.sections,
+            [newSectionId]: duplicatedSection,
+          },
+          order,
+        },
+        selectedItem: { type: 'section', id: newSectionId },
+      }
+    })
+
+    return newSectionId
+  },
+
   /** Add a child block to a section */
   addBlock(
     sectionId: string,
     blockType: string,
     presetSettings: Record<string, any> = {},
+    parentBlockId?: string,
   ) {
     const newBlockId = generateId(blockType)
     const newBlock: BlockInstance = {
@@ -362,15 +450,24 @@ export const editorActions = {
 
     editorStore.setState((state) => {
       const currentSection = state.template.sections[sectionId]
+      const updatedBlocks = parentBlockId
+        ? updateBlockInTree(currentSection.blocks, parentBlockId, (parent) => ({
+            ...parent,
+            blocks: {
+              ...(parent.blocks || {}),
+              [newBlockId]: newBlock,
+            },
+            block_order: [...(parent.block_order || []), newBlockId],
+          }))
+        : {
+            ...(currentSection.blocks || {}),
+            [newBlockId]: newBlock,
+          }
+      const updatedBlockOrder = parentBlockId
+        ? currentSection.block_order
+        : [...(currentSection.block_order || []), newBlockId]
 
-      const updatedBlocks = {
-        ...(currentSection.blocks || {}),
-        [newBlockId]: newBlock,
-      }
-      const updatedBlockOrder = [
-        ...(currentSection.block_order || []),
-        newBlockId,
-      ]
+      if (parentBlockId && updatedBlocks === currentSection.blocks) return state
 
       return {
         ...state,
@@ -390,6 +487,53 @@ export const editorActions = {
           type: 'block',
           id: newBlockId,
           sectionId,
+          ...(parentBlockId ? { parentBlockId } : {}),
+        },
+      }
+    })
+
+    return newBlockId
+  },
+
+  /** Duplicate a child block directly after the source block */
+  duplicateBlock(sectionId: string, blockId: string) {
+    let newBlockId = ''
+
+    editorStore.setState((state) => {
+      const currentSection = state.template.sections[sectionId]
+      const sourceBlock = currentSection.blocks?.[blockId]
+      const sourceIndex = currentSection.block_order?.indexOf(blockId) ?? -1
+      if (!sourceBlock || sourceIndex === -1) return state
+
+      newBlockId = generateId(sourceBlock.type)
+      const blockOrder = [...(currentSection.block_order || [])]
+      blockOrder.splice(sourceIndex + 1, 0, newBlockId)
+
+      return {
+        ...state,
+        history: pushHistorySnapshot(state),
+        template: {
+          ...state.template,
+          sections: {
+            ...state.template.sections,
+            [sectionId]: {
+              ...currentSection,
+              blocks: {
+                ...currentSection.blocks,
+                [newBlockId]: {
+                  ...sourceBlock,
+                  id: newBlockId,
+                  settings: structuredClone(sourceBlock.settings),
+                },
+              },
+              block_order: blockOrder,
+            },
+          },
+        },
+        selectedItem: {
+          type: 'block',
+          id: newBlockId,
+          sectionId,
         },
       }
     })
@@ -401,23 +545,37 @@ export const editorActions = {
   removeBlock(sectionId: string, blockId: string) {
     editorStore.setState((state) => {
       const currentSection = state.template.sections[sectionId]
-      if (!currentSection.blocks?.[blockId]) return state
+      const location = findBlockLocation(currentSection.blocks, blockId)
+      if (!location) return state
 
-      const newBlocks = { ...currentSection.blocks }
-      delete newBlocks[blockId]
-      const newBlockOrder = (currentSection.block_order || []).filter(
-        (id) => id !== blockId,
-      )
+      const removedIds = new Set([
+        blockId,
+        ...getDescendantBlockIds(location.block),
+      ])
+      const updatedSection = removeBlockFromCollection(currentSection, blockId)
 
       let nextSelectedItem = state.selectedItem
       if (
         nextSelectedItem?.type === 'block' &&
-        nextSelectedItem.id === blockId
+        nextSelectedItem.id &&
+        removedIds.has(nextSelectedItem.id)
       ) {
-        nextSelectedItem = {
-          type: 'section',
-          id: sectionId,
-        }
+        const parentLocation = location.parentBlockId
+          ? findBlockLocation(currentSection.blocks, location.parentBlockId)
+          : undefined
+        nextSelectedItem = location.parentBlockId
+          ? {
+              type: 'block',
+              id: location.parentBlockId,
+              sectionId,
+              ...(parentLocation?.parentBlockId
+                ? { parentBlockId: parentLocation.parentBlockId }
+                : {}),
+            }
+          : {
+              type: 'section',
+              id: sectionId,
+            }
       }
 
       return {
@@ -429,8 +587,7 @@ export const editorActions = {
             ...state.template.sections,
             [sectionId]: {
               ...currentSection,
-              blocks: newBlocks,
-              block_order: newBlockOrder,
+              ...updatedSection,
             },
           },
         },
@@ -466,6 +623,39 @@ export const editorActions = {
             [sectionId]: {
               ...currentSection,
               block_order: blockOrder,
+            },
+          },
+        },
+      }
+    })
+  },
+
+  /** Reorder the direct children of a section or container block. */
+  reorderBlocks(sectionId: string, newOrder: string[], parentBlockId?: string) {
+    editorStore.setState((state) => {
+      const currentSection = state.template.sections[sectionId]
+      const blocks = parentBlockId
+        ? updateBlockInTree(currentSection.blocks, parentBlockId, (parent) => ({
+            ...parent,
+            block_order: newOrder,
+          }))
+        : currentSection.blocks
+
+      if (parentBlockId && blocks === currentSection.blocks) return state
+
+      return {
+        ...state,
+        history: pushHistorySnapshot(state),
+        template: {
+          ...state.template,
+          sections: {
+            ...state.template.sections,
+            [sectionId]: {
+              ...currentSection,
+              blocks,
+              block_order: parentBlockId
+                ? currentSection.block_order
+                : newOrder,
             },
           },
         },

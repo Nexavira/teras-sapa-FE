@@ -12,6 +12,7 @@ export interface PreviewSelectedItem {
   type: 'section' | 'block' | 'global_settings_category'
   id?: string // sectionId or blockId
   sectionId?: string // parent section ID when type is 'block'
+  parentBlockId?: string // direct parent when a block is nested
   category?: string // category name when type is 'global_settings_category'
 }
 
@@ -41,6 +42,7 @@ export interface ItemClickedMessage {
     type: 'section' | 'block'
     id: string
     sectionId?: string
+    parentBlockId?: string
   }
 }
 
@@ -50,6 +52,7 @@ export interface ItemHoveredMessage {
     type: 'section' | 'block'
     id: string
     sectionId?: string
+    parentBlockId?: string
   } | null
 }
 

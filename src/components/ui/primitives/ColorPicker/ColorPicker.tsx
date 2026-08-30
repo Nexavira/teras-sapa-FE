@@ -226,7 +226,7 @@ const MiniInput = styled.input`
   outline: none;
 
   &:focus {
-    border-color: ${theme.colors.secondary};
+    border-color: ${theme.colors.secondary.DEFAULT};
   }
 `
 

@@ -1,10 +1,18 @@
 import React from 'react'
 
 import styled from '@emotion/styled'
-import { Cancel01Icon } from 'hugeicons-react'
+import { Cancel01Icon, PlusSignIcon } from 'hugeicons-react'
 
-import { ActionBtn } from './TreeItem'
+import { Button, Card, IconButton, theme, Typography } from '#/components/ui'
+import {
+  canDuplicateSection,
+  getSchemaDefaults,
+} from '#/lib/editor/themeSchema'
+import { useEditorTemplate } from '#/store/editorStore'
+
+import { EditorItemIcon } from './EditorItemIcon'
 import { SectionRegistry } from '#themes/registry'
+import type { SectionPreset } from '#themes/types/theme'
 
 const ModalOverlay = styled.div`
   position: fixed;
@@ -19,7 +27,7 @@ const ModalOverlay = styled.div`
   justify-content: center;
 `
 
-const ModalCard = styled.div`
+const ModalCard = styled(Card)`
   width: 520px;
   max-width: 90vw;
   max-height: 80vh;
@@ -47,7 +55,8 @@ const ModalBody = styled.div`
   gap: 10px;
 `
 
-const SectionPresetCard = styled.div`
+const SectionPresetCard = styled(Button)`
+  width: 100%;
   padding: 12px 14px;
   border-radius: 8px;
   border: 1px solid #e5e7eb;
@@ -55,18 +64,61 @@ const SectionPresetCard = styled.div`
   align-items: center;
   justify-content: space-between;
   cursor: pointer;
+  color: ${theme.colors.text.primary};
+  text-align: left;
+  background-color: ${theme.colors.background};
   transition: all 0.15s ease;
 
   &:hover {
-    border-color: #2563eb;
-    background-color: #eff6ff;
+    border-color: ${theme.colors.primary.DEFAULT};
+    background-color: ${theme.colors.primary.LIGHTER};
   }
+
+  &:disabled {
+    border-color: #e5e7eb;
+    color: #9ca3af;
+    background-color: #f9fafb;
+    cursor: not-allowed;
+  }
+`
+
+const SectionIdentity = styled.div`
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 12px;
+`
+
+const SectionIcon = styled.span`
+  display: grid;
+  width: 36px;
+  height: 36px;
+  flex: 0 0 auto;
+  place-items: center;
+  border-radius: 9px;
+  color: ${theme.colors.primary.DEFAULT};
+  background-color: ${theme.colors.primary.LIGHTER};
+`
+
+const SectionName = styled(Typography)`
+  display: block;
+  font-size: 13px;
+`
+
+const SectionDescription = styled(Typography)`
+  display: block;
+  margin-top: 2px;
+  font-size: 12px;
 `
 
 export interface AddSectionModalProps {
   isOpen: boolean
   onClose: () => void
-  onAddSection: (type: string, settings: any, blocks: any[]) => void
+  onAddSection: (
+    type: string,
+    settings: Record<string, unknown>,
+    blocks: NonNullable<SectionPreset['blocks']>,
+  ) => void
 }
 
 export const AddSectionModal: React.FC<AddSectionModalProps> = ({
@@ -74,63 +126,80 @@ export const AddSectionModal: React.FC<AddSectionModalProps> = ({
   onClose,
   onAddSection,
 }) => {
+  const template = useEditorTemplate()
   if (!isOpen) return null
 
+  const sectionTypeCounts = template.order.reduce<Record<string, number>>(
+    (counts, sectionId) => {
+      const type = template.sections[sectionId].type
+      counts[type] = (counts[type] || 0) + 1
+      return counts
+    },
+    {},
+  )
   const availableSectionTypes = Object.entries(SectionRegistry).filter(
-    ([type]) => type !== 'header',
+    ([type, registered]) => type !== 'header' && Boolean(registered),
   )
 
   return (
     <ModalOverlay onClick={onClose}>
-      <ModalCard onClick={(e) => e.stopPropagation()}>
+      <ModalCard padding="none" onClick={(e) => e.stopPropagation()}>
         <ModalHeader>
-          <h3 style={{ margin: 0, fontSize: '15px', fontWeight: 700 }}>
+          <Typography as="h3" variant="body" weight="bold">
             Add Section to Template
-          </h3>
-          <ActionBtn type="button" onClick={onClose}>
+          </Typography>
+          <IconButton
+            aria-label="Close section picker"
+            onClick={onClose}
+            size="sm"
+            type="button"
+          >
             <Cancel01Icon size={18} />
-          </ActionBtn>
+          </IconButton>
         </ModalHeader>
         <ModalBody>
           {availableSectionTypes.map(([type, registered]) => {
+            if (!registered) return null
             const schema = registered.schema
             const preset = schema.presets?.[0]
+            const canAdd = canDuplicateSection(
+              sectionTypeCounts[type] || 0,
+              schema,
+            )
 
             return (
               <SectionPresetCard
+                color="neutral"
+                disabled={!canAdd}
+                endIcon={<PlusSignIcon />}
                 key={type}
                 onClick={() => {
                   onAddSection(
                     type,
-                    preset?.settings || {},
+                    preset?.settings || getSchemaDefaults(schema.settings),
                     preset?.blocks || [],
                   )
                   onClose()
                 }}
+                title={canAdd ? undefined : `${schema.name} limit reached`}
+                type="button"
+                variant="outline"
               >
-                <div>
-                  <div style={{ fontWeight: 600, fontSize: '13px' }}>
-                    {schema.name}
+                <SectionIdentity>
+                  <SectionIcon>
+                    <EditorItemIcon kind="section" type={type} />
+                  </SectionIcon>
+                  <div>
+                    <SectionName color="inherit" weight="medium">
+                      {schema.name}
+                    </SectionName>
+                    <SectionDescription color="secondary" variant="caption">
+                      {canAdd
+                        ? schema.description || 'Custom layout section.'
+                        : `${schema.name} limit reached.`}
+                    </SectionDescription>
                   </div>
-                  <div
-                    style={{
-                      fontSize: '12px',
-                      color: '#6b7280',
-                      marginTop: '2px',
-                    }}
-                  >
-                    {schema.description || 'Custom layout section.'}
-                  </div>
-                </div>
-                <span
-                  style={{
-                    fontSize: '12px',
-                    fontWeight: 600,
-                    color: '#2563eb',
-                  }}
-                >
-                  + Add
-                </span>
+                </SectionIdentity>
               </SectionPresetCard>
             )
           })}

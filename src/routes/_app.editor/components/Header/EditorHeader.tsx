@@ -116,7 +116,7 @@ export const EditorHeader: React.FC<EditorHeaderProps> = ({
 
       <HeaderCenter>
         <PageSelectorCapsule type="button">
-          <Layers01Icon size={16} color={theme.colors.primary} />
+          <Layers01Icon size={16} color={theme.colors.primary.DEFAULT} />
           <Typography
             variant="body"
             weight="medium"

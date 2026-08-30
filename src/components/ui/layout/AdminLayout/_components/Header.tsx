@@ -92,7 +92,7 @@ const SearchCapsule = styled.div`
   }
 
   &:focus-within {
-    border-color: ${theme.colors.primary};
+    border-color: ${theme.colors.primary.DEFAULT};
     box-shadow: 0 0 0 3px rgba(255, 90, 95, 0.15);
   }
 `

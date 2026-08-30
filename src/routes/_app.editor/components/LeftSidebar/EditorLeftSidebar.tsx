@@ -38,9 +38,9 @@ const TabButton = styled.button<{ $active: boolean }>`
   font-family: inherit;
   font-size: 0.8125rem;
   font-weight: ${({ $active }) => ($active ? '700' : '500')};
-  color: ${({ $active }) => ($active ? theme.colors.primary : '#717171')};
+  color: ${({ $active }) => ($active ? theme.colors.primary.DEFAULT : '#717171')};
   border-bottom: 2px solid
-    ${({ $active }) => ($active ? theme.colors.primary : 'transparent')};
+    ${({ $active }) => ($active ? theme.colors.primary.DEFAULT : 'transparent')};
   cursor: pointer;
   transition: all 0.15s ease;
 

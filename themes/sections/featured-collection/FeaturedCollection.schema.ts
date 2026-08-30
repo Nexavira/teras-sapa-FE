@@ -1,3 +1,7 @@
+import { ButtonBlockSchema } from '#themes/blocks/button/ButtonBlock.schema'
+import { FlexBlockSchema } from '#themes/blocks/flex/FlexBlock.schema'
+import { HeadingBlockSchema } from '#themes/blocks/heading/HeadingBlock.schema'
+import { TextBlockSchema } from '#themes/blocks/text/TextBlock.schema'
 import type { SectionSchema } from '#themes/types/theme'
 
 export const FeaturedCollectionSchema: SectionSchema = {
@@ -32,6 +36,13 @@ export const FeaturedCollectionSchema: SectionSchema = {
       default: 4,
     },
     {
+      type: 'image_picker',
+      id: 'product_image_sheet',
+      label: 'Product image sheet',
+      info: 'A square 2 × 2 contact sheet for the first four products.',
+      default: '/images/dawn/product-grid.webp',
+    },
+    {
       type: 'select',
       id: 'columns_desktop',
       label: 'Desktop Columns',
@@ -46,6 +57,12 @@ export const FeaturedCollectionSchema: SectionSchema = {
       type: 'checkbox',
       id: 'show_view_all',
       label: 'Show "View All" button',
+      default: true,
+    },
+    {
+      type: 'checkbox',
+      id: 'show_quick_add',
+      label: 'Show quick add',
       default: true,
     },
     {
@@ -75,6 +92,13 @@ export const FeaturedCollectionSchema: SectionSchema = {
       default: 48,
     },
   ],
+  blocks: [
+    HeadingBlockSchema,
+    TextBlockSchema,
+    ButtonBlockSchema,
+    FlexBlockSchema,
+  ],
+  max_blocks: 8,
   presets: [
     {
       name: 'Default Featured Collection',
@@ -83,8 +107,10 @@ export const FeaturedCollectionSchema: SectionSchema = {
         description:
           'Explore our handpicked curation of bestsellers and essential pieces.',
         products_to_show: 4,
+        product_image_sheet: '/images/dawn/product-grid.webp',
         columns_desktop: '4',
         show_view_all: true,
+        show_quick_add: true,
         color_scheme: 'scheme-1',
         padding_top: 48,
         padding_bottom: 48,

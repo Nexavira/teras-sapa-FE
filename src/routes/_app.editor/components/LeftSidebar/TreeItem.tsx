@@ -2,7 +2,7 @@ import React from 'react'
 
 import styled from '@emotion/styled'
 
-import { theme } from '#/components/ui/theme'
+import { Button, theme } from '#/components/ui'
 
 export const TreeGroupContainer = styled.div`
   display: flex;
@@ -36,25 +36,17 @@ export const TreeGroup = ({ title, children }: TreeGroupProps) => {
   )
 }
 
-export const ItemRow = styled.div<{ $active: boolean }>`
+const ItemRowContainer = styled.div`
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 8px 10px;
-  border-radius: 8px;
-  background-color: ${({ $active }) =>
-    $active ? 'rgba(255, 90, 95, 0.08)' : 'transparent'};
-  color: ${({ $active }) => ($active ? theme.colors.primary : '#222222')};
-  font-size: 13px;
-  font-weight: ${({ $active }) => ($active ? '600' : '500')};
-  cursor: pointer;
-  transition: all 0.15s ease;
+  gap: ${theme.spacing.xs};
+`
 
-  &:hover {
-    background-color: ${({ $active }) =>
-      $active ? 'rgba(255, 90, 95, 0.12)' : '#f7f7f7'};
-    color: ${({ $active }) => ($active ? theme.colors.primary : '#000000')};
-  }
+export const ItemRow = styled(Button)`
+  min-width: 0;
+  flex: 1;
+  justify-content: flex-start;
+  text-align: left;
 `
 
 export const ItemLeft = styled.div`
@@ -74,71 +66,50 @@ export const ItemActions = styled.div`
   opacity: 0;
   transition: opacity 0.15s ease;
 
-  ${ItemRow}:hover & {
+  ${ItemRowContainer}:hover &,
+  &:focus-within {
     opacity: 1;
   }
 `
 
-export const ActionBtn = styled.button<{ danger?: boolean }>`
-  background: none;
-  border: none;
-  padding: 3px;
-  border-radius: 4px;
-  color: ${({ danger }) => (danger ? theme.colors.error : '#717171')};
-  cursor: pointer;
+const SubBlockRowContainer = styled.div`
   display: flex;
   align-items: center;
-  justify-content: center;
-  transition: all 0.1s ease;
+  gap: ${theme.spacing.xs};
+  margin-left: ${theme.spacing.lg};
+`
 
-  &:hover {
-    background-color: ${({ danger }) =>
-      danger ? 'rgba(193, 53, 21, 0.1)' : '#ebebeb'};
-    color: ${({ danger }) => (danger ? theme.colors.error : '#222222')};
+export const SubBlockRow = styled(Button)`
+  min-width: 0;
+  flex: 1;
+  justify-content: flex-start;
+  text-align: left;
+`
+
+const SubBlockLabel = styled.span`
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 7px;
+
+  > span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 `
 
-export const SubBlockRow = styled.div<{ $active: boolean }>`
+const SubBlockActions = styled.div`
   display: flex;
+  flex: 0 0 auto;
   align-items: center;
-  gap: 6px;
-  padding: 6px 10px 6px 28px;
-  font-size: 12px;
-  color: ${({ $active }) => ($active ? theme.colors.primary : '#717171')};
-  font-weight: ${({ $active }) => ($active ? '600' : '400')};
-  background-color: ${({ $active }) =>
-    $active ? 'rgba(255, 90, 95, 0.06)' : 'transparent'};
-  border-radius: 6px;
-  cursor: pointer;
-  transition: all 0.15s ease;
+  gap: 1px;
+  opacity: 0;
+  transition: opacity 0.15s ease;
 
-  &:hover {
-    background-color: ${({ $active }) =>
-      $active ? 'rgba(255, 90, 95, 0.1)' : '#f7f7f7'};
-    color: #222222;
-  }
-`
-
-export const AddSectionButton = styled.button`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  width: 100%;
-  padding: 8px;
-  margin-top: 6px;
-  font-size: 12px;
-  font-weight: 600;
-  color: ${theme.colors.primary};
-  background-color: rgba(255, 90, 95, 0.05);
-  border: 1px dashed rgba(255, 90, 95, 0.4);
-  border-radius: 8px;
-  cursor: pointer;
-  transition: all 0.15s ease;
-
-  &:hover {
-    background-color: rgba(255, 90, 95, 0.1);
-    border-color: ${theme.colors.primary};
+  ${SubBlockRowContainer}:hover &,
+  &:focus-within {
+    opacity: 1;
   }
 `
 
@@ -146,6 +117,7 @@ export interface TreeItemProps {
   active?: boolean
   icon?: React.ReactNode
   children: React.ReactNode
+  startAction?: React.ReactNode
   actions?: React.ReactNode
   onClick?: () => void
 }
@@ -154,35 +126,63 @@ export const TreeItem = ({
   active = false,
   icon,
   children,
+  startAction,
   actions,
   onClick,
 }: TreeItemProps) => {
   return (
-    <ItemRow $active={active} onClick={onClick}>
-      <ItemLeft>
-        {icon}
-        <span>{children}</span>
-      </ItemLeft>
+    <ItemRowContainer>
+      {startAction}
+      <ItemRow
+        color={active ? 'primary' : 'neutral'}
+        onClick={onClick}
+        size="sm"
+        type="button"
+        variant={active ? 'solid' : 'ghost'}
+      >
+        <ItemLeft>
+          {icon}
+          <span>{children}</span>
+        </ItemLeft>
+      </ItemRow>
       {actions && <ItemActions>{actions}</ItemActions>}
-    </ItemRow>
+    </ItemRowContainer>
   )
 }
 
 export interface SubBlockItemProps {
   active?: boolean
   children: React.ReactNode
+  icon?: React.ReactNode
+  startAction?: React.ReactNode
+  actions?: React.ReactNode
   onClick?: () => void
 }
 
 export const SubBlockItem = ({
   active = false,
   children,
+  icon,
+  startAction,
+  actions,
   onClick,
 }: SubBlockItemProps) => {
   return (
-    <SubBlockRow $active={active} onClick={onClick}>
-      <span>🧱</span>
-      <span>{children}</span>
-    </SubBlockRow>
+    <SubBlockRowContainer>
+      {startAction}
+      <SubBlockRow
+        color={active ? 'primary' : 'neutral'}
+        onClick={onClick}
+        size="sm"
+        type="button"
+        variant={active ? 'solid' : 'ghost'}
+      >
+        <SubBlockLabel>
+          {icon}
+          <span>{children}</span>
+        </SubBlockLabel>
+      </SubBlockRow>
+      {actions && <SubBlockActions>{actions}</SubBlockActions>}
+    </SubBlockRowContainer>
   )
 }

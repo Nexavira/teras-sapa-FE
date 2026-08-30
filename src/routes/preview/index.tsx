@@ -10,6 +10,12 @@ const previewSearchSchema = z.object({
   sectionId: z.string().optional(),
 })
 
+const PreviewRouteComponent = () => {
+  const { mode, template } = Route.useSearch()
+
+  return <PageRenderer mode={mode} templateId={template} />
+}
+
 export const Route = createFileRoute('/preview/')({
   validateSearch: (search) => previewSearchSchema.parse(search),
   head: () => ({
@@ -21,9 +27,3 @@ export const Route = createFileRoute('/preview/')({
   }),
   component: PreviewRouteComponent,
 })
-
-const PreviewRouteComponent = () => {
-  const { mode, template } = Route.useSearch()
-
-  return <PageRenderer mode={mode} templateId={template} />
-}

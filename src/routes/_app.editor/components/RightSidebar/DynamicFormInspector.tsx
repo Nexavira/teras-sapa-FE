@@ -11,6 +11,7 @@ import {
 } from 'hugeicons-react'
 
 import { ColorPicker } from '#/components/ui/primitives/ColorPicker'
+import { findBlockLocation } from '#/lib/editor/blockTree'
 import {
   editorActions,
   useEditorGlobalSettings,
@@ -565,16 +566,16 @@ const SectionInspector: React.FC<SectionInspectorProps> = ({ sectionId }) => {
   const template = useEditorTemplate()
   const section = template.sections[sectionId]
 
-  if (!section.id) {
+  const registered = SectionRegistry[section.type]
+  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+  if (!registered) {
     return (
       <EmptyStateContainer>
         <InformationCircleIcon size={32} />
-        <div>Section not found: {sectionId}</div>
+        <div>Unknown section type: {section.type}</div>
       </EmptyStateContainer>
     )
   }
-
-  const registered = SectionRegistry[section.type]
   const schema = registered.schema
   const settingsList = schema.settings
   const currentSettings = section.settings
@@ -648,9 +649,10 @@ const BlockInspector: React.FC<BlockInspectorProps> = ({
 }) => {
   const template = useEditorTemplate()
   const section = template.sections[sectionId]
-  const block = section.blocks?.[blockId]
+  const location = findBlockLocation(section.blocks, blockId)
+  const block = location?.block
 
-  if (!section.id || !block) {
+  if (!block) {
     return (
       <EmptyStateContainer>
         <InformationCircleIcon size={32} />
@@ -674,10 +676,24 @@ const BlockInspector: React.FC<BlockInspectorProps> = ({
         <HeaderTitleGroup>
           <BackButton
             type="button"
-            title="Back to parent section"
-            onClick={() =>
+            title="Back to parent"
+            onClick={() => {
+              if (location.parentBlockId) {
+                const parentLocation = findBlockLocation(
+                  section.blocks,
+                  location.parentBlockId,
+                )
+                editorActions.selectItem({
+                  type: 'block',
+                  id: location.parentBlockId,
+                  sectionId,
+                  parentBlockId: parentLocation?.parentBlockId,
+                })
+                return
+              }
+
               editorActions.selectItem({ type: 'section', id: sectionId })
-            }
+            }}
           >
             <ArrowLeft01Icon size={18} />
           </BackButton>

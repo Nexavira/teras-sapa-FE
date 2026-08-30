@@ -1,17 +1,65 @@
 export const theme = {
   colors: {
-    primary: '#FF5A5F', // Airbnb Red
-    secondary: '#00A699', // Airbnb Teal
+    // primary: '#FF5A5F', // Airbnb Red
+    primary: {
+      '100': '#FFE8DE',
+      '200': '#FFCCBD',
+      '300': '#FFAA9C',
+      '400': '#FF8A83',
+      '500': '#FF5A5F',
+      '600': '#DB4153',
+      '700': '#B72D49',
+      '800': '#931C3F',
+      '900': '#7A1139',
+
+      DEFAULT: '#FF5A5F',
+      DARKER: '#931C3F',
+      LIGHTER: '#FFE8DE',
+    },
+    // secondary: '#00A699', // Airbnb Teal
+    secondary: {
+      '100': '#C8FAE4',
+      '200': '#93F6D3',
+      '300': '#5BE4C0',
+      '400': '#32C9B0',
+      '500': '#00A699',
+      '600': '#008D8E',
+      '700': '#006B77',
+      '800': '#004D60',
+      '900': '#00394F',
+
+      DEFAULT: '#00A699',
+      DARKER: '#004D60',
+      LIGHTER: '#C8FAE4',
+    },
     background: '#FFFFFF',
+
+    gray: {
+      '100': '#f4f4f5',
+      '200': '#e4e4e7',
+      '300': '#d4d4d8',
+      '400': '#a1a1aa',
+      '500': '#71717a',
+      '600': '#52525b',
+      '700': '#3f3f46',
+      '800': '#27272a',
+      '900': '#18181b',
+
+      DEFAULT: '#71717a',
+      DARKER: '#18181b',
+      LIGHTER: '#f4f4f5',
+    },
+
     text: {
-      primary: '#484848', // Dark gray
-      secondary: '#767676', // Muted gray
+      primary: '#18181b',
+      secondary: '#71717a',
       inverse: '#FFFFFF',
     },
-    border: '#EBEBEB',
-    error: '#C13515',
-    success: '#008A05',
-    muted: '#F7F7F7',
+
+    border: '#e4e4e7',
+    error: '#DB4153',
+    success: '#32C9B0',
+    muted: '#F4F4F5',
   },
   typography: {
     fontFamily:

@@ -45,7 +45,7 @@ const StyledBadge = styled.span<{
       case 'primary':
         return `
           background-color: #FFF0F1;
-          color: ${theme.colors.primary};
+          color: ${theme.colors.primary.DEFAULT};
           border: 1px solid #FFD1D4;
         `
       case 'success':
@@ -93,7 +93,7 @@ const BadgeDot = styled.span<{ $variant: BadgeVariant }>`
   background-color: ${({ $variant }) => {
     switch ($variant) {
       case 'primary':
-        return theme.colors.primary
+        return theme.colors.primary.DEFAULT
       case 'success':
         return '#008A05'
       case 'warning':

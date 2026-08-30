@@ -80,7 +80,7 @@ export const inputBaseStyles = ({
   width: 100%;
 
   &:focus-visible {
-    border-color: ${hasError ? theme.colors.error : theme.colors.secondary};
+    border-color: ${hasError ? theme.colors.error : theme.colors.secondary.DEFAULT};
   }
 
   &::placeholder {

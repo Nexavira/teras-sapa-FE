@@ -25,18 +25,10 @@ const PageRoot = styled.div`
   line-height: var(--font-body-line-height, 1.6);
 `
 
-const MainContent = styled.main<{ maxWidth?: number }>`
+const MainContent = styled.main`
   flex: 1;
   width: 100%;
-  max-width: ${({ maxWidth }) => (maxWidth ? `${maxWidth}px` : 'var(--page-width, 1280px)')};
-  margin: 0 auto;
-  padding-left: var(--gutter-desktop, 32px);
-  padding-right: var(--gutter-desktop, 32px);
-
-  @media (max-width: 768px) {
-    padding-left: var(--gutter-mobile, 16px);
-    padding-right: var(--gutter-mobile, 16px);
-  }
+  min-width: 0;
 `
 
 const DefaultFooter = styled.footer`
@@ -108,7 +100,7 @@ export const ThemeLayout: React.FC<ThemeLayoutProps> = ({
     }
 
     /* ====================================================================
-     * 6. Shopify Dynamic Scoped Color Schemes (.color-scheme-1, .color-scheme-2, ...)
+     * 6. Dynamic Scoped Color Schemes (.color-scheme-1, .color-scheme-2, ...)
      * ==================================================================== */
     ${generateColorSchemeCss(current.color_schemes)}
   `
@@ -121,7 +113,7 @@ export const ThemeLayout: React.FC<ThemeLayoutProps> = ({
       {headerComponent}
 
       {/* 2. Main Page Content (Equivalent to {{ content_for_layout }}) */}
-      <MainContent maxWidth={current.page_width}>{children}</MainContent>
+      <MainContent>{children}</MainContent>
 
       {/* 3. Footer Section Group */}
       {footerComponent || (

@@ -27,7 +27,7 @@ const StyledNavLink = styled(Link)`
 
   &.active {
     background-color: #fff0f1;
-    color: ${theme.colors.primary};
+    color: ${theme.colors.primary.DEFAULT};
     font-weight: 700;
   }
 `

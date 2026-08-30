@@ -5,7 +5,7 @@ import styled from '@emotion/styled'
 import { theme } from '../../theme'
 
 export type IconButtonVariant =
-  'ghost' | 'dark' | 'outline' | 'primary' | 'secondary'
+  'ghost' | 'dark' | 'outline' | 'primary' | 'secondary' | 'danger'
 export type IconButtonSize = 'sm' | 'md' | 'lg'
 
 export interface IconButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
@@ -40,8 +40,8 @@ const StyledIconButton = styled.button<{
     switch ($size) {
       case 'sm':
         return `
-          width: 28px;
-          height: 28px;
+          width: 20px;
+          height: 20px;
           padding: 4px;
         `
       case 'lg':
@@ -83,7 +83,7 @@ const StyledIconButton = styled.button<{
         `
       case 'primary':
         return `
-          background-color: ${theme.colors.primary};
+          background-color: ${theme.colors.primary.DEFAULT};
           color: #ffffff;
           &:hover:not(:disabled) {
             opacity: 0.9;
@@ -91,10 +91,18 @@ const StyledIconButton = styled.button<{
         `
       case 'secondary':
         return `
-          background-color: ${theme.colors.secondary};
+          background-color: ${theme.colors.secondary.DEFAULT};
           color: #ffffff;
           &:hover:not(:disabled) {
             opacity: 0.9;
+          }
+        `
+      case 'danger':
+        return `
+          background-color: transparent;
+          color: ${theme.colors.error};
+          &:hover:not(:disabled) {
+            background-color: rgba(219, 65, 83, 0.1);
           }
         `
       case 'ghost':
@@ -117,7 +125,7 @@ const DotBadge = styled.span`
   width: 7px;
   height: 7px;
   border-radius: 50%;
-  background-color: ${theme.colors.primary};
+  background-color: ${theme.colors.primary.DEFAULT};
   border: 1.5px solid #1a1a1a;
 `
 
@@ -129,7 +137,7 @@ const NumberBadge = styled.span`
   height: 16px;
   padding: 0 4px;
   border-radius: ${theme.radius.md};
-  background-color: ${theme.colors.primary};
+  background-color: ${theme.colors.primary.DEFAULT};
   color: #ffffff;
   font-size: 0.65rem;
   font-weight: ${theme.typography.weights.bold};
