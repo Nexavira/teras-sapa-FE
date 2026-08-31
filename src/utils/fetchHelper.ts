@@ -1,4 +1,5 @@
 import { env } from '#/env'
+import { getAuthToken } from '#/services/auth/authStorage'
 
 type QueryValue = string | number | boolean | null | undefined
 
@@ -85,6 +86,13 @@ const getErrorMessage = (data: unknown, response: Response) => {
     const errorData = data as { error?: unknown; message?: unknown }
 
     if (typeof errorData.message === 'string') return errorData.message
+    if (errorData.message && typeof errorData.message === 'object') {
+      const validationMessage = Object.values(errorData.message)
+        .flatMap((value) => (Array.isArray(value) ? value : [value]))
+        .find((value): value is string => typeof value === 'string')
+
+      if (validationMessage) return validationMessage
+    }
     if (typeof errorData.error === 'string') return errorData.error
   }
 
@@ -102,6 +110,11 @@ export async function fetchHelper<TResponse, TBody = unknown>(
 
   headers.set('Accept', headers.get('Accept') ?? 'application/json')
 
+  const token = getAuthToken()
+  if (token && !headers.has('Authorization')) {
+    headers.set('Authorization', `Bearer ${token}`)
+  }
+
   if (body !== undefined && body !== null) {
     if (isBodyInit(body)) {
       requestBody = body
@@ -117,7 +130,6 @@ export async function fetchHelper<TResponse, TBody = unknown>(
   }
 
   const response = await fetch(buildUrl(endpoint, query), {
-    credentials: 'include',
     ...requestOptions,
     body: requestBody,
     headers,

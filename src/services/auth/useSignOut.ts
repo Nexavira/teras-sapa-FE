@@ -1,19 +1,25 @@
 import { useMutation } from '@tanstack/react-query'
 
-// import { authClient } from '#/integrations/better-auth/client'
+import { clearAuthSession } from '#/services/auth/authStorage'
+import { fetchHelper } from '#/utils/fetchHelper'
+
+type SignOutResponse = {
+  success: boolean
+  message: string
+  data: null
+}
 
 export const useSignOut = () => {
   return useMutation({
     mutationFn: async () => {
-      // const { data, error } = await authClient.signOut()
-      const data: any = {}
-      const error: any = {}
-
-      if (error) {
-        throw new Error(error.message || 'Failed to sign out')
+      try {
+        return await fetchHelper<SignOutResponse>(
+          '/api/v1/portal/auth/do-logout',
+          { method: 'POST' },
+        )
+      } finally {
+        clearAuthSession()
       }
-
-      return data
     },
   })
 }

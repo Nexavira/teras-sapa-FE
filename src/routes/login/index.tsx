@@ -1,14 +1,14 @@
 import { createFileRoute, redirect } from '@tanstack/react-router'
 
 import { AuthLayout } from '#/components/auth/AuthLayout'
-// import { authClient } from '#/integrations/better-auth/client'
 import { LoginForm } from '#/routes/login/components/LoginForm'
+import { hasAuthToken } from '#/services/auth/authStorage'
 
 const LoginPage = () => {
   return (
     <AuthLayout
-      title="Welcome Back"
-      subtitle="Sign in to continue to your dashboard."
+      title="Selamat datang kembali"
+      subtitle="Masuk untuk melanjutkan ke dashboard tokomu."
     >
       <LoginForm />
     </AuthLayout>
@@ -16,12 +16,10 @@ const LoginPage = () => {
 }
 
 export const Route = createFileRoute('/login/')({
-  beforeLoad: async () => {
-    // const { data: session } = await authClient.getSession()
-    const session = true
-    if (session) {
+  beforeLoad: () => {
+    if (hasAuthToken()) {
       throw redirect({
-        to: '/',
+        to: '/admin',
       })
     }
   },

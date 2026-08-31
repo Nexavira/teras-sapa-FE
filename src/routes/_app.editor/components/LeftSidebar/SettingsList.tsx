@@ -4,7 +4,8 @@ import { Settings02Icon } from 'hugeicons-react'
 
 import { editorActions, useEditorSelectedItem } from '#/store/editorStore'
 
-import { TreeGroup, TreeItem } from './TreeItem'
+import { TreeGroup } from './TreeGroup'
+import { TreeItem } from './TreeItem'
 import settingsSchemaData from '#themes/config/settings_schema.json'
 
 export const SettingsList = () => {

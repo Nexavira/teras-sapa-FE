@@ -11,8 +11,8 @@ export const Route = createFileRoute('/register/')({
 const RegisterPage = () => {
   return (
     <AuthLayout
-      title="Create an Account"
-      subtitle="Join us today to design your storefront."
+      title="Mulai bangun tokomu"
+      subtitle="Buat akun gratis dan siapkan etalase digital pertamamu."
     >
       <RegisterForm />
     </AuthLayout>

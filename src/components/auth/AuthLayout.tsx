@@ -1,81 +1,181 @@
 import * as React from 'react'
 
-import { keyframes } from '@emotion/react'
 import styled from '@emotion/styled'
-
-const fadeIn = keyframes`
-  from {
-    opacity: 0;
-    transform: translateY(20px) scale(0.95);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-`
 
 const Container = styled.div`
   min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: linear-gradient(135deg, #1f1c2c, #928dab);
-  padding: 1rem;
-  font-family:
-    'Inter',
-    -apple-system,
-    BlinkMacSystemFont,
-    'Segoe UI',
-    Roboto,
-    Helvetica,
-    Arial,
-    sans-serif;
-  color: #fff;
-  transition: background 0.5s ease;
+  display: grid;
+  place-items: center;
+  position: relative;
+  overflow: hidden;
+  background: #f7f8f4;
+  padding: 2rem;
+  font-family: var(--font-sans);
+
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    border-radius: 999px;
+    filter: blur(4px);
+    pointer-events: none;
+  }
+
+  &::before {
+    width: 28rem;
+    height: 28rem;
+    left: -12rem;
+    top: -14rem;
+    background: rgba(255, 90, 95, 0.14);
+  }
+
+  &::after {
+    width: 24rem;
+    height: 24rem;
+    right: -9rem;
+    bottom: -12rem;
+    background: rgba(0, 166, 153, 0.13);
+  }
+
+  @media (max-width: 680px) {
+    padding: 1rem;
+    align-items: start;
+  }
 `
 
-const GlassCard = styled.div`
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 24px;
-  padding: 2.5rem;
-  width: 100%;
-  max-width: 480px;
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-  animation: ${fadeIn} 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+const AuthCard = styled.main`
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(22rem, 1.1fr);
+  width: min(100%, 64rem);
+  min-height: 38rem;
+  overflow: hidden;
+  border: 1px solid rgba(24, 24, 27, 0.08);
+  border-radius: 1.75rem;
+  background: #fff;
+  box-shadow: 0 2rem 5rem rgba(24, 24, 27, 0.12);
+
+  @media (max-width: 800px) {
+    grid-template-columns: 1fr;
+    width: min(100%, 34rem);
+  }
+`
+
+const BrandPanel = styled.aside`
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  justify-content: space-between;
+  padding: 2.5rem;
+  color: #fff;
+  background:
+    radial-gradient(
+      circle at 10% 10%,
+      rgba(255, 255, 255, 0.14),
+      transparent 32%
+    ),
+    linear-gradient(145deg, #123d3a 0%, #082925 52%, #071e1c 100%);
 
-  @media (max-width: 480px) {
-    padding: 2rem;
-    border-radius: 20px;
+  @media (max-width: 800px) {
+    min-height: 14rem;
+    padding: 1.75rem;
+  }
+`
+
+const Brand = styled.a`
+  color: inherit;
+  font-size: 1.25rem;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  text-decoration: none;
+
+  span {
+    color: #ff8a83;
+  }
+`
+
+const BrandMessage = styled.div`
+  max-width: 22rem;
+
+  h2 {
+    margin: 0 0 0.85rem;
+    font-family: 'Fraunces', Georgia, serif;
+    font-size: clamp(2rem, 4vw, 3.25rem);
+    font-weight: 500;
+    line-height: 1.05;
+    letter-spacing: -0.04em;
+  }
+
+  p {
+    margin: 0;
+    color: rgba(255, 255, 255, 0.68);
+    font-size: 0.92rem;
+    line-height: 1.7;
+  }
+
+  @media (max-width: 800px) {
+    h2 {
+      margin-top: 2.5rem;
+      font-size: 2rem;
+    }
+
+    p {
+      display: none;
+    }
+  }
+`
+
+const TrustNote = styled.div`
+  align-items: center;
+  display: flex;
+  gap: 0.55rem;
+  color: rgba(255, 255, 255, 0.62);
+  font-size: 0.75rem;
+
+  &::before {
+    content: '';
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 50%;
+    background: #5be4c0;
+    box-shadow: 0 0 0 0.25rem rgba(91, 228, 192, 0.12);
+  }
+
+  @media (max-width: 800px) {
+    display: none;
+  }
+`
+
+const FormPanel = styled.section`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: clamp(2rem, 6vw, 4.5rem);
+
+  @media (max-width: 680px) {
+    padding: 2rem 1.35rem;
   }
 `
 
 const Header = styled.div`
-  text-align: center;
+  margin-bottom: 1.75rem;
 `
 
 const Title = styled.h1`
-  font-size: 2rem;
-  font-weight: 700;
-  margin-bottom: 0.5rem;
-  background: linear-gradient(to right, #ffffff, #e0e0e0);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-
-  @media (max-width: 480px) {
-    font-size: 1.75rem;
-  }
+  margin: 0 0 0.55rem;
+  color: #18181b;
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: clamp(2rem, 4vw, 2.65rem);
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -0.035em;
 `
 
 const Subtitle = styled.p`
-  font-size: 0.95rem;
-  color: rgba(255, 255, 255, 0.7);
   margin: 0;
+  color: #71717a;
+  font-size: 0.9rem;
+  line-height: 1.6;
 `
 
 interface AuthLayoutProps {
@@ -91,13 +191,28 @@ export const AuthLayout: React.FC<AuthLayoutProps> = ({
 }) => {
   return (
     <Container>
-      <GlassCard>
-        <Header>
-          <Title>{title}</Title>
-          {subtitle && <Subtitle>{subtitle}</Subtitle>}
-        </Header>
-        {children}
-      </GlassCard>
+      <AuthCard>
+        <BrandPanel>
+          <Brand href="/">
+            TerasSapa<span>.</span>
+          </Brand>
+          <BrandMessage>
+            <h2>Toko digital, dengan caramu sendiri.</h2>
+            <p>
+              Kelola etalase, konten, dan pertumbuhan bisnismu dari satu ruang
+              kerja yang sederhana.
+            </p>
+          </BrandMessage>
+          <TrustNote>Platform commerce untuk bisnis Indonesia</TrustNote>
+        </BrandPanel>
+        <FormPanel>
+          <Header>
+            <Title>{title}</Title>
+            {subtitle && <Subtitle>{subtitle}</Subtitle>}
+          </Header>
+          {children}
+        </FormPanel>
+      </AuthCard>
     </Container>
   )
 }

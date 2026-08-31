@@ -1,25 +1,57 @@
 import { useMutation } from '@tanstack/react-query'
 
-// import { authClient } from '#/integrations/better-auth/client'
+import { fetchHelper } from '#/utils/fetchHelper'
 
 type RegisterParams = {
-  name: string
+  full_name: string
+  phone_number: string
   email: string
   password: string
+  password_confirmation: string
+}
+
+type RegisterResponse = {
+  success: boolean
+  message: string
+  data: {
+    email: string
+  }
 }
 
 export const useRegisterUser = () => {
   return useMutation({
     mutationFn: async (params: RegisterParams) => {
-      // const { data, error } = await authClient.signUp.email(params)
-      const data: any = {}
-      const error: any = {}
-
-      if (error) {
-        throw new Error(error.message || 'Failed to register')
-      }
-
-      return data
+      return fetchHelper<RegisterResponse, RegisterParams>(
+        '/api/v1/portal/auth/register',
+        {
+          method: 'POST',
+          body: params,
+        },
+      )
     },
+  })
+}
+
+type VerifyOtpParams = {
+  email: string
+  otp_code: string
+}
+
+type VerifyOtpResponse = {
+  success: boolean
+  message: string
+  data: unknown
+}
+
+export const useVerifyRegistrationOtp = () => {
+  return useMutation({
+    mutationFn: async (params: VerifyOtpParams) =>
+      fetchHelper<VerifyOtpResponse, VerifyOtpParams>(
+        '/api/v1/portal/auth/verify-otp',
+        {
+          method: 'POST',
+          body: params,
+        },
+      ),
   })
 }

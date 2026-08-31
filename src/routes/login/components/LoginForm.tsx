@@ -1,14 +1,18 @@
 import React, { useState } from 'react'
 
-import { useRouter } from '@tanstack/react-router'
+import { Link, useRouter } from '@tanstack/react-router'
 
 import styled from '@emotion/styled'
 import { useForm } from 'react-hook-form'
 
 import { TextInput } from '#/components/ui/form/text-input'
 import { Button } from '#/components/ui/primitives/Button'
-import { useGoogleLogin } from '#/services/auth/useGoogleLogin'
 import { useLoginUser } from '#/services/auth/useLoginUser'
+
+type LoginFormValues = {
+  email: string
+  password: string
+}
 
 const Form = styled.form`
   display: flex;
@@ -26,33 +30,49 @@ const ErrorMessage = styled.div`
   border: 1px solid ${({ theme }) => theme.colors.error};
 `
 
+const FormFooter = styled.p`
+  margin: 0.25rem 0 0;
+  color: ${({ theme }) => theme.colors.text.secondary};
+  font-size: 0.85rem;
+  text-align: center;
+
+  a {
+    color: ${({ theme }) => theme.colors.secondary.DARKER};
+    font-weight: 700;
+    text-decoration: none;
+  }
+`
+
 export const LoginForm = () => {
   const [formError, setFormError] = useState('')
 
   const router = useRouter()
   const loginMutation = useLoginUser()
-  const googleLoginMutation = useGoogleLogin()
 
-  const { control, handleSubmit } = useForm({
+  const { control, handleSubmit } = useForm<LoginFormValues>({
     defaultValues: {
       email: '',
       password: '',
     },
   })
 
-  const onSubmit = async (values: any) => {
+  const onSubmit = async (values: LoginFormValues) => {
     setFormError('')
 
     if (!values.email || !values.password) {
-      setFormError('Please enter both email and password')
+      setFormError('Masukkan email dan kata sandi.')
       return
     }
 
     try {
       await loginMutation.mutateAsync(values)
-      router.navigate({ to: '/' })
-    } catch (err: any) {
-      setFormError(err.message || 'Invalid email or password')
+      await router.navigate({ to: '/admin' })
+    } catch (error: unknown) {
+      setFormError(
+        error instanceof Error
+          ? error.message
+          : 'Email atau password tidak valid.',
+      )
     }
   }
 
@@ -63,18 +83,20 @@ export const LoginForm = () => {
       <TextInput
         control={control}
         name="email"
-        label="Email"
+        label="Alamat email"
         type="email"
-        placeholder="Enter your email"
+        autoComplete="email"
+        placeholder="nama@email.com"
         required
       />
 
       <TextInput
         control={control}
         name="password"
-        label="Password"
+        label="Kata sandi"
         type="password"
-        placeholder="Enter your password"
+        autoComplete="current-password"
+        placeholder="Masukkan kata sandi"
         required
       />
 
@@ -83,19 +105,15 @@ export const LoginForm = () => {
         variant="solid"
         color="primary"
         isLoading={loginMutation.isPending}
-        style={{ marginTop: '0.5rem' }}
+        size="lg"
+        style={{ marginTop: '0.5rem', width: '100%' }}
       >
-        Sign In
+        Masuk
       </Button>
 
-      <Button
-        type="button"
-        variant="outline"
-        onClick={() => googleLoginMutation.mutate()}
-        isLoading={googleLoginMutation.isPending}
-      >
-        Continue with Google
-      </Button>
+      <FormFooter>
+        Belum punya akun? <Link to="/register">Daftar sekarang</Link>
+      </FormFooter>
     </Form>
   )
 }
