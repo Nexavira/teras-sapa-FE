@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
 
+import styled from '@emotion/styled'
 import {
   ArrowRight01Icon,
   EyeIcon,
@@ -9,399 +10,436 @@ import {
   Store01Icon,
 } from 'hugeicons-react'
 
-import {
-  Badge,
-  Button,
-  Card,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-  theme,
-  Typography,
-} from '#/components/ui'
+import { Badge, Button } from '#/components/ui'
+import { adminTheme } from '#/components/ui/layout/AdminLayout/adminTheme'
 import { useGetUserSession } from '#/services/auth/useGetUserSession'
+
+const Page = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: clamp(32px, 4vw, 52px);
+  width: min(1180px, 100%);
+  margin: 0 auto;
+`
+
+const Eyebrow = styled.span`
+  color: ${adminTheme.emerald};
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+`
+
+const Hero = styled.section`
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 32px;
+  min-height: 300px;
+  padding: clamp(28px, 5vw, 56px);
+  overflow: hidden;
+  border-radius: 24px;
+  background: ${adminTheme.black};
+  color: ${adminTheme.white};
+
+  &::after {
+    position: absolute;
+    right: -120px;
+    bottom: -180px;
+    width: 420px;
+    height: 420px;
+    border-radius: 50%;
+    background: ${adminTheme.emerald};
+    filter: blur(80px);
+    opacity: 0.32;
+    content: '';
+  }
+
+  @media (max-width: 700px) {
+    grid-template-columns: 1fr;
+  }
+`
+
+const HeroContent = styled.div`
+  position: relative;
+  z-index: 1;
+  max-width: 720px;
+`
+
+const HeroTitle = styled.h1`
+  max-width: 720px;
+  margin: 14px 0 18px;
+  color: ${adminTheme.white};
+  font-size: clamp(2.35rem, 5vw, 4.75rem);
+  font-weight: 800;
+  line-height: 0.94;
+  letter-spacing: -0.05em;
+  text-transform: uppercase;
+
+  span {
+    color: ${adminTheme.emerald};
+  }
+`
+
+const HeroCopy = styled.p`
+  max-width: 620px;
+  margin: 0;
+  color: rgba(255, 255, 255, 0.65);
+  font-size: 0.98rem;
+  line-height: 1.7;
+`
+
+const Actions = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 28px;
+
+  a {
+    text-decoration: none;
+  }
+`
+
+const PrimaryButton = styled(Button)`
+  && {
+    min-height: 44px;
+    padding-inline: 20px;
+    border-color: ${adminTheme.emerald};
+    border-radius: 999px;
+    background: ${adminTheme.emerald};
+    color: ${adminTheme.white};
+    font-weight: 700;
+
+    &:hover:not(:disabled) {
+      border-color: ${adminTheme.emeraldDark};
+      background: ${adminTheme.emeraldDark};
+      opacity: 1;
+    }
+  }
+`
+
+const SecondaryButton = styled(Button)`
+  && {
+    min-height: 44px;
+    padding-inline: 20px;
+    border-color: rgba(255, 255, 255, 0.28);
+    border-radius: 999px;
+    color: ${adminTheme.white};
+
+    &:hover:not(:disabled) {
+      border-color: rgba(255, 255, 255, 0.5);
+      background: rgba(255, 255, 255, 0.08);
+    }
+  }
+`
+
+const HeroMark = styled.div`
+  position: relative;
+  z-index: 1;
+  display: grid;
+  width: 88px;
+  height: 88px;
+  place-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.07);
+  color: ${adminTheme.emerald};
+
+  @media (max-width: 700px) {
+    display: none;
+  }
+`
+
+const SectionHeader = styled.div`
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 18px;
+`
+
+const SectionTitle = styled.h2`
+  margin: 6px 0 0;
+  color: ${adminTheme.ink};
+  font-size: clamp(1.6rem, 3vw, 2.5rem);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  text-transform: uppercase;
+`
+
+const CardGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+
+  @media (max-width: 960px) {
+    grid-template-columns: 1fr;
+  }
+`
+
+const ActionCard = styled.article`
+  display: flex;
+  min-height: 270px;
+  flex-direction: column;
+  padding: 24px;
+  border: 1px solid ${adminTheme.border};
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.86);
+  transition:
+    transform 180ms ease,
+    border-color 180ms ease,
+    box-shadow 180ms ease;
+
+  &:hover {
+    border-color: rgba(0, 168, 107, 0.5);
+    box-shadow: 0 18px 50px rgba(5, 5, 5, 0.08);
+    transform: translateY(-4px);
+  }
+`
+
+const CardTop = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+`
+
+const IconBox = styled.div`
+  display: grid;
+  width: 48px;
+  height: 48px;
+  place-items: center;
+  border-radius: 12px;
+  background: ${adminTheme.ink};
+  color: ${adminTheme.emerald};
+`
+
+const CardTitle = styled.h3`
+  margin: 24px 0 10px;
+  color: ${adminTheme.ink};
+  font-size: 1.15rem;
+  font-weight: 800;
+  letter-spacing: -0.025em;
+`
+
+const CardCopy = styled.p`
+  margin: 0;
+  color: ${adminTheme.muted};
+  font-size: 0.86rem;
+  line-height: 1.65;
+`
+
+const CardLink = styled(Link)`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: auto;
+  padding-top: 22px;
+  border-top: 1px solid ${adminTheme.border};
+  color: ${adminTheme.ink};
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-decoration: none;
+  text-transform: uppercase;
+
+  &:hover {
+    color: ${adminTheme.emeraldDark};
+  }
+`
+
+const StatusBar = styled.section`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 22px 24px;
+  border: 1px solid ${adminTheme.border};
+  border-radius: 16px;
+  background: ${adminTheme.white};
+
+  @media (max-width: 680px) {
+    align-items: stretch;
+    flex-direction: column;
+  }
+`
+
+const StatusInfo = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 16px;
+
+  h3 {
+    margin: 0 0 4px;
+    font-size: 0.95rem;
+  }
+  p {
+    margin: 0;
+    color: ${adminTheme.muted};
+    font-size: 0.78rem;
+    line-height: 1.5;
+  }
+`
+
+const ViewStore = styled.a`
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 42px;
+  padding: 0 18px;
+  border: 1px solid ${adminTheme.ink};
+  border-radius: 999px;
+  color: ${adminTheme.ink};
+  font-size: 0.75rem;
+  font-weight: 800;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: all 180ms ease;
+
+  &:hover {
+    background: ${adminTheme.ink};
+    color: ${adminTheme.white};
+  }
+`
+
+const quickActions = [
+  {
+    title: 'Products & Inventory',
+    copy: 'Manage items, pricing, stock, and product variants from one focused workspace.',
+    label: 'Catalog',
+    linkLabel: 'Manage products',
+    to: '/admin/products',
+    icon: ShoppingBag01Icon,
+  },
+  {
+    title: 'Storefront Builder',
+    copy: 'Customize sections, themes, and interactive blocks with a live visual editor.',
+    label: 'Visual editor',
+    linkLabel: 'Open builder',
+    to: '/editor',
+    icon: PaintBoardIcon,
+  },
+  {
+    title: 'Store Settings',
+    copy: 'Configure payments, shipping zones, store policies, and your connected domain.',
+    label: 'Configuration',
+    linkLabel: 'Open settings',
+    to: '/admin/settings',
+    icon: Settings02Icon,
+  },
+] as const
 
 export const AdminIndexPage = () => {
   const { data: session } = useGetUserSession()
-  const userName = session?.user.name
+  const userName = session?.user.name ?? 'there'
 
   return (
-    <div
-      style={{
-        maxWidth: '1080px',
-        margin: '0 auto',
-        display: 'flex',
-        flexDirection: 'column',
-        gap: theme.spacing.xl,
-      }}
-    >
-      {/* Airbnb Hero Greeting Card */}
-      <Card
-        variant="default"
-        padding="lg"
-        style={{
-          background: 'linear-gradient(135deg, #FFFFFF 0%, #FFF9FA 100%)',
-          borderRadius: '16px',
-          border: `1px solid ${theme.colors.border}`,
-          boxShadow: '0 4px 20px rgba(0, 0, 0, 0.04)',
-        }}
-      >
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            gap: theme.spacing.md,
-            flexWrap: 'wrap',
-          }}
-        >
-          <div
+    <Page>
+      <Hero>
+        <HeroContent>
+          <Eyebrow>Store command center</Eyebrow>
+          <HeroTitle>
+            Good day, <span>{userName}.</span>
+          </HeroTitle>
+          <HeroCopy>
+            Your storefront is online and ready. Manage the catalog, shape your
+            visual identity, and keep every store setting within reach.
+          </HeroCopy>
+          <Actions>
+            <a href="/admin/products">
+              <PrimaryButton size="sm">
+                <ShoppingBag01Icon size={16} /> Add products
+              </PrimaryButton>
+            </a>
+            <Link to="/editor">
+              <SecondaryButton size="sm" variant="outline">
+                <PaintBoardIcon size={16} /> Open builder
+              </SecondaryButton>
+            </Link>
+          </Actions>
+        </HeroContent>
+        <HeroMark aria-hidden="true">
+          <Store01Icon size={40} />
+        </HeroMark>
+      </Hero>
+
+      <section>
+        <SectionHeader>
+          <div>
+            <Eyebrow>Essentials</Eyebrow>
+            <SectionTitle>Quick navigation</SectionTitle>
+          </div>
+          <Badge
+            size="sm"
             style={{
-              display: 'flex',
-              flexDirection: 'column',
-              gap: theme.spacing.xs,
-              maxWidth: '640px',
+              borderColor: 'rgba(0,168,107,.25)',
+              background: adminTheme.emeraldSoft,
+              color: adminTheme.emeraldDark,
             }}
           >
-            <Typography variant="title" weight="bold" as="h1">
-              Good day, {userName}! 👋
-            </Typography>
-
-            <Typography variant="body" color="secondary">
-              Your online storefront is active and ready. Easily manage your
-              catalog, design custom themes with the visual builder, or adjust
-              your store preferences below.
-            </Typography>
-
-            <div
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '10px',
-                marginTop: theme.spacing.sm,
-              }}
-            >
-              <Link to="/admin/products" style={{ textDecoration: 'none' }}>
-                <Button size="sm" variant="solid" color="primary">
-                  <ShoppingBag01Icon size={16} style={{ marginRight: '6px' }} />
-                  Add Products
-                </Button>
-              </Link>
-
-              <Link to="/editor" style={{ textDecoration: 'none' }}>
-                <Button size="sm" variant="outline">
-                  <PaintBoardIcon size={16} style={{ marginRight: '6px' }} />
-                  Open Builder
-                </Button>
-              </Link>
-            </div>
-          </div>
-
-          <div
-            style={{
-              width: '76px',
-              height: '76px',
-              borderRadius: '20px',
-              backgroundColor: '#FFF0F1',
-              color: theme.colors.primary.DEFAULT,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              boxShadow: '0 6px 16px rgba(255, 90, 95, 0.15)',
-              flexShrink: 0,
-            }}
-          >
-            <Store01Icon size={38} />
-          </div>
-        </div>
-      </Card>
-
-      {/* Quick Action Navigation Section */}
-      <div>
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            marginBottom: theme.spacing.sm,
-          }}
-        >
-          <Typography variant="body" weight="bold">
-            Quick Navigation
-          </Typography>
-          <Badge variant="neutral" size="sm">
-            Core Modules
+            Core modules
           </Badge>
-        </div>
+        </SectionHeader>
 
-        <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-            gap: theme.spacing.md,
-          }}
-        >
-          {/* Card 1: Products */}
-          <Card
-            variant="interactive"
-            padding="lg"
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'space-between',
-              borderRadius: '14px',
-            }}
-          >
-            <div>
-              <CardHeader>
-                <div
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                  }}
-                >
-                  <div
+        <CardGrid>
+          {quickActions.map((item) => {
+            const Icon = item.icon
+            return (
+              <ActionCard key={item.title}>
+                <CardTop>
+                  <IconBox>
+                    <Icon size={23} />
+                  </IconBox>
+                  <Badge
+                    size="sm"
                     style={{
-                      width: '42px',
-                      height: '42px',
-                      borderRadius: '12px',
-                      backgroundColor: '#FFF0F1',
-                      color: theme.colors.primary.DEFAULT,
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
+                      borderColor: adminTheme.border,
+                      background: adminTheme.paper,
+                      color: adminTheme.muted,
+                      textTransform: 'uppercase',
+                      letterSpacing: '.06em',
                     }}
                   >
-                    <ShoppingBag01Icon size={22} />
-                  </div>
-                  <Badge variant="primary" size="sm">
-                    Catalog
+                    {item.label}
                   </Badge>
-                </div>
-                <CardTitle
-                  style={{ marginTop: theme.spacing.sm, color: '#222222' }}
-                >
-                  Products & Inventory
-                </CardTitle>
-                <CardDescription style={{ color: '#717171' }}>
-                  Manage items, update prices, manage stock quantities, and
-                  organize variants.
-                </CardDescription>
-              </CardHeader>
-            </div>
+                </CardTop>
+                <CardTitle>{item.title}</CardTitle>
+                <CardCopy>{item.copy}</CardCopy>
+                <CardLink to={item.to}>
+                  {item.linkLabel} <ArrowRight01Icon size={16} />
+                </CardLink>
+              </ActionCard>
+            )
+          })}
+        </CardGrid>
+      </section>
 
-            <CardFooter>
-              <Link
-                to="/admin/products"
-                style={{ textDecoration: 'none', width: '100%' }}
-              >
-                <Button
-                  size="sm"
-                  variant="ghost"
-                  style={{ width: '100%', justifyContent: 'space-between' }}
-                >
-                  Manage Products
-                  <ArrowRight01Icon size={15} />
-                </Button>
-              </Link>
-            </CardFooter>
-          </Card>
-
-          {/* Card 2: Visual Web Builder */}
-          <Card
-            variant="interactive"
-            padding="lg"
+      <StatusBar>
+        <StatusInfo>
+          <Badge
+            variant="success"
+            size="md"
+            dot
             style={{
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'space-between',
-              borderRadius: '14px',
+              borderColor: 'rgba(0,168,107,.25)',
+              background: adminTheme.emeraldSoft,
+              color: adminTheme.emeraldDark,
             }}
           >
-            <div>
-              <CardHeader>
-                <div
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                  }}
-                >
-                  <div
-                    style={{
-                      width: '42px',
-                      height: '42px',
-                      borderRadius: '12px',
-                      backgroundColor: '#E6F7F5',
-                      color: '#008489',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                    }}
-                  >
-                    <PaintBoardIcon size={22} />
-                  </div>
-                  <Badge variant="success" size="sm">
-                    Visual Editor
-                  </Badge>
-                </div>
-                <CardTitle
-                  style={{ marginTop: theme.spacing.sm, color: '#222222' }}
-                >
-                  Storefront Builder
-                </CardTitle>
-                <CardDescription style={{ color: '#717171' }}>
-                  Customize sections, headers, themes, and interactive blocks in
-                  real time.
-                </CardDescription>
-              </CardHeader>
-            </div>
-
-            <CardFooter>
-              <Link
-                to="/editor"
-                style={{ textDecoration: 'none', width: '100%' }}
-              >
-                <Button
-                  size="sm"
-                  variant="ghost"
-                  style={{ width: '100%', justifyContent: 'space-between' }}
-                >
-                  Open Builder
-                  <ArrowRight01Icon size={15} />
-                </Button>
-              </Link>
-            </CardFooter>
-          </Card>
-
-          {/* Card 3: Store Settings */}
-          <Card
-            variant="interactive"
-            padding="lg"
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'space-between',
-              borderRadius: '14px',
-            }}
-          >
-            <div>
-              <CardHeader>
-                <div
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                  }}
-                >
-                  <div
-                    style={{
-                      width: '42px',
-                      height: '42px',
-                      borderRadius: '12px',
-                      backgroundColor: '#F3E8FF',
-                      color: '#7C3AED',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                    }}
-                  >
-                    <Settings02Icon size={22} />
-                  </div>
-                  <Badge variant="neutral" size="sm">
-                    Configuration
-                  </Badge>
-                </div>
-                <CardTitle
-                  style={{ marginTop: theme.spacing.sm, color: '#222222' }}
-                >
-                  Store Settings
-                </CardTitle>
-                <CardDescription style={{ color: '#717171' }}>
-                  Configure payment gateways, shipping zones, store policies,
-                  and domains.
-                </CardDescription>
-              </CardHeader>
-            </div>
-
-            <CardFooter>
-              <Link
-                to="/admin/settings"
-                style={{ textDecoration: 'none', width: '100%' }}
-              >
-                <Button
-                  size="sm"
-                  variant="ghost"
-                  style={{ width: '100%', justifyContent: 'space-between' }}
-                >
-                  Configure Settings
-                  <ArrowRight01Icon size={15} />
-                </Button>
-              </Link>
-            </CardFooter>
-          </Card>
-        </div>
-      </div>
-
-      {/* Store Status Card */}
-      <Card
-        variant="default"
-        padding="md"
-        style={{
-          backgroundColor: '#FFFFFF',
-          border: `1px solid ${theme.colors.border}`,
-          borderRadius: '12px',
-          boxShadow: '0 2px 8px rgba(0, 0, 0, 0.03)',
-        }}
-      >
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            flexWrap: 'wrap',
-            gap: theme.spacing.md,
-          }}
-        >
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: theme.spacing.md,
-            }}
-          >
-            <Badge variant="success" size="md" dot>
-              Live
-            </Badge>
-            <div
-              style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}
-            >
-              <Typography variant="body" weight="bold">
-                Storefront is currently online
-              </Typography>
-              <Typography variant="caption" color="secondary">
-                Customers can view your products, browse collections, and place
-                orders.
-              </Typography>
-            </div>
+            Live
+          </Badge>
+          <div>
+            <h3>Storefront is currently online</h3>
+            <p>Customers can browse your products and place orders.</p>
           </div>
-
-          <a
-            href="/"
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{ textDecoration: 'none' }}
-          >
-            <Button size="sm" variant="outline">
-              <EyeIcon size={15} style={{ marginRight: '6px' }} />
-              View Live Store
-            </Button>
-          </a>
-        </div>
-      </Card>
-    </div>
+        </StatusInfo>
+        <ViewStore href="/" target="_blank" rel="noopener noreferrer">
+          <EyeIcon size={15} /> View live store
+        </ViewStore>
+      </StatusBar>
+    </Page>
   )
 }
 

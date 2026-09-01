@@ -1,4 +1,6 @@
 export * from './CollapsibleNavItem'
 export * from './Header'
 export * from './NavItem'
+export * from './NavLink'
+export * from './SectionWrapper'
 export * from './Sidebar'

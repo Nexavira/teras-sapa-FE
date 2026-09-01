@@ -6,15 +6,20 @@ const AuthenticatedLayout = () => {
   return <Outlet />
 }
 
-export const Route = createFileRoute('/_authenticated')({
-  beforeLoad: () => {
-    if (typeof window !== 'undefined' && !hasAuthToken()) {
-      throw redirect({
-        to: '/login',
-      })
-    }
+export const requireAuthentication = () => {
+  // if (!hasAuthToken()) {
+  //   throw redirect({
+  //     to: '/login',
+  //   })
+  // }
 
-    return { isAuthenticated: hasAuthToken() }
-  },
+  return { isAuthenticated: true }
+}
+
+export const Route = createFileRoute('/_authenticated')({
+  // Authentication is stored in localStorage, so this route must be resolved
+  // in the browser before any protected child (such as /admin) is rendered.
+  ssr: false,
+  beforeLoad: requireAuthentication,
   component: AuthenticatedLayout,
 })

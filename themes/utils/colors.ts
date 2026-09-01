@@ -42,6 +42,15 @@ export function hexToRgb(hex: string): string {
 }
 
 /**
+ * Converts a hex color (e.g. #FFFFFF, #fff, #121212) into an RGBA tuple string (e.g. "255, 255, 255, 0.5").
+ * Matches Shopify Liquid's `color_to_rgba` filter behavior for CSS custom properties.
+ */
+export function hexToRgba(hex: string, alpha: number): string {
+  const rgb = hexToRgb(hex)
+  return `rgba(${rgb}, ${alpha})`
+}
+
+/**
  * Generates scoped CSS variable blocks for all color schemes in settings_data.
  * Exactly mirrors Shopify Dawn's `base.css` color scheme engine.
  */

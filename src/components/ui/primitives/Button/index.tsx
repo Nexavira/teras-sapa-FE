@@ -6,8 +6,9 @@ import styled from '@emotion/styled'
 
 import type { Theme } from '../../theme'
 import { theme as defaultTheme } from '../../theme'
+import { hexToRgba } from '#themes/index.ts'
 
-export type ButtonVariant = 'solid' | 'ghost' | 'outline' | 'dashed'
+export type ButtonVariant = 'solid' | 'ghost' | 'outline' | 'dashed' | 'text'
 export type ButtonColor =
   | 'primary'
   | 'secondary'
@@ -40,8 +41,8 @@ const getColorTokens = (theme: Theme, color: ButtonColor) => {
       return {
         main: theme.colors.secondary.DEFAULT,
         contrast: theme.colors.text.inverse,
-        subtleBg: '#E6F7F5',
-        subtleBorder: '#B8EBE6',
+        subtleBg: theme.colors.secondary.LIGHTER,
+        subtleBorder: theme.colors.secondary.DEFAULT,
       }
     case 'danger':
       return {
@@ -83,8 +84,8 @@ const getColorTokens = (theme: Theme, color: ButtonColor) => {
       return {
         main: theme.colors.primary.DEFAULT,
         contrast: theme.colors.text.inverse,
-        subtleBg: '#FFF0F1',
-        subtleBorder: '#FFD1D4',
+        subtleBg: hexToRgba(theme.colors.primary.LIGHTER, 0.5),
+        subtleBorder: theme.colors.primary.DEFAULT,
       }
   }
 }
@@ -120,6 +121,16 @@ const getButtonStyles = (
         }
       `
     case 'ghost':
+      return `
+        background-color: ${hexToRgba(tokens.subtleBg, 0.3)};
+        color: ${color === 'neutral' ? currentTheme.colors.text.primary : tokens.main};
+        border: 1px solid transparent;
+
+        &:hover:not(:disabled) {
+          background-color: ${tokens.subtleBg};
+        }
+      `
+    case 'text':
       return `
         background-color: transparent;
         color: ${color === 'neutral' ? currentTheme.colors.text.primary : tokens.main};

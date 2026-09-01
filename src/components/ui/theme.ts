@@ -1,22 +1,20 @@
 export const theme = {
   colors: {
-    // primary: '#FF5A5F', // Airbnb Red
     primary: {
-      '100': '#FFE8DE',
-      '200': '#FFCCBD',
-      '300': '#FFAA9C',
-      '400': '#FF8A83',
-      '500': '#FF5A5F',
-      '600': '#DB4153',
-      '700': '#B72D49',
-      '800': '#931C3F',
-      '900': '#7A1139',
+      '100': '#C8FAD4',
+      '200': '#93F6B5',
+      '300': '#5BE497',
+      '400': '#32CA84',
+      '500': '#00A86B',
+      '600': '#00906A',
+      '700': '#007864',
+      '800': '#00615A',
+      '900': '#004D50',
 
-      DEFAULT: '#FF5A5F',
-      DARKER: '#931C3F',
-      LIGHTER: '#FFE8DE',
+      DEFAULT: '#00A86B',
+      DARKER: '#00615A',
+      LIGHTER: '#C8FAD4',
     },
-    // secondary: '#00A699', // Airbnb Teal
     secondary: {
       '100': '#C8FAE4',
       '200': '#93F6D3',

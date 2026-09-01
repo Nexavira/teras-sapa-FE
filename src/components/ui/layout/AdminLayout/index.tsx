@@ -4,15 +4,17 @@ import styled from '@emotion/styled'
 
 import { theme } from '../../theme'
 import { Header, Sidebar } from './_components'
+import { adminTheme } from './adminTheme'
 
 const LayoutContainer = styled.div`
   display: flex;
   flex-direction: column;
-  height: 100vh;
-  width: 100vw;
+  min-height: 100vh;
+  width: 100%;
   overflow: hidden;
-  font-family: ${theme.typography.fontFamily};
-  background-color: ${theme.colors.muted};
+  color: ${adminTheme.ink};
+  font-family: var(--font-sans), ${theme.typography.fontFamily};
+  background-color: ${adminTheme.paper};
 `
 
 const LayoutBody = styled.div`
@@ -23,9 +25,20 @@ const LayoutBody = styled.div`
 
 const MainCanvas = styled.main`
   flex: 1;
+  min-width: 0;
   overflow-y: auto;
-  padding: 24px 32px;
-  background-color: ${theme.colors.muted};
+  padding: clamp(24px, 3vw, 48px);
+  background:
+    radial-gradient(
+      circle at 90% 0%,
+      rgba(0, 168, 107, 0.09),
+      transparent 28rem
+    ),
+    ${adminTheme.paper};
+
+  @media (max-width: 720px) {
+    padding: 24px 16px 40px;
+  }
 `
 
 export interface AdminLayoutProps {

@@ -1,48 +1,19 @@
 import type { ReactNode } from 'react'
 
 import type { LinkProps } from '@tanstack/react-router'
-import { Link } from '@tanstack/react-router'
 
-import styled from '@emotion/styled'
-
-import { theme } from '#/components/ui/theme'
-
-const StyledNavLink = styled(Link)`
-  display: flex;
-  align-items: center;
-  gap: 9px;
-  padding: 6px 10px;
-  border-radius: 8px;
-  font-size: 0.8125rem;
-  font-weight: 500;
-  color: #484848;
-  text-decoration: none;
-  transition: all 0.15s ease;
-  cursor: pointer;
-
-  &:hover {
-    background-color: ${theme.colors.muted};
-    color: #222222;
-  }
-
-  &.active {
-    background-color: #fff0f1;
-    color: ${theme.colors.primary.DEFAULT};
-    font-weight: 700;
-  }
-`
-
-const NavLabel = styled.span`
-  flex: 1;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-`
+import type { SubNavItem } from './CollapsibleNavItem'
+import { CollapsibleNavItem } from './CollapsibleNavItem'
+import { NavLink } from './NavLink'
 
 export interface NavItemProps {
-  to: string
+  to?: string
   icon?: ReactNode
   children: ReactNode
+  items?: SubNavItem[]
+  defaultOpen?: boolean
+  isOpen?: boolean
+  onToggle?: (open: boolean) => void
   activeOptions?: LinkProps['activeOptions']
   className?: string
   onClick?: () => void
@@ -52,19 +23,41 @@ export const NavItem = ({
   to,
   icon,
   children,
+  items,
+  defaultOpen,
+  isOpen,
+  onToggle,
   activeOptions,
   className,
   onClick,
 }: NavItemProps) => {
+  if (items) {
+    return (
+      <CollapsibleNavItem
+        icon={icon}
+        label={children}
+        items={items}
+        defaultOpen={defaultOpen}
+        isOpen={isOpen}
+        onToggle={onToggle}
+        className={className}
+      />
+    )
+  }
+
+  if (!to) {
+    return null
+  }
+
   return (
-    <StyledNavLink
+    <NavLink
       to={to}
+      icon={icon}
       activeOptions={activeOptions}
       className={className}
       onClick={onClick}
     >
-      {icon}
-      <NavLabel>{children}</NavLabel>
-    </StyledNavLink>
+      {children}
+    </NavLink>
   )
 }

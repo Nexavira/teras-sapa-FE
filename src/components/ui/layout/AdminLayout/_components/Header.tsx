@@ -10,8 +10,6 @@ import {
   Logout01Icon,
   Notification01Icon,
   Search01Icon,
-  SparklesIcon,
-  Store01Icon,
 } from 'hugeicons-react'
 
 import { Avatar } from '#/components/ui/primitives/Avatar'
@@ -23,18 +21,22 @@ import { theme } from '#/components/ui/theme'
 import { useGetUserSession } from '#/services/auth/useGetUserSession'
 import { useSignOut } from '#/services/auth/useSignOut'
 
-/* Top Header Bar - Airbnb Style */
+import { adminTheme } from '../adminTheme'
+
 const TopHeader = styled.header`
-  height: 64px;
-  background-color: ${theme.colors.background};
+  height: 72px;
+  background-color: ${adminTheme.black};
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 24px;
+  padding: 0 clamp(16px, 2.5vw, 32px);
   flex-shrink: 0;
   z-index: 50;
-  border-bottom: 1px solid ${theme.colors.border};
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+
+  @media (max-width: 640px) {
+    height: 64px;
+  }
 `
 
 const HeaderLeft = styled.div`
@@ -49,18 +51,18 @@ const BrandLogo = styled(Link)`
   align-items: center;
   gap: 8px;
   text-decoration: none;
+  color: ${adminTheme.white};
 `
 
-const LogoIconBox = styled.div`
-  width: 34px;
-  height: 34px;
-  border-radius: 10px;
-  background: linear-gradient(135deg, #ff5a5f 0%, #ff385c 100%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #ffffff;
-  box-shadow: 0 3px 8px rgba(255, 90, 95, 0.3);
+const Wordmark = styled.span`
+  color: ${adminTheme.white};
+  font-size: 1.35rem;
+  font-weight: 800;
+  letter-spacing: -0.07em;
+
+  span {
+    color: ${adminTheme.emerald};
+  }
 `
 
 const HeaderCenter = styled.div`
@@ -71,29 +73,30 @@ const HeaderCenter = styled.div`
   justify-content: center;
 `
 
-/* Airbnb Capsule Search Bar */
 const SearchCapsule = styled.div`
   display: flex;
   align-items: center;
-  background-color: ${theme.colors.background};
-  border: 1px solid #dddddd;
+  background-color: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.13);
   border-radius: 32px;
   padding: 4px 6px 4px 16px;
   gap: 10px;
   width: 100%;
-  box-shadow:
-    0 1px 2px rgba(0, 0, 0, 0.08),
-    0 4px 12px rgba(0, 0, 0, 0.05);
+  box-shadow: none;
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 
   &:hover {
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.14);
-    border-color: #cccccc;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.25);
   }
 
   &:focus-within {
-    border-color: ${theme.colors.primary.DEFAULT};
-    box-shadow: 0 0 0 3px rgba(255, 90, 95, 0.15);
+    border-color: ${adminTheme.emerald};
+    box-shadow: 0 0 0 3px rgba(0, 168, 107, 0.18);
+  }
+
+  @media (max-width: 720px) {
+    display: none;
   }
 `
 
@@ -102,12 +105,12 @@ const SearchInput = styled.input`
   background: transparent;
   font-family: inherit;
   font-size: 0.85rem;
-  color: #222222;
+  color: ${adminTheme.white};
   width: 100%;
   outline: none;
 
   &::placeholder {
-    color: #717171;
+    color: rgba(255, 255, 255, 0.48);
     font-weight: 400;
   }
 `
@@ -119,13 +122,14 @@ const HeaderRight = styled.div`
   position: relative;
 `
 
-/* Airbnb Capsule Profile Button */
 const ProfileCapsuleButton = styled.button<{ $isOpen: boolean }>`
   display: flex;
   align-items: center;
   gap: 8px;
-  background-color: ${theme.colors.background};
-  border: 1px solid ${({ $isOpen }) => ($isOpen ? '#222222' : '#dddddd')};
+  color: ${adminTheme.white};
+  background-color: rgba(255, 255, 255, 0.07);
+  border: 1px solid
+    ${({ $isOpen }) => ($isOpen ? adminTheme.emerald : 'rgba(255, 255, 255, 0.15)')};
   padding: 4px 6px 4px 12px;
   border-radius: 28px;
   cursor: pointer;
@@ -135,28 +139,27 @@ const ProfileCapsuleButton = styled.button<{ $isOpen: boolean }>`
 
   &:hover {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12);
-    border-color: #cccccc;
+    border-color: rgba(255, 255, 255, 0.3);
   }
 `
 
 const ChevronIcon = styled(ArrowDown01Icon)<{ $isOpen: boolean }>`
-  color: #717171;
+  color: rgba(255, 255, 255, 0.55);
   transition: transform 0.2s ease;
   transform: ${({ $isOpen }) => ($isOpen ? 'rotate(180deg)' : 'rotate(0deg)')};
 `
 
-/* Airbnb Rounded Dropdown Menu */
 const DropdownMenu = styled.div`
   position: absolute;
   top: calc(100% + 10px);
   right: 0;
   width: 280px;
   background-color: #ffffff;
-  border-radius: 16px;
+  border-radius: 14px;
   box-shadow:
     0 10px 30px rgba(0, 0, 0, 0.12),
     0 1px 3px rgba(0, 0, 0, 0.06);
-  border: 1px solid ${theme.colors.border};
+  border: 1px solid ${adminTheme.border};
   padding: 8px;
   z-index: 100;
   display: flex;
@@ -182,7 +185,7 @@ const DropdownHeader = styled.div`
   justify-content: space-between;
   padding: 8px 10px;
   border-radius: 10px;
-  background-color: ${theme.colors.muted};
+  background-color: ${adminTheme.paper};
 `
 
 const StoreInfo = styled.div`
@@ -208,7 +211,7 @@ const DropdownItem = styled.button`
   text-align: left;
 
   &:hover {
-    background-color: ${theme.colors.muted};
+    background-color: ${adminTheme.emeraldSoft};
   }
 `
 
@@ -237,8 +240,8 @@ export const Header = ({ storeName = 'My Store', className }: HeaderProps) => {
   const signOutMutation = useSignOut()
   const { data: session } = useGetUserSession()
 
-  const userName = session?.user.name
-  const userEmail = session?.user.email
+  const userName = session?.user.name ?? undefined
+  const userEmail = session?.user.email ?? undefined
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -266,26 +269,24 @@ export const Header = ({ storeName = 'My Store', className }: HeaderProps) => {
     <TopHeader className={className}>
       <HeaderLeft>
         <BrandLogo to="/admin">
-          <LogoIconBox>
-            <Store01Icon size={18} />
-          </LogoIconBox>
-          <Typography
-            variant="title"
-            weight="bold"
-            css={{ fontSize: '1.15rem', letterSpacing: '-0.4px' }}
-          >
-            Teras Sapa
-          </Typography>
+          <Wordmark>
+            TerasSapa<span>.</span>
+          </Wordmark>
         </BrandLogo>
       </HeaderLeft>
 
       <HeaderCenter>
         <SearchCapsule>
           <SearchInput placeholder="Search anything across your store..." />
-          <Badge variant="neutral" size="sm">
+          <Badge variant="neutral" size="sm" style={{ opacity: 0.72 }}>
             CTRL K
           </Badge>
-          <IconButton variant="primary" size="sm" type="button">
+          <IconButton
+            variant="primary"
+            size="sm"
+            type="button"
+            style={{ background: adminTheme.emerald }}
+          >
             <Search01Icon size={14} />
           </IconButton>
         </SearchCapsule>
@@ -298,7 +299,10 @@ export const Header = ({ storeName = 'My Store', className }: HeaderProps) => {
           badge={true}
           title="Notifications"
           aria-label="Notifications"
-          style={{ border: `1px solid ${theme.colors.border}` }}
+          style={{
+            border: '1px solid rgba(255,255,255,.15)',
+            color: adminTheme.white,
+          }}
         >
           <Notification01Icon size={16} />
         </IconButton>
