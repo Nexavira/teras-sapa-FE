@@ -13,8 +13,8 @@ import {
 
 import { Button } from '#/components/ui/primitives/Button'
 import { Typography } from '#/components/ui/primitives/Typography'
+import { theme } from '#/components/ui/theme'
 
-import { adminTheme } from '../adminTheme'
 import { NavItem } from './NavItem'
 import { SectionWrapper } from './SectionWrapper'
 
@@ -27,6 +27,7 @@ const SidebarContainer = styled.aside`
   padding: 18px 12px;
   flex-shrink: 0;
   overflow-y: auto;
+  background-color: ${theme.colors.white};
 
   @media (max-width: 900px) {
     width: 76px;
@@ -69,12 +70,12 @@ const PlanBanner = styled.div`
   display: flex;
   flex-direction: column;
   gap: 6px;
-  color: ${adminTheme.white};
+  color: ${theme.colors.white};
 
   button {
-    border-color: ${adminTheme.emerald};
+    border-color: ${theme.colors.primary.DEFAULT};
     border-radius: 999px;
-    background: ${adminTheme.emerald};
+    background: ${theme.colors.primary.DEFAULT};
   }
 `
 
@@ -182,7 +183,7 @@ export const Sidebar = ({ className }: SidebarProps) => {
 
         <PlanBanner data-plan-copy>
           <PlanTitleRow>
-            <SparklesIcon size={14} color={adminTheme.emerald} />
+            <SparklesIcon size={14} color={theme.colors.primary.DEFAULT} />
             <Typography variant="caption" weight="bold">
               Subscribe for $1
             </Typography>

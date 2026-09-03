@@ -31,6 +31,7 @@ export const theme = {
       LIGHTER: '#C8FAE4',
     },
     background: '#FFFFFF',
+    paper: '#f4f4f5',
 
     gray: {
       '100': '#f4f4f5',
@@ -58,6 +59,10 @@ export const theme = {
     error: '#DB4153',
     success: '#32C9B0',
     muted: '#F4F4F5',
+
+    white: '#FFFFFF',
+    black: '#000000',
+    transparent: 'rgba(255, 255, 255, 0.5)',
   },
   typography: {
     fontFamily:

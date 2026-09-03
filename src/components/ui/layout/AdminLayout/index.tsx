@@ -4,7 +4,6 @@ import styled from '@emotion/styled'
 
 import { theme } from '../../theme'
 import { Header, Sidebar } from './_components'
-import { adminTheme } from './adminTheme'
 
 const LayoutContainer = styled.div`
   display: flex;
@@ -12,9 +11,9 @@ const LayoutContainer = styled.div`
   min-height: 100vh;
   width: 100%;
   overflow: hidden;
-  color: ${adminTheme.ink};
+  color: ${theme.colors.text.primary};
   font-family: var(--font-sans), ${theme.typography.fontFamily};
-  background-color: ${adminTheme.paper};
+  background-color: ${theme.colors.background};
 `
 
 const LayoutBody = styled.div`
@@ -34,7 +33,7 @@ const MainCanvas = styled.main`
       rgba(0, 168, 107, 0.09),
       transparent 28rem
     ),
-    ${adminTheme.paper};
+    ${theme.colors.paper};
 
   @media (max-width: 720px) {
     padding: 24px 16px 40px;

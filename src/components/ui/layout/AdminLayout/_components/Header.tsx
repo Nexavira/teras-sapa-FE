@@ -21,18 +21,15 @@ import { theme } from '#/components/ui/theme'
 import { useGetUserSession } from '#/services/auth/useGetUserSession'
 import { useSignOut } from '#/services/auth/useSignOut'
 
-import { adminTheme } from '../adminTheme'
-
 const TopHeader = styled.header`
   height: 72px;
-  background-color: ${adminTheme.black};
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0 clamp(16px, 2.5vw, 32px);
   flex-shrink: 0;
   z-index: 50;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid ${theme.colors.border};
 
   @media (max-width: 640px) {
     height: 64px;
@@ -51,17 +48,17 @@ const BrandLogo = styled(Link)`
   align-items: center;
   gap: 8px;
   text-decoration: none;
-  color: ${adminTheme.white};
+  color: ${theme.colors.text.primary};
 `
 
 const Wordmark = styled.span`
-  color: ${adminTheme.white};
+  color: ${theme.colors.text.primary};
   font-size: 1.35rem;
   font-weight: 800;
   letter-spacing: -0.07em;
 
   span {
-    color: ${adminTheme.emerald};
+    color: ${theme.colors.primary.DEFAULT};
   }
 `
 
@@ -91,7 +88,7 @@ const SearchCapsule = styled.div`
   }
 
   &:focus-within {
-    border-color: ${adminTheme.emerald};
+    border-color: ${theme.colors.primary.DEFAULT};
     box-shadow: 0 0 0 3px rgba(0, 168, 107, 0.18);
   }
 
@@ -105,12 +102,12 @@ const SearchInput = styled.input`
   background: transparent;
   font-family: inherit;
   font-size: 0.85rem;
-  color: ${adminTheme.white};
+  color: ${theme.colors.text.primary};
   width: 100%;
   outline: none;
 
   &::placeholder {
-    color: rgba(255, 255, 255, 0.48);
+    color: ${theme.colors.text.secondary};
     font-weight: 400;
   }
 `
@@ -126,10 +123,10 @@ const ProfileCapsuleButton = styled.button<{ $isOpen: boolean }>`
   display: flex;
   align-items: center;
   gap: 8px;
-  color: ${adminTheme.white};
-  background-color: rgba(255, 255, 255, 0.07);
+  color: ${theme.colors.text.primary};
+  background-color: ${theme.colors.background};
   border: 1px solid
-    ${({ $isOpen }) => ($isOpen ? adminTheme.emerald : 'rgba(255, 255, 255, 0.15)')};
+    ${({ $isOpen }) => ($isOpen ? theme.colors.primary.DEFAULT : theme.colors.border)};
   padding: 4px 6px 4px 12px;
   border-radius: 28px;
   cursor: pointer;
@@ -139,12 +136,12 @@ const ProfileCapsuleButton = styled.button<{ $isOpen: boolean }>`
 
   &:hover {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12);
-    border-color: rgba(255, 255, 255, 0.3);
+    border-color: ${theme.colors.border};
   }
 `
 
 const ChevronIcon = styled(ArrowDown01Icon)<{ $isOpen: boolean }>`
-  color: rgba(255, 255, 255, 0.55);
+  color: ${theme.colors.text.secondary};
   transition: transform 0.2s ease;
   transform: ${({ $isOpen }) => ($isOpen ? 'rotate(180deg)' : 'rotate(0deg)')};
 `
@@ -159,7 +156,7 @@ const DropdownMenu = styled.div`
   box-shadow:
     0 10px 30px rgba(0, 0, 0, 0.12),
     0 1px 3px rgba(0, 0, 0, 0.06);
-  border: 1px solid ${adminTheme.border};
+  border: 1px solid ${theme.colors.border};
   padding: 8px;
   z-index: 100;
   display: flex;
@@ -185,7 +182,7 @@ const DropdownHeader = styled.div`
   justify-content: space-between;
   padding: 8px 10px;
   border-radius: 10px;
-  background-color: ${adminTheme.paper};
+  background-color: ${theme.colors.background};
 `
 
 const StoreInfo = styled.div`
@@ -211,7 +208,7 @@ const DropdownItem = styled.button`
   text-align: left;
 
   &:hover {
-    background-color: ${adminTheme.emeraldSoft};
+    background-color: ${theme.colors.primary.LIGHTER};
   }
 `
 
@@ -285,7 +282,7 @@ export const Header = ({ storeName = 'My Store', className }: HeaderProps) => {
             variant="primary"
             size="sm"
             type="button"
-            style={{ background: adminTheme.emerald }}
+            style={{ background: theme.colors.primary.DEFAULT }}
           >
             <Search01Icon size={14} />
           </IconButton>
@@ -301,7 +298,7 @@ export const Header = ({ storeName = 'My Store', className }: HeaderProps) => {
           aria-label="Notifications"
           style={{
             border: '1px solid rgba(255,255,255,.15)',
-            color: adminTheme.white,
+            color: theme.colors.text.primary,
           }}
         >
           <Notification01Icon size={16} />

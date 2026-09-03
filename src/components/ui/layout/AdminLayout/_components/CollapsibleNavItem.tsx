@@ -8,8 +8,8 @@ import styled from '@emotion/styled'
 import { ArrowDown01Icon } from 'hugeicons-react'
 
 import { Button } from '#/components/ui/primitives/Button'
+import { theme } from '#/components/ui/theme'
 
-import { adminTheme } from '../adminTheme'
 import { NavLink } from './NavLink'
 
 const Container = styled.div`
@@ -137,8 +137,8 @@ export const CollapsibleNavItem = ({
                 width: '12px',
                 height: index === 0 ? 'calc(50% + 4px)' : '130%',
                 boxSizing: 'border-box',
-                borderLeft: `1px solid ${adminTheme.border}`,
-                borderBottom: `1px solid ${adminTheme.border}`,
+                borderLeft: `1px solid ${theme.colors.border}`,
+                borderBottom: `1px solid ${theme.colors.border}`,
                 borderBottomLeftRadius: '8px',
                 pointerEvents: 'none',
               },

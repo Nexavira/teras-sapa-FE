@@ -11,7 +11,7 @@ import {
 } from 'hugeicons-react'
 
 import { Badge, Button } from '#/components/ui'
-import { adminTheme } from '#/components/ui/layout/AdminLayout/adminTheme'
+import { theme } from '#/components/ui/theme'
 import { useGetUserSession } from '#/services/auth/useGetUserSession'
 
 const Page = styled.div`
@@ -23,7 +23,7 @@ const Page = styled.div`
 `
 
 const Eyebrow = styled.span`
-  color: ${adminTheme.emerald};
+  color: ${theme.colors.primary.DEFAULT};
   font-size: 0.72rem;
   font-weight: 800;
   letter-spacing: 0.15em;
@@ -39,8 +39,8 @@ const Hero = styled.section`
   padding: clamp(28px, 5vw, 56px);
   overflow: hidden;
   border-radius: 24px;
-  background: ${adminTheme.black};
-  color: ${adminTheme.white};
+  background: ${theme.colors.black};
+  color: ${theme.colors.white};
 
   &::after {
     position: absolute;
@@ -49,7 +49,7 @@ const Hero = styled.section`
     width: 420px;
     height: 420px;
     border-radius: 50%;
-    background: ${adminTheme.emerald};
+    background: ${theme.colors.primary.DEFAULT};
     filter: blur(80px);
     opacity: 0.32;
     content: '';
@@ -69,7 +69,7 @@ const HeroContent = styled.div`
 const HeroTitle = styled.h1`
   max-width: 720px;
   margin: 14px 0 18px;
-  color: ${adminTheme.white};
+  color: ${theme.colors.white};
   font-size: clamp(2.35rem, 5vw, 4.75rem);
   font-weight: 800;
   line-height: 0.94;
@@ -77,7 +77,7 @@ const HeroTitle = styled.h1`
   text-transform: uppercase;
 
   span {
-    color: ${adminTheme.emerald};
+    color: ${theme.colors.primary.DEFAULT};
   }
 `
 
@@ -104,15 +104,15 @@ const PrimaryButton = styled(Button)`
   && {
     min-height: 44px;
     padding-inline: 20px;
-    border-color: ${adminTheme.emerald};
+    border-color: ${theme.colors.primary.DEFAULT};
     border-radius: 999px;
-    background: ${adminTheme.emerald};
-    color: ${adminTheme.white};
+    background: ${theme.colors.primary.DEFAULT};
+    color: ${theme.colors.white};
     font-weight: 700;
 
     &:hover:not(:disabled) {
-      border-color: ${adminTheme.emeraldDark};
-      background: ${adminTheme.emeraldDark};
+      border-color: ${theme.colors.primary.DARKER};
+      background: ${theme.colors.primary.DARKER};
       opacity: 1;
     }
   }
@@ -124,7 +124,7 @@ const SecondaryButton = styled(Button)`
     padding-inline: 20px;
     border-color: rgba(255, 255, 255, 0.28);
     border-radius: 999px;
-    color: ${adminTheme.white};
+    color: ${theme.colors.white};
 
     &:hover:not(:disabled) {
       border-color: rgba(255, 255, 255, 0.5);
@@ -143,7 +143,7 @@ const HeroMark = styled.div`
   border: 1px solid rgba(255, 255, 255, 0.14);
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.07);
-  color: ${adminTheme.emerald};
+  color: ${theme.colors.primary.DEFAULT};
 
   @media (max-width: 700px) {
     display: none;
@@ -160,7 +160,7 @@ const SectionHeader = styled.div`
 
 const SectionTitle = styled.h2`
   margin: 6px 0 0;
-  color: ${adminTheme.ink};
+  color: ${theme.colors.black};
   font-size: clamp(1.6rem, 3vw, 2.5rem);
   font-weight: 800;
   line-height: 1;
@@ -183,7 +183,7 @@ const ActionCard = styled.article`
   min-height: 270px;
   flex-direction: column;
   padding: 24px;
-  border: 1px solid ${adminTheme.border};
+  border: 1px solid ${theme.colors.border};
   border-radius: 16px;
   background: rgba(255, 255, 255, 0.86);
   transition:
@@ -211,13 +211,13 @@ const IconBox = styled.div`
   height: 48px;
   place-items: center;
   border-radius: 12px;
-  background: ${adminTheme.ink};
-  color: ${adminTheme.emerald};
+  background: ${theme.colors.black};
+  color: ${theme.colors.primary.DEFAULT};
 `
 
 const CardTitle = styled.h3`
   margin: 24px 0 10px;
-  color: ${adminTheme.ink};
+  color: ${theme.colors.black};
   font-size: 1.15rem;
   font-weight: 800;
   letter-spacing: -0.025em;
@@ -225,7 +225,7 @@ const CardTitle = styled.h3`
 
 const CardCopy = styled.p`
   margin: 0;
-  color: ${adminTheme.muted};
+  color: ${theme.colors.black};
   font-size: 0.86rem;
   line-height: 1.65;
 `
@@ -236,8 +236,8 @@ const CardLink = styled(Link)`
   justify-content: space-between;
   margin-top: auto;
   padding-top: 22px;
-  border-top: 1px solid ${adminTheme.border};
-  color: ${adminTheme.ink};
+  border-top: 1px solid ${theme.colors.border};
+  color: ${theme.colors.black};
   font-size: 0.78rem;
   font-weight: 800;
   letter-spacing: 0.08em;
@@ -245,7 +245,7 @@ const CardLink = styled(Link)`
   text-transform: uppercase;
 
   &:hover {
-    color: ${adminTheme.emeraldDark};
+    color: ${theme.colors.primary.DARKER};
   }
 `
 
@@ -255,9 +255,9 @@ const StatusBar = styled.section`
   justify-content: space-between;
   gap: 24px;
   padding: 22px 24px;
-  border: 1px solid ${adminTheme.border};
+  border: 1px solid ${theme.colors.border};
   border-radius: 16px;
-  background: ${adminTheme.white};
+  background: ${theme.colors.white};
 
   @media (max-width: 680px) {
     align-items: stretch;
@@ -276,7 +276,7 @@ const StatusInfo = styled.div`
   }
   p {
     margin: 0;
-    color: ${adminTheme.muted};
+    color: ${theme.colors.muted};
     font-size: 0.78rem;
     line-height: 1.5;
   }
@@ -289,9 +289,9 @@ const ViewStore = styled.a`
   gap: 8px;
   min-height: 42px;
   padding: 0 18px;
-  border: 1px solid ${adminTheme.ink};
+  border: 1px solid ${theme.colors.black};
   border-radius: 999px;
-  color: ${adminTheme.ink};
+  color: ${theme.colors.black};
   font-size: 0.75rem;
   font-weight: 800;
   text-decoration: none;
@@ -299,8 +299,8 @@ const ViewStore = styled.a`
   transition: all 180ms ease;
 
   &:hover {
-    background: ${adminTheme.ink};
-    color: ${adminTheme.white};
+    background: ${theme.colors.black};
+    color: ${theme.colors.white};
   }
 `
 
@@ -374,9 +374,9 @@ export const AdminIndexPage = () => {
           <Badge
             size="sm"
             style={{
-              borderColor: 'rgba(0,168,107,.25)',
-              background: adminTheme.emeraldSoft,
-              color: adminTheme.emeraldDark,
+              borderColor: theme.colors.border,
+              background: theme.colors.primary.LIGHTER,
+              color: theme.colors.primary.DARKER,
             }}
           >
             Core modules
@@ -395,9 +395,9 @@ export const AdminIndexPage = () => {
                   <Badge
                     size="sm"
                     style={{
-                      borderColor: adminTheme.border,
-                      background: adminTheme.paper,
-                      color: adminTheme.muted,
+                      borderColor: theme.colors.border,
+                      background: theme.colors.paper,
+                      color: theme.colors.muted,
                       textTransform: 'uppercase',
                       letterSpacing: '.06em',
                     }}
@@ -424,8 +424,8 @@ export const AdminIndexPage = () => {
             dot
             style={{
               borderColor: 'rgba(0,168,107,.25)',
-              background: adminTheme.emeraldSoft,
-              color: adminTheme.emeraldDark,
+              background: theme.colors.primary.LIGHTER,
+              color: theme.colors.primary.DARKER,
             }}
           >
             Live
