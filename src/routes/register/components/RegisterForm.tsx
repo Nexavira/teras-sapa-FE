@@ -18,7 +18,7 @@ import {
   initialRegisterFormValues,
   otpSchema,
   registerSchema,
-} from '../_utils/register-schema'
+} from '../_utils/-register-schema'
 
 type RegisterFormValues = {
   fullName: string
