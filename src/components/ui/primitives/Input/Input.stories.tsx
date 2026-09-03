@@ -9,6 +9,12 @@ const meta: Meta<typeof Input> = {
     layout: 'centered',
   },
   tags: ['autodocs'],
+  argTypes: {
+    size: {
+      control: 'select',
+      options: ['sm', 'md', 'lg'],
+    },
+  },
 }
 
 export default meta
@@ -48,5 +54,19 @@ export const Disabled: Story = {
     label: 'Disabled Input',
     disabled: true,
     value: 'Cannot edit this',
+  },
+}
+
+export const Small: Story = {
+  args: {
+    label: 'Small input',
+    size: 'sm',
+  },
+}
+
+export const Large: Story = {
+  args: {
+    label: 'Large input',
+    size: 'lg',
   },
 }

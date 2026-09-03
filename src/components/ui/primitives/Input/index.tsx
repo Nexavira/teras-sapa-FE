@@ -7,11 +7,17 @@ import styled from '@emotion/styled'
 
 import type { Theme } from '../../theme'
 
-export type InputProps = React.ComponentProps<typeof BaseInput> & {
+export type InputSize = 'sm' | 'md' | 'lg'
+
+export type InputProps = Omit<
+  React.ComponentProps<typeof BaseInput>,
+  'size'
+> & {
   label?: string
   error?: string
   helperText?: string
   variant?: 'default' | 'floating'
+  size?: InputSize
   startAdornment?: ReactNode
   endAdornment?: ReactNode
 }
@@ -31,9 +37,20 @@ export const InputWrapper = styled.div`
   width: 100%;
 `
 
-export const Adornment = styled.div<{ $position: 'start' | 'end' }>`
+export const Adornment = styled.div<{
+  $position: 'start' | 'end'
+  $size: InputSize
+}>`
   position: absolute;
-  ${({ $position, theme }) => ($position === 'start' ? `left: ${theme.spacing.md};` : `right: ${theme.spacing.md};`)}
+  ${({ $position, $size, theme }) => {
+    const offset =
+      $size === 'sm'
+        ? theme.spacing.sm
+        : $size === 'lg'
+          ? theme.spacing.lg
+          : theme.spacing.md
+    return $position === 'start' ? `left: ${offset};` : `right: ${offset};`
+  }}
   display: flex;
   align-items: center;
   justify-content: center;
@@ -48,15 +65,39 @@ export const Label = styled.label`
   color: ${({ theme }) => theme.colors.text.primary};
 `
 
-export const FloatingLabel = styled(Label)<{ $hasStartAdornment?: boolean }>`
+export const FloatingLabel = styled(Label)<{
+  $hasStartAdornment?: boolean
+  $size?: InputSize
+}>`
   position: absolute;
-  left: ${({ theme, $hasStartAdornment }) => ($hasStartAdornment ? '44px' : theme.spacing.md)};
+  left: ${({ theme, $hasStartAdornment, $size = 'md' }) => {
+    if ($hasStartAdornment) {
+      return $size === 'sm' ? '32px' : $size === 'lg' ? '64px' : '44px'
+    }
+
+    return $size === 'sm'
+      ? theme.spacing.sm
+      : $size === 'lg'
+        ? theme.spacing.xl
+        : theme.spacing.md
+  }};
   top: 50%;
   transform: translateY(-50%);
   color: ${({ theme }) => theme.colors.text.secondary};
-  font-size: ${({ theme }) => theme.typography.sizes.body};
+  font-size: ${({ theme, $size = 'md' }) =>
+    $size === 'sm'
+      ? theme.typography.sizes.caption
+      : $size === 'lg'
+        ? theme.typography.sizes.title
+        : theme.typography.sizes.body};
   pointer-events: none;
-  transition: all 0.2s ease-in-out;
+  z-index: 1;
+  transition:
+    top 0.2s ease-in-out,
+    left 0.2s ease-in-out,
+    transform 0.2s ease-in-out,
+    color 0.2s ease-in-out,
+    font-size 0.2s ease-in-out;
   margin: 0;
 `
 
@@ -64,14 +105,28 @@ export const inputBaseStyles = ({
   theme,
   hasError,
   $variant,
+  $size = 'md',
 }: {
   theme: Theme
   hasError?: boolean
   $variant?: 'default' | 'floating'
+  $size?: InputSize
 }) => css`
   font-family: ${theme.typography.fontFamily};
-  font-size: ${theme.typography.sizes.body};
-  border-radius: ${theme.radius.md};
+  font-size: ${
+    $size === 'sm'
+      ? theme.typography.sizes.body
+      : $size === 'lg'
+        ? theme.typography.sizes.title
+        : theme.typography.sizes.body
+  };
+  border-radius: ${
+    $size === 'sm'
+      ? theme.radius.sm
+      : $size === 'lg'
+        ? theme.radius.lg
+        : theme.radius.md
+  };
   border: 1px solid ${hasError ? theme.colors.error : theme.colors.border};
   background-color: ${theme.colors.background};
   color: ${theme.colors.text.primary};
@@ -93,30 +148,82 @@ export const inputBaseStyles = ({
   }
 `
 
+const sizes = {
+  sm: '44px',
+  md: '52px',
+  lg: '68px',
+}
+
 export const StyledInput = styled(BaseInput)<{
   hasError?: boolean
   $variant?: 'default' | 'floating'
+  $size: InputSize
   $hasStartAdornment?: boolean
   $hasEndAdornment?: boolean
 }>`
   ${inputBaseStyles}
-  padding: ${({ theme, $variant, $hasStartAdornment, $hasEndAdornment }) => {
-    const pt = $variant === 'floating' ? '25px' : theme.spacing.sm
-    const pb = $variant === 'floating' ? '8px' : theme.spacing.sm
-    const pl = $hasStartAdornment ? '44px' : theme.spacing.md
-    const pr = $hasEndAdornment ? '44px' : theme.spacing.md
-    return `${pt} ${pr} ${pb} ${pl}`
+
+  && {
+    box-sizing: border-box;
+    height: ${({ $size }) => sizes[$size]};
+    min-height: ${({ $size }) => sizes[$size]};
+  }
+
+  padding: ${({
+    theme,
+    $variant,
+    $size,
+    $hasStartAdornment,
+    $hasEndAdornment,
+  }) => {
+    const verticalPadding =
+      $size === 'sm'
+        ? theme.spacing.xs
+        : $size === 'lg'
+          ? theme.spacing.md
+          : theme.spacing.sm
+    const horizontalPadding =
+      $size === 'sm'
+        ? theme.spacing.sm
+        : $size === 'lg'
+          ? theme.spacing.xl
+          : theme.spacing.md
+    const adornmentPadding =
+      $size === 'sm' ? '32px' : $size === 'lg' ? '64px' : '44px'
+    const pl = $hasStartAdornment ? adornmentPadding : horizontalPadding
+    const pr = $hasEndAdornment ? adornmentPadding : horizontalPadding
+    return `${verticalPadding} ${pr} ${verticalPadding} ${pl}`
   }};
 
-  /* Floating Label Styles */
-  &:focus-visible
-    ~ ${FloatingLabel},
-    &:not(:placeholder-shown)
-    ~ ${FloatingLabel} {
-    top: 8px;
-    transform: translateY(0);
-    font-size: ${({ theme }) => theme.typography.sizes.caption};
+  /* Material-style outlined label: lift it into a notch in the border. */
+  &:focus-visible ~ [data-floating-label],
+  &:not(:placeholder-shown) ~ [data-floating-label] {
+    top: 0;
+    left: ${({ theme, $size }) =>
+      $size === 'sm'
+        ? theme.spacing.sm
+        : $size === 'lg'
+          ? theme.spacing.xl
+          : theme.spacing.md};
+    transform: translateY(-50%);
+    padding: 0 4px;
+    background-color: ${({ theme }) => theme.colors.background};
+    font-size: ${({ theme, $size }) =>
+      $size === 'sm'
+        ? '10px'
+        : $size === 'lg'
+          ? theme.typography.sizes.body
+          : theme.typography.sizes.caption};
     color: ${({ theme, hasError }) => (hasError ? theme.colors.error : theme.colors.text.primary)};
+  }
+
+  &:focus-visible ~ [data-floating-label] {
+    color: ${({ theme, hasError }) =>
+      hasError ? theme.colors.error : theme.colors.secondary.DEFAULT};
+  }
+
+  &:disabled ~ [data-floating-label] {
+    background-color: ${({ theme }) => theme.colors.muted};
   }
 `
 
@@ -135,6 +242,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
       className,
       id,
       variant = 'floating',
+      size = 'md',
       startAdornment,
       endAdornment,
       ...props
@@ -155,13 +263,16 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
         )}
         <InputWrapper>
           {startAdornment && (
-            <Adornment $position="start">{startAdornment}</Adornment>
+            <Adornment $position="start" $size={size}>
+              {startAdornment}
+            </Adornment>
           )}
           <StyledInput
             ref={ref}
             id={inputId}
             hasError={!!error}
             $variant={variant}
+            $size={size}
             $hasStartAdornment={!!startAdornment}
             $hasEndAdornment={!!endAdornment}
             {...props}
@@ -169,14 +280,18 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
           />
           {variant === 'floating' && label && (
             <FloatingLabel
+              data-floating-label
               htmlFor={inputId}
               $hasStartAdornment={!!startAdornment}
+              $size={size}
             >
               {label}
             </FloatingLabel>
           )}
           {endAdornment && (
-            <Adornment $position="end">{endAdornment}</Adornment>
+            <Adornment $position="end" $size={size}>
+              {endAdornment}
+            </Adornment>
           )}
         </InputWrapper>
         {(error || helperText) && (

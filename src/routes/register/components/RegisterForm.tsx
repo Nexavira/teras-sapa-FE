@@ -1,8 +1,9 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 
 import { Link } from '@tanstack/react-router'
 
 import styled from '@emotion/styled'
+import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 
 import { TextInput } from '#/components/ui/form/text-input'
@@ -11,6 +12,13 @@ import {
   useRegisterUser,
   useVerifyRegistrationOtp,
 } from '#/services/auth/useRegisterUser'
+
+import {
+  initialOtpFormValues,
+  initialRegisterFormValues,
+  otpSchema,
+  registerSchema,
+} from '../_utils/register-schema'
 
 type RegisterFormValues = {
   fullName: string
@@ -72,9 +80,14 @@ const FormFooter = styled.p`
   text-align: center;
 
   a {
-    color: ${({ theme }) => theme.colors.secondary.DARKER};
+    color: ${({ theme }) => theme.colors.primary.DEFAULT};
     font-weight: 700;
     text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
   }
 `
 
@@ -117,16 +130,12 @@ export const RegisterForm = () => {
   const verifyOtpMutation = useVerifyRegistrationOtp()
 
   const registerForm = useForm<RegisterFormValues>({
-    defaultValues: {
-      fullName: '',
-      phoneNumber: '',
-      email: '',
-      password: '',
-      confirmPassword: '',
-    },
+    defaultValues: initialRegisterFormValues,
+    resolver: zodResolver(registerSchema),
   })
   const otpForm = useForm<OtpFormValues>({
-    defaultValues: { otpCode: '' },
+    defaultValues: initialOtpFormValues,
+    resolver: zodResolver(otpSchema),
   })
 
   const submitRegistration = async (values: RegisterFormValues) => {
@@ -176,6 +185,7 @@ export const RegisterForm = () => {
       await verifyOtpMutation.mutateAsync({
         email: registeredEmail,
         otp_code: otpCode,
+        type: 'register',
       })
       setStep('success')
     } catch (error: unknown) {
@@ -204,7 +214,7 @@ export const RegisterForm = () => {
 
   if (step === 'success') {
     return (
-      <Form as="div">
+      <Form as="div" data-auth-form>
         <Alert $type="success">
           Akun berhasil diverifikasi. Kamu sekarang dapat masuk menggunakan
           email dan kata sandi yang didaftarkan.
@@ -212,6 +222,7 @@ export const RegisterForm = () => {
         <Button
           render={<Link to="/login" />}
           size="lg"
+          data-primary-auth-action
           style={{ width: '100%' }}
         >
           Lanjut ke halaman masuk
@@ -222,7 +233,7 @@ export const RegisterForm = () => {
 
   if (step === 'otp') {
     return (
-      <Form onSubmit={otpForm.handleSubmit(submitOtp)}>
+      <Form data-auth-form onSubmit={otpForm.handleSubmit(submitOtp)}>
         <OtpIntro>
           Masukkan kode 6 angka yang dikirim ke{' '}
           <strong>{registeredEmail}</strong>. Kode berlaku selama 10 menit.
@@ -262,7 +273,10 @@ export const RegisterForm = () => {
   }
 
   return (
-    <Form onSubmit={registerForm.handleSubmit(submitRegistration)}>
+    <Form
+      data-auth-form
+      onSubmit={registerForm.handleSubmit(submitRegistration)}
+    >
       {formError && <Alert>{formError}</Alert>}
 
       <FieldGrid>
@@ -274,6 +288,7 @@ export const RegisterForm = () => {
           autoComplete="name"
           placeholder="Nama lengkap"
           required
+          size="sm"
         />
 
         <TextInput
@@ -284,6 +299,7 @@ export const RegisterForm = () => {
           autoComplete="tel"
           placeholder="08xxxxxxxxxx"
           required
+          size="sm"
         />
       </FieldGrid>
 
@@ -295,6 +311,7 @@ export const RegisterForm = () => {
         autoComplete="email"
         placeholder="nama@email.com"
         required
+        size="sm"
       />
 
       <FieldGrid>
@@ -306,6 +323,7 @@ export const RegisterForm = () => {
           autoComplete="new-password"
           placeholder="Minimal 8 karakter"
           required
+          size="sm"
         />
 
         <TextInput
@@ -316,12 +334,13 @@ export const RegisterForm = () => {
           autoComplete="new-password"
           placeholder="Ulangi kata sandi"
           required
+          size="sm"
         />
       </FieldGrid>
 
       <Button
         type="submit"
-        size="lg"
+        size="sm"
         isLoading={registerMutation.isPending}
         style={{ marginTop: '0.25rem', width: '100%' }}
       >

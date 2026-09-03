@@ -35,6 +35,7 @@ export const useRegisterUser = () => {
 type VerifyOtpParams = {
   email: string
   otp_code: string
+  type: string
 }
 
 type VerifyOtpResponse = {

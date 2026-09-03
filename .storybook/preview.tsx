@@ -1,14 +1,19 @@
 import type { Preview } from '@storybook/tanstack-react'
 import '../src/styles.css'
 import MockDate from 'mockdate'
-import { initialize, mswLoader } from 'msw-storybook-addon'
+import { setupWorker } from 'msw/browser'
+import { mswLoader } from 'msw-storybook-addon/csf3'
 import { mswHandlers } from './msw-handlers'
 import { ThemeProvider } from '../src/components/ui/ThemeProvider'
 
-initialize({ onUnhandledRequest: 'bypass' })
-
 const preview: Preview = {
-  loaders: [mswLoader],
+  loaders: [
+    mswLoader(async () => {
+      const worker = setupWorker()
+      await worker.start({ onUnhandledRequest: 'bypass' })
+      return worker
+    }),
+  ],
   decorators: [
     (Story) => (
       <ThemeProvider>

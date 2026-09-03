@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 
+import { Link } from '@tanstack/react-router'
+
 import styled from '@emotion/styled'
 import { ArrowUpRight01Icon, Cancel01Icon, Menu02Icon } from 'hugeicons-react'
 
@@ -232,7 +234,7 @@ const PanelFooter = styled.div`
   }
 `
 
-const RegisterLink = styled.a`
+const RegisterLink = styled(Link)`
   display: inline-flex;
   align-items: center;
   gap: 8px;
@@ -358,7 +360,7 @@ export const FloatingMenu = () => {
 
           <PanelFooter>
             <p>Konten & commerce tanpa batas.</p>
-            <RegisterLink href="/register" tabIndex={isOpen ? 0 : -1}>
+            <RegisterLink to="/register" tabIndex={isOpen ? 0 : -1}>
               Coba gratis <ArrowUpRight01Icon size={15} strokeWidth={1.8} />
             </RegisterLink>
           </PanelFooter>

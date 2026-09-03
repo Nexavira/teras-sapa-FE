@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 
 import { Link, useRouter } from '@tanstack/react-router'
 
@@ -37,9 +37,14 @@ const FormFooter = styled.p`
   text-align: center;
 
   a {
-    color: ${({ theme }) => theme.colors.secondary.DARKER};
+    color: ${({ theme }) => theme.colors.primary.DEFAULT};
     font-weight: 700;
     text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
   }
 `
 
@@ -77,7 +82,7 @@ export const LoginForm = () => {
   }
 
   return (
-    <Form onSubmit={handleSubmit(onSubmit)}>
+    <Form data-auth-form onSubmit={handleSubmit(onSubmit)}>
       {formError && <ErrorMessage>{formError}</ErrorMessage>}
 
       <TextInput
@@ -88,6 +93,7 @@ export const LoginForm = () => {
         autoComplete="email"
         placeholder="nama@email.com"
         required
+        size="sm"
       />
 
       <TextInput
@@ -98,6 +104,7 @@ export const LoginForm = () => {
         autoComplete="current-password"
         placeholder="Masukkan kata sandi"
         required
+        size="sm"
       />
 
       <Button

@@ -90,8 +90,8 @@ export const theme = {
     full: '9999px',
   },
   spacing: {
-    xs: '4px',
-    sm: '8px',
+    xs: '6px',
+    sm: '10px',
     md: '16px',
     lg: '24px',
     xl: '32px',
