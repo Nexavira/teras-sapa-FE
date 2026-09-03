@@ -10,8 +10,8 @@ import {
   Store01Icon,
 } from 'hugeicons-react'
 
-import { Badge, Button } from '#/components/ui'
-import { theme } from '#/components/ui/theme'
+import { Badge, Button } from '#/-components/ui'
+import { theme } from '#/-components/ui/theme'
 import { useGetUserSession } from '#/services/auth/useGetUserSession'
 
 const Page = styled.div`
@@ -333,7 +333,7 @@ const quickActions = [
 
 export const AdminIndexPage = () => {
   const { data: session } = useGetUserSession()
-  const userName = session?.user.name ?? 'there'
+  const userName = session?.user?.name ?? 'there'
 
   return (
     <Page>

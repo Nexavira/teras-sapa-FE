@@ -1,7 +1,7 @@
 import { createFileRoute, redirect } from '@tanstack/react-router'
 
-import { AuthLayout } from '#/components/auth/AuthLayout'
-import { LoginForm } from '#/routes/login/components/LoginForm'
+import { AuthLayout } from '#/-components/auth/AuthLayout'
+import { LoginForm } from '#/routes/login/-components/LoginForm'
 import { hasAuthToken } from '#/services/auth/authStorage'
 
 const LoginPage = () => {

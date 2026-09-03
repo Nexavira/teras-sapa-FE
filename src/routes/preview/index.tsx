@@ -2,7 +2,7 @@ import { createFileRoute } from '@tanstack/react-router'
 
 import { z } from 'zod'
 
-import { PageRenderer } from './components/PageRenderer'
+import { PageRenderer } from './-components/PageRenderer'
 
 const previewSearchSchema = z.object({
   mode: z.enum(['editor', 'preview']).optional().catch('preview'),

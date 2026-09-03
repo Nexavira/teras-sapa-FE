@@ -1,6 +1,6 @@
 import '@emotion/react'
 
-import type { Theme as CustomTheme } from './components/ui/theme'
+import type { Theme as CustomTheme } from './-components/ui/theme'
 
 declare module '@emotion/react' {
   export interface Theme extends CustomTheme {}
