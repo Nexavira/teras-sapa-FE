@@ -1,5 +1,3 @@
-import React from 'react'
-
 import { Settings02Icon } from 'hugeicons-react'
 
 import { editorActions, useEditorSelectedItem } from '#/store/editorStore'
@@ -22,7 +20,7 @@ export const SettingsList = () => {
               selectedItem?.type === 'global_settings_category' &&
               selectedItem.category === cat.name
             }
-            icon={<Settings02Icon size={15} />}
+            icon={<Settings02Icon size={16} />}
             onClick={() =>
               editorActions.selectItem({
                 type: 'global_settings_category',

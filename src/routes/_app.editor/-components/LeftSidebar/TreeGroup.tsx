@@ -1,33 +1,21 @@
 import type { ReactNode } from 'react'
 
-import styled from '@emotion/styled'
-
-const TreeGroupContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-`
-
-const TreeGroupHeader = styled.div`
-  font-size: 11px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: #717171;
-  padding: 6px 10px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-`
+import { SectionWrapper } from '#/-components/ui/layout/AdminLayout/-components/SectionWrapper'
 
 export interface TreeGroupProps {
   title: string
   children: ReactNode
+  defaultOpen?: boolean
+  className?: string
 }
 
-export const TreeGroup = ({ title, children }: TreeGroupProps) => (
-  <TreeGroupContainer>
-    <TreeGroupHeader>{title}</TreeGroupHeader>
+export const TreeGroup = ({
+  title,
+  children,
+  defaultOpen = true,
+  className,
+}: TreeGroupProps) => (
+  <SectionWrapper label={title} defaultOpen={defaultOpen} className={className}>
     {children}
-  </TreeGroupContainer>
+  </SectionWrapper>
 )

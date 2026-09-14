@@ -6,6 +6,7 @@ import { PlusSignIcon } from 'hugeicons-react'
 import { reorderItems } from '#/lib/editor/blockTree'
 import { editorActions } from '#/store/editorStore'
 
+import { editorSensors } from './editorDnd'
 import { AddBlockButton, NestedBlockList } from './sectionTreeStyles'
 import { SortableBlockEntry } from './SortableBlockEntry'
 import { BlockRegistry } from '#themes/registry'
@@ -47,7 +48,7 @@ export const BlockList = ({
 
   return (
     <NestedBlockList>
-      <DragDropProvider onDragEnd={handleDragEnd}>
+      <DragDropProvider onDragEnd={handleDragEnd} sensors={editorSensors}>
         {blockOrder.map((blockId, index) => {
           const block = blocks[blockId]
           const blockSchema =

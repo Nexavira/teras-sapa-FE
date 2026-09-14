@@ -10,6 +10,7 @@ import { editorActions, useEditorTemplate } from '#/store/editorStore'
 
 import { AddBlockModal } from './AddBlockModal'
 import { AddSectionModal } from './AddSectionModal'
+import { editorSensors } from './editorDnd'
 import type { SectionEntryProps } from './SectionEntry'
 import { SectionEntry } from './SectionEntry'
 import { AddSectionButton } from './sectionTreeStyles'
@@ -103,7 +104,7 @@ export const SectionTree = () => {
   return (
     <>
       <TreeGroup title="Header group">
-        <DragDropProvider>
+        <DragDropProvider sensors={editorSensors}>
           {headerSectionIds.map((sectionId, index) =>
             renderEntry(sectionId, index, {
               canRemove: false,
@@ -114,7 +115,10 @@ export const SectionTree = () => {
       </TreeGroup>
 
       <TreeGroup title="Template sections">
-        <DragDropProvider onDragEnd={handleSectionDragEnd}>
+        <DragDropProvider
+          onDragEnd={handleSectionDragEnd}
+          sensors={editorSensors}
+        >
           {bodySectionIds.map((sectionId, index) =>
             renderEntry(sectionId, index, {
               canRemove: true,
@@ -136,7 +140,7 @@ export const SectionTree = () => {
       </TreeGroup>
 
       <TreeGroup title="Footer group">
-        <DragDropProvider>
+        <DragDropProvider sensors={editorSensors}>
           {footerSectionIds.map((sectionId, index) =>
             renderEntry(sectionId, index, {
               canRemove: false,

@@ -8,9 +8,11 @@ import {
   CheckmarkCircle02Icon,
   ComputerIcon,
   EyeIcon,
+  GridIcon,
   Layers01Icon,
   LogoutSquare02Icon,
   RedoIcon,
+  Settings02Icon,
   SmartPhone01Icon,
   SparklesIcon,
   UndoIcon,
@@ -26,6 +28,7 @@ import {
 } from '#/-components/ui'
 import {
   editorActions,
+  useEditorActiveTab,
   useEditorCanUndoRedo,
   useEditorViewport,
 } from '#/store/editorStore'
@@ -48,6 +51,16 @@ const HeaderLeft = styled.div`
   align-items: center;
   gap: 12px;
   min-width: 240px;
+`
+
+const TabSwitcher = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  background-color: ${theme.colors.muted};
+  border-radius: ${theme.radius.md};
+  padding: 2px;
+  border: 1px solid ${theme.colors.border};
 `
 
 const HeaderCenter = styled.div`
@@ -100,6 +113,7 @@ export const EditorHeader: React.FC<EditorHeaderProps> = ({
   previewUrl = '/',
   className,
 }) => {
+  const activeTab = useEditorActiveTab()
   const viewport = useEditorViewport()
   const { canUndo, canRedo, isSaving, lastSavedAt } = useEditorCanUndoRedo()
 
@@ -112,6 +126,38 @@ export const EditorHeader: React.FC<EditorHeaderProps> = ({
           </IconButton>
         </Link>
         <Divider orientation="vertical" />
+        <TabSwitcher>
+          <Button
+            size="sm"
+            variant={activeTab === 'sections' ? 'ghost' : 'text'}
+            color={activeTab === 'sections' ? 'primary' : 'neutral'}
+            data-active={activeTab === 'sections'}
+            onClick={() => editorActions.setActiveTab('sections')}
+            startIcon={<GridIcon size={15} />}
+            css={{
+              height: '28px',
+              padding: '0 10px',
+              fontSize: '0.8125rem',
+            }}
+          >
+            Sections
+          </Button>
+          <Button
+            size="sm"
+            variant={activeTab === 'settings' ? 'ghost' : 'text'}
+            color={activeTab === 'settings' ? 'primary' : 'neutral'}
+            data-active={activeTab === 'settings'}
+            onClick={() => editorActions.setActiveTab('settings')}
+            startIcon={<Settings02Icon size={15} />}
+            css={{
+              height: '28px',
+              padding: '0 10px',
+              fontSize: '0.8125rem',
+            }}
+          >
+            Theme Settings
+          </Button>
+        </TabSwitcher>
       </HeaderLeft>
 
       <HeaderCenter>
