@@ -3,16 +3,15 @@ import { useState } from 'react'
 import { Link, useRouter } from '@tanstack/react-router'
 
 import styled from '@emotion/styled'
+import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 
 import { TextInput } from '#/-components/ui/form/text-input'
 import { Button } from '#/-components/ui/primitives/Button'
 import { useLoginUser } from '#/services/auth/useLoginUser'
 
-type LoginFormValues = {
-  email: string
-  password: string
-}
+import type { LoginFormType } from '../-utils/-login-schema'
+import { initialLoginFormType, loginSchema } from '../-utils/-login-schema'
 
 const Form = styled.form`
   display: flex;
@@ -54,20 +53,13 @@ export const LoginForm = () => {
   const router = useRouter()
   const loginMutation = useLoginUser()
 
-  const { control, handleSubmit } = useForm<LoginFormValues>({
-    defaultValues: {
-      email: '',
-      password: '',
-    },
+  const { control, handleSubmit } = useForm<LoginFormType>({
+    defaultValues: initialLoginFormValues,
+    resolver: zodResolver(loginSchema),
   })
 
-  const onSubmit = async (values: LoginFormValues) => {
+  const onSubmit = async (values: LoginFormType) => {
     setFormError('')
-
-    if (!values.email || !values.password) {
-      setFormError('Masukkan email dan kata sandi.')
-      return
-    }
 
     try {
       await loginMutation.mutateAsync(values)

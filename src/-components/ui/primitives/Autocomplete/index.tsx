@@ -4,6 +4,7 @@ import { Autocomplete as BaseAutocomplete } from '@base-ui/react'
 import styled from '@emotion/styled'
 import { ArrowDown01Icon } from 'hugeicons-react'
 
+import type { InputProps } from '../Input'
 import { Input } from '../Input'
 
 export type AutocompleteOption = {
@@ -12,7 +13,7 @@ export type AutocompleteOption = {
   disabled?: boolean
 }
 
-export type AutocompleteProps = {
+export type AutocompleteProps = InputProps & {
   options: AutocompleteOption[]
   label?: string
   error?: string
@@ -27,10 +28,15 @@ export type AutocompleteProps = {
   defaultValue?: string
   onValueChange?: (value: string) => void
   disabled?: boolean
+  isLoading?: boolean
 }
 
-const StyledPopup = styled(BaseAutocomplete.Popup)`
+const StyledPositioner = styled(BaseAutocomplete.Positioner)`
+  /* Keep the entire popup stacking context above modal overlays. */
   z-index: 1000;
+`
+
+const StyledPopup = styled(BaseAutocomplete.Popup)`
   margin-top: ${({ theme }) => theme.spacing.xs};
   background-color: ${({ theme }) => theme.colors.background};
   border: 1px solid ${({ theme }) => theme.colors.border};
@@ -75,8 +81,13 @@ const StyledItem = styled(BaseAutocomplete.Item)`
   }
 `
 
-const AutocompleteList = () => {
-  const filteredOptions = BaseAutocomplete.useFilteredItems()
+const AutocompleteList = ({ isLoading }: { isLoading: boolean }) => {
+  const filteredOptions: AutocompleteOption[] =
+    BaseAutocomplete.useFilteredItems()
+
+  if (isLoading) {
+    return <StyledEmpty role="status">Loading options...</StyledEmpty>
+  }
 
   if (filteredOptions.length === 0) {
     return <StyledEmpty>No results found</StyledEmpty>
@@ -110,10 +121,17 @@ export const Autocomplete = React.forwardRef<
       value,
       defaultValue,
       onValueChange,
+      isLoading = false,
       ...props
     },
     ref,
   ) => {
+    const [open, setOpen] = React.useState(false)
+    const [internalValue, setInternalValue] = React.useState(defaultValue ?? '')
+    const selectedValue = value ?? internalValue
+    const displayValue =
+      options.find((option) => option.value === selectedValue)?.label ??
+      selectedValue
     const inputId =
       id ||
       (label
@@ -122,15 +140,23 @@ export const Autocomplete = React.forwardRef<
 
     return (
       <BaseAutocomplete.Root
-        items={options}
-        value={value}
-        defaultValue={defaultValue}
-        onValueChange={(val) => onValueChange?.(val)}
+        items={isLoading ? [] : options}
+        open={open && !props.disabled}
+        onOpenChange={setOpen}
+        openOnInputClick
+        value={displayValue}
+        onValueChange={(val) => {
+          setInternalValue(val)
+          onValueChange?.(val)
+        }}
       >
         <BaseAutocomplete.Input
+          onFocus={() => {
+            if (!props.disabled) setOpen(true)
+          }}
+          aria-busy={isLoading}
           render={
             <Input
-              value={value}
               endAdornment={endAdornment || <ArrowDown01Icon size={20} />}
               ref={ref}
               id={inputId}
@@ -141,11 +167,11 @@ export const Autocomplete = React.forwardRef<
         />
 
         <BaseAutocomplete.Portal>
-          <BaseAutocomplete.Positioner>
+          <StyledPositioner>
             <StyledPopup>
-              <AutocompleteList />
+              <AutocompleteList isLoading={isLoading} />
             </StyledPopup>
-          </BaseAutocomplete.Positioner>
+          </StyledPositioner>
         </BaseAutocomplete.Portal>
       </BaseAutocomplete.Root>
     )

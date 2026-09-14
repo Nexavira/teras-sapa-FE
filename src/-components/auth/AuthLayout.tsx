@@ -6,15 +6,7 @@ import { keyframes } from '@emotion/react'
 import styled from '@emotion/styled'
 import { ArrowUpRight01Icon, Tick02Icon } from 'hugeicons-react'
 
-const colors = {
-  emerald: '#00a86b',
-  emeraldDark: '#008655',
-  ink: '#111111',
-  paper: '#f4f3ed',
-  white: '#ffffff',
-  line: '#d9d8d0',
-  muted: '#6b6b66',
-}
+import { authColors as colors } from './auth-styles'
 
 const riseIn = keyframes`
   from {
@@ -387,7 +379,7 @@ export const AuthLayout = ({ children, title, subtitle }: AuthLayoutProps) => {
           <Showcase aria-hidden="true">
             <ProductFrame>
               <img src="/images/dawn/product-grid.webp" alt="" />
-              <FrameLabel>Your store / your story</FrameLabel>
+              <FrameLabel>Website kamu / cerita kamu</FrameLabel>
             </ProductFrame>
             <MetricCard>
               <small>Creative freedom</small>

@@ -2,13 +2,13 @@ import { createFileRoute } from '@tanstack/react-router'
 
 import { AuthLayout } from '#/-components/auth/AuthLayout'
 
-import { RegisterForm } from './-components/RegisterForm'
+import { RegisterForm } from './-schema/RegisterForm'
 
 const RegisterPage = () => {
   return (
     <AuthLayout
-      title="Mulai bangun bisnismu"
-      subtitle="Buat akun gratis dan siapkan etalase digital pertamamu."
+      title="Mulai wujudkan idemu"
+      subtitle="Buat akun gratis dan mulai website untuk perusahaan, blog, atau usaha kamu."
     >
       <RegisterForm />
     </AuthLayout>

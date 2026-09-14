@@ -1,13 +1,9 @@
 import { useMutation } from '@tanstack/react-query'
 
+import type { LoginFormType } from '#/routes/login/-utils/-login-schema'
 import type { AuthUser } from '#/services/auth/authStorage'
 import { saveAuthSession } from '#/services/auth/authStorage'
 import { fetchHelper } from '#/utils/fetchHelper'
-
-type LoginParams = {
-  email: string
-  password: string
-}
 
 type LoginResponse = {
   success: boolean
@@ -20,8 +16,8 @@ type LoginResponse = {
 
 export const useLoginUser = () => {
   return useMutation({
-    mutationFn: async (params: LoginParams) => {
-      const response = await fetchHelper<LoginResponse, LoginParams>(
+    mutationFn: async (params: LoginFormType) => {
+      const response = await fetchHelper<LoginResponse, LoginFormType>(
         '/api/v1/portal/auth/do-login',
         {
           method: 'POST',

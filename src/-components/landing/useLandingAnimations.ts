@@ -30,35 +30,6 @@ export function useLandingAnimations(rootRef: RefObject<HTMLElement | null>) {
     gsap.ticker.add(updateLenis)
     gsap.ticker.lagSmoothing(0)
 
-    const cursor = root.querySelector<HTMLElement>('[data-cursor]')
-    const hoverTargets = Array.from(
-      root.querySelectorAll<HTMLElement>('a, button, [data-hover-target]'),
-    )
-
-    const handlePointerMove = (event: PointerEvent) => {
-      if (!cursor) return
-      gsap.to(cursor, {
-        x: event.clientX,
-        y: event.clientY,
-        duration: 0.12,
-        ease: 'power2.out',
-        overwrite: 'auto',
-      })
-    }
-
-    const handlePointerEnter = () => {
-      if (cursor) gsap.to(cursor, { scale: 4, duration: 0.25 })
-    }
-    const handlePointerLeave = () => {
-      if (cursor) gsap.to(cursor, { scale: 1, duration: 0.25 })
-    }
-
-    window.addEventListener('pointermove', handlePointerMove)
-    hoverTargets.forEach((target) => {
-      target.addEventListener('pointerenter', handlePointerEnter)
-      target.addEventListener('pointerleave', handlePointerLeave)
-    })
-
     const context = gsap.context(() => {
       if (prefersReducedMotion) {
         gsap.set('[data-reveal], [data-reveal-item]', {
@@ -197,11 +168,6 @@ export function useLandingAnimations(rootRef: RefObject<HTMLElement | null>) {
     ScrollTrigger.refresh()
 
     return () => {
-      window.removeEventListener('pointermove', handlePointerMove)
-      hoverTargets.forEach((target) => {
-        target.removeEventListener('pointerenter', handlePointerEnter)
-        target.removeEventListener('pointerleave', handlePointerLeave)
-      })
       context.revert()
       lenis.off('scroll', updateScrollTrigger)
       lenis.destroy()

@@ -1,4 +1,6 @@
+import { getFeaturedCollectionPresets } from './featuredCollectionBlocks'
 import { ButtonBlockSchema } from '#themes/blocks/button/ButtonBlock.schema'
+import { FeaturedProductBlockSchema } from '#themes/blocks/featured-product/FeaturedProductBlock.schema'
 import { FlexBlockSchema } from '#themes/blocks/flex/FlexBlock.schema'
 import { HeadingBlockSchema } from '#themes/blocks/heading/HeadingBlock.schema'
 import { TextBlockSchema } from '#themes/blocks/text/TextBlock.schema'
@@ -14,22 +16,9 @@ export const FeaturedCollectionSchema: SectionSchema = {
   class: 'section-featured-collection',
   settings: [
     {
-      type: 'text',
-      id: 'title',
-      label: 'Section Heading',
-      default: 'Featured Collection',
-    },
-    {
-      type: 'textarea',
-      id: 'description',
-      label: 'Section Subtitle',
-      default:
-        'Explore our handpicked curation of bestsellers and essential pieces.',
-    },
-    {
       type: 'range',
       id: 'products_to_show',
-      label: 'Products to Show',
+      label: 'Products to show',
       min: 2,
       max: 8,
       step: 1,
@@ -39,7 +28,6 @@ export const FeaturedCollectionSchema: SectionSchema = {
       type: 'image_picker',
       id: 'product_image_sheet',
       label: 'Product image sheet',
-      info: 'A square 2 × 2 contact sheet for the first four products.',
       default: '/images/dawn/product-grid.webp',
     },
     {
@@ -54,25 +42,13 @@ export const FeaturedCollectionSchema: SectionSchema = {
       ],
     },
     {
-      type: 'checkbox',
-      id: 'show_view_all',
-      label: 'Show "View All" button',
-      default: true,
-    },
-    {
-      type: 'checkbox',
-      id: 'show_quick_add',
-      label: 'Show quick add',
-      default: true,
-    },
-    {
       type: 'color_scheme',
       id: 'color_scheme',
       label: 'Color scheme',
       default: 'scheme-1',
     },
     {
-      type: 'range',
+      type: 'number',
       id: 'padding_top',
       label: 'Top Padding',
       min: 0,
@@ -82,7 +58,7 @@ export const FeaturedCollectionSchema: SectionSchema = {
       default: 48,
     },
     {
-      type: 'range',
+      type: 'number',
       id: 'padding_bottom',
       label: 'Bottom Padding',
       min: 0,
@@ -93,24 +69,20 @@ export const FeaturedCollectionSchema: SectionSchema = {
     },
   ],
   blocks: [
+    FeaturedProductBlockSchema,
     HeadingBlockSchema,
     TextBlockSchema,
     ButtonBlockSchema,
     FlexBlockSchema,
   ],
-  max_blocks: 8,
+  max_blocks: 20,
   presets: [
     {
       name: 'Default Featured Collection',
+      blocks: getFeaturedCollectionPresets(),
       settings: {
-        title: 'Featured Collection',
-        description:
-          'Explore our handpicked curation of bestsellers and essential pieces.',
-        products_to_show: 4,
-        product_image_sheet: '/images/dawn/product-grid.webp',
+        content_blocks_version: 3,
         columns_desktop: '4',
-        show_view_all: true,
-        show_quick_add: true,
         color_scheme: 'scheme-1',
         padding_top: 48,
         padding_bottom: 48,

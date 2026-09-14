@@ -66,7 +66,7 @@ const StyledTypography = styled.span<TypographyProps>`
 `
 
 export const Typography = ({
-  as = 'span',
+  as = 'p',
   variant = 'body',
   color = 'primary',
   weight = 'regular',

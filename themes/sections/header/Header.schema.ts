@@ -75,7 +75,7 @@ export const HeaderSchema: SectionSchema = {
       default: true,
     },
     {
-      type: 'range',
+      type: 'number',
       id: 'padding_top',
       label: 'Top padding',
       min: 0,
@@ -85,7 +85,7 @@ export const HeaderSchema: SectionSchema = {
       default: 20,
     },
     {
-      type: 'range',
+      type: 'number',
       id: 'padding_bottom',
       label: 'Bottom padding',
       min: 0,

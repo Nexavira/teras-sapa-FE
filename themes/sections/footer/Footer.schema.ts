@@ -87,7 +87,7 @@ export const FooterSchema: SectionSchema = {
       default: '© 2026 Teras Sapa. All rights reserved.',
     },
     {
-      type: 'range',
+      type: 'number',
       id: 'padding_top',
       label: 'Top padding',
       min: 32,
@@ -97,7 +97,7 @@ export const FooterSchema: SectionSchema = {
       default: 72,
     },
     {
-      type: 'range',
+      type: 'number',
       id: 'padding_bottom',
       label: 'Bottom padding',
       min: 16,

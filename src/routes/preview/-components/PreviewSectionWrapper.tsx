@@ -1,7 +1,12 @@
-import React from 'react'
+import React, { useRef } from 'react'
 
-import styled from '@emotion/styled'
 import { Layers01Icon } from 'hugeicons-react'
+
+import {
+  EditorSurface as StyledEditorSectionBox,
+  EditorSurfaceBadge as SectionBadge,
+} from '#/-components/editor/EditorSurface'
+import type { ItemHoveredMessage } from '#/lib/editor/previewBridge'
 
 import type { SpacingValue } from '#themes/types/theme'
 
@@ -14,62 +19,8 @@ interface SectionWrapperProps {
   padding?: SpacingValue
   children: React.ReactNode
   onSelect?: (id: string, blockId?: string, parentBlockId?: string) => void
-  onHover?: (id: string | null) => void
+  onHover?: (item: ItemHoveredMessage['payload']) => void
 }
-
-const StyledEditorSectionBox = styled.div<{
-  $isSelected: boolean
-  $padding?: SpacingValue
-}>`
-  position: relative;
-  transition:
-    outline 0.15s ease,
-    box-shadow 0.15s ease;
-  outline: ${({ $isSelected }) =>
-    $isSelected ? '2px solid #2563eb' : '1px dashed transparent'};
-  outline-offset: -2px;
-  cursor: pointer;
-
-  ${({ $padding }) =>
-    $padding
-      ? `
-    padding-top: ${$padding.top || 0}px;
-    padding-right: ${$padding.right || 0}px;
-    padding-bottom: ${$padding.bottom || 0}px;
-    padding-left: ${$padding.left || 0}px;
-  `
-      : ''}
-
-  &:hover {
-    outline: ${({ $isSelected }) =>
-      $isSelected ? '2px solid #2563eb' : '1px dashed #3b82f6'};
-    outline-offset: -2px;
-  }
-`
-
-const SectionBadge = styled.div<{ $isSelected: boolean }>`
-  position: absolute;
-  top: 6px;
-  left: 12px;
-  z-index: 30;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  background-color: ${({ $isSelected }) => ($isSelected ? '#2563eb' : '#1e293b')};
-  color: #ffffff;
-  font-size: 11px;
-  font-weight: 600;
-  padding: 3px 8px;
-  border-radius: 4px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
-  pointer-events: none;
-  opacity: ${({ $isSelected }) => ($isSelected ? 1 : 0)};
-  transition: opacity 0.15s ease;
-
-  ${StyledEditorSectionBox}:hover & {
-    opacity: 1;
-  }
-`
 
 export const PreviewSectionWrapper: React.FC<SectionWrapperProps> = ({
   id,
@@ -82,6 +33,8 @@ export const PreviewSectionWrapper: React.FC<SectionWrapperProps> = ({
   onSelect,
   onHover,
 }) => {
+  const hoveredItem = useRef<string | null>(null)
+
   if (!isEditor) {
     if (padding) {
       return (
@@ -142,13 +95,43 @@ export const PreviewSectionWrapper: React.FC<SectionWrapperProps> = ({
       id={`teras-sapa-section-${id}`}
       data-section-id={id}
       data-section-type={sectionType}
+      data-editor-surface="true"
+      data-selected={isSelected}
+      tabIndex={0}
       $isSelected={isSelected}
       $padding={padding}
       onClickCapture={handleClick}
-      onMouseEnter={() => onHover?.(id)}
-      onMouseLeave={() => onHover?.(null)}
+      aria-label={`Edit ${sectionName || sectionType}`}
+      onKeyDownCapture={(event) => {
+        if (event.key !== 'Enter' && event.key !== ' ') return
+        event.preventDefault()
+        event.stopPropagation()
+        ;(event.target as HTMLElement).click()
+      }}
+      onMouseOver={(event) => {
+        const block = (event.target as Element).closest('[data-block-id]')
+        const blockId = block?.getAttribute('data-block-id')
+        const item: ItemHoveredMessage['payload'] = blockId
+          ? {
+              type: 'block',
+              id: blockId,
+              sectionId: id,
+              parentBlockId:
+                block?.getAttribute('data-parent-block-id') || undefined,
+            }
+          : { type: 'section', id }
+        const key = JSON.stringify(item)
+        if (hoveredItem.current !== key) {
+          hoveredItem.current = key
+          onHover?.(item)
+        }
+      }}
+      onMouseLeave={() => {
+        hoveredItem.current = null
+        onHover?.(null)
+      }}
     >
-      <SectionBadge $isSelected={isSelected}>
+      <SectionBadge data-editor-badge $isSelected={isSelected}>
         <Layers01Icon aria-hidden="true" size={12} />
         {sectionName || sectionType}
       </SectionBadge>

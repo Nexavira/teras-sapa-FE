@@ -8,37 +8,16 @@ import { useForm } from 'react-hook-form'
 
 import { TextInput } from '#/-components/ui/form/text-input'
 import { Button } from '#/-components/ui/primitives/Button'
-import {
-  useRegisterUser,
-  useVerifyRegistrationOtp,
-} from '#/services/auth/useRegisterUser'
+import { useSendOtp, useVerifyRegistrationOtp } from '#/services/auth/useOtp'
+import { useRegisterUser } from '#/services/auth/useRegisterUser'
 
+import type { OtpFormType } from '../-utils/-otp-schema'
+import { initialOtpFormValues, otpSchema } from '../-utils/-otp-schema'
+import type { RegisterFormType } from '../-utils/-register-schema'
 import {
-  initialOtpFormValues,
   initialRegisterFormValues,
-  otpSchema,
   registerSchema,
 } from '../-utils/-register-schema'
-
-type RegisterFormValues = {
-  fullName: string
-  phoneNumber: string
-  email: string
-  password: string
-  confirmPassword: string
-}
-
-type RegistrationPayload = {
-  full_name: string
-  phone_number: string
-  email: string
-  password: string
-  password_confirmation: string
-}
-
-type OtpFormValues = {
-  otpCode: string
-}
 
 const Form = styled.form`
   display: flex;
@@ -123,25 +102,26 @@ export const RegisterForm = () => {
   const [step, setStep] = useState<'details' | 'otp' | 'success'>('details')
   const [formError, setFormError] = useState('')
   const [registeredEmail, setRegisteredEmail] = useState('')
-  const [registrationPayload, setRegistrationPayload] =
-    useState<RegistrationPayload | null>(null)
 
   const registerMutation = useRegisterUser()
+  const sendOtpMutation = useSendOtp()
   const verifyOtpMutation = useVerifyRegistrationOtp()
 
-  const registerForm = useForm<RegisterFormValues>({
-    defaultValues: initialRegisterFormValues,
-    resolver: zodResolver(registerSchema),
-  })
-  const otpForm = useForm<OtpFormValues>({
-    defaultValues: initialOtpFormValues,
-    resolver: zodResolver(otpSchema),
-  })
+  const { handleSubmit: handleRegisterSubmit, control: registerControl } =
+    useForm<RegisterFormType>({
+      defaultValues: initialRegisterFormValues,
+      resolver: zodResolver(registerSchema),
+    })
+  const { handleSubmit: handleOtpSubmit, control: otpControl } =
+    useForm<OtpFormType>({
+      defaultValues: initialOtpFormValues,
+      resolver: zodResolver(otpSchema),
+    })
 
-  const submitRegistration = async (values: RegisterFormValues) => {
+  const submitRegistration = async (values: RegisterFormType) => {
     setFormError('')
 
-    if (values.password !== values.confirmPassword) {
+    if (values.password_confirmation !== values.password) {
       setFormError('Konfirmasi kata sandi tidak sama.')
       return
     }
@@ -151,17 +131,8 @@ export const RegisterForm = () => {
       return
     }
 
-    const payload: RegistrationPayload = {
-      full_name: values.fullName.trim(),
-      phone_number: values.phoneNumber.trim(),
-      email: values.email.trim(),
-      password: values.password,
-      password_confirmation: values.confirmPassword,
-    }
-
     try {
-      const response = await registerMutation.mutateAsync(payload)
-      setRegistrationPayload(payload)
+      const response = await registerMutation.mutateAsync(values)
       setRegisteredEmail(response.data.email)
       setStep('otp')
     } catch (error: unknown) {
@@ -173,10 +144,10 @@ export const RegisterForm = () => {
     }
   }
 
-  const submitOtp = async ({ otpCode }: OtpFormValues) => {
+  const submitOtp = async (values: OtpFormType) => {
     setFormError('')
 
-    if (!/^\d{6}$/.test(otpCode)) {
+    if (!/^\d{6}$/.test(values.otp_code)) {
       setFormError('Kode OTP harus terdiri dari 6 angka.')
       return
     }
@@ -184,7 +155,7 @@ export const RegisterForm = () => {
     try {
       await verifyOtpMutation.mutateAsync({
         email: registeredEmail,
-        otp_code: otpCode,
+        otp_code: values.otp_code,
         type: 'register',
       })
       setStep('success')
@@ -198,11 +169,12 @@ export const RegisterForm = () => {
   }
 
   const resendOtp = async () => {
-    if (!registrationPayload) return
-
     setFormError('')
     try {
-      await registerMutation.mutateAsync(registrationPayload)
+      await sendOtpMutation.mutateAsync({
+        email: registeredEmail,
+        type: 'register',
+      })
     } catch (error: unknown) {
       setFormError(
         error instanceof Error
@@ -233,7 +205,7 @@ export const RegisterForm = () => {
 
   if (step === 'otp') {
     return (
-      <Form data-auth-form onSubmit={otpForm.handleSubmit(submitOtp)}>
+      <Form data-auth-form onSubmit={handleOtpSubmit(submitOtp)}>
         <OtpIntro>
           Masukkan kode 6 angka yang dikirim ke{' '}
           <strong>{registeredEmail}</strong>. Kode berlaku selama 10 menit.
@@ -242,8 +214,8 @@ export const RegisterForm = () => {
         {formError && <Alert>{formError}</Alert>}
 
         <TextInput
-          control={otpForm.control}
-          name="otpCode"
+          control={otpControl}
+          name="otp_code"
           label="Kode OTP"
           inputMode="numeric"
           autoComplete="one-time-code"
@@ -263,26 +235,23 @@ export const RegisterForm = () => {
 
         <SecondaryAction
           type="button"
-          disabled={registerMutation.isPending}
+          disabled={sendOtpMutation.isPending}
           onClick={resendOtp}
         >
-          {registerMutation.isPending ? 'Mengirim ulang...' : 'Kirim ulang OTP'}
+          {sendOtpMutation.isPending ? 'Mengirim ulang...' : 'Kirim ulang OTP'}
         </SecondaryAction>
       </Form>
     )
   }
 
   return (
-    <Form
-      data-auth-form
-      onSubmit={registerForm.handleSubmit(submitRegistration)}
-    >
+    <Form data-auth-form onSubmit={handleRegisterSubmit(submitRegistration)}>
       {formError && <Alert>{formError}</Alert>}
 
       <FieldGrid>
         <TextInput
-          control={registerForm.control}
-          name="fullName"
+          control={registerControl}
+          name="full_name"
           label="Nama lengkap"
           type="text"
           autoComplete="name"
@@ -292,8 +261,8 @@ export const RegisterForm = () => {
         />
 
         <TextInput
-          control={registerForm.control}
-          name="phoneNumber"
+          control={registerControl}
+          name="phone_number"
           label="Nomor telepon"
           type="tel"
           autoComplete="tel"
@@ -304,7 +273,7 @@ export const RegisterForm = () => {
       </FieldGrid>
 
       <TextInput
-        control={registerForm.control}
+        control={registerControl}
         name="email"
         label="Alamat email"
         type="email"
@@ -316,7 +285,7 @@ export const RegisterForm = () => {
 
       <FieldGrid>
         <TextInput
-          control={registerForm.control}
+          control={registerControl}
           name="password"
           label="Kata sandi"
           type="password"
@@ -327,8 +296,8 @@ export const RegisterForm = () => {
         />
 
         <TextInput
-          control={registerForm.control}
-          name="confirmPassword"
+          control={registerControl}
+          name="password_confirmation"
           label="Ulangi kata sandi"
           type="password"
           autoComplete="new-password"

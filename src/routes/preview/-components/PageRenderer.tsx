@@ -4,6 +4,7 @@ import styled from '@emotion/styled'
 
 import type {
   EditorToPreviewMessage,
+  ItemHoveredMessage,
   PreviewSelectedItem,
 } from '#/lib/editor/previewBridge'
 import { PREVIEW_MESSAGE_TYPES } from '#/lib/editor/previewBridge'
@@ -13,6 +14,7 @@ import { PreviewSectionWrapper } from './PreviewSectionWrapper'
 import defaultSettingsData from '#themes/config/settings_data.json'
 import { ThemeLayout } from '#themes/layout/ThemeLayout'
 import { SectionRegistry } from '#themes/registry'
+import { normalizeFeaturedCollections } from '#themes/sections/featured-collection/featuredCollectionBlocks'
 import defaultTemplateData from '#themes/templates/index.json'
 import type {
   GlobalSettingsData,
@@ -41,8 +43,8 @@ export const PageRenderer: React.FC<PageRendererProps> = ({
 }) => {
   const isEditor = mode === 'editor'
 
-  const [template, setTemplate] = useState<TemplateData>(
-    defaultTemplateData as TemplateData,
+  const [template, setTemplate] = useState<TemplateData>(() =>
+    normalizeFeaturedCollections(defaultTemplateData),
   )
   const [globalSettings, setGlobalSettings] = useState<GlobalSettingsData>(
     defaultSettingsData as GlobalSettingsData,
@@ -65,7 +67,7 @@ export const PageRenderer: React.FC<PageRendererProps> = ({
       switch (data.type) {
         case PREVIEW_MESSAGE_TYPES.SYNC_STATE: {
           if (data.payload.template.name) {
-            setTemplate(data.payload.template)
+            setTemplate(normalizeFeaturedCollections(data.payload.template))
             editorActions.setTemplate(data.payload.template)
           }
           // if (data.payload.globalSettings) {
@@ -160,13 +162,13 @@ export const PageRenderer: React.FC<PageRendererProps> = ({
     }
   }
 
-  const handleHoverSection = (sectionId: string | null) => {
+  const handleHoverSection = (item: ItemHoveredMessage['payload']) => {
     if (!isEditor) return
 
     window.parent.postMessage(
       {
         type: PREVIEW_MESSAGE_TYPES.ITEM_HOVERED,
-        payload: sectionId ? { type: 'section', id: sectionId } : null,
+        payload: item,
       },
       '*',
     )

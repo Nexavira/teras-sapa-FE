@@ -247,7 +247,7 @@ export const SpacingInputGroup = styled.div`
   gap: 2px;
 `
 
-export const SpacingInputLabel = styled.span`
+export const SpacingInputLabel = styled.label`
   font-size: 10px;
   font-weight: 600;
   text-transform: uppercase;

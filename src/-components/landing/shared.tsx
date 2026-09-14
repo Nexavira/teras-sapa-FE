@@ -49,14 +49,6 @@ export const landingGlobalStyles = css`
     text-decoration: none;
   }
 
-  @media (pointer: fine) and (min-width: 769px) {
-    [data-landing-root],
-    [data-landing-root] a,
-    [data-landing-root] button {
-      cursor: none;
-    }
-  }
-
   @media (prefers-reduced-motion: reduce) {
     [data-landing-root] *,
     [data-landing-root] *::before,

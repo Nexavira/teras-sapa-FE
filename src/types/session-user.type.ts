@@ -1,3 +1,5 @@
+import type { TenantType } from './tenant.type'
+
 export interface SessionUserType {
   uuid: string
   email: string
@@ -15,10 +17,5 @@ export interface SessionUserType {
     name: string | null
     phone_number: string | null
   }
-  tenants: Array<{
-    uuid: string
-    name: string
-    slug: string
-    is_suspended: boolean
-  }>
+  tenants: Array<TenantType>
 }

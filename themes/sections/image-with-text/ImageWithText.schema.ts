@@ -63,7 +63,7 @@ export const ImageWithTextSchema: SectionSchema = {
       default: 'scheme-2',
     },
     {
-      type: 'range',
+      type: 'number',
       id: 'padding_top',
       label: 'Top padding',
       min: 0,
@@ -73,7 +73,7 @@ export const ImageWithTextSchema: SectionSchema = {
       default: 88,
     },
     {
-      type: 'range',
+      type: 'number',
       id: 'padding_bottom',
       label: 'Bottom padding',
       min: 0,

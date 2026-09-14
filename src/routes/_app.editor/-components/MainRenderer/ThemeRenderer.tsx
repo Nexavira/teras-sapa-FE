@@ -1,9 +1,8 @@
 import React from 'react'
 
 import styled from '@emotion/styled'
-import { Layers01Icon } from 'hugeicons-react'
 
-import { Badge } from '#/-components/ui'
+import { PreviewSectionWrapper } from '#/routes/preview/-components/PreviewSectionWrapper'
 import {
   editorActions,
   useEditorGlobalSettings,
@@ -14,60 +13,6 @@ import {
 import { ThemeLayout } from '#themes/layout/ThemeLayout'
 import { SectionRegistry } from '#themes/registry'
 import type { SpacingValue } from '#themes/types/theme'
-
-const EditorSectionBox = styled.div<{
-  $isSelected: boolean
-  $padding?: SpacingValue
-}>`
-  position: relative;
-  transition:
-    box-shadow 0.15s ease,
-    outline 0.15s ease;
-  outline: ${({ $isSelected }) =>
-    $isSelected ? '2px solid #2563eb' : '1px dashed transparent'};
-  outline-offset: -2px;
-  cursor: pointer;
-
-  ${({ $padding }) =>
-    $padding
-      ? `
-    padding-top: ${$padding.top || 0}px;
-    padding-right: ${$padding.right || 0}px;
-    padding-bottom: ${$padding.bottom || 0}px;
-    padding-left: ${$padding.left || 0}px;
-  `
-      : ''}
-
-  &:hover {
-    outline: ${({ $isSelected }) =>
-      $isSelected ? '2px solid #2563eb' : '1px dashed #3b82f6'};
-    outline-offset: -2px;
-  }
-`
-
-const SectionBadge = styled.div<{ $isSelected: boolean }>`
-  position: absolute;
-  top: 6px;
-  left: 12px;
-  z-index: 30;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  background-color: ${({ $isSelected }) => ($isSelected ? '#2563eb' : '#1e293b')};
-  color: #ffffff;
-  font-size: 11px;
-  font-weight: 600;
-  padding: 3px 8px;
-  border-radius: 4px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
-  pointer-events: none;
-  opacity: ${({ $isSelected }) => ($isSelected ? 1 : 0)};
-  transition: opacity 0.15s ease;
-
-  ${EditorSectionBox}:hover & {
-    opacity: 1;
-  }
-`
 
 const MissingSectionPlaceholder = styled.div`
   padding: 32px;
@@ -93,12 +38,13 @@ export const ThemeRenderer: React.FC<ThemeRendererProps> = ({
 
   const renderedSections: React.ReactNode[] = []
   let headerSectionNode: React.ReactNode = null
+  let footerSectionNode: React.ReactNode = null
 
   template.order.forEach((sectionId) => {
     const sectionInstance = template.sections[sectionId]
 
     const registered = SectionRegistry[sectionInstance.type]
-    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+
     if (!registered) {
       renderedSections.push(
         <MissingSectionPlaceholder key={sectionId}>
@@ -126,71 +72,33 @@ export const ThemeRenderer: React.FC<ThemeRendererProps> = ({
       />
     )
 
+    const wrappedSection = (
+      <PreviewSectionWrapper
+        key={sectionId}
+        id={sectionId}
+        sectionType={sectionInstance.type}
+        sectionName={registered.schema.name || sectionInstance.type}
+        isSelected={isSelected}
+        isEditor={isEditor}
+        padding={sectionPadding}
+        onSelect={(id, blockId, parentBlockId) => {
+          editorActions.selectItem(
+            blockId
+              ? { type: 'block', id: blockId, sectionId: id, parentBlockId }
+              : { type: 'section', id },
+          )
+        }}
+      >
+        {sectionContent}
+      </PreviewSectionWrapper>
+    )
+
     if (sectionInstance.type === 'header') {
-      headerSectionNode = isEditor ? (
-        <EditorSectionBox
-          key={sectionId}
-          $isSelected={isSelected}
-          $padding={sectionPadding}
-          onClick={(e) => {
-            e.stopPropagation()
-            editorActions.selectItem({ type: 'section', id: sectionId })
-          }}
-        >
-          <Badge size="sm" color="primary">
-            Header
-          </Badge>
-          {sectionContent}
-        </EditorSectionBox>
-      ) : sectionPadding ? (
-        <div
-          key={sectionId}
-          style={{
-            paddingTop: `${sectionPadding.top || 0}px`,
-            paddingRight: `${sectionPadding.right || 0}px`,
-            paddingBottom: `${sectionPadding.bottom || 0}px`,
-            paddingLeft: `${sectionPadding.left || 0}px`,
-          }}
-        >
-          {sectionContent}
-        </div>
-      ) : (
-        <React.Fragment key={sectionId}>{sectionContent}</React.Fragment>
-      )
+      headerSectionNode = wrappedSection
+    } else if (sectionInstance.type === 'footer') {
+      footerSectionNode = wrappedSection
     } else {
-      renderedSections.push(
-        isEditor ? (
-          <EditorSectionBox
-            key={sectionId}
-            $isSelected={isSelected}
-            $padding={sectionPadding}
-            onClick={(e) => {
-              e.stopPropagation()
-              editorActions.selectItem({ type: 'section', id: sectionId })
-            }}
-          >
-            <SectionBadge $isSelected={isSelected}>
-              <Layers01Icon aria-hidden="true" size={12} />
-              {registered.schema.name || sectionInstance.type}
-            </SectionBadge>
-            {sectionContent}
-          </EditorSectionBox>
-        ) : sectionPadding ? (
-          <div
-            key={sectionId}
-            style={{
-              paddingTop: `${sectionPadding.top || 0}px`,
-              paddingRight: `${sectionPadding.right || 0}px`,
-              paddingBottom: `${sectionPadding.bottom || 0}px`,
-              paddingLeft: `${sectionPadding.left || 0}px`,
-            }}
-          >
-            {sectionContent}
-          </div>
-        ) : (
-          <React.Fragment key={sectionId}>{sectionContent}</React.Fragment>
-        ),
-      )
+      renderedSections.push(wrappedSection)
     }
   })
 
@@ -198,6 +106,7 @@ export const ThemeRenderer: React.FC<ThemeRendererProps> = ({
     <ThemeLayout
       globalSettings={globalSettings}
       headerComponent={headerSectionNode}
+      footerComponent={footerSectionNode}
     >
       {renderedSections}
     </ThemeLayout>

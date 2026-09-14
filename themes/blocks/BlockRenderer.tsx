@@ -1,71 +1,16 @@
 import React from 'react'
 
-import styled from '@emotion/styled'
 import { Layers01Icon } from 'hugeicons-react'
 
+import {
+  EditorSurface as EditorBlockWrapper,
+  EditorSurfaceBadge as BlockBadge,
+} from '#/-components/editor/EditorSurface'
 import { PREVIEW_MESSAGE_TYPES } from '#/lib/editor/previewBridge'
 import { editorActions, useEditorSelectedItem } from '#/store/editorStore'
 
 import { BlockRegistry } from '#themes/registry'
 import type { BlockInstance, SpacingValue } from '#themes/types/theme'
-
-const EditorBlockWrapper = styled.div<{
-  $isSelected: boolean
-  $padding?: SpacingValue
-}>`
-  position: relative;
-  transition:
-    outline 0.15s ease,
-    box-shadow 0.15s ease;
-  outline: ${({ $isSelected }) =>
-    $isSelected ? '2px solid #2563eb' : '1px dashed transparent'};
-  outline-offset: 2px;
-  cursor: pointer;
-  display: block;
-  z-index: ${({ $isSelected }) => ($isSelected ? 20 : 5)};
-
-  ${({ $padding }) =>
-    $padding
-      ? `
-    padding-top: ${$padding.top || 0}px;
-    padding-right: ${$padding.right || 0}px;
-    padding-bottom: ${$padding.bottom || 0}px;
-    padding-left: ${$padding.left || 0}px;
-  `
-      : ''}
-
-  &:hover {
-    outline: ${({ $isSelected }) =>
-      $isSelected ? '2px solid #2563eb' : '1px dashed #3b82f6'};
-    outline-offset: 2px;
-    z-index: 25;
-  }
-`
-
-const BlockBadge = styled.div<{ $isSelected: boolean }>`
-  position: absolute;
-  top: -12px;
-  left: 10px;
-  z-index: 50;
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  background-color: ${({ $isSelected }) => ($isSelected ? '#2563eb' : '#0f172a')};
-  color: #ffffff;
-  font-size: 10px;
-  font-weight: 600;
-  padding: 2px 7px;
-  border-radius: 4px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
-  pointer-events: none;
-  opacity: ${({ $isSelected }) => ($isSelected ? 1 : 0)};
-  transition: opacity 0.15s ease;
-  white-space: nowrap;
-
-  ${EditorBlockWrapper}:hover & {
-    opacity: 1;
-  }
-`
 
 export interface BlockRendererProps {
   sectionId: string
@@ -91,7 +36,8 @@ export const BlockRenderer: React.FC<BlockRendererProps> = ({
     Boolean(isEditor) &&
     selectedItem?.type === 'block' &&
     selectedItem.id === blockId &&
-    selectedItem.sectionId === sectionId
+    selectedItem.sectionId === sectionId &&
+    selectedItem.parentBlockId === parentBlockId
 
   let blockContent = children
 
@@ -192,11 +138,24 @@ export const BlockRenderer: React.FC<BlockRendererProps> = ({
       data-parent-block-id={parentBlockId}
       data-section-id={sectionId}
       data-block-type={block.type}
+      data-editor-surface="true"
+      data-selected={isSelected}
+      tabIndex={0}
       $isSelected={isSelected}
       $padding={blockPadding}
+      aria-label={`Edit ${blockName}`}
       onClick={handleBlockClick}
+      onKeyDown={(event) => {
+        if (
+          event.target === event.currentTarget &&
+          (event.key === 'Enter' || event.key === ' ')
+        ) {
+          event.preventDefault()
+          event.currentTarget.click()
+        }
+      }}
     >
-      <BlockBadge $isSelected={isSelected}>
+      <BlockBadge data-editor-badge $isSelected={isSelected}>
         <Layers01Icon aria-hidden="true" size={12} /> {blockName}
       </BlockBadge>
       {blockContent}

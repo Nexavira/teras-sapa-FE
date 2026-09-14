@@ -9,6 +9,7 @@ import {
 } from '#/lib/editor/blockTree'
 
 import defaultSettingsData from '#themes/config/settings_data.json'
+import { normalizeFeaturedCollections } from '#themes/sections/featured-collection/featuredCollectionBlocks'
 import defaultTemplateData from '#themes/templates/index.json'
 import type {
   BlockInstance,
@@ -48,7 +49,8 @@ export interface EditorState {
 
 const MAX_HISTORY_LENGTH = 30
 
-const initialTemplate: TemplateData = defaultTemplateData
+const initialTemplate: TemplateData =
+  normalizeFeaturedCollections(defaultTemplateData)
 const initialSettings: GlobalSettingsData = defaultSettingsData
 
 export const editorStore = new Store<EditorState>({
@@ -175,7 +177,7 @@ export const editorActions = {
     editorStore.setState((state) => ({
       ...state,
       history: pushHistorySnapshot(state),
-      template,
+      template: normalizeFeaturedCollections(template),
     }))
   },
 

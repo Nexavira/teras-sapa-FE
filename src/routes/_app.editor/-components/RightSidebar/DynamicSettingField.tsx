@@ -207,58 +207,32 @@ export const DynamicSettingField = ({
         <FormField key={id}>
           <FieldLabel>{label}</FieldLabel>
           <SpacingGrid>
-            <SpacingInputGroup>
-              <SpacingInputLabel>Top (px)</SpacingInputLabel>
-              <TextInput
-                type="number"
-                value={spacing.top}
-                onChange={(event) =>
-                  onChange(id, {
-                    ...spacing,
-                    top: Number(event.target.value),
-                  })
-                }
-              />
-            </SpacingInputGroup>
-            <SpacingInputGroup>
-              <SpacingInputLabel>Right (px)</SpacingInputLabel>
-              <TextInput
-                type="number"
-                value={spacing.right}
-                onChange={(event) =>
-                  onChange(id, {
-                    ...spacing,
-                    right: Number(event.target.value),
-                  })
-                }
-              />
-            </SpacingInputGroup>
-            <SpacingInputGroup>
-              <SpacingInputLabel>Bottom (px)</SpacingInputLabel>
-              <TextInput
-                type="number"
-                value={spacing.bottom}
-                onChange={(event) =>
-                  onChange(id, {
-                    ...spacing,
-                    bottom: Number(event.target.value),
-                  })
-                }
-              />
-            </SpacingInputGroup>
-            <SpacingInputGroup>
-              <SpacingInputLabel>Left (px)</SpacingInputLabel>
-              <TextInput
-                type="number"
-                value={spacing.left}
-                onChange={(event) =>
-                  onChange(id, {
-                    ...spacing,
-                    left: Number(event.target.value),
-                  })
-                }
-              />
-            </SpacingInputGroup>
+            {(['top', 'right', 'bottom', 'left'] as const).map((side) => (
+              <SpacingInputGroup key={side}>
+                <SpacingInputLabel htmlFor={`${id}-${side}`}>
+                  {side.charAt(0).toUpperCase() + side.slice(1)} (px)
+                </SpacingInputLabel>
+                <TextInput
+                  id={`${id}-${side}`}
+                  type="number"
+                  min={setting.min}
+                  max={setting.max}
+                  step={setting.step ?? 1}
+                  value={spacing[side]}
+                  onChange={(event) => {
+                    const nextValue = event.target.valueAsNumber
+                    if (!Number.isFinite(nextValue)) return
+                    onChange(id, {
+                      ...spacing,
+                      [side]: Math.min(
+                        setting.max ?? Infinity,
+                        Math.max(setting.min ?? -Infinity, nextValue),
+                      ),
+                    })
+                  }}
+                />
+              </SpacingInputGroup>
+            ))}
           </SpacingGrid>
           {info && <FieldInfo>{info}</FieldInfo>}
         </FormField>
