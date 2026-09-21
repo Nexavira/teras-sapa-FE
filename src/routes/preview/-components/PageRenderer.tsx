@@ -15,7 +15,8 @@ import defaultSettingsData from '#themes/config/settings_data.json'
 import { ThemeLayout } from '#themes/layout/ThemeLayout'
 import { SectionRegistry } from '#themes/registry'
 import { normalizeFeaturedCollections } from '#themes/sections/featured-collection/featuredCollectionBlocks'
-import defaultTemplateData from '#themes/templates/index.json'
+import { normalizeImageWithText } from '#themes/sections/image-with-text/imageWithTextBlocks'
+import { getTemplate } from '#themes/templates/catalog'
 import type {
   GlobalSettingsData,
   SpacingValue,
@@ -40,11 +41,14 @@ export interface PageRendererProps {
 
 export const PageRenderer: React.FC<PageRendererProps> = ({
   mode = 'preview',
+  templateId = 'index',
 }) => {
   const isEditor = mode === 'editor'
 
   const [template, setTemplate] = useState<TemplateData>(() =>
-    normalizeFeaturedCollections(defaultTemplateData),
+    normalizeImageWithText(
+      normalizeFeaturedCollections(getTemplate(templateId)),
+    ),
   )
   const [globalSettings, setGlobalSettings] = useState<GlobalSettingsData>(
     defaultSettingsData as GlobalSettingsData,
@@ -52,6 +56,15 @@ export const PageRenderer: React.FC<PageRendererProps> = ({
   const [selectedItem, setSelectedItem] = useState<PreviewSelectedItem | null>(
     null,
   )
+
+  useEffect(() => {
+    setTemplate(
+      normalizeImageWithText(
+        normalizeFeaturedCollections(getTemplate(templateId)),
+      ),
+    )
+    setSelectedItem(null)
+  }, [templateId])
 
   const isMountedRef = useRef(false)
 
@@ -67,7 +80,11 @@ export const PageRenderer: React.FC<PageRendererProps> = ({
       switch (data.type) {
         case PREVIEW_MESSAGE_TYPES.SYNC_STATE: {
           if (data.payload.template.name) {
-            setTemplate(normalizeFeaturedCollections(data.payload.template))
+            setTemplate(
+              normalizeImageWithText(
+                normalizeFeaturedCollections(data.payload.template),
+              ),
+            )
             editorActions.setTemplate(data.payload.template)
           }
           // if (data.payload.globalSettings) {

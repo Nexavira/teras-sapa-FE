@@ -1,8 +1,8 @@
 import React from 'react'
 
 import styled from '@emotion/styled'
-import { ArrowUpRight01Icon } from 'hugeicons-react'
 
+import { BlockRenderer } from '#themes/blocks/BlockRenderer'
 import type { SectionComponentProps } from '#themes/types/theme'
 
 export interface ImageWithTextSettings {
@@ -34,6 +34,10 @@ const Inner = styled.div<{ imagePosition: 'left' | 'right' }>`
   grid-template-columns: minmax(0, 1.08fr) minmax(360px, 0.92fr);
   align-items: stretch;
 
+  > div:first-of-type > [data-block-type] {
+    height: 100%;
+  }
+
   ${({ imagePosition }) =>
     imagePosition === 'right'
       ? `
@@ -53,18 +57,6 @@ const Inner = styled.div<{ imagePosition: 'left' | 'right' }>`
   }
 `
 
-const Media = styled.div<{ image?: string }>`
-  min-height: 580px;
-  background-color: #e9e2d7;
-  background-image: ${({ image }) => (image ? `url("${image}")` : 'none')};
-  background-position: 68% center;
-  background-size: cover;
-
-  @media (max-width: 820px) {
-    min-height: min(115vw, 560px);
-  }
-`
-
 const Content = styled.div`
   display: flex;
   flex-direction: column;
@@ -72,73 +64,30 @@ const Content = styled.div`
   justify-content: center;
   padding: clamp(48px, 7vw, 96px);
   background: rgb(var(--color-background));
-`
-
-const Eyebrow = styled.p`
-  margin: 0 0 20px;
-  color: rgba(var(--color-foreground), 0.62);
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-`
-
-const Heading = styled.h2`
-  max-width: 500px;
-  margin: 0;
-  font-family: var(--font-heading, serif);
-  font-size: clamp(2.25rem, 4vw, 4.25rem);
-  font-weight: var(--font-heading-weight, 500);
-  letter-spacing: -0.045em;
-  line-height: 1.04;
-`
-
-const Body = styled.p`
-  max-width: 480px;
-  margin: 28px 0 0;
-  color: rgba(var(--color-foreground), 0.7);
-  font-size: 15px;
-  line-height: 1.8;
-`
-
-const Link = styled.a`
-  display: inline-flex;
-  align-items: center;
-  gap: 9px;
-  margin-top: 34px;
-  padding-bottom: 5px;
-  border-bottom: 1px solid currentColor;
-  color: inherit;
-  font-size: 13px;
-  font-weight: 600;
-  letter-spacing: 0.03em;
-  text-decoration: none;
-
-  svg {
-    transition: transform 180ms ease;
-  }
-
-  &:hover svg {
-    transform: translate(2px, -2px);
+  > [data-block-type] {
+    width: 100%;
+    min-width: 0;
   }
 `
 
 export const ImageWithText: React.FC<
   SectionComponentProps<ImageWithTextSettings>
-> = ({ settings }) => {
+> = ({ id, settings, blocks = {}, blockOrder = [], isEditor = false }) => {
   const {
-    image = '/images/dawn/hero-editorial.webp',
     image_position = 'left',
-    eyebrow = 'Considered by design',
-    heading = 'Fewer things. Better made.',
-    text = 'Natural materials, enduring shapes, and thoughtful details. We make everyday pieces to keep, wear, and live with for years.',
-    button_label = 'Our approach',
-    button_link = '/pages/about',
     color_scheme = 'scheme-2',
     padding_top = 88,
     padding_bottom = 88,
   } = settings
-
+  const renderBlock = (blockId: string) => (
+    <BlockRenderer
+      key={blockId}
+      sectionId={id}
+      blockId={blockId}
+      block={blocks[blockId]}
+      isEditor={isEditor}
+    />
+  )
   return (
     <Section
       className={`color-${color_scheme} gradient`}
@@ -147,21 +96,15 @@ export const ImageWithText: React.FC<
       paddingTop={padding_top}
     >
       <Inner imagePosition={image_position}>
-        <Media
-          image={image}
-          role="img"
-          aria-label="Natural everyday essentials"
-        />
+        <div>
+          {blockOrder
+            .filter((blockId) => blocks[blockId].type === 'editorial_image')
+            .map(renderBlock)}
+        </div>
         <Content>
-          {eyebrow && <Eyebrow>{eyebrow}</Eyebrow>}
-          {heading && <Heading>{heading}</Heading>}
-          {text && <Body>{text}</Body>}
-          {button_label && (
-            <Link href={button_link}>
-              {button_label}
-              <ArrowUpRight01Icon aria-hidden="true" size={17} />
-            </Link>
-          )}
+          {blockOrder
+            .filter((blockId) => blocks[blockId].type !== 'editorial_image')
+            .map(renderBlock)}
         </Content>
       </Inner>
     </Section>

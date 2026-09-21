@@ -4,7 +4,6 @@ import { Link } from '@tanstack/react-router'
 
 import styled from '@emotion/styled'
 import {
-  ArrowDown01Icon,
   CheckmarkCircle02Icon,
   ComputerIcon,
   EyeIcon,
@@ -18,20 +17,16 @@ import {
   UndoIcon,
 } from 'hugeicons-react'
 
-import {
-  Badge,
-  Button,
-  Divider,
-  IconButton,
-  theme,
-  Typography,
-} from '#/-components/ui'
+import { Badge, Button, Divider, IconButton, theme } from '#/-components/ui'
 import {
   editorActions,
   useEditorActiveTab,
   useEditorCanUndoRedo,
+  useEditorStore,
   useEditorViewport,
 } from '#/store/editorStore'
+
+import { templateCatalog } from '#themes/templates/catalog'
 
 const TopHeader = styled.header`
   height: 60px;
@@ -69,7 +64,7 @@ const HeaderCenter = styled.div`
   gap: 16px;
 `
 
-const PageSelectorCapsule = styled.button`
+const PageSelectorCapsule = styled.select`
   display: flex;
   align-items: center;
   gap: 8px;
@@ -109,10 +104,10 @@ export interface EditorHeaderProps {
 }
 
 export const EditorHeader: React.FC<EditorHeaderProps> = ({
-  pageName = 'Home page',
   previewUrl = '/',
   className,
 }) => {
+  const activeTemplateId = useEditorStore((state) => state.activeTemplateId)
   const activeTab = useEditorActiveTab()
   const viewport = useEditorViewport()
   const { canUndo, canRedo, isSaving, lastSavedAt } = useEditorCanUndoRedo()
@@ -161,16 +156,17 @@ export const EditorHeader: React.FC<EditorHeaderProps> = ({
       </HeaderLeft>
 
       <HeaderCenter>
-        <PageSelectorCapsule type="button">
-          <Layers01Icon size={16} color={theme.colors.primary.DEFAULT} />
-          <Typography
-            variant="body"
-            weight="medium"
-            css={{ fontSize: '0.8125rem' }}
-          >
-            {pageName}
-          </Typography>
-          <ArrowDown01Icon size={14} color="#717171" />
+        <Layers01Icon size={16} color={theme.colors.primary.DEFAULT} />
+        <PageSelectorCapsule
+          aria-label="Page template"
+          value={activeTemplateId}
+          onChange={(event) => editorActions.switchTemplate(event.target.value)}
+        >
+          {Object.entries(templateCatalog).map(([id, entry]) => (
+            <option key={id} value={id}>
+              {entry.label}
+            </option>
+          ))}
         </PageSelectorCapsule>
 
         <ViewportSwitcher>

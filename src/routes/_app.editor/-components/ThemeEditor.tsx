@@ -3,6 +3,7 @@ import React from 'react'
 import styled from '@emotion/styled'
 
 import { theme } from '#/-components/ui/theme'
+import { useEditorStore } from '#/store/editorStore'
 
 import { EditorHeader } from './Header/EditorHeader'
 import { EditorLeftSidebar } from './LeftSidebar/EditorLeftSidebar'
@@ -34,11 +35,14 @@ export const ThemeEditor: React.FC<ThemeEditorProps> = ({
   pageName = 'Home page',
   previewUrl = '/preview',
 }) => {
-  const iframePreviewUrl = `${previewUrl}?mode=editor`
+  const activeTemplateId = useEditorStore((state) => state.activeTemplateId)
+  const separator = previewUrl.includes('?') ? '&' : '?'
+  const pagePreviewUrl = `${previewUrl}${separator}template=${encodeURIComponent(activeTemplateId)}`
+  const iframePreviewUrl = `${pagePreviewUrl}&mode=editor`
 
   return (
     <ThemeEditorRoot>
-      <EditorHeader pageName={pageName} previewUrl={previewUrl} />
+      <EditorHeader pageName={pageName} previewUrl={pagePreviewUrl} />
       <EditorBody>
         <EditorLeftSidebar />
         <EditorMainRenderer previewUrl={iframePreviewUrl} />

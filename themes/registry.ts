@@ -25,6 +25,20 @@ import {
 } from './blocks/featured-product/FeaturedProductBlock.schema'
 import { FlexBlock, FlexBlockSchema } from './blocks/flex'
 import { HeadingBlock, HeadingBlockSchema } from './blocks/heading'
+import {
+  EditorialEyebrowBlock,
+  EditorialHeadingBlock,
+  EditorialImageBlock,
+  EditorialLinkBlock,
+  EditorialTextBlock,
+} from './blocks/image-with-text/ImageWithTextBlocks'
+import {
+  EditorialEyebrowBlockSchema,
+  EditorialHeadingBlockSchema,
+  EditorialImageBlockSchema,
+  EditorialLinkBlockSchema,
+  EditorialTextBlockSchema,
+} from './blocks/image-with-text/ImageWithTextBlocks.schema'
 import { TextBlock, TextBlockSchema } from './blocks/text'
 import {
   FeaturedCollection,
@@ -34,6 +48,8 @@ import { Footer, FooterSchema } from './sections/footer'
 import { Header, HeaderSchema } from './sections/header'
 import { HeroBanner, HeroBannerSchema } from './sections/hero-banner'
 import { ImageWithText, ImageWithTextSchema } from './sections/image-with-text'
+import { PageContent } from './sections/page-content/PageContent'
+import { PageContentSchema } from './sections/page-content/PageContent.schema'
 import type { BlockSchema, SectionSchema } from '#themes/types/theme'
 
 export interface RegisteredSection {
@@ -47,6 +63,7 @@ export interface RegisteredBlock {
 }
 
 export const SectionRegistry: Partial<Record<string, RegisteredSection>> = {
+  page_content: { Component: PageContent, schema: PageContentSchema },
   header: {
     Component: Header,
     schema: HeaderSchema,
@@ -70,6 +87,27 @@ export const SectionRegistry: Partial<Record<string, RegisteredSection>> = {
 }
 
 export const BlockRegistry: Record<string, RegisteredBlock> = {
+  editorial_image: {
+    Component: EditorialImageBlock,
+    schema: EditorialImageBlockSchema,
+  },
+  editorial_eyebrow: {
+    Component: EditorialEyebrowBlock,
+    schema: EditorialEyebrowBlockSchema,
+  },
+  editorial_heading: {
+    Component: EditorialHeadingBlock,
+    schema: EditorialHeadingBlockSchema,
+  },
+  editorial_text: {
+    Component: EditorialTextBlock,
+    schema: EditorialTextBlockSchema,
+  },
+  editorial_link: {
+    Component: EditorialLinkBlock,
+    schema: EditorialLinkBlockSchema,
+  },
+
   product_image: {
     Component: ProductImageBlock,
     schema: ProductImageBlockSchema,

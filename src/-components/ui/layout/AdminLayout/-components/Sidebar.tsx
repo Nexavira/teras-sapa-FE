@@ -94,9 +94,13 @@ const NAV_ITEMS = [
   },
   { to: '/admin/orders', label: 'Orders', icon: <Invoice01Icon size={16} /> },
   {
-    to: '/admin/products',
     label: 'Products',
     icon: <ShoppingBag01Icon size={16} />,
+    defaultOpen: true,
+    items: [
+      { label: 'All Products', to: '/admin/products' },
+      { label: 'Collections', to: '/admin/collections' },
+    ],
   },
   {
     to: '/admin/customers',
@@ -165,10 +169,14 @@ export const Sidebar = ({ className }: SidebarProps) => {
 
           return (
             <NavItem
-              key={item.to}
-              to={item.to}
+              key={'to' in item && item.to ? item.to : item.label}
+              to={'to' in item ? item.to : undefined}
               icon={item.icon}
-              activeOptions={item.activeOptions}
+              items={'items' in item ? item.items : undefined}
+              defaultOpen={'defaultOpen' in item ? item.defaultOpen : undefined}
+              activeOptions={
+                'activeOptions' in item ? item.activeOptions : undefined
+              }
             >
               {item.label}
             </NavItem>

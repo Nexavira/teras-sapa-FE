@@ -1,4 +1,5 @@
 import { ColorPicker } from '#/-components/ui/primitives/ColorPicker'
+import { useGetCollections } from '#/services/collection/useGetCollections'
 
 import { ColorSchemePicker } from './ColorSchemePicker'
 import {
@@ -26,6 +27,41 @@ interface DynamicSettingFieldProps {
   setting: SettingDefinition
   value: any
   onChange: (id: string, value: any) => void
+}
+
+const CollectionPickerField = ({
+  id,
+  label,
+  info,
+  value,
+  onChange,
+}: {
+  id: string
+  label?: string
+  info?: string
+  value: string
+  onChange: (value: string) => void
+}) => {
+  const { data: collections = [] } = useGetCollections()
+
+  return (
+    <FormField key={id}>
+      <FieldLabel htmlFor={id}>{label || 'Collection'}</FieldLabel>
+      <Select
+        id={id}
+        value={value || ''}
+        onChange={(e) => onChange(e.target.value)}
+      >
+        <option value="">Default (Bestsellers Preset)</option>
+        {collections.map((col) => (
+          <option key={col.uuid} value={col.uuid}>
+            {col.title} ({col.productUuids?.length || 0} products)
+          </option>
+        ))}
+      </Select>
+      {info && <FieldInfo>{info}</FieldInfo>}
+    </FormField>
+  )
 }
 
 export const DynamicSettingField = ({
@@ -155,6 +191,18 @@ export const DynamicSettingField = ({
           </Select>
           {info && <FieldInfo>{info}</FieldInfo>}
         </FormField>
+      )
+
+    case 'collection':
+      return (
+        <CollectionPickerField
+          key={id}
+          id={id}
+          label={label}
+          info={info}
+          value={currentValue || ''}
+          onChange={(val) => onChange(id, val)}
+        />
       )
 
     case 'color':

@@ -11,7 +11,7 @@ import { Button } from '#/-components/ui/primitives/Button'
 import { useLoginUser } from '#/services/auth/useLoginUser'
 
 import type { LoginFormType } from '../-utils/-login-schema'
-import { initialLoginFormType, loginSchema } from '../-utils/-login-schema'
+import { initialLoginFormValues, loginSchema } from '../-utils/-login-schema'
 
 const Form = styled.form`
   display: flex;

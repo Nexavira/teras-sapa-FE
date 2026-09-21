@@ -4,8 +4,11 @@ import { FormProvider, useForm } from 'react-hook-form'
 
 import { Button } from '#/-components/ui'
 import { TextInput } from '#/-components/ui/form'
-import type { CreateProductInput } from '#/services/products/productSchemas'
-import { createProductSchema } from '#/services/products/productSchemas'
+import type { ProductFormValues } from '#/routes/_authenticated/admin/products/-utils/-product-schema'
+import {
+  initialProductFormValues,
+  productSchema,
+} from '#/routes/_authenticated/admin/products/-utils/-product-schema'
 
 import { VariantBuilder } from './VariantBuilder'
 
@@ -28,22 +31,14 @@ const Label = styled.label`
 `
 
 interface ProductFormProps {
-  onSubmit: (data: CreateProductInput) => void
+  onSubmit: (data: ProductFormValues) => void
   isLoading?: boolean
 }
 
 export const ProductForm = ({ onSubmit, isLoading }: ProductFormProps) => {
-  const methods = useForm<CreateProductInput>({
-    resolver: zodResolver(createProductSchema),
-    defaultValues: {
-      name: '',
-      slug: '',
-      type: 'physical',
-      status: 'draft',
-      basePrice: '',
-      variants: [],
-      attributes: {},
-    },
+  const methods = useForm<ProductFormValues>({
+    resolver: zodResolver(productSchema),
+    defaultValues: initialProductFormValues,
   })
 
   return (

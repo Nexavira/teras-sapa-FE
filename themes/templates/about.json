@@ -1,0 +1,120 @@
+{
+  "name": "About",
+  "layout": "theme",
+  "sections": {
+    "header_main": {
+      "type": "header",
+      "settings": {
+        "logo_position": "middle-left",
+        "sticky_header_type": "on-scroll-up",
+        "show_line_separator": true,
+        "color_scheme": "scheme-1",
+        "padding_top": 18,
+        "padding_bottom": 18,
+        "logo_text": "Serein",
+        "menu_links": "Shop|/preview?template=collection, Our story|/preview?template=about, Contact|/preview?template=contact, FAQ|/preview?template=faq, Shipping & returns|/preview?template=shipping"
+      },
+      "block_order": ["announcement_1"],
+      "blocks": {
+        "announcement_1": {
+          "type": "announcement",
+          "settings": {
+            "text": "Complimentary delivery on orders over $100",
+            "link": "/preview?template=shipping",
+            "text_alignment": "center",
+            "color_scheme": "scheme-2"
+          }
+        }
+      }
+    },
+    "page_content": {
+      "type": "page_content",
+      "settings": {
+        "color_scheme": "scheme-1",
+        "layout": "editorial",
+        "image": "/images/dawn/hero-editorial.webp",
+        "image_alt": "Natural textiles and everyday objects in a sunlit interior"
+      },
+      "blocks": {
+        "heading_0": {
+          "type": "heading",
+          "settings": {
+            "heading": "Our story",
+            "heading_tag": "h1",
+            "heading_size": "large"
+          }
+        },
+        "text_0": {
+          "type": "text",
+          "settings": {
+            "text": "We believe everyday objects deserve a little more care. Serein brings together natural textures, thoughtful details, and enduring forms."
+          }
+        },
+        "heading_1": {
+          "type": "heading",
+          "settings": {
+            "heading": "Made for everyday rituals",
+            "heading_tag": "h2",
+            "heading_size": "medium"
+          }
+        },
+        "text_1": {
+          "type": "text",
+          "settings": {
+            "text": "From a quiet morning at home to gathering around the table, our collection celebrates the small moments."
+          }
+        },
+        "heading_2": {
+          "type": "heading",
+          "settings": {
+            "heading": "Fewer things. Better made.",
+            "heading_tag": "h2",
+            "heading_size": "medium"
+          }
+        },
+        "text_2": {
+          "type": "text",
+          "settings": {
+            "text": "Discover considered pieces to keep, use, and enjoy for years."
+          }
+        },
+        "shop_link": {
+          "type": "button",
+          "settings": {
+            "button_label": "Shop collection",
+            "button_link": "/preview?template=collection",
+            "button_style": "outline"
+          }
+        }
+      },
+      "block_order": [
+        "heading_0",
+        "text_0",
+        "heading_1",
+        "text_1",
+        "heading_2",
+        "text_2",
+        "shop_link"
+      ]
+    },
+    "footer_main": {
+      "type": "footer",
+      "settings": {
+        "brand_name": "Serein",
+        "description": "Thoughtfully made essentials for slower, more intentional everyday living.",
+        "shop_links": "New arrivals, Best sellers, Home & living, Gifts",
+        "help_links": "About us, Shipping & returns, FAQs, Contact",
+        "newsletter_heading": "Stay in the loop",
+        "newsletter_text": "New stories, considered objects, and occasional notes — delivered with care.",
+        "email_placeholder": "Your email address",
+        "copyright_text": "© 2026 Serein. All rights reserved.",
+        "color_scheme": "scheme-4",
+        "show_socials": true,
+        "show_payment_methods": true,
+        "padding_top": 72,
+        "padding_bottom": 28
+      }
+    }
+  },
+  "order": ["header_main", "page_content", "footer_main"]
+}

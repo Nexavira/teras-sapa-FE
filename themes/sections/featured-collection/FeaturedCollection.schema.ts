@@ -16,6 +16,12 @@ export const FeaturedCollectionSchema: SectionSchema = {
   class: 'section-featured-collection',
   settings: [
     {
+      type: 'collection',
+      id: 'collection',
+      label: 'Collection',
+      info: 'Select a collection to display products from.',
+    },
+    {
       type: 'range',
       id: 'products_to_show',
       label: 'Products to show',

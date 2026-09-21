@@ -10,7 +10,8 @@ import {
 
 import defaultSettingsData from '#themes/config/settings_data.json'
 import { normalizeFeaturedCollections } from '#themes/sections/featured-collection/featuredCollectionBlocks'
-import defaultTemplateData from '#themes/templates/index.json'
+import { normalizeImageWithText } from '#themes/sections/image-with-text/imageWithTextBlocks'
+import { getTemplate, templateCatalog } from '#themes/templates/catalog'
 import type {
   BlockInstance,
   BlockPreset,
@@ -34,6 +35,8 @@ export interface EditorHistorySnapshot {
 }
 
 export interface EditorState {
+  activeTemplateId: string
+  templateDrafts: Record<string, TemplateData>
   template: TemplateData
   globalSettings: GlobalSettingsData
   selectedItem: SelectedItem | null
@@ -49,11 +52,14 @@ export interface EditorState {
 
 const MAX_HISTORY_LENGTH = 30
 
-const initialTemplate: TemplateData =
-  normalizeFeaturedCollections(defaultTemplateData)
+const initialTemplate: TemplateData = normalizeImageWithText(
+  normalizeFeaturedCollections(getTemplate()),
+)
 const initialSettings: GlobalSettingsData = defaultSettingsData
 
 export const editorStore = new Store<EditorState>({
+  activeTemplateId: 'index',
+  templateDrafts: {},
   template: initialTemplate,
   globalSettings: initialSettings,
   selectedItem: {
@@ -172,12 +178,36 @@ export const editorActions = {
     }))
   },
 
+  switchTemplate(templateId: string) {
+    if (!Object.hasOwn(templateCatalog, templateId)) return
+    editorStore.setState((state) => {
+      if (state.activeTemplateId === templateId) return state
+      const template =
+        state.templateDrafts[templateId] ??
+        normalizeImageWithText(
+          normalizeFeaturedCollections(getTemplate(templateId)),
+        )
+      return {
+        ...state,
+        activeTemplateId: templateId,
+        templateDrafts: {
+          ...state.templateDrafts,
+          [state.activeTemplateId]: state.template,
+        },
+        template,
+        selectedItem: null,
+        lastSavedAt: null,
+        history: { past: [], future: [] },
+      }
+    })
+  },
+
   /** Update entire template data */
   setTemplate(template: TemplateData) {
     editorStore.setState((state) => ({
       ...state,
       history: pushHistorySnapshot(state),
-      template: normalizeFeaturedCollections(template),
+      template: normalizeImageWithText(normalizeFeaturedCollections(template)),
     }))
   },
 
@@ -901,7 +931,9 @@ export const editorActions = {
     editorStore.setState((state) => ({
       ...state,
       history: pushHistorySnapshot(state),
-      template: JSON.parse(JSON.stringify(initialTemplate)),
+      template: normalizeImageWithText(
+        normalizeFeaturedCollections(getTemplate(state.activeTemplateId)),
+      ),
       globalSettings: JSON.parse(JSON.stringify(initialSettings)),
       selectedItem: {
         type: 'section',

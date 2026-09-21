@@ -1,3 +1,11 @@
+import { getImageWithTextPresets } from './imageWithTextBlocks'
+import {
+  EditorialEyebrowBlockSchema,
+  EditorialHeadingBlockSchema,
+  EditorialImageBlockSchema,
+  EditorialLinkBlockSchema,
+  EditorialTextBlockSchema,
+} from '#themes/blocks/image-with-text/ImageWithTextBlocks.schema'
 import type { SectionSchema } from '#themes/types/theme'
 
 export const ImageWithTextSchema: SectionSchema = {
@@ -10,12 +18,6 @@ export const ImageWithTextSchema: SectionSchema = {
   class: 'section-image-with-text',
   settings: [
     {
-      type: 'image_picker',
-      id: 'image',
-      label: 'Image',
-      default: '/images/dawn/hero-editorial.webp',
-    },
-    {
       type: 'select',
       id: 'image_position',
       label: 'Desktop image position',
@@ -24,37 +26,6 @@ export const ImageWithTextSchema: SectionSchema = {
         { label: 'Left', value: 'left' },
         { label: 'Right', value: 'right' },
       ],
-    },
-    {
-      type: 'text',
-      id: 'eyebrow',
-      label: 'Eyebrow',
-      default: 'Considered by design',
-    },
-    {
-      type: 'text',
-      id: 'heading',
-      label: 'Heading',
-      default: 'Fewer things. Better made.',
-    },
-    {
-      type: 'textarea',
-      id: 'text',
-      label: 'Text',
-      default:
-        'Natural materials, enduring shapes, and thoughtful details. We make everyday pieces to keep, wear, and live with for years.',
-    },
-    {
-      type: 'text',
-      id: 'button_label',
-      label: 'Link label',
-      default: 'Our approach',
-    },
-    {
-      type: 'text',
-      id: 'button_link',
-      label: 'Link',
-      default: '/pages/about',
     },
     {
       type: 'color_scheme',
@@ -83,18 +54,22 @@ export const ImageWithTextSchema: SectionSchema = {
       default: 88,
     },
   ],
+  blocks: [
+    EditorialImageBlockSchema,
+    EditorialEyebrowBlockSchema,
+    EditorialHeadingBlockSchema,
+    EditorialTextBlockSchema,
+    EditorialLinkBlockSchema,
+  ],
+  max_blocks: 20,
   presets: [
     {
       name: 'Image with text',
       category: 'Editorial',
+      blocks: getImageWithTextPresets(),
       settings: {
-        image: '/images/dawn/hero-editorial.webp',
+        content_blocks_version: 1,
         image_position: 'left',
-        eyebrow: 'Considered by design',
-        heading: 'Fewer things. Better made.',
-        text: 'Natural materials, enduring shapes, and thoughtful details. We make everyday pieces to keep, wear, and live with for years.',
-        button_label: 'Our approach',
-        button_link: '/pages/about',
         color_scheme: 'scheme-2',
         padding_top: 88,
         padding_bottom: 88,

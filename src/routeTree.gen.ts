@@ -18,6 +18,12 @@ import { Route as LoginIndexRouteImport } from './routes/login/index'
 import { Route as PreviewIndexRouteImport } from './routes/preview/index'
 import { Route as RegisterIndexRouteImport } from './routes/register/index'
 import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin/index'
+import { Route as AuthenticatedAdminCollectionsIndexRouteImport } from './routes/_authenticated/admin/collections/index'
+import { Route as AuthenticatedAdminCollectionsCreateRouteImport } from './routes/_authenticated/admin/collections/create'
+import { Route as AuthenticatedAdminProductsIndexRouteImport } from './routes/_authenticated/admin/products/index'
+import { Route as AuthenticatedAdminProductsCreateRouteImport } from './routes/_authenticated/admin/products/create'
+import { Route as AuthenticatedAdminCollectionsCollectionIdEditRouteImport } from './routes/_authenticated/admin/collections/$collectionId.edit'
+import { Route as AuthenticatedAdminProductsProductIdEditRouteImport } from './routes/_authenticated/admin/products/$productId.edit'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -62,6 +68,42 @@ const AuthenticatedAdminIndexRoute = AuthenticatedAdminIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AuthenticatedAdminRoute,
 } as any)
+const AuthenticatedAdminCollectionsIndexRoute =
+  AuthenticatedAdminCollectionsIndexRouteImport.update({
+    id: '/collections/',
+    path: '/collections/',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminCollectionsCreateRoute =
+  AuthenticatedAdminCollectionsCreateRouteImport.update({
+    id: '/collections/create',
+    path: '/collections/create',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminProductsIndexRoute =
+  AuthenticatedAdminProductsIndexRouteImport.update({
+    id: '/products/',
+    path: '/products/',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminProductsCreateRoute =
+  AuthenticatedAdminProductsCreateRouteImport.update({
+    id: '/products/create',
+    path: '/products/create',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminCollectionsCollectionIdEditRoute =
+  AuthenticatedAdminCollectionsCollectionIdEditRouteImport.update({
+    id: '/collections/$collectionId/edit',
+    path: '/collections/$collectionId/edit',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminProductsProductIdEditRoute =
+  AuthenticatedAdminProductsProductIdEditRouteImport.update({
+    id: '/products/$productId/edit',
+    path: '/products/$productId/edit',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -71,6 +113,12 @@ export interface FileRoutesByFullPath {
   '/preview/': typeof PreviewIndexRoute
   '/register/': typeof RegisterIndexRoute
   '/admin/': typeof AuthenticatedAdminIndexRoute
+  '/admin/collections/create': typeof AuthenticatedAdminCollectionsCreateRoute
+  '/admin/products/create': typeof AuthenticatedAdminProductsCreateRoute
+  '/admin/collections/': typeof AuthenticatedAdminCollectionsIndexRoute
+  '/admin/products/': typeof AuthenticatedAdminProductsIndexRoute
+  '/admin/collections/$collectionId/edit': typeof AuthenticatedAdminCollectionsCollectionIdEditRoute
+  '/admin/products/$productId/edit': typeof AuthenticatedAdminProductsProductIdEditRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -79,6 +127,12 @@ export interface FileRoutesByTo {
   '/preview': typeof PreviewIndexRoute
   '/register': typeof RegisterIndexRoute
   '/admin': typeof AuthenticatedAdminIndexRoute
+  '/admin/collections/create': typeof AuthenticatedAdminCollectionsCreateRoute
+  '/admin/products/create': typeof AuthenticatedAdminProductsCreateRoute
+  '/admin/collections': typeof AuthenticatedAdminCollectionsIndexRoute
+  '/admin/products': typeof AuthenticatedAdminProductsIndexRoute
+  '/admin/collections/$collectionId/edit': typeof AuthenticatedAdminCollectionsCollectionIdEditRoute
+  '/admin/products/$productId/edit': typeof AuthenticatedAdminProductsProductIdEditRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -91,6 +145,12 @@ export interface FileRoutesById {
   '/preview/': typeof PreviewIndexRoute
   '/register/': typeof RegisterIndexRoute
   '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
+  '/_authenticated/admin/collections/create': typeof AuthenticatedAdminCollectionsCreateRoute
+  '/_authenticated/admin/products/create': typeof AuthenticatedAdminProductsCreateRoute
+  '/_authenticated/admin/collections/': typeof AuthenticatedAdminCollectionsIndexRoute
+  '/_authenticated/admin/products/': typeof AuthenticatedAdminProductsIndexRoute
+  '/_authenticated/admin/collections/$collectionId/edit': typeof AuthenticatedAdminCollectionsCollectionIdEditRoute
+  '/_authenticated/admin/products/$productId/edit': typeof AuthenticatedAdminProductsProductIdEditRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -102,8 +162,26 @@ export interface FileRouteTypes {
     | '/preview/'
     | '/register/'
     | '/admin/'
+    | '/admin/collections/create'
+    | '/admin/products/create'
+    | '/admin/collections/'
+    | '/admin/products/'
+    | '/admin/collections/$collectionId/edit'
+    | '/admin/products/$productId/edit'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/editor' | '/login' | '/preview' | '/register' | '/admin'
+  to:
+    | '/'
+    | '/editor'
+    | '/login'
+    | '/preview'
+    | '/register'
+    | '/admin'
+    | '/admin/collections/create'
+    | '/admin/products/create'
+    | '/admin/collections'
+    | '/admin/products'
+    | '/admin/collections/$collectionId/edit'
+    | '/admin/products/$productId/edit'
   id:
     | '__root__'
     | '/'
@@ -115,6 +193,12 @@ export interface FileRouteTypes {
     | '/preview/'
     | '/register/'
     | '/_authenticated/admin/'
+    | '/_authenticated/admin/collections/create'
+    | '/_authenticated/admin/products/create'
+    | '/_authenticated/admin/collections/'
+    | '/_authenticated/admin/products/'
+    | '/_authenticated/admin/collections/$collectionId/edit'
+    | '/_authenticated/admin/products/$productId/edit'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -191,6 +275,48 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminIndexRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
+    '/_authenticated/admin/collections/': {
+      id: '/_authenticated/admin/collections/'
+      path: '/collections'
+      fullPath: '/admin/collections/'
+      preLoaderRoute: typeof AuthenticatedAdminCollectionsIndexRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/collections/create': {
+      id: '/_authenticated/admin/collections/create'
+      path: '/collections/create'
+      fullPath: '/admin/collections/create'
+      preLoaderRoute: typeof AuthenticatedAdminCollectionsCreateRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/products/': {
+      id: '/_authenticated/admin/products/'
+      path: '/products'
+      fullPath: '/admin/products/'
+      preLoaderRoute: typeof AuthenticatedAdminProductsIndexRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/products/create': {
+      id: '/_authenticated/admin/products/create'
+      path: '/products/create'
+      fullPath: '/admin/products/create'
+      preLoaderRoute: typeof AuthenticatedAdminProductsCreateRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/collections/$collectionId/edit': {
+      id: '/_authenticated/admin/collections/$collectionId/edit'
+      path: '/collections/$collectionId/edit'
+      fullPath: '/admin/collections/$collectionId/edit'
+      preLoaderRoute: typeof AuthenticatedAdminCollectionsCollectionIdEditRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/products/$productId/edit': {
+      id: '/_authenticated/admin/products/$productId/edit'
+      path: '/products/$productId/edit'
+      fullPath: '/admin/products/$productId/edit'
+      preLoaderRoute: typeof AuthenticatedAdminProductsProductIdEditRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
   }
 }
 
@@ -206,10 +332,26 @@ const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
 
 interface AuthenticatedAdminRouteChildren {
   AuthenticatedAdminIndexRoute: typeof AuthenticatedAdminIndexRoute
+  AuthenticatedAdminCollectionsCreateRoute: typeof AuthenticatedAdminCollectionsCreateRoute
+  AuthenticatedAdminProductsCreateRoute: typeof AuthenticatedAdminProductsCreateRoute
+  AuthenticatedAdminCollectionsIndexRoute: typeof AuthenticatedAdminCollectionsIndexRoute
+  AuthenticatedAdminProductsIndexRoute: typeof AuthenticatedAdminProductsIndexRoute
+  AuthenticatedAdminCollectionsCollectionIdEditRoute: typeof AuthenticatedAdminCollectionsCollectionIdEditRoute
+  AuthenticatedAdminProductsProductIdEditRoute: typeof AuthenticatedAdminProductsProductIdEditRoute
 }
 
 const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
   AuthenticatedAdminIndexRoute: AuthenticatedAdminIndexRoute,
+  AuthenticatedAdminCollectionsCreateRoute:
+    AuthenticatedAdminCollectionsCreateRoute,
+  AuthenticatedAdminProductsCreateRoute: AuthenticatedAdminProductsCreateRoute,
+  AuthenticatedAdminCollectionsIndexRoute:
+    AuthenticatedAdminCollectionsIndexRoute,
+  AuthenticatedAdminProductsIndexRoute: AuthenticatedAdminProductsIndexRoute,
+  AuthenticatedAdminCollectionsCollectionIdEditRoute:
+    AuthenticatedAdminCollectionsCollectionIdEditRoute,
+  AuthenticatedAdminProductsProductIdEditRoute:
+    AuthenticatedAdminProductsProductIdEditRoute,
 }
 
 const AuthenticatedAdminRouteWithChildren =

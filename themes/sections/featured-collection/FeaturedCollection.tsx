@@ -2,6 +2,8 @@ import React from 'react'
 
 import styled from '@emotion/styled'
 
+import { collectionStorage } from '#/services/collection/collectionStorage'
+
 import { featuredProducts } from './featuredCollectionBlocks'
 import { BlockRenderer } from '#themes/blocks/BlockRenderer'
 import type { FeaturedProductData } from '#themes/blocks/featured-product/FeaturedProductBlock'
@@ -54,6 +56,7 @@ export const FeaturedCollection: React.FC<SectionComponentProps> = ({
   isEditor = false,
 }) => {
   const {
+    collection,
     products_to_show = 4,
     product_image_sheet = '/images/dawn/product-grid.webp',
     product_data,
@@ -62,15 +65,40 @@ export const FeaturedCollection: React.FC<SectionComponentProps> = ({
     padding_top = 48,
     padding_bottom = 48,
   } = settings
-  const products =
-    product_data ??
-    featuredProducts.map((product, index) => ({
-      ...product,
-      image_sheet: index < 4 ? product_image_sheet : '',
+
+  const collectionData = collection
+    ? collectionStorage.getCollectionByUuid(collection)
+    : null
+
+  const resolvedCollectionProducts = collectionData?.products?.map(
+    (product, index) => ({
+      title: product.name,
+      price: product.basePrice,
+      compareAtPrice: product.compareAtPrice ?? undefined,
+      category: product.category ?? 'General',
+      badge: product.tags?.[0] ?? undefined,
+      image: product.images?.[0] ?? undefined,
+      image_sheet: product.images?.[0] ? undefined : product_image_sheet,
       image_position: ['left top', 'right top', 'left bottom', 'right bottom'][
         index % 4
       ],
-    }))
+    }),
+  )
+
+  const products =
+    product_data ??
+    (resolvedCollectionProducts && resolvedCollectionProducts.length > 0
+      ? resolvedCollectionProducts
+      : featuredProducts.map((product, index) => ({
+          ...product,
+          image_sheet: index < 4 ? product_image_sheet : '',
+          image_position: [
+            'left top',
+            'right top',
+            'left bottom',
+            'right bottom',
+          ][index % 4],
+        })))
   return (
     <SectionWrapper
       className={`color-${color_scheme} gradient`}

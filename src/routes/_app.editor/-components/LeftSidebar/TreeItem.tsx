@@ -12,7 +12,7 @@ const ItemContainer = styled.div<{ $level?: number; $index?: number }>`
   display: flex;
   align-items: center;
   width: 100%;
-  margin-left: ${({ $level = 0 }) => ($level > 0 ? `${$level * 20}px` : '0')};
+  padding-left: ${({ $level = 0 }) => ($level > 0 ? `${$level * 20}px` : '0')};
 
   ${({ $level = 0, $index = 0 }) =>
     $level > 0 &&
@@ -20,13 +20,13 @@ const ItemContainer = styled.div<{ $level?: number; $index?: number }>`
     &::before {
       content: '';
       position: absolute;
-      left: -12px;
+      left: calc(${$level * 20}px - 12px);
       top: ${$index === 0 ? '-4px' : '-80%'};
       width: 12px;
       height: ${$index === 0 ? 'calc(50% + 4px)' : '130%'};
       box-sizing: border-box;
-      border-left: 1px solid ${theme.colors.border};
-      border-bottom: 1px solid ${theme.colors.border};
+      border-left: 1px solid ${theme.colors.gray[300]};
+      border-bottom: 1px solid ${theme.colors.gray[300]};
       border-bottom-left-radius: 8px;
       pointer-events: none;
     }

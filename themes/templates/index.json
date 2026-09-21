@@ -1,5 +1,5 @@
 {
-  "name": "Serein — Dawn-inspired Home",
+  "name": "Serein \u2014 Dawn-inspired Home",
   "layout": "theme",
   "sections": {
     "header_main": {
@@ -12,7 +12,7 @@
         "padding_top": 18,
         "padding_bottom": 18,
         "logo_text": "Serein",
-        "menu_links": "New arrivals|/collections/new, Shop|/collections/all, Journal|/blogs/journal, Our story|/pages/about"
+        "menu_links": "Shop|/preview?template=collection, Our story|/preview?template=about, Contact|/preview?template=contact, FAQ|/preview?template=faq, Shipping & returns|/preview?template=shipping"
       },
       "block_order": ["announcement_1"],
       "blocks": {
@@ -20,7 +20,7 @@
           "type": "announcement",
           "settings": {
             "text": "Complimentary delivery on orders over $100",
-            "link": "/pages/shipping",
+            "link": "/preview?template=shipping",
             "text_alignment": "center",
             "color_scheme": "scheme-2"
           }
@@ -59,7 +59,7 @@
           "type": "button",
           "settings": {
             "button_label": "Explore the collection",
-            "button_link": "/collections/all",
+            "button_link": "/preview?template=collection",
             "button_style": "primary"
           }
         }
@@ -89,7 +89,7 @@
         "heading": "Fewer things. Better made.",
         "text": "Natural materials, enduring shapes, and thoughtful details. We make everyday pieces to keep, wear, and live with for years.",
         "button_label": "Our approach",
-        "button_link": "/pages/about",
+        "button_link": "/preview?template=about",
         "color_scheme": "scheme-2",
         "padding_top": 88,
         "padding_bottom": 88
@@ -103,9 +103,9 @@
         "shop_links": "New arrivals, Best sellers, Home & living, Gifts",
         "help_links": "About us, Shipping & returns, FAQs, Contact",
         "newsletter_heading": "Stay in the loop",
-        "newsletter_text": "New stories, considered objects, and occasional notes — delivered with care.",
+        "newsletter_text": "New stories, considered objects, and occasional notes \u2014 delivered with care.",
         "email_placeholder": "Your email address",
-        "copyright_text": "© 2026 Serein. All rights reserved.",
+        "copyright_text": "\u00a9 2026 Serein. All rights reserved.",
         "color_scheme": "scheme-4",
         "show_socials": true,
         "show_payment_methods": true,

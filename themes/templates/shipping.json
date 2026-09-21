@@ -1,0 +1,133 @@
+{
+  "name": "Shipping & Returns",
+  "layout": "theme",
+  "sections": {
+    "header_main": {
+      "type": "header",
+      "settings": {
+        "logo_position": "middle-left",
+        "sticky_header_type": "on-scroll-up",
+        "show_line_separator": true,
+        "color_scheme": "scheme-1",
+        "padding_top": 18,
+        "padding_bottom": 18,
+        "logo_text": "Serein",
+        "menu_links": "Shop|/preview?template=collection, Our story|/preview?template=about, Contact|/preview?template=contact, FAQ|/preview?template=faq, Shipping & returns|/preview?template=shipping"
+      },
+      "block_order": ["announcement_1"],
+      "blocks": {
+        "announcement_1": {
+          "type": "announcement",
+          "settings": {
+            "text": "Complimentary delivery on orders over $100",
+            "link": "/preview?template=shipping",
+            "text_alignment": "center",
+            "color_scheme": "scheme-2"
+          }
+        }
+      }
+    },
+    "page_content": {
+      "type": "page_content",
+      "settings": {
+        "color_scheme": "scheme-1",
+        "layout": "stacked"
+      },
+      "blocks": {
+        "heading_0": {
+          "type": "heading",
+          "settings": {
+            "heading": "Shipping & returns",
+            "heading_tag": "h1",
+            "heading_size": "large"
+          }
+        },
+        "text_0": {
+          "type": "text",
+          "settings": {
+            "text": "Everything you need to know about delivery and returns."
+          }
+        },
+        "heading_1": {
+          "type": "heading",
+          "settings": {
+            "heading": "Delivery",
+            "heading_tag": "h2",
+            "heading_size": "medium"
+          }
+        },
+        "text_1": {
+          "type": "text",
+          "settings": {
+            "text": "Add your delivery destinations, processing times, shipping costs, and tracking information here."
+          }
+        },
+        "heading_2": {
+          "type": "heading",
+          "settings": {
+            "heading": "Returns and exchanges",
+            "heading_tag": "h2",
+            "heading_size": "medium"
+          }
+        },
+        "text_2": {
+          "type": "text",
+          "settings": {
+            "text": "Add your return window, eligibility requirements, and instructions for requesting a return here."
+          }
+        },
+        "heading_3": {
+          "type": "heading",
+          "settings": {
+            "heading": "Need a hand?",
+            "heading_tag": "h2",
+            "heading_size": "medium"
+          }
+        },
+        "text_3": {
+          "type": "text",
+          "settings": {
+            "text": "Contact our customer care team for help with your order."
+          }
+        },
+        "contact_link": {
+          "type": "button",
+          "settings": {
+            "button_label": "Contact us",
+            "button_link": "/preview?template=contact"
+          }
+        }
+      },
+      "block_order": [
+        "heading_0",
+        "text_0",
+        "heading_1",
+        "text_1",
+        "heading_2",
+        "text_2",
+        "heading_3",
+        "text_3",
+        "contact_link"
+      ]
+    },
+    "footer_main": {
+      "type": "footer",
+      "settings": {
+        "brand_name": "Serein",
+        "description": "Thoughtfully made essentials for slower, more intentional everyday living.",
+        "shop_links": "New arrivals, Best sellers, Home & living, Gifts",
+        "help_links": "About us, Shipping & returns, FAQs, Contact",
+        "newsletter_heading": "Stay in the loop",
+        "newsletter_text": "New stories, considered objects, and occasional notes \u2014 delivered with care.",
+        "email_placeholder": "Your email address",
+        "copyright_text": "\u00a9 2026 Serein. All rights reserved.",
+        "color_scheme": "scheme-4",
+        "show_socials": true,
+        "show_payment_methods": true,
+        "padding_top": 72,
+        "padding_bottom": 28
+      }
+    }
+  },
+  "order": ["header_main", "page_content", "footer_main"]
+}

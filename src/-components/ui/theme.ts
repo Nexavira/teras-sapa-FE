@@ -51,14 +51,14 @@ export const theme = {
 
     text: {
       primary: '#18181b',
-      secondary: '#71717a',
+      secondary: '#52525b',
       inverse: '#FFFFFF',
     },
 
     border: '#e4e4e7',
     error: '#DB4153',
     success: '#32C9B0',
-    muted: '#F4F4F5',
+    muted: '#d4d4d8',
 
     white: '#FFFFFF',
     black: '#000000',

@@ -10,6 +10,8 @@ export interface TypographyProps {
   weight?: 'regular' | 'medium' | 'bold'
   children: ReactNode
   className?: string
+  style?: React.CSSProperties
+  id?: string
 }
 
 const StyledTypography = styled.span<TypographyProps>`
@@ -49,7 +51,7 @@ const StyledTypography = styled.span<TypographyProps>`
       case 'secondary':
         return theme.colors.text.secondary
       case 'muted':
-        return theme.colors.muted // wait, text muted is secondary? let's use text.secondary for muted
+        return theme.colors.muted
       case 'inverse':
         return theme.colors.text.inverse
       case 'inherit':
