@@ -11,16 +11,16 @@ Global theme settings control store-wide branding, design tokens, typography, la
 
 In Teras Sapa's React architecture:
 
-1. **`themes/config/settings_schema.json`** defines the editable form categories and input controls displayed in the Theme Customizer's global settings inspector.
-2. **`themes/config/settings_data.json`** stores the active merchant values.
-3. **`themes/layout/ThemeLayout.tsx`** reads `settings_data.json` and injects dynamic CSS custom properties (`var(--token)`) into `:root`.
+1. **`themes/dawn/config/settings_schema.json`** defines the editable form categories and input controls displayed in the Theme Customizer's global settings inspector.
+2. **`themes/dawn/config/settings_data.json`** stores the active merchant values.
+3. **`themes/dawn/layout/ThemeLayout.tsx`** reads `settings_data.json` and injects dynamic CSS custom properties (`var(--token)`) into `:root`.
 4. **All Sections & Blocks** consume these CSS variables directly via Emotion styled components, ensuring a cohesive, store-wide design system with zero hardcoded values.
 
 ```mermaid
 graph TD
     subgraph Configuration
-        A[themes/config/settings_schema.json] -->|Defines Settings GUI| B[Theme Customizer Global Inspector]
-        B -->|Merchant Customizes| C[themes/config/settings_data.json]
+        A[themes/dawn/config/settings_schema.json] -->|Defines Settings GUI| B[Theme Customizer Global Inspector]
+        B -->|Merchant Customizes| C[themes/dawn/config/settings_data.json]
     end
 
     subgraph Runtime Injection

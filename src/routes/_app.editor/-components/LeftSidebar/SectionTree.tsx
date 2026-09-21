@@ -15,7 +15,7 @@ import type { SectionEntryProps } from './SectionEntry'
 import { SectionEntry } from './SectionEntry'
 import { AddSectionButton } from './sectionTreeStyles'
 import { TreeGroup } from './TreeGroup'
-import { BlockRegistry, SectionRegistry } from '#themes/registry'
+import { BlockRegistry, SectionRegistry } from '#themes'
 
 interface AddBlockTarget {
   sectionId: string

@@ -6,7 +6,7 @@ import { CheckmarkCircle02Icon, Settings02Icon } from 'hugeicons-react'
 import { theme, Typography } from '#/-components/ui'
 import { editorActions, useEditorGlobalSettings } from '#/store/editorStore'
 
-import type { ColorSchemeSettings } from '#themes/types/theme'
+import type { ColorSchemeSettings } from '#themes'
 
 const Container = styled.div`
   display: flex;

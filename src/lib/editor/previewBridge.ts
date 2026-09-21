@@ -1,4 +1,4 @@
-import type { GlobalSettingsData, TemplateData } from '#themes/types/theme'
+import type { GlobalSettingsData, TemplateData } from '#themes'
 
 /**
  * ============================================================================

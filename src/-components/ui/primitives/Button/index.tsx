@@ -6,7 +6,7 @@ import styled from '@emotion/styled'
 
 import type { Theme } from '../../theme'
 import { theme as defaultTheme } from '../../theme'
-import { hexToRgba } from '#themes/index.ts'
+import { hexToRgba } from '#themes'
 
 export type ButtonVariant = 'solid' | 'ghost' | 'outline' | 'dashed' | 'text'
 export type ButtonColor =

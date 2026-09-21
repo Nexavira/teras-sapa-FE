@@ -18,7 +18,7 @@ import {
   InspectorBody,
   InspectorHeader,
 } from './inspectorStyles'
-import { SectionRegistry } from '#themes/registry'
+import { SectionRegistry } from '#themes'
 
 interface SectionInspectorProps {
   sectionId: string

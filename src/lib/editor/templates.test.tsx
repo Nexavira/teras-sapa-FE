@@ -4,7 +4,7 @@ import { afterEach, describe, expect, it } from 'vitest'
 import { PageRenderer } from '#/routes/preview/-components/PageRenderer'
 import { editorActions, editorStore } from '#/store/editorStore'
 
-import { getTemplate, templateCatalog } from '#themes/templates/catalog'
+import { getTemplate, templateCatalog } from '#themes'
 
 const originalState = structuredClone(editorStore.state)
 afterEach(() => {

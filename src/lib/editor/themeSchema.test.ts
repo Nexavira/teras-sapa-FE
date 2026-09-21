@@ -5,11 +5,7 @@ import {
   getBlockAvailability,
   getSchemaDefaults,
 } from './themeSchema'
-import type {
-  BlockSchema,
-  SectionInstance,
-  SectionSchema,
-} from '#themes/types/theme'
+import type { BlockSchema, SectionInstance, SectionSchema } from '#themes'
 
 const textBlock: BlockSchema = {
   type: 'text',

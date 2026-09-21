@@ -1,4 +1,4 @@
-import type { BlockInstance } from '#themes/types/theme'
+import type { BlockInstance } from '#themes'
 
 export interface BlockCollection {
   block_order?: string[]

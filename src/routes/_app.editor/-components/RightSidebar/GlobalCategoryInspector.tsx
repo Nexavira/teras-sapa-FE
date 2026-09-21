@@ -13,8 +13,8 @@ import {
   InspectorBody,
   InspectorHeader,
 } from './inspectorStyles'
-import settingsSchemaData from '#themes/config/settings_schema.json'
-import type { SettingDefinition } from '#themes/types/theme'
+import type { SettingDefinition } from '#themes'
+import { settingsSchemaData } from '#themes'
 
 interface GlobalCategoryInspectorProps {
   categoryName: string

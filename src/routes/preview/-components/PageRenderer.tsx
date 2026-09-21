@@ -11,17 +11,15 @@ import { PREVIEW_MESSAGE_TYPES } from '#/lib/editor/previewBridge'
 import { editorActions } from '#/store/editorStore'
 
 import { PreviewSectionWrapper } from './PreviewSectionWrapper'
-import defaultSettingsData from '#themes/config/settings_data.json'
-import { ThemeLayout } from '#themes/layout/ThemeLayout'
-import { SectionRegistry } from '#themes/registry'
-import { normalizeFeaturedCollections } from '#themes/sections/featured-collection/featuredCollectionBlocks'
-import { normalizeImageWithText } from '#themes/sections/image-with-text/imageWithTextBlocks'
-import { getTemplate } from '#themes/templates/catalog'
-import type {
-  GlobalSettingsData,
-  SpacingValue,
-  TemplateData,
-} from '#themes/types/theme'
+import type { GlobalSettingsData, SpacingValue, TemplateData } from '#themes'
+import {
+  defaultSettingsData,
+  getTemplate,
+  normalizeTemplate,
+  SectionRegistry,
+  ThemeEditorProvider,
+  ThemeLayout,
+} from '#themes'
 
 const MissingSectionBox = styled.div`
   padding: 32px;
@@ -46,23 +44,16 @@ export const PageRenderer: React.FC<PageRendererProps> = ({
   const isEditor = mode === 'editor'
 
   const [template, setTemplate] = useState<TemplateData>(() =>
-    normalizeImageWithText(
-      normalizeFeaturedCollections(getTemplate(templateId)),
-    ),
+    normalizeTemplate(getTemplate(templateId)),
   )
-  const [globalSettings, setGlobalSettings] = useState<GlobalSettingsData>(
-    defaultSettingsData as GlobalSettingsData,
-  )
+  const [globalSettings, setGlobalSettings] =
+    useState<GlobalSettingsData>(defaultSettingsData)
   const [selectedItem, setSelectedItem] = useState<PreviewSelectedItem | null>(
     null,
   )
 
   useEffect(() => {
-    setTemplate(
-      normalizeImageWithText(
-        normalizeFeaturedCollections(getTemplate(templateId)),
-      ),
-    )
+    setTemplate(normalizeTemplate(getTemplate(templateId)))
     setSelectedItem(null)
   }, [templateId])
 
@@ -80,11 +71,7 @@ export const PageRenderer: React.FC<PageRendererProps> = ({
       switch (data.type) {
         case PREVIEW_MESSAGE_TYPES.SYNC_STATE: {
           if (data.payload.template.name) {
-            setTemplate(
-              normalizeImageWithText(
-                normalizeFeaturedCollections(data.payload.template),
-              ),
-            )
+            setTemplate(normalizeTemplate(data.payload.template))
             editorActions.setTemplate(data.payload.template)
           }
           // if (data.payload.globalSettings) {
@@ -255,12 +242,24 @@ export const PageRenderer: React.FC<PageRendererProps> = ({
   })
 
   return (
-    <ThemeLayout
-      globalSettings={globalSettings}
-      headerComponent={headerSectionNode}
-      footerComponent={footerSectionNode}
+    <ThemeEditorProvider
+      value={{
+        selectedItem,
+        selectBlock: (selection) =>
+          handleSelectSection(
+            selection.sectionId,
+            selection.id,
+            selection.parentBlockId,
+          ),
+      }}
     >
-      {renderedSections}
-    </ThemeLayout>
+      <ThemeLayout
+        globalSettings={globalSettings}
+        headerComponent={headerSectionNode}
+        footerComponent={footerSectionNode}
+      >
+        {renderedSections}
+      </ThemeLayout>
+    </ThemeEditorProvider>
   )
 }

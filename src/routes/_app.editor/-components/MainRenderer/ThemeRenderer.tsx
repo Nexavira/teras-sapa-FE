@@ -10,9 +10,8 @@ import {
   useEditorTemplate,
 } from '#/store/editorStore'
 
-import { ThemeLayout } from '#themes/layout/ThemeLayout'
-import { SectionRegistry } from '#themes/registry'
-import type { SpacingValue } from '#themes/types/theme'
+import type { SpacingValue } from '#themes'
+import { SectionRegistry, ThemeEditorProvider, ThemeLayout } from '#themes'
 
 const MissingSectionPlaceholder = styled.div`
   padding: 32px;
@@ -103,12 +102,19 @@ export const ThemeRenderer: React.FC<ThemeRendererProps> = ({
   })
 
   return (
-    <ThemeLayout
-      globalSettings={globalSettings}
-      headerComponent={headerSectionNode}
-      footerComponent={footerSectionNode}
+    <ThemeEditorProvider
+      value={{
+        selectedItem,
+        selectBlock: (selection) => editorActions.selectItem(selection),
+      }}
     >
-      {renderedSections}
-    </ThemeLayout>
+      <ThemeLayout
+        globalSettings={globalSettings}
+        headerComponent={headerSectionNode}
+        footerComponent={footerSectionNode}
+      >
+        {renderedSections}
+      </ThemeLayout>
+    </ThemeEditorProvider>
   )
 }

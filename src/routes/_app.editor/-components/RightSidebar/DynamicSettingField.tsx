@@ -21,7 +21,7 @@ import {
   TextArea,
   TextInput,
 } from './inspectorStyles'
-import type { SettingDefinition, SpacingValue } from '#themes/types/theme'
+import type { SettingDefinition, SpacingValue } from '#themes'
 
 interface DynamicSettingFieldProps {
   setting: SettingDefinition

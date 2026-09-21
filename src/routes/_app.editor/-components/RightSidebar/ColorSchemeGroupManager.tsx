@@ -14,7 +14,7 @@ import { Button, IconButton, theme } from '#/-components/ui'
 import { ColorPicker } from '#/-components/ui/primitives/ColorPicker'
 import { editorActions, useEditorGlobalSettings } from '#/store/editorStore'
 
-import type { ColorSchemeSettings } from '#themes/types/theme'
+import type { ColorSchemeSettings } from '#themes'
 
 const Container = styled.div`
   display: flex;

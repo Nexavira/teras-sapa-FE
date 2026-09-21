@@ -8,7 +8,7 @@ import {
 } from '#/-components/editor/EditorSurface'
 import type { ItemHoveredMessage } from '#/lib/editor/previewBridge'
 
-import type { SpacingValue } from '#themes/types/theme'
+import type { SpacingValue } from '#themes'
 
 interface SectionWrapperProps {
   id: string

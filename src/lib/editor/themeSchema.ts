@@ -4,7 +4,7 @@ import type {
   SectionInstance,
   SectionSchema,
   SettingDefinition,
-} from '#themes/types/theme'
+} from '#themes'
 
 export interface BlockAvailability {
   canAdd: boolean

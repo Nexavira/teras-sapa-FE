@@ -9,7 +9,7 @@ import { BlockList } from './BlockList'
 import { EditorItemIcon } from './EditorItemIcon'
 import { SortableEntry, SubNavList } from './sectionTreeStyles'
 import { ActionIconButton, TreeItem } from './TreeItem'
-import type { SectionInstance, SectionSchema } from '#themes/types/theme'
+import type { SectionInstance, SectionSchema } from '#themes'
 
 export interface SectionEntryProps {
   canRemove: boolean

@@ -26,7 +26,7 @@ import {
   useEditorViewport,
 } from '#/store/editorStore'
 
-import { templateCatalog } from '#themes/templates/catalog'
+import { templateCatalog } from '#themes'
 
 const TopHeader = styled.header`
   height: 60px;

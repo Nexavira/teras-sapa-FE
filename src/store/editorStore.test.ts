@@ -2,7 +2,7 @@ import { afterAll, beforeEach, describe, expect, it } from 'vitest'
 
 import type { EditorState } from './editorStore'
 import { editorActions, editorStore } from './editorStore'
-import type { TemplateData } from '#themes/types/theme'
+import type { TemplateData } from '#themes'
 
 const originalState = structuredClone(editorStore.get())
 

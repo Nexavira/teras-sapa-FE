@@ -19,7 +19,7 @@ import {
   InspectorBody,
   InspectorHeader,
 } from './inspectorStyles'
-import { BlockRegistry } from '#themes/registry'
+import { BlockRegistry } from '#themes'
 
 interface BlockInspectorProps {
   sectionId: string

@@ -1,6 +1,6 @@
 import styled from '@emotion/styled'
 
-import type { SpacingValue } from '#themes/types/theme'
+import type { SpacingValue } from '#themes'
 
 export const EditorSurface = styled.div<{
   $isSelected: boolean

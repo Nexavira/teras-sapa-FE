@@ -62,6 +62,28 @@ export default [
     },
   },
   {
+    files: ['src/**/*.{ts,tsx}'],
+    rules: {
+      'no-restricted-imports': [
+        'error',
+        {
+          patterns: [
+            {
+              regex: '^#themes/',
+              message:
+                'Application code must import only from the public #themes package entry point.',
+            },
+            {
+              regex: '^(?:\\.\\.?/)+themes(?:/|$)',
+              message:
+                'Application code must import only from the public #themes package entry point.',
+            },
+          ],
+        },
+      ],
+    },
+  },
+  {
     ignores: [
       'eslint.config.js',
       'prettier.config.js',

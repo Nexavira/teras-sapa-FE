@@ -9,12 +9,8 @@ import { editorActions } from '#/store/editorStore'
 import { editorSensors } from './editorDnd'
 import { AddBlockButton, NestedBlockList } from './sectionTreeStyles'
 import { SortableBlockEntry } from './SortableBlockEntry'
-import { BlockRegistry } from '#themes/registry'
-import type {
-  BlockInstance,
-  BlockSchema,
-  SectionSchema,
-} from '#themes/types/theme'
+import type { BlockInstance, BlockSchema, SectionSchema } from '#themes'
+import { BlockRegistry } from '#themes'
 
 interface BlockListProps {
   blocks: Record<string, BlockInstance>

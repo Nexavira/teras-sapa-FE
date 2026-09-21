@@ -13,7 +13,7 @@ The **Section Schema** acts as the single source of truth connecting three disti
 
 1. **The Merchant Customizer:** Automatically generates intuitive visual inspector controls (inputs, dropdowns, pickers, color pickers) in the editor sidebar.
 2. **The Component Contract:** Defines strict TypeScript interfaces passed as props (`SectionComponentProps<T>`) to the React component.
-3. **The Data Storage Layer:** Serializes section instances, child blocks, and active settings into pure JSON template files (`themes/templates/*.json`).
+3. **The Data Storage Layer:** Serializes section instances, child blocks, and active settings into pure JSON template files (`themes/dawn/templates/*.json`).
 
 ```mermaid
 graph TD
@@ -36,10 +36,10 @@ graph TD
 
 | Unit              | Directory                       |                  Has Schema?                  |          Customizer Visible?           | Purpose                                                                                                      |
 | :---------------- | :------------------------------ | :-------------------------------------------: | :------------------------------------: | :----------------------------------------------------------------------------------------------------------- |
-| **Section**       | `themes/sections/[name]/`       |         **YES** (`[Name].schema.ts`)          |     **YES** (Layer tree & canvas)      | High-level modular layout components (e.g. `Header`, `HeroBanner`, `FeaturedCollection`, `Footer`).          |
-| **Block**         | `themes/blocks/[name]/`         |         **YES** (`[Name].schema.ts`)          | **YES** (Nested inside parent section) | Reorderable, addable child components living within a section (e.g. `Announcement`, `Slide`, `ButtonBlock`). |
-| **Snippet**       | `themes/snippets/[name]/`       |         **NO** (Strictly prohibited)          |    **NO** (Internal developer-only)    | Reusable UI rendering helpers (e.g. `Price`, `Badge`, `RatingStars`, `QuantityInput`).                       |
-| **Master Layout** | `themes/layout/ThemeLayout.tsx` | Global schema (`config/settings_schema.json`) |        **YES** (Theme settings)        | Master viewport wrapper injecting global CSS tokens (`--color-bg`, `--font-heading`) into `:root`.           |
+| **Section**       | `themes/dawn/sections/[name]/`       |         **YES** (`[Name].schema.ts`)          |     **YES** (Layer tree & canvas)      | High-level modular layout components (e.g. `Header`, `HeroBanner`, `FeaturedCollection`, `Footer`).          |
+| **Block**         | `themes/dawn/blocks/[name]/`         |         **YES** (`[Name].schema.ts`)          | **YES** (Nested inside parent section) | Reorderable, addable child components living within a section (e.g. `Announcement`, `Slide`, `ButtonBlock`). |
+| **Snippet**       | `themes/dawn/snippets/[name]/`       |         **NO** (Strictly prohibited)          |    **NO** (Internal developer-only)    | Reusable UI rendering helpers (e.g. `Price`, `Badge`, `RatingStars`, `QuantityInput`).                       |
+| **Master Layout** | `themes/dawn/layout/ThemeLayout.tsx` | Global schema (`config/settings_schema.json`) |        **YES** (Theme settings)        | Master viewport wrapper injecting global CSS tokens (`--color-bg`, `--font-heading`) into `:root`.           |
 
 ---
 
@@ -243,7 +243,7 @@ Used when a section requires simple repeating items (such as feature bullet poin
 
 ---
 
-## 5. TypeScript Specification (`themes/types/theme.ts`)
+## 5. TypeScript Specification (`themes/shared/types/theme.ts`)
 
 ```typescript
 export type SettingType =
@@ -395,7 +395,7 @@ export interface SectionSchema {
 ### A. `HeroBanner.schema.ts`
 
 ```typescript
-import type { SectionSchema } from '../../types/theme'
+import type { SectionSchema } from '#themes/shared/types/theme'
 
 export const HeroBannerSchema: SectionSchema = {
   type: 'hero_banner',
@@ -541,7 +541,7 @@ export const HeroBannerSchema: SectionSchema = {
 ### B. `FeaturedCollection.schema.ts`
 
 ```typescript
-import type { SectionSchema } from '../../types/theme'
+import type { SectionSchema } from '#themes/shared/types/theme'
 
 export const FeaturedCollectionSchema: SectionSchema = {
   type: 'featured_collection',
@@ -645,7 +645,7 @@ export const FeaturedCollectionSchema: SectionSchema = {
 
 ## 7. Template JSON Persistence Model
 
-Merchant customizations made in the Theme Customizer are serialized into clean, pure JSON template files (`themes/templates/*.json`):
+Merchant customizations made in the Theme Customizer are serialized into clean, pure JSON template files (`themes/dawn/templates/*.json`):
 
 ```json
 {

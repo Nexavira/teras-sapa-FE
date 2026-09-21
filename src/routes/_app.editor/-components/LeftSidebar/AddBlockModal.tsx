@@ -15,7 +15,7 @@ import type {
   BlockSchema,
   SectionInstance,
   SectionSchema,
-} from '#themes/types/theme'
+} from '#themes'
 
 const ModalOverlay = styled.div`
   position: fixed;

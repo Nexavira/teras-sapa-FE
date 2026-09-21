@@ -11,8 +11,8 @@ import {
 import { useEditorTemplate } from '#/store/editorStore'
 
 import { EditorItemIcon } from './EditorItemIcon'
-import { SectionRegistry } from '#themes/registry'
-import type { SectionPreset } from '#themes/types/theme'
+import type { SectionPreset } from '#themes'
+import { SectionRegistry } from '#themes'
 
 const ModalOverlay = styled.div`
   position: fixed;

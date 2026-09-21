@@ -9,7 +9,7 @@ import { editorActions, useEditorSelectedItem } from '#/store/editorStore'
 import { EditorItemIcon } from './EditorItemIcon'
 import { SortableEntry, SubNavList } from './sectionTreeStyles'
 import { ActionIconButton, TreeItem } from './TreeItem'
-import type { BlockInstance, BlockSchema } from '#themes/types/theme'
+import type { BlockInstance, BlockSchema } from '#themes'
 
 interface SortableBlockEntryProps {
   block: BlockInstance

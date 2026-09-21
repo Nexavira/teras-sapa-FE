@@ -35,30 +35,32 @@ graph TD
 
 ```text
 themes/
-├── config/
-│   ├── settings_schema.json          # 🌐 Global theme settings schema (Colors, Logo, Typography)
-│   └── settings_data.json            # ⚙️ Active global theme values
-├── layout/
-│   └── ThemeLayout.tsx               # 🖼️ Master layout (Translates layout/theme.liquid into React)
-├── sections/
-│   └── header/
-│       ├── Header.tsx                # 🧩 Header section component
-│       ├── Header.schema.ts          # 📜 Header section schema (settings, blocks, presets)
-│       └── index.ts
-├── blocks/
-│   └── announcement/
-│       ├── AnnouncementBlock.tsx     # 🧱 Announcement bar child block component
-│       ├── AnnouncementBlock.schema.ts # 📜 Announcement block schema
-│       └── index.ts
-├── snippets/
-│   ├── Price.tsx                     # ✂️ Reusable UI snippet (No schema, developer-facing)
-│   └── index.ts
-├── templates/
-│   └── index.json                    # 📄 Page template (Translates templates/index.json)
-├── registry.ts                       # 🗺️ Central Section & Block Registry
-├── types/theme.ts                    # 🏷️ TypeScript definitions
-└── index.ts                          # 📦 Public theme API
+├── active.ts                         # Active-theme adapter used by the editor
+├── registry.ts                       # Registry of all installed themes
+├── shared/
+│   ├── types/theme.ts                # Shared theme contracts
+│   └── utils/colors.ts               # Shared engine utilities
+├── dawn/                             # One self-contained theme package
+│   ├── config/
+│   ├── layout/
+│   ├── sections/
+│   ├── blocks/
+│   ├── snippets/
+│   ├── templates/
+│   ├── registry.ts                   # Dawn section and block registry
+│   └── index.ts                      # Dawn ThemeDefinition
+└── index.ts                          # Public multi-theme API
 ```
+
+Each additional theme should be a sibling of `dawn/` and export a
+`ThemeDefinition` from its `index.ts`. Register it in `themes/registry.ts`.
+The public `themes/index.ts` entry point exposes the active-theme adapter and
+shared contracts, so theme-specific files remain isolated behind that API.
+
+Application code under `src/` must import theme contracts and runtime values
+only from the public `#themes` entry point. Deep theme imports are rejected by
+ESLint. Theme implementations may import application APIs when integration is
+required, while their internal components, schemas, and utilities stay private.
 
 ---
 
@@ -93,7 +95,7 @@ Global settings dictate store-wide branding, colors, typography, and layout rule
 
 Equivalent to Shopify's `layout/theme.liquid`.
 
-- **File:** `themes/layout/ThemeLayout.tsx`
+- **File:** `themes/dawn/layout/ThemeLayout.tsx`
 - **Purpose:** Wraps all storefront pages with global CSS tokens, header groups, main content container (`children`), and footer groups.
 
 ```tsx
@@ -269,10 +271,10 @@ The interactive visual editor where merchants customize their theme is colocated
 
 ### Step 1: Define the Section Schema
 
-Create `themes/sections/my-section/MySection.schema.ts`:
+Create `themes/dawn/sections/my-section/MySection.schema.ts`:
 
 ```ts
-import type { SectionSchema } from '../../types/theme'
+import type { SectionSchema } from '#themes/shared/types/theme'
 
 export const MySectionSchema: SectionSchema = {
   type: 'my-section',
@@ -306,12 +308,12 @@ export const MySectionSchema: SectionSchema = {
 
 ### Step 2: Create the React Section Component
 
-Create `themes/sections/my-section/MySection.tsx`:
+Create `themes/dawn/sections/my-section/MySection.tsx`:
 
 ```tsx
 import React from 'react'
 import styled from '@emotion/styled'
-import type { SectionComponentProps } from '../../types/theme'
+import type { SectionComponentProps } from '#themes/shared/types/theme'
 
 export interface MySectionSettings {
   heading?: string

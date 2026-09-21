@@ -8,10 +8,6 @@ import {
   updateBlockInTree,
 } from '#/lib/editor/blockTree'
 
-import defaultSettingsData from '#themes/config/settings_data.json'
-import { normalizeFeaturedCollections } from '#themes/sections/featured-collection/featuredCollectionBlocks'
-import { normalizeImageWithText } from '#themes/sections/image-with-text/imageWithTextBlocks'
-import { getTemplate, templateCatalog } from '#themes/templates/catalog'
 import type {
   BlockInstance,
   BlockPreset,
@@ -19,7 +15,13 @@ import type {
   GlobalSettingsData,
   SectionInstance,
   TemplateData,
-} from '#themes/types/theme'
+} from '#themes'
+import {
+  defaultSettingsData,
+  getTemplate,
+  normalizeTemplate,
+  templateCatalog,
+} from '#themes'
 
 export interface SelectedItem {
   type: 'section' | 'block' | 'global_settings_category'
@@ -52,9 +54,7 @@ export interface EditorState {
 
 const MAX_HISTORY_LENGTH = 30
 
-const initialTemplate: TemplateData = normalizeImageWithText(
-  normalizeFeaturedCollections(getTemplate()),
-)
+const initialTemplate: TemplateData = normalizeTemplate(getTemplate())
 const initialSettings: GlobalSettingsData = defaultSettingsData
 
 export const editorStore = new Store<EditorState>({
@@ -184,9 +184,7 @@ export const editorActions = {
       if (state.activeTemplateId === templateId) return state
       const template =
         state.templateDrafts[templateId] ??
-        normalizeImageWithText(
-          normalizeFeaturedCollections(getTemplate(templateId)),
-        )
+        normalizeTemplate(getTemplate(templateId))
       return {
         ...state,
         activeTemplateId: templateId,
@@ -207,7 +205,7 @@ export const editorActions = {
     editorStore.setState((state) => ({
       ...state,
       history: pushHistorySnapshot(state),
-      template: normalizeImageWithText(normalizeFeaturedCollections(template)),
+      template: normalizeTemplate(template),
     }))
   },
 
@@ -931,9 +929,7 @@ export const editorActions = {
     editorStore.setState((state) => ({
       ...state,
       history: pushHistorySnapshot(state),
-      template: normalizeImageWithText(
-        normalizeFeaturedCollections(getTemplate(state.activeTemplateId)),
-      ),
+      template: normalizeTemplate(getTemplate(state.activeTemplateId)),
       globalSettings: JSON.parse(JSON.stringify(initialSettings)),
       selectedItem: {
         type: 'section',
