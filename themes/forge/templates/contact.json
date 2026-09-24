@@ -1,0 +1,74 @@
+{
+  "name": "Contact",
+  "layout": "theme",
+  "sections": {
+    "header_main": {
+      "type": "header",
+      "settings": {
+        "logo_text": "ATLAS / INDUSTRIES",
+        "cta_label": "Start a project",
+        "cta_url": "/preview?theme=forge&template=contact"
+      }
+    },
+    "hero": {
+      "type": "company_hero",
+      "settings": {
+        "title": "Direct engineering collaboration from first inquiry.",
+        "intro": "Discuss requirements, feasibility, tolerances, or complete line deliveries with senior specialists.",
+        "image": "https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?auto=format&fit=crop&w=1800&q=88",
+        "show_stamp": true,
+        "stamp_text": "Made to\nendure\n↘"
+      }
+    },
+    "enquiries": {
+      "type": "company_split",
+      "settings": {
+        "eyebrow": "Project enquiries",
+        "heading": "Bring us the difficult brief.",
+        "intro": "Tell us what needs to move, perform or endure. Our engineering team will respond within two working days.",
+        "dark_mode": false
+      },
+      "blocks": {
+        "form_1": {
+          "type": "contact_form",
+          "settings": {
+            "submit_label": "Send enquiry",
+            "name_placeholder": "Your name",
+            "email_placeholder": "name@company.com",
+            "company_placeholder": "Company name",
+            "brief_placeholder": "Scope, timing and the problem we can help solve"
+          }
+        }
+      },
+      "block_order": ["form_1"]
+    },
+    "visit": {
+      "type": "company_split",
+      "settings": {
+        "eyebrow": "Visit us",
+        "heading": "Bandung engineering campus.",
+        "dark_mode": true
+      },
+      "blocks": {
+        "info_1": {
+          "type": "contact_info",
+          "settings": {
+            "address": "Jl. Industri Selatan 18\nBandung, West Java 40286",
+            "phone": "+62 22 555 0187",
+            "email": "projects@atlas-industries.com"
+          }
+        }
+      },
+      "block_order": ["info_1"]
+    },
+    "footer_main": {
+      "type": "footer",
+      "settings": {
+        "heading": "Built for what comes next.",
+        "email": "projects@atlas-industries.com",
+        "location": "West Java · Indonesia"
+      }
+    }
+  },
+  "order": ["header_main", "hero", "enquiries", "visit", "footer_main"]
+}

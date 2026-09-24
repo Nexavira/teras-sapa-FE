@@ -23,10 +23,9 @@ import {
   useEditorActiveTab,
   useEditorCanUndoRedo,
   useEditorStore,
+  useEditorTheme,
   useEditorViewport,
 } from '#/store/editorStore'
-
-import { templateCatalog } from '#themes'
 
 const TopHeader = styled.header`
   height: 60px;
@@ -108,6 +107,7 @@ export const EditorHeader: React.FC<EditorHeaderProps> = ({
   className,
 }) => {
   const activeTemplateId = useEditorStore((state) => state.activeTemplateId)
+  const { templateCatalog } = useEditorTheme()
   const activeTab = useEditorActiveTab()
   const viewport = useEditorViewport()
   const { canUndo, canRedo, isSaving, lastSavedAt } = useEditorCanUndoRedo()

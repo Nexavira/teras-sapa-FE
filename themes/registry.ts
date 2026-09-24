@@ -1,10 +1,12 @@
 import { dawnTheme } from './dawn'
+import { forgeTheme } from './forge'
 import type { ThemeDefinition } from './shared/types/theme'
 
 export const DEFAULT_THEME_ID = 'dawn'
 
 export const themeRegistry = {
   dawn: dawnTheme,
+  forge: forgeTheme,
 } satisfies Record<string, ThemeDefinition>
 
 export type ThemeId = keyof typeof themeRegistry

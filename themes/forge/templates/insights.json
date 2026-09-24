@@ -1,0 +1,80 @@
+{
+  "name": "Insights",
+  "layout": "theme",
+  "sections": {
+    "header_main": {
+      "type": "header",
+      "settings": {
+        "logo_text": "ATLAS / INDUSTRIES",
+        "cta_label": "Start a project",
+        "cta_url": "/preview?theme=forge&template=contact"
+      }
+    },
+    "hero": {
+      "type": "company_hero",
+      "settings": {
+        "title": "Perspectives on process, tolerance, and industrial scale.",
+        "intro": "Field notes and technical commentary from our design and production teams.",
+        "image": "https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?auto=format&fit=crop&w=1800&q=88",
+        "show_stamp": true,
+        "stamp_text": "Made to\nendure\n↘"
+      }
+    },
+    "articles": {
+      "type": "company_bento",
+      "settings": {
+        "eyebrow": "Latest thinking",
+        "heading": "Notes from the factory floor.",
+        "dark_mode": false
+      },
+      "blocks": {
+        "art_1": {
+          "type": "bento_card",
+          "settings": {
+            "tag": "Engineering / 08 min",
+            "title": "Designing production resilience into every cell",
+            "description": "How modular thinking and digital commissioning reduce risk before equipment reaches the factory floor.",
+            "link_label": "Read article",
+            "link_url": "/preview?theme=forge&template=article",
+            "span": "7",
+            "dark": true
+          }
+        },
+        "art_2": {
+          "type": "bento_card",
+          "settings": {
+            "tag": "Perspective / 05 min",
+            "title": "The real cost of a one-millimetre deviation",
+            "description": "Precision is not a specification at the end. It is a culture built into every handoff.",
+            "link_label": "Read article",
+            "link_url": "/preview?theme=forge&template=article",
+            "span": "5",
+            "dark": false
+          }
+        },
+        "art_3": {
+          "type": "bento_card",
+          "settings": {
+            "tag": "Sustainability / 07 min",
+            "title": "Less scrap, more intelligence",
+            "description": "What closed-loop material planning means for modern fabrication.",
+            "link_label": "Read article",
+            "link_url": "/preview?theme=forge&template=article",
+            "span": "12",
+            "dark": false
+          }
+        }
+      },
+      "block_order": ["art_1", "art_2", "art_3"]
+    },
+    "footer_main": {
+      "type": "footer",
+      "settings": {
+        "heading": "Built for what comes next.",
+        "email": "projects@atlas-industries.com",
+        "location": "West Java · Indonesia"
+      }
+    }
+  },
+  "order": ["header_main", "hero", "articles", "footer_main"]
+}

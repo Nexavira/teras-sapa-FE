@@ -15,13 +15,9 @@ import type {
   GlobalSettingsData,
   SectionInstance,
   TemplateData,
+  ThemeDefinition,
 } from '#themes'
-import {
-  defaultSettingsData,
-  getTemplate,
-  normalizeTemplate,
-  templateCatalog,
-} from '#themes'
+import { getTheme } from '#themes'
 
 export interface SelectedItem {
   type: 'section' | 'block' | 'global_settings_category'
@@ -37,6 +33,7 @@ export interface EditorHistorySnapshot {
 }
 
 export interface EditorState {
+  themeId: string
   activeTemplateId: string
   templateDrafts: Record<string, TemplateData>
   template: TemplateData
@@ -54,10 +51,14 @@ export interface EditorState {
 
 const MAX_HISTORY_LENGTH = 30
 
-const initialTemplate: TemplateData = normalizeTemplate(getTemplate())
-const initialSettings: GlobalSettingsData = defaultSettingsData
+const initialTheme = getTheme()
+const initialTemplate: TemplateData = initialTheme.normalizeTemplate(
+  initialTheme.getTemplate(),
+)
+const initialSettings: GlobalSettingsData = initialTheme.defaultSettingsData
 
 export const editorStore = new Store<EditorState>({
+  themeId: initialTheme.id,
   activeTemplateId: 'index',
   templateDrafts: {},
   template: initialTemplate,
@@ -131,6 +132,29 @@ function createBlockFromPreset(preset: BlockPreset): BlockInstance {
 // ============================================================================
 
 export const editorActions = {
+  /** Load a registered theme into a fresh editor session. */
+  setTheme(themeId: string) {
+    const nextTheme = getTheme(themeId)
+    editorStore.setState((state) => {
+      if (state.themeId === nextTheme.id) return state
+
+      const template = nextTheme.normalizeTemplate(nextTheme.getTemplate())
+      return {
+        ...state,
+        themeId: nextTheme.id,
+        activeTemplateId: 'index',
+        templateDrafts: {},
+        template,
+        globalSettings: structuredClone(nextTheme.defaultSettingsData),
+        selectedItem: template.order[0]
+          ? { type: 'section', id: template.order[0] }
+          : null,
+        lastSavedAt: null,
+        history: { past: [], future: [] },
+      }
+    })
+  },
+
   /** Select an item (section, block, or global settings category) in the inspector */
   selectItem(item: SelectedItem | null) {
     editorStore.setState((state) => ({
@@ -179,12 +203,13 @@ export const editorActions = {
   },
 
   switchTemplate(templateId: string) {
-    if (!Object.hasOwn(templateCatalog, templateId)) return
     editorStore.setState((state) => {
+      const activeTheme = getTheme(state.themeId)
+      if (!Object.hasOwn(activeTheme.templateCatalog, templateId)) return state
       if (state.activeTemplateId === templateId) return state
       const template =
         state.templateDrafts[templateId] ??
-        normalizeTemplate(getTemplate(templateId))
+        activeTheme.normalizeTemplate(activeTheme.getTemplate(templateId))
       return {
         ...state,
         activeTemplateId: templateId,
@@ -205,7 +230,7 @@ export const editorActions = {
     editorStore.setState((state) => ({
       ...state,
       history: pushHistorySnapshot(state),
-      template: normalizeTemplate(template),
+      template: getTheme(state.themeId).normalizeTemplate(template),
     }))
   },
 
@@ -926,16 +951,21 @@ export const editorActions = {
 
   /** Reset state to default JSON configurations */
   resetToDefault() {
-    editorStore.setState((state) => ({
-      ...state,
-      history: pushHistorySnapshot(state),
-      template: normalizeTemplate(getTemplate(state.activeTemplateId)),
-      globalSettings: JSON.parse(JSON.stringify(initialSettings)),
-      selectedItem: {
-        type: 'section',
-        id: initialTemplate.order[0] || 'header_main',
-      },
-    }))
+    editorStore.setState((state) => {
+      const activeTheme = getTheme(state.themeId)
+      const template = activeTheme.normalizeTemplate(
+        activeTheme.getTemplate(state.activeTemplateId),
+      )
+      return {
+        ...state,
+        history: pushHistorySnapshot(state),
+        template,
+        globalSettings: structuredClone(activeTheme.defaultSettingsData),
+        selectedItem: template.order[0]
+          ? { type: 'section', id: template.order[0] }
+          : null,
+      }
+    })
   },
 }
 
@@ -949,6 +979,11 @@ export function useEditorStore<T>(selector: (state: EditorState) => T): T {
 
 export function useEditorTemplate(): TemplateData {
   return useSelector(editorStore, (s) => s.template)
+}
+
+export function useEditorTheme(): ThemeDefinition {
+  const themeId = useSelector(editorStore, (s) => s.themeId)
+  return getTheme(themeId)
 }
 
 export function useEditorGlobalSettings(): GlobalSettingsData {

@@ -147,4 +147,14 @@ describe('editorStore section and block actions', () => {
     expect(section.blocks?.[containerId]).toBeUndefined()
     expect(editorStore.get().selectedItem).not.toMatchObject({ id: childId })
   })
+
+  it('loads templates and settings from the selected theme', () => {
+    editorActions.setTheme('forge')
+
+    const state = editorStore.get()
+    expect(state.themeId).toBe('forge')
+    expect(state.activeTemplateId).toBe('index')
+    expect(state.template.name).toBe('Home')
+    expect(state.template.sections.main.type).toBe('company_page')
+  })
 })

@@ -31,6 +31,9 @@ export function normalizeTemplate(template: TemplateData): TemplateData {
 export const dawnTheme: ThemeDefinition = {
   id: 'dawn',
   name: 'Dawn',
+  description:
+    'A flexible storefront for product-led brands, with spacious merchandising and familiar shopping patterns.',
+  category: 'Commerce',
   ThemeLayout,
   SectionRegistry,
   BlockRegistry,

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /**
  * ============================================================================
  * Teras Sapa Theme Engine — Global Type Definitions
@@ -149,7 +150,7 @@ export interface SimpleCondition {
 
 export interface CompoundCondition {
   operator: 'and' | 'or'
-  conditions: (SimpleCondition | CompoundCondition)[]
+  conditions: Array<SimpleCondition | CompoundCondition>
 }
 
 export type VisibilityRule = SimpleCondition | CompoundCondition
@@ -168,7 +169,7 @@ export interface SettingOption<T = string | number> {
 export interface SettingTabDefinition {
   label: string
   id?: string
-  settings: SettingDefinition[]
+  settings: Array<SettingDefinition>
 }
 
 // ============================================================================
@@ -198,19 +199,19 @@ export interface SettingDefinition {
   unit?: string
 
   // Selection choices (select, radio, button_group, aspect_ratio)
-  options?: SettingOption[]
+  options?: Array<SettingOption>
 
   // Media constraints (image_picker, video, file_picker)
-  allowed_types?: string[]
-  accept?: string | string[]
+  allowed_types?: Array<string>
+  accept?: string | Array<string>
 
   // Rich text & WYSIWYG options
-  allowed_tags?: string[]
-  toolbar?: string[]
+  allowed_tags?: Array<string>
+  toolbar?: Array<string>
 
   // Repeater / Group / Tabs sub-fields
-  fields?: SettingDefinition[]
-  tabs?: SettingTabDefinition[]
+  fields?: Array<SettingDefinition>
+  tabs?: Array<SettingTabDefinition>
   min_items?: number
   max_items?: number
   item_label?: string
@@ -218,7 +219,7 @@ export interface SettingDefinition {
 
   // Color Scheme Group Definition (Shopify color_scheme_group)
   name?: string
-  definition?: SettingDefinition[]
+  definition?: Array<SettingDefinition>
   role?: Record<string, any>
 
   // Advanced Customizer Ergonomics
@@ -236,9 +237,9 @@ export interface BlockSchema {
   description?: string
   icon?: string
   limit?: number
-  settings: SettingDefinition[]
+  settings: Array<SettingDefinition>
   /** Supported child blocks when this block acts as a layout container. */
-  blocks?: BlockSchema[]
+  blocks?: Array<BlockSchema>
   /** Maximum number of direct child blocks allowed in this block. */
   max_blocks?: number
 }
@@ -246,14 +247,14 @@ export interface BlockSchema {
 export interface BlockPreset {
   type: string
   settings?: Record<string, any>
-  blocks?: BlockPreset[]
+  blocks?: Array<BlockPreset>
 }
 
 export interface SectionPreset {
   name: string
   category?: string
   settings?: Record<string, any>
-  blocks?: BlockPreset[]
+  blocks?: Array<BlockPreset>
 }
 
 export type SectionCategory =
@@ -289,20 +290,20 @@ export interface SectionSchema {
   limit?: number
   /** Template whitelist (e.g. { templates: ['product', 'collection'] }) */
   enabled_on?: {
-    templates?: string[]
+    templates?: Array<string>
   }
   /** Template blacklist (e.g. { templates: ['password', 'cart'] }) */
   disabled_on?: {
-    templates?: string[]
+    templates?: Array<string>
   }
   /** Array of setting controls */
-  settings: SettingDefinition[]
+  settings: Array<SettingDefinition>
   /** Supported child block schemas */
-  blocks?: BlockSchema[]
+  blocks?: Array<BlockSchema>
   /** Maximum total child blocks allowed in this section */
   max_blocks?: number
   /** Starter presets for adding this section from the library */
-  presets?: SectionPreset[]
+  presets?: Array<SectionPreset>
 }
 
 // ============================================================================
@@ -313,7 +314,7 @@ export interface BlockInstance {
   id?: string
   type: string
   settings: Record<string, any>
-  block_order?: string[]
+  block_order?: Array<string>
   blocks?: Record<string, BlockInstance>
 }
 
@@ -321,7 +322,7 @@ export interface SectionInstance {
   id?: string
   type: string
   settings: Record<string, any>
-  block_order?: string[]
+  block_order?: Array<string>
   blocks?: Record<string, BlockInstance>
 }
 
@@ -329,7 +330,7 @@ export interface TemplateData {
   name?: string
   layout?: string
   sections: Record<string, SectionInstance>
-  order: string[]
+  order: Array<string>
 }
 
 // ============================================================================
@@ -359,10 +360,10 @@ export interface GlobalSettingsSchemaCategory {
   theme_name?: string
   theme_version?: string
   theme_author?: string
-  settings?: SettingDefinition[]
+  settings?: Array<SettingDefinition>
 }
 
-export type GlobalSettingsSchema = GlobalSettingsSchemaCategory[]
+export type GlobalSettingsSchema = Array<GlobalSettingsSchemaCategory>
 
 export interface GlobalSettingsData {
   current: {
@@ -396,6 +397,8 @@ export interface ThemeTemplateEntry {
 export interface ThemeDefinition {
   id: string
   name: string
+  description: string
+  category: string
   ThemeLayout: ComponentType<ThemeLayoutProps>
   SectionRegistry: Partial<Record<string, RegisteredSection>>
   BlockRegistry: Record<string, RegisteredBlock>
@@ -414,7 +417,7 @@ export interface SectionComponentProps<TSettings = Record<string, any>> {
   id: string
   settings: TSettings
   blocks?: Record<string, BlockInstance>
-  blockOrder?: string[]
+  blockOrder?: Array<string>
   isEditor?: boolean
 }
 

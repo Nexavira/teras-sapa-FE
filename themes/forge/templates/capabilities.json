@@ -1,0 +1,135 @@
+{
+  "name": "Capabilities",
+  "layout": "theme",
+  "sections": {
+    "header_main": {
+      "type": "header",
+      "settings": {
+        "logo_text": "ATLAS / INDUSTRIES",
+        "cta_label": "Start a project",
+        "cta_url": "/preview?theme=forge&template=contact"
+      }
+    },
+    "hero": {
+      "type": "company_hero",
+      "settings": {
+        "title": "Precision fabrication, automated systems, integrated execution.",
+        "intro": "From single high-tolerance prototypes to full turnkey production lines.",
+        "image": "https://images.unsplash.com/photo-1530124566582-a618bc2615dc?auto=format&fit=crop&w=1800&q=88",
+        "show_stamp": true,
+        "stamp_text": "Made to\nendure\n↘"
+      }
+    },
+    "scope": {
+      "type": "company_bento",
+      "settings": {
+        "eyebrow": "Integrated scope",
+        "heading": "Fewer handoffs. Better control.",
+        "dark_mode": false
+      },
+      "blocks": {
+        "c_1": {
+          "type": "bento_card",
+          "settings": {
+            "tag": "01 / Discipline",
+            "title": "Precision fabrication",
+            "description": "Five-axis machining, robotic welding and complex metalwork held to microscopic tolerances.",
+            "span": "7",
+            "dark": true
+          }
+        },
+        "c_2": {
+          "type": "bento_card",
+          "settings": {
+            "tag": "02 / Discipline",
+            "title": "Systems integration",
+            "description": "Mechanical, electrical and control systems assembled, tested and commissioned as one.",
+            "span": "5",
+            "dark": false
+          }
+        },
+        "c_3": {
+          "type": "bento_card",
+          "settings": {
+            "tag": "03 / Discipline",
+            "title": "Industrial automation",
+            "description": "Purpose-built production cells that improve repeatability, throughput and operator safety.",
+            "span": "5",
+            "dark": false
+          }
+        },
+        "c_4": {
+          "type": "bento_card",
+          "settings": {
+            "tag": "04 / Discipline",
+            "title": "Quality assurance",
+            "description": "Traceable inspection from incoming material through final dimensional and performance validation.",
+            "span": "7",
+            "dark": true
+          }
+        }
+      },
+      "block_order": ["c_1", "c_2", "c_3", "c_4"]
+    },
+    "system": {
+      "type": "company_split",
+      "settings": {
+        "eyebrow": "Production system",
+        "heading": "From prototype to repeatable volume.",
+        "dark_mode": true
+      },
+      "blocks": {
+        "s_1": {
+          "type": "list_item",
+          "settings": {
+            "number": "01",
+            "title": "Design for manufacture",
+            "arrow_icon": "down_right"
+          }
+        },
+        "s_2": {
+          "type": "list_item",
+          "settings": {
+            "number": "02",
+            "title": "Prototype and validation",
+            "arrow_icon": "down_right"
+          }
+        },
+        "s_3": {
+          "type": "list_item",
+          "settings": {
+            "number": "03",
+            "title": "Tooling and process planning",
+            "arrow_icon": "down_right"
+          }
+        },
+        "s_4": {
+          "type": "list_item",
+          "settings": {
+            "number": "04",
+            "title": "Serial production",
+            "arrow_icon": "down_right"
+          }
+        },
+        "s_5": {
+          "type": "list_item",
+          "settings": {
+            "number": "05",
+            "title": "Lifecycle support",
+            "arrow_icon": "down_right"
+          }
+        }
+      },
+      "block_order": ["s_1", "s_2", "s_3", "s_4", "s_5"]
+    },
+    "footer_main": {
+      "type": "footer",
+      "settings": {
+        "heading": "Built for what comes next.",
+        "email": "projects@atlas-industries.com",
+        "location": "West Java · Indonesia"
+      }
+    }
+  },
+  "order": ["header_main", "hero", "scope", "system", "footer_main"]
+}

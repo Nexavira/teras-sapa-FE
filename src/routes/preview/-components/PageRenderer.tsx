@@ -1,6 +1,5 @@
-import React, { useEffect, useRef, useState } from 'react'
-
-import styled from '@emotion/styled'
+import type { FC, ReactNode } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 import type {
   EditorToPreviewMessage,
@@ -13,49 +12,64 @@ import { editorActions } from '#/store/editorStore'
 import { PreviewSectionWrapper } from './PreviewSectionWrapper'
 import type { GlobalSettingsData, SpacingValue, TemplateData } from '#themes'
 import {
+  BlockRegistry,
   defaultSettingsData,
   getTemplate,
+  getTheme,
   normalizeTemplate,
   SectionRegistry,
   ThemeEditorProvider,
+  ThemeErrorBoundary,
+  ThemeErrorCard,
   ThemeLayout,
 } from '#themes'
-
-const MissingSectionBox = styled.div`
-  padding: 32px;
-  text-align: center;
-  background-color: #fef2f2;
-  border: 1px dashed #ef4444;
-  color: #b91c1c;
-  margin: 16px 0;
-  border-radius: 8px;
-  font-size: 13px;
-`
 
 export interface PageRendererProps {
   mode?: 'editor' | 'preview'
   templateId?: string
+  themeId?: string
 }
 
-export const PageRenderer: React.FC<PageRendererProps> = ({
+export const PageRenderer: FC<PageRendererProps> = ({
   mode = 'preview',
   templateId = 'index',
+  themeId,
 }) => {
   const isEditor = mode === 'editor'
 
+  const selectedTheme = themeId ? getTheme(themeId) : null
+  const activeGetTemplate = selectedTheme?.getTemplate || getTemplate
+  const activeNormalizeTemplate =
+    selectedTheme?.normalizeTemplate || normalizeTemplate
+  const ActiveSectionRegistry =
+    selectedTheme?.SectionRegistry || SectionRegistry
+  const ActiveBlockRegistry = selectedTheme?.BlockRegistry || BlockRegistry
+  const ActiveThemeLayout = selectedTheme?.ThemeLayout || ThemeLayout
+  const activeDefaultSettings =
+    selectedTheme?.defaultSettingsData || defaultSettingsData
+
   const [template, setTemplate] = useState<TemplateData>(() =>
-    normalizeTemplate(getTemplate(templateId)),
+    activeNormalizeTemplate(activeGetTemplate(templateId)),
   )
-  const [globalSettings, setGlobalSettings] =
-    useState<GlobalSettingsData>(defaultSettingsData)
+  const [globalSettings, setGlobalSettings] = useState<GlobalSettingsData>(
+    activeDefaultSettings,
+  )
   const [selectedItem, setSelectedItem] = useState<PreviewSelectedItem | null>(
     null,
   )
 
   useEffect(() => {
-    setTemplate(normalizeTemplate(getTemplate(templateId)))
+    editorActions.setTheme(selectedTheme?.id || getTheme().id)
+    setTemplate(activeNormalizeTemplate(activeGetTemplate(templateId)))
+    setGlobalSettings(activeDefaultSettings)
     setSelectedItem(null)
-  }, [templateId])
+  }, [
+    activeDefaultSettings,
+    activeGetTemplate,
+    activeNormalizeTemplate,
+    selectedTheme?.id,
+    templateId,
+  ])
 
   const isMountedRef = useRef(false)
 
@@ -71,7 +85,7 @@ export const PageRenderer: React.FC<PageRendererProps> = ({
       switch (data.type) {
         case PREVIEW_MESSAGE_TYPES.SYNC_STATE: {
           if (data.payload.template.name) {
-            setTemplate(normalizeTemplate(data.payload.template))
+            setTemplate(activeNormalizeTemplate(data.payload.template))
             editorActions.setTemplate(data.payload.template)
           }
           // if (data.payload.globalSettings) {
@@ -121,7 +135,7 @@ export const PageRenderer: React.FC<PageRendererProps> = ({
     return () => {
       window.removeEventListener('message', handleMessage)
     }
-  }, [isEditor])
+  }, [activeNormalizeTemplate, isEditor])
 
   // ============================================================================
   // User Click & Hover Dispatchers
@@ -181,22 +195,79 @@ export const PageRenderer: React.FC<PageRendererProps> = ({
   // ============================================================================
   // Section Rendering Pipeline
   // ============================================================================
-  const renderedSections: React.ReactNode[] = []
-  let headerSectionNode: React.ReactNode = null
-  let footerSectionNode: React.ReactNode = null
+  const renderedSections: Array<ReactNode> = []
+  let headerSectionNode: ReactNode = null
+  let footerSectionNode: ReactNode = null
 
   template.order.forEach((sectionId) => {
     const sectionInstance = template.sections[sectionId]
 
-    const registered = SectionRegistry[sectionInstance.type]
+    // 1. Guard against missing section instance
+    if (!sectionInstance.type) {
+      const isSelected =
+        selectedItem?.type === 'section' && selectedItem.id === sectionId
 
-    if (!registered) {
-      renderedSections.push(
-        <MissingSectionBox key={sectionId}>
-          Unknown section type: <code>{sectionInstance.type}</code> (ID:{' '}
-          {sectionId})
-        </MissingSectionBox>,
+      const missingSection = (
+        <PreviewSectionWrapper
+          key={sectionId}
+          id={sectionId}
+          sectionType="unknown"
+          sectionName={`Missing: ${sectionId}`}
+          isSelected={isSelected}
+          isEditor={isEditor}
+          onSelect={handleSelectSection}
+          onHover={handleHoverSection}
+        >
+          <ThemeErrorCard
+            kind="section"
+            id={sectionId}
+            title="Section Data Missing"
+            message={`Section "${sectionId}" is listed in template order, but is undefined in template sections.`}
+            isEditor={isEditor}
+          />
+        </PreviewSectionWrapper>
       )
+      renderedSections.push(missingSection)
+      return
+    }
+
+    const registered = ActiveSectionRegistry[sectionInstance.type]
+
+    // 2. Guard against unregistered section component
+    if (!registered) {
+      const isSelected =
+        selectedItem?.type === 'section' && selectedItem.id === sectionId
+
+      const unregisteredSection = (
+        <PreviewSectionWrapper
+          key={sectionId}
+          id={sectionId}
+          sectionType={sectionInstance.type}
+          sectionName={`Unregistered: ${sectionInstance.type}`}
+          isSelected={isSelected}
+          isEditor={isEditor}
+          padding={sectionInstance.settings.padding}
+          onSelect={handleSelectSection}
+          onHover={handleHoverSection}
+        >
+          <ThemeErrorCard
+            kind="section"
+            id={sectionId}
+            type={sectionInstance.type}
+            title="Section Component Not Found"
+            message={`Section type "${sectionInstance.type}" is not registered in SectionRegistry. Check the theme's registry.ts or section definitions.`}
+            isEditor={isEditor}
+          />
+        </PreviewSectionWrapper>
+      )
+
+      if (sectionInstance.type === 'header') {
+        headerSectionNode = unregisteredSection
+      } else if (sectionInstance.type === 'footer') {
+        footerSectionNode = unregisteredSection
+      } else {
+        renderedSections.push(unregisteredSection)
+      }
       return
     }
 
@@ -207,13 +278,21 @@ export const PageRenderer: React.FC<PageRendererProps> = ({
       sectionInstance.settings.padding
 
     const sectionContent = (
-      <SectionComponent
+      <ThemeErrorBoundary
+        kind="section"
         id={sectionId}
-        settings={sectionInstance.settings}
-        blocks={sectionInstance.blocks}
-        blockOrder={sectionInstance.block_order}
+        type={sectionInstance.type}
+        name={registered.schema.name}
         isEditor={isEditor}
-      />
+      >
+        <SectionComponent
+          id={sectionId}
+          settings={sectionInstance.settings}
+          blocks={sectionInstance.blocks || {}}
+          blockOrder={sectionInstance.block_order || []}
+          isEditor={isEditor}
+        />
+      </ThemeErrorBoundary>
     )
 
     const wrappedSection = (
@@ -251,15 +330,16 @@ export const PageRenderer: React.FC<PageRendererProps> = ({
             selection.id,
             selection.parentBlockId,
           ),
+        blockRegistry: ActiveBlockRegistry,
       }}
     >
-      <ThemeLayout
+      <ActiveThemeLayout
         globalSettings={globalSettings}
         headerComponent={headerSectionNode}
         footerComponent={footerSectionNode}
       >
         {renderedSections}
-      </ThemeLayout>
+      </ActiveThemeLayout>
     </ThemeEditorProvider>
   )
 }

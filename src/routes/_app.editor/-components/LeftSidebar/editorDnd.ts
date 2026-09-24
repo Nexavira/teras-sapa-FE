@@ -1,16 +1,34 @@
 import { KeyboardSensor, PointerSensor } from '@dnd-kit/react'
 
+const ROOT_BLOCK_GROUP = 'root'
+
+export const getBlockDndGroup = (sectionId: string, parentBlockId?: string) =>
+  `blocks:${sectionId}:${parentBlockId || ROOT_BLOCK_GROUP}`
+
+export const getBlockParentIdFromDndGroup = (
+  group: string | number | undefined,
+  sectionId: string,
+): string | undefined => {
+  const groupPrefix = `blocks:${sectionId}:`
+  const groupId = String(group || '')
+
+  if (!groupId.startsWith(groupPrefix)) return undefined
+
+  const parentBlockId = groupId.slice(groupPrefix.length)
+  return parentBlockId === ROOT_BLOCK_GROUP ? undefined : parentBlockId
+}
+
 const defaultTouchConstraints = (
   PointerSensor.defaults as {
-    activationConstraints?: (event: unknown, source: unknown) => unknown[]
+    activationConstraints?: (event: unknown, source: unknown) => Array<unknown>
   }
-)?.activationConstraints?.({ pointerType: 'touch' }, {})
+).activationConstraints?.({ pointerType: 'touch' }, {})
 
 const DelayConstraint = defaultTouchConstraints?.[0]
   ? (defaultTouchConstraints[0].constructor as new (options: {
       value: number
       tolerance: number
-    }) => any)
+    }) => object)
   : undefined
 
 export const editorSensors = [

@@ -1,0 +1,123 @@
+{
+  "name": "About",
+  "layout": "theme",
+  "sections": {
+    "header_main": {
+      "type": "header",
+      "settings": {
+        "logo_text": "ATLAS / INDUSTRIES",
+        "cta_label": "Start a project",
+        "cta_url": "/preview?theme=forge&template=contact"
+      }
+    },
+    "hero": {
+      "type": "company_hero",
+      "settings": {
+        "title": "We built our reputation one tolerance at a time.",
+        "intro": "Independent manufacturing expertise, shaped by four decades of solving consequential engineering problems.",
+        "image": "https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?auto=format&fit=crop&w=1800&q=88",
+        "show_stamp": true,
+        "stamp_text": "Made to\nendure\n↘"
+      }
+    },
+    "principle": {
+      "type": "company_split",
+      "settings": {
+        "eyebrow": "Our principle",
+        "heading": "Capability earns attention. Consistency earns trust.",
+        "intro": "Atlas began as a twelve-person machine shop in 1987. Today, more than 620 specialists work across design, fabrication, automation and quality. The scale changed. The standard never did.",
+        "dark_mode": false
+      }
+    },
+    "milestones": {
+      "type": "company_split",
+      "settings": {
+        "eyebrow": "Milestones",
+        "heading": "Four decades of continuous evolution.",
+        "dark_mode": true
+      },
+      "blocks": {
+        "m_1": {
+          "type": "list_item",
+          "settings": {
+            "number": "01",
+            "title": "1987",
+            "description": "First workshop opens in Bandung"
+          }
+        },
+        "m_2": {
+          "type": "list_item",
+          "settings": {
+            "number": "02",
+            "title": "2004",
+            "description": "Integrated engineering campus commissioned"
+          }
+        },
+        "m_3": {
+          "type": "list_item",
+          "settings": {
+            "number": "03",
+            "title": "2016",
+            "description": "Robotic fabrication line enters service"
+          }
+        },
+        "m_4": {
+          "type": "list_item",
+          "settings": {
+            "number": "04",
+            "title": "2026",
+            "description": "Third carbon-neutral production hall opens"
+          }
+        }
+      },
+      "block_order": ["m_1", "m_2", "m_3", "m_4"]
+    },
+    "how_we_work": {
+      "type": "company_bento",
+      "settings": {
+        "eyebrow": "How we work",
+        "heading": "Clear thinking. Clean handoffs. No hidden compromises.",
+        "dark_mode": false
+      },
+      "blocks": {
+        "b_1": {
+          "type": "bento_card",
+          "settings": {
+            "tag": "Principle / 01",
+            "title": "Own the outcome",
+            "description": "Every team stays accountable beyond its individual scope.",
+            "span": "6"
+          }
+        },
+        "b_2": {
+          "type": "bento_card",
+          "settings": {
+            "tag": "Principle / 02",
+            "title": "Make it legible",
+            "description": "Good engineering should be understood, tested and maintained.",
+            "span": "3"
+          }
+        },
+        "b_3": {
+          "type": "bento_card",
+          "settings": {
+            "tag": "Principle / 03",
+            "title": "Improve the system",
+            "description": "Every project leaves the process stronger than it found it.",
+            "span": "3"
+          }
+        }
+      },
+      "block_order": ["b_1", "b_2", "b_3"]
+    },
+    "footer_main": {
+      "type": "footer",
+      "settings": {
+        "heading": "Built for what comes next.",
+        "email": "projects@atlas-industries.com",
+        "location": "West Java · Indonesia"
+      }
+    }
+  },
+  "order": ["header_main", "hero", "principle", "milestones", "how_we_work", "footer_main"]
+}

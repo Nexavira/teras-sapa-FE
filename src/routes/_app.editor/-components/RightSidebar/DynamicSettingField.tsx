@@ -80,19 +80,28 @@ export const DynamicSettingField = ({
       return <ParagraphField key={id}>{contentOrLabel(setting)}</ParagraphField>
 
     case 'text':
+    case 'url': {
+      const inputValue =
+        typeof currentValue === 'string'
+          ? currentValue
+          : currentValue?.url || ''
+
       return (
         <FormField key={id}>
           <FieldLabel htmlFor={id}>{label}</FieldLabel>
           <TextInput
             id={id}
-            type="text"
-            placeholder={setting.placeholder || ''}
-            value={currentValue || ''}
+            type={type === 'url' ? 'url' : 'text'}
+            placeholder={
+              setting.placeholder || (type === 'url' ? 'https://...' : '')
+            }
+            value={inputValue}
             onChange={(event) => onChange(id, event.target.value)}
           />
           {info && <FieldInfo>{info}</FieldInfo>}
         </FormField>
       )
+    }
 
     case 'textarea':
     case 'richtext':

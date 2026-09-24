@@ -1,0 +1,85 @@
+{
+  "name": "Careers",
+  "layout": "theme",
+  "sections": {
+    "header_main": {
+      "type": "header",
+      "settings": {
+        "logo_text": "ATLAS / INDUSTRIES",
+        "cta_label": "Start a project",
+        "cta_url": "/preview?theme=forge&template=contact"
+      }
+    },
+    "hero": {
+      "type": "company_hero",
+      "settings": {
+        "title": "Work that requires discipline and leaves a mark.",
+        "intro": "Join machinists, robotics specialists, and systems engineers building industrial machinery that lasts.",
+        "image": "https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?auto=format&fit=crop&w=1800&q=88",
+        "show_stamp": true,
+        "stamp_text": "Made to\nendure\n↘"
+      }
+    },
+    "open_roles": {
+      "type": "company_split",
+      "settings": {
+        "eyebrow": "Open roles",
+        "heading": "Do work that has weight.",
+        "intro": "Build real systems with people who care about the last millimetre.",
+        "dark_mode": false
+      },
+      "blocks": {
+        "r_1": {
+          "type": "list_item",
+          "settings": {
+            "number": "01",
+            "title": "Senior Mechanical Engineer",
+            "description": "Bandung / Hybrid",
+            "link_url": "mailto:careers@atlas-industries.com",
+            "arrow_icon": "up_right"
+          }
+        },
+        "r_2": {
+          "type": "list_item",
+          "settings": {
+            "number": "02",
+            "title": "Automation Engineer",
+            "description": "Cikarang / On-site",
+            "link_url": "mailto:careers@atlas-industries.com",
+            "arrow_icon": "up_right"
+          }
+        },
+        "r_3": {
+          "type": "list_item",
+          "settings": {
+            "number": "03",
+            "title": "Quality Systems Lead",
+            "description": "Bandung / On-site",
+            "link_url": "mailto:careers@atlas-industries.com",
+            "arrow_icon": "up_right"
+          }
+        },
+        "r_4": {
+          "type": "list_item",
+          "settings": {
+            "number": "04",
+            "title": "Graduate Manufacturing Engineer",
+            "description": "Bandung / On-site",
+            "link_url": "mailto:careers@atlas-industries.com",
+            "arrow_icon": "up_right"
+          }
+        }
+      },
+      "block_order": ["r_1", "r_2", "r_3", "r_4"]
+    },
+    "footer_main": {
+      "type": "footer",
+      "settings": {
+        "heading": "Built for what comes next.",
+        "email": "projects@atlas-industries.com",
+        "location": "West Java · Indonesia"
+      }
+    }
+  },
+  "order": ["header_main", "hero", "open_roles", "footer_main"]
+}

@@ -39,7 +39,7 @@ export const SectionEntry = ({
     index,
   })
   const blockOrder = section.block_order || []
-  const hasChildren = blockOrder.length > 0
+  const supportsChildren = Boolean(schema.blocks?.length)
 
   return (
     <SortableEntry $isDragging={isDragging} ref={ref}>
@@ -63,7 +63,7 @@ export const SectionEntry = ({
           selectedItem?.type === 'section' && selectedItem.id === sectionId
         }
         buttonRef={canReorder ? handleRef : undefined}
-        hasChildren={hasChildren}
+        hasChildren={supportsChildren}
         icon={<EditorItemIcon kind="section" type={section.type} />}
         isOpen={!isCollapsed}
         onClick={() =>
@@ -74,7 +74,7 @@ export const SectionEntry = ({
         {schema.name || section.type}
       </TreeItem>
 
-      {hasChildren && (
+      {supportsChildren && (
         <SubNavList $isOpen={!isCollapsed} aria-hidden={isCollapsed}>
           <BlockList
             blocks={section.blocks || {}}

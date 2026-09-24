@@ -1,13 +1,17 @@
 import { Settings02Icon } from 'hugeicons-react'
 
-import { editorActions, useEditorSelectedItem } from '#/store/editorStore'
+import {
+  editorActions,
+  useEditorSelectedItem,
+  useEditorTheme,
+} from '#/store/editorStore'
 
 import { TreeGroup } from './TreeGroup'
 import { TreeItem } from './TreeItem'
-import { settingsSchemaData } from '#themes'
 
 export const SettingsList = () => {
   const selectedItem = useEditorSelectedItem()
+  const { settingsSchemaData } = useEditorTheme()
 
   return (
     <TreeGroup title="Global Theme Settings">

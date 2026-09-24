@@ -1,0 +1,111 @@
+{
+  "name": "Sustainability",
+  "layout": "theme",
+  "sections": {
+    "header_main": {
+      "type": "header",
+      "settings": {
+        "logo_text": "ATLAS / INDUSTRIES",
+        "cta_label": "Start a project",
+        "cta_url": "/preview?theme=forge&template=contact"
+      }
+    },
+    "hero": {
+      "type": "company_hero",
+      "settings": {
+        "title": "Cleaner footprints through engineered efficiency.",
+        "intro": "Reducing material intensity, reclaiming production energy, and building equipment meant to endure.",
+        "image": "https://images.unsplash.com/photo-1565793298595-6a879b1d9492?auto=format&fit=crop&w=1800&q=88",
+        "show_stamp": true,
+        "stamp_text": "Made to\nendure\n↘"
+      }
+    },
+    "targets": {
+      "type": "company_metrics",
+      "settings": {
+        "eyebrow": "2026 targets",
+        "heading": "Less material. Less energy. More value from both.",
+        "dark_mode": true
+      },
+      "blocks": {
+        "t_1": {
+          "type": "metric_item",
+          "settings": {
+            "stat": "−42%",
+            "label": "operational carbon since 2019",
+            "accent": true
+          }
+        },
+        "t_2": {
+          "type": "metric_item",
+          "settings": {
+            "stat": "96%",
+            "label": "metal scrap recovered",
+            "accent": false
+          }
+        },
+        "t_3": {
+          "type": "metric_item",
+          "settings": {
+            "stat": "31%",
+            "label": "renewable electricity",
+            "accent": false
+          }
+        }
+      },
+      "block_order": ["t_1", "t_2", "t_3"]
+    },
+    "approach": {
+      "type": "company_split",
+      "settings": {
+        "eyebrow": "Our approach",
+        "heading": "Designed into the process, not reported after it.",
+        "dark_mode": false
+      },
+      "blocks": {
+        "a_1": {
+          "type": "list_item",
+          "settings": {
+            "number": "01",
+            "title": "Material efficiency from first nest",
+            "arrow_icon": "down_right"
+          }
+        },
+        "a_2": {
+          "type": "list_item",
+          "settings": {
+            "number": "02",
+            "title": "Closed-loop coolant and water systems",
+            "arrow_icon": "down_right"
+          }
+        },
+        "a_3": {
+          "type": "list_item",
+          "settings": {
+            "number": "03",
+            "title": "Equipment designed for repair",
+            "arrow_icon": "down_right"
+          }
+        },
+        "a_4": {
+          "type": "list_item",
+          "settings": {
+            "number": "04",
+            "title": "Supplier emissions in project decisions",
+            "arrow_icon": "down_right"
+          }
+        }
+      },
+      "block_order": ["a_1", "a_2", "a_3", "a_4"]
+    },
+    "footer_main": {
+      "type": "footer",
+      "settings": {
+        "heading": "Built for what comes next.",
+        "email": "projects@atlas-industries.com",
+        "location": "West Java · Indonesia"
+      }
+    }
+  },
+  "order": ["header_main", "hero", "targets", "approach", "footer_main"]
+}

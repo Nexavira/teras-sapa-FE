@@ -1,0 +1,95 @@
+{
+  "name": "Industries",
+  "layout": "theme",
+  "sections": {
+    "header_main": {
+      "type": "header",
+      "settings": {
+        "logo_text": "ATLAS / INDUSTRIES",
+        "cta_label": "Start a project",
+        "cta_url": "/preview?theme=forge&template=contact"
+      }
+    },
+    "hero": {
+      "type": "company_hero",
+      "settings": {
+        "title": "Where tolerance defines performance.",
+        "intro": "Specialised fabrication and turnkey lines for mobility, energy, and process industries.",
+        "image": "https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?auto=format&fit=crop&w=1800&q=88",
+        "show_stamp": true,
+        "stamp_text": "Made to\nendure\n↘"
+      }
+    },
+    "sectors": {
+      "type": "company_split",
+      "settings": {
+        "eyebrow": "Sectors",
+        "heading": "Deep context for high-consequence work.",
+        "intro": "Our teams understand the regulation, operating environments and production realities behind every brief.",
+        "dark_mode": false
+      },
+      "blocks": {
+        "ind_1": {
+          "type": "list_item",
+          "settings": {
+            "number": "01",
+            "title": "Mobility",
+            "description": "Structures, tooling and automated assembly",
+            "link_url": "/preview?theme=forge&template=contact",
+            "arrow_icon": "up_right"
+          }
+        },
+        "ind_2": {
+          "type": "list_item",
+          "settings": {
+            "number": "02",
+            "title": "Energy",
+            "description": "Enclosures, skids and balance-of-plant systems",
+            "link_url": "/preview?theme=forge&template=contact",
+            "arrow_icon": "up_right"
+          }
+        },
+        "ind_3": {
+          "type": "list_item",
+          "settings": {
+            "number": "03",
+            "title": "Food & beverage",
+            "description": "Hygienic process equipment and conveyors",
+            "link_url": "/preview?theme=forge&template=contact",
+            "arrow_icon": "up_right"
+          }
+        },
+        "ind_4": {
+          "type": "list_item",
+          "settings": {
+            "number": "04",
+            "title": "Built environment",
+            "description": "Architectural metalwork and infrastructure",
+            "link_url": "/preview?theme=forge&template=contact",
+            "arrow_icon": "up_right"
+          }
+        },
+        "ind_5": {
+          "type": "list_item",
+          "settings": {
+            "number": "05",
+            "title": "Industrial technology",
+            "description": "OEM systems and precision components",
+            "link_url": "/preview?theme=forge&template=contact",
+            "arrow_icon": "up_right"
+          }
+        }
+      },
+      "block_order": ["ind_1", "ind_2", "ind_3", "ind_4", "ind_5"]
+    },
+    "footer_main": {
+      "type": "footer",
+      "settings": {
+        "heading": "Built for what comes next.",
+        "email": "projects@atlas-industries.com",
+        "location": "West Java · Indonesia"
+      }
+    }
+  },
+  "order": ["header_main", "hero", "sectors", "footer_main"]
+}

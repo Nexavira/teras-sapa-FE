@@ -1,24 +1,24 @@
+import { ArrowLeft01Icon, Delete02Icon } from 'hugeicons-react'
+
 import {
-  ArrowLeft01Icon,
-  Delete02Icon,
-  InformationCircleIcon,
-  Layers01Icon,
-} from 'hugeicons-react'
+  editorActions,
+  useEditorTemplate,
+  useEditorTheme,
+} from '#/store/editorStore'
 
-import { editorActions, useEditorTemplate } from '#/store/editorStore'
-
-import { DynamicSettingField } from './DynamicSettingField'
+import {
+  MissingEntityState,
+  SettingsFieldList,
+  UnregisteredEntityView,
+} from './inspectorShared'
 import {
   ActionIconButton,
   BackButton,
-  EmptyStateContainer,
   HeaderSubtitle,
   HeaderTitle,
   HeaderTitleGroup,
-  InspectorBody,
   InspectorHeader,
 } from './inspectorStyles'
-import { SectionRegistry } from '#themes'
 
 interface SectionInspectorProps {
   sectionId: string
@@ -26,22 +26,38 @@ interface SectionInspectorProps {
 
 export const SectionInspector = ({ sectionId }: SectionInspectorProps) => {
   const template = useEditorTemplate()
+  const { SectionRegistry } = useEditorTheme()
   const section = template.sections[sectionId]
+
+  if (!section.type) {
+    return (
+      <MissingEntityState
+        itemType="Section"
+        itemId={sectionId}
+        onRemove={() => editorActions.removeSection(sectionId)}
+      />
+    )
+  }
+
   const registered = SectionRegistry[section.type]
 
   if (!registered) {
     return (
-      <EmptyStateContainer>
-        <InformationCircleIcon size={32} />
-        <div>Unknown section type: {section.type}</div>
-      </EmptyStateContainer>
+      <UnregisteredEntityView
+        type={section.type}
+        entityName="Section"
+        backTitle="Back to outline"
+        onBack={() => editorActions.selectItem(null)}
+        onDelete={() => editorActions.removeSection(sectionId)}
+        message={`Section type "${section.type}" is not registered in SectionRegistry.`}
+      />
     )
   }
 
   const schema = registered.schema
   const settingsList = schema.settings
   const currentSettings = section.settings
-  const handleFieldChange = (key: string, value: any) => {
+  const handleFieldChange = (key: string, value: unknown) => {
     editorActions.updateSectionSettings(sectionId, { [key]: value })
   }
 
@@ -74,23 +90,12 @@ export const SectionInspector = ({ sectionId }: SectionInspectorProps) => {
         )}
       </InspectorHeader>
 
-      <InspectorBody>
-        {settingsList.length === 0 ? (
-          <EmptyStateContainer>
-            <Layers01Icon size={28} />
-            <div>This section has no configurable settings.</div>
-          </EmptyStateContainer>
-        ) : (
-          settingsList.map((setting, index) => (
-            <DynamicSettingField
-              key={setting.id || index}
-              setting={setting}
-              value={currentSettings[setting.id]}
-              onChange={handleFieldChange}
-            />
-          ))
-        )}
-      </InspectorBody>
+      <SettingsFieldList
+        settings={settingsList}
+        values={currentSettings}
+        onChange={handleFieldChange}
+        emptyMessage="This section has no configurable settings."
+      />
     </>
   )
 }

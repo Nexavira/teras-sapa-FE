@@ -131,7 +131,7 @@ const NAV_ITEMS = [
         label: 'Online Store',
         icon: <PaintBoardIcon size={16} />,
         children: [
-          { label: 'Themes', to: '/editor' },
+          { label: 'Themes', to: '/admin/themes' },
           { label: 'Pages', to: '/admin/pages' },
           { label: 'Preferences', to: '/admin/preferences' },
         ],

@@ -7,6 +7,7 @@ import reactPlugin from 'eslint-plugin-react'
 import prettierRecommended from 'eslint-plugin-prettier/recommended'
 import simpleImportSort from 'eslint-plugin-simple-import-sort'
 import pluginQuery from '@tanstack/eslint-plugin-query'
+import tseslint from 'typescript-eslint';
 
 export default [
   ...tanstackConfig,
@@ -20,9 +21,6 @@ export default [
       'import/no-cycle': 'off',
       'import/order': 'off',
       'sort-imports': 'off',
-      '@typescript-eslint/array-type': 'off',
-      '@typescript-eslint/require-await': 'off',
-      '@typescript-eslint/no-unnecessary-condition': 'warn',
       'pnpm/json-enforce-catalog': 'off',
       'react/function-component-definition': [
         'error',
@@ -97,4 +95,5 @@ export default [
   ...storybook.configs['flat/recommended'],
 
   prettierRecommended,
+  ...tseslint.configs.recommended
 ]

@@ -1,0 +1,164 @@
+{
+  "name": "Home",
+  "layout": "theme",
+  "sections": {
+    "header_main": {
+      "type": "header",
+      "settings": {
+        "logo_text": "ATLAS / INDUSTRIES",
+        "cta_label": "Start a project",
+        "cta_url": "/preview?theme=forge&template=contact"
+      }
+    },
+    "hero": {
+      "type": "company_hero",
+      "settings": {
+        "layout_style": "frame",
+        "text_alignment": "left",
+        "banner_height": "auto",
+        "media_height": "large",
+        "color_scheme": "scheme-1",
+        "image": "https://images.unsplash.com/photo-1565793298595-6a879b1d9492?auto=format&fit=crop&w=1800&q=88",
+        "overlay_opacity": 40,
+        "show_media": true,
+        "show_stamp": true,
+        "stamp_text": "Made to\nendure\n↘",
+        "stamp_position": "bottom-right",
+        "stamp_color": "orange",
+        "padding_top": 160,
+        "padding_bottom": 34
+      },
+      "block_order": ["heading_1", "text_1", "button_1"],
+      "blocks": {
+        "heading_1": {
+          "type": "heading",
+          "settings": {
+            "heading": "Engineered with intent. Built without compromise.",
+            "heading_size": "display",
+            "heading_tag": "h1",
+            "text_align": "left"
+          }
+        },
+        "text_1": {
+          "type": "text",
+          "settings": {
+            "text": "Precision manufacturing for the systems that keep the world moving.",
+            "text_style": "intro",
+            "text_align": "left",
+            "max_width": 620
+          }
+        },
+        "button_1": {
+          "type": "button",
+          "settings": {
+            "button_label": "Explore capabilities",
+            "button_link": "/preview?theme=forge&template=capabilities",
+            "button_style": "primary",
+            "button_size": "medium"
+          }
+        }
+      }
+    },
+    "metrics": {
+      "type": "company_metrics",
+      "settings": {
+        "eyebrow": "Scale / measured",
+        "heading": "Industrial capability, human accountability.",
+        "dark_mode": false
+      },
+      "blocks": {
+        "metric_1": {
+          "type": "metric_item",
+          "settings": {
+            "stat": "38",
+            "label": "years of engineering craft",
+            "accent": true
+          }
+        },
+        "metric_2": {
+          "type": "metric_item",
+          "settings": {
+            "stat": "0.01",
+            "label": "mm verified tolerance",
+            "accent": false
+          }
+        },
+        "metric_3": {
+          "type": "metric_item",
+          "settings": {
+            "stat": "17",
+            "label": "markets delivered",
+            "accent": false
+          }
+        }
+      },
+      "block_order": ["metric_1", "metric_2", "metric_3"]
+    },
+    "capabilities": {
+      "type": "company_bento",
+      "settings": {
+        "eyebrow": "What we make",
+        "heading": "One partner, from first drawing to factory floor.",
+        "dark_mode": true,
+        "cta_label": "Explore capabilities",
+        "cta_url": "/preview?theme=forge&template=capabilities"
+      },
+      "blocks": {
+        "bento_1": {
+          "type": "bento_card",
+          "settings": {
+            "tag": "01 / Capability",
+            "title": "Precision fabrication",
+            "description": "Five-axis machining, robotic welding and complex metalwork held to microscopic tolerances.",
+            "span": "7",
+            "dark": true
+          }
+        },
+        "bento_2": {
+          "type": "bento_card",
+          "settings": {
+            "tag": "02 / Capability",
+            "title": "Systems integration",
+            "description": "Mechanical, electrical and control systems assembled, tested and commissioned as one.",
+            "span": "5",
+            "dark": true
+          }
+        },
+        "bento_3": {
+          "type": "bento_card",
+          "settings": {
+            "tag": "03 / Capability",
+            "title": "Industrial automation",
+            "description": "Purpose-built production cells that improve repeatability, throughput and operator safety.",
+            "span": "12",
+            "dark": true
+          }
+        }
+      },
+      "block_order": ["bento_1", "bento_2", "bento_3"]
+    },
+    "quote": {
+      "type": "company_quote",
+      "settings": {
+        "quote": "We make the critical parts behind everyday momentum.",
+        "highlight": "everyday momentum."
+      }
+    },
+    "footer_main": {
+      "type": "footer",
+      "settings": {
+        "heading": "Built for what comes next.",
+        "email": "projects@atlas-industries.com",
+        "location": "West Java · Indonesia"
+      }
+    }
+  },
+  "order": [
+    "header_main",
+    "hero",
+    "metrics",
+    "capabilities",
+    "quote",
+    "footer_main"
+  ]
+}

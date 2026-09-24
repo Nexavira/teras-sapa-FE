@@ -8,11 +8,10 @@ import {
   canDuplicateSection,
   getSchemaDefaults,
 } from '#/lib/editor/themeSchema'
-import { useEditorTemplate } from '#/store/editorStore'
+import { useEditorTemplate, useEditorTheme } from '#/store/editorStore'
 
 import { EditorItemIcon } from './EditorItemIcon'
 import type { SectionPreset } from '#themes'
-import { SectionRegistry } from '#themes'
 
 const ModalOverlay = styled.div`
   position: fixed;
@@ -127,6 +126,7 @@ export const AddSectionModal: React.FC<AddSectionModalProps> = ({
   onAddSection,
 }) => {
   const template = useEditorTemplate()
+  const { SectionRegistry } = useEditorTheme()
   if (!isOpen) return null
 
   const sectionTypeCounts = template.order.reduce<Record<string, number>>(

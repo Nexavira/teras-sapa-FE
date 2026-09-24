@@ -7,9 +7,11 @@ export const AddSectionButton = styled(Button)`
   margin-top: 6px;
 `
 
-export const AddBlockButton = styled(Button)`
-  width: calc(100% - 32px);
-  margin: 3px 0 4px 32px;
+export const AddBlockButton = styled(Button, {
+  shouldForwardProp: (prop) => prop !== 'level',
+})<{ level: number }>`
+  width: ${({ level }) => `calc(100% - ${12 + level * 20}px)`};
+  margin: ${({ level }) => `3px 0 4px ${12 + level * 20}px`};
   justify-content: flex-start;
 `
 

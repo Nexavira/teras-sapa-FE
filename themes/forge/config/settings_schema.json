@@ -1,0 +1,559 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "Forge Manufacturing",
+    "theme_version": "1.1.0",
+    "theme_author": "Teras Sapa",
+    "theme_documentation_url": "https://github.com/teras-sapa/themes",
+    "theme_support_url": "https://support.teras-sapa.com"
+  },
+  {
+    "name": "Brand & Identity",
+    "settings": [
+      { "type": "image_picker", "id": "logo", "label": "Desktop logo" },
+      {
+        "type": "range",
+        "id": "logo_width",
+        "label": "Desktop logo width",
+        "min": 80,
+        "max": 320,
+        "step": 10,
+        "unit": "px",
+        "default": 180
+      },
+      {
+        "type": "image_picker",
+        "id": "logo_mobile",
+        "label": "Mobile logo (optional)"
+      },
+      {
+        "type": "range",
+        "id": "logo_width_mobile",
+        "label": "Mobile logo width",
+        "min": 60,
+        "max": 220,
+        "step": 10,
+        "unit": "px",
+        "default": 140
+      },
+      { "type": "image_picker", "id": "favicon", "label": "Favicon image" },
+      {
+        "type": "text",
+        "id": "company_name",
+        "label": "Company name",
+        "default": "ATLAS / INDUSTRIES"
+      },
+      {
+        "type": "text",
+        "id": "company_tagline",
+        "label": "Company tagline",
+        "default": "Precision at industrial scale"
+      }
+    ]
+  },
+  {
+    "name": "Colors",
+    "settings": [
+      {
+        "type": "color_scheme_group",
+        "id": "color_schemes",
+        "name": "Color schemes",
+        "definition": [
+          {
+            "type": "color",
+            "id": "background",
+            "label": "Background",
+            "default": "#E9E7E1"
+          },
+          {
+            "type": "color_background",
+            "id": "background_gradient",
+            "label": "Background gradient",
+            "info": "Optional background gradient overlay"
+          },
+          {
+            "type": "color",
+            "id": "text",
+            "label": "Text",
+            "default": "#171915"
+          },
+          {
+            "type": "color",
+            "id": "button",
+            "label": "Solid button background",
+            "default": "#171915"
+          },
+          {
+            "type": "color",
+            "id": "button_label",
+            "label": "Solid button label",
+            "default": "#F4F1E9"
+          },
+          {
+            "type": "color",
+            "id": "secondary_button_label",
+            "label": "Outline button",
+            "default": "#171915"
+          },
+          {
+            "type": "color",
+            "id": "shadow",
+            "label": "Shadow",
+            "default": "#171915"
+          }
+        ],
+        "role": {
+          "text": "text",
+          "background": {
+            "solid": "background",
+            "gradient": "background_gradient"
+          },
+          "links": "secondary_button_label",
+          "icons": "text",
+          "primary_button": { "background": "button", "text": "button_label" },
+          "secondary_button": {
+            "background": "background",
+            "text": "secondary_button_label"
+          }
+        }
+      },
+      {
+        "type": "color",
+        "id": "accent_color",
+        "label": "Brand accent",
+        "default": "#F15A24"
+      },
+      {
+        "type": "color",
+        "id": "surface_color",
+        "label": "Raised surface",
+        "default": "#F4F1E9"
+      },
+      {
+        "type": "color",
+        "id": "muted_color",
+        "label": "Muted text and details",
+        "default": "#6B6E66"
+      },
+      {
+        "type": "color",
+        "id": "color_success",
+        "label": "Success",
+        "default": "#247A4A"
+      },
+      {
+        "type": "color",
+        "id": "color_warning",
+        "label": "Warning",
+        "default": "#B76B1D"
+      },
+      {
+        "type": "color",
+        "id": "color_error",
+        "label": "Error",
+        "default": "#B6382F"
+      },
+      {
+        "type": "color",
+        "id": "color_info",
+        "label": "Information",
+        "default": "#356899"
+      }
+    ]
+  },
+  {
+    "name": "Typography",
+    "settings": [
+      {
+        "type": "select",
+        "id": "font_heading",
+        "label": "Heading font",
+        "default": "Geist, 'Avenir Next', sans-serif",
+        "options": [
+          { "label": "Geist", "value": "Geist, 'Avenir Next', sans-serif" },
+          {
+            "label": "Plus Jakarta Sans",
+            "value": "'Plus Jakarta Sans', 'Avenir Next', sans-serif"
+          },
+          {
+            "label": "Clash Display",
+            "value": "'Clash Display', 'Avenir Next', sans-serif"
+          },
+          { "label": "Outfit", "value": "Outfit, 'Avenir Next', sans-serif" }
+        ]
+      },
+      {
+        "type": "select",
+        "id": "font_heading_weight",
+        "label": "Heading weight",
+        "default": "500",
+        "options": [
+          { "label": "Regular (400)", "value": "400" },
+          { "label": "Medium (500)", "value": "500" },
+          { "label": "Semi bold (600)", "value": "600" },
+          { "label": "Bold (700)", "value": "700" }
+        ]
+      },
+      {
+        "type": "range",
+        "id": "heading_scale",
+        "label": "Heading scale",
+        "min": 80,
+        "max": 125,
+        "step": 5,
+        "unit": "%",
+        "default": 100
+      },
+      {
+        "type": "range",
+        "id": "heading_letter_spacing",
+        "label": "Heading letter spacing",
+        "min": -3,
+        "max": 2,
+        "step": 0.25,
+        "unit": "px",
+        "default": -1
+      },
+      {
+        "type": "select",
+        "id": "heading_text_transform",
+        "label": "Heading text transform",
+        "default": "none",
+        "options": [
+          { "label": "None", "value": "none" },
+          { "label": "Uppercase", "value": "uppercase" },
+          { "label": "Capitalize", "value": "capitalize" }
+        ]
+      },
+      {
+        "type": "select",
+        "id": "font_body",
+        "label": "Body font",
+        "default": "'Plus Jakarta Sans', 'Avenir Next', sans-serif",
+        "options": [
+          {
+            "label": "Plus Jakarta Sans",
+            "value": "'Plus Jakarta Sans', 'Avenir Next', sans-serif"
+          },
+          { "label": "Geist", "value": "Geist, 'Avenir Next', sans-serif" },
+          { "label": "Outfit", "value": "Outfit, 'Avenir Next', sans-serif" }
+        ]
+      },
+      {
+        "type": "select",
+        "id": "font_body_weight",
+        "label": "Body weight",
+        "default": "400",
+        "options": [
+          { "label": "Regular (400)", "value": "400" },
+          { "label": "Medium (500)", "value": "500" },
+          { "label": "Semi bold (600)", "value": "600" }
+        ]
+      },
+      {
+        "type": "range",
+        "id": "font_body_base_size",
+        "label": "Body base size",
+        "min": 13,
+        "max": 19,
+        "step": 1,
+        "unit": "px",
+        "default": 15
+      },
+      {
+        "type": "range",
+        "id": "font_body_line_height",
+        "label": "Body line height",
+        "min": 1.3,
+        "max": 2,
+        "step": 0.05,
+        "default": 1.65
+      }
+    ]
+  },
+  {
+    "name": "Layout & Grid",
+    "settings": [
+      {
+        "type": "range",
+        "id": "page_width",
+        "label": "Maximum page width",
+        "min": 1080,
+        "max": 1800,
+        "step": 20,
+        "unit": "px",
+        "default": 1440
+      },
+      {
+        "type": "range",
+        "id": "content_width",
+        "label": "Reading content width",
+        "min": 640,
+        "max": 1160,
+        "step": 20,
+        "unit": "px",
+        "default": 930
+      },
+      {
+        "type": "range",
+        "id": "gutter_desktop",
+        "label": "Desktop side gutter",
+        "min": 16,
+        "max": 96,
+        "step": 4,
+        "unit": "px",
+        "default": 72
+      },
+      {
+        "type": "range",
+        "id": "gutter_mobile",
+        "label": "Mobile side gutter",
+        "min": 12,
+        "max": 32,
+        "step": 2,
+        "unit": "px",
+        "default": 16
+      },
+      {
+        "type": "range",
+        "id": "grid_gap",
+        "label": "Grid gap",
+        "min": 4,
+        "max": 40,
+        "step": 2,
+        "unit": "px",
+        "default": 8
+      },
+      {
+        "type": "range",
+        "id": "section_space_desktop",
+        "label": "Desktop section spacing",
+        "min": 64,
+        "max": 200,
+        "step": 8,
+        "unit": "px",
+        "default": 120
+      },
+      {
+        "type": "range",
+        "id": "section_space_mobile",
+        "label": "Mobile section spacing",
+        "min": 48,
+        "max": 128,
+        "step": 8,
+        "unit": "px",
+        "default": 88
+      }
+    ]
+  },
+  {
+    "name": "Buttons & CTAs",
+    "settings": [
+      {
+        "type": "range",
+        "id": "button_border_radius",
+        "label": "Button corner radius",
+        "min": 0,
+        "max": 32,
+        "step": 2,
+        "unit": "px",
+        "default": 32
+      },
+      {
+        "type": "range",
+        "id": "button_border_width",
+        "label": "Button border width",
+        "min": 0,
+        "max": 3,
+        "step": 1,
+        "unit": "px",
+        "default": 1
+      },
+      {
+        "type": "select",
+        "id": "button_shadow",
+        "label": "Button shadow",
+        "default": "medium",
+        "options": [
+          { "label": "None", "value": "none" },
+          { "label": "Subtle", "value": "subtle" },
+          { "label": "Medium", "value": "medium" }
+        ]
+      },
+      {
+        "type": "select",
+        "id": "button_text_transform",
+        "label": "Button text transform",
+        "default": "none",
+        "options": [
+          { "label": "None", "value": "none" },
+          { "label": "Uppercase", "value": "uppercase" },
+          { "label": "Capitalize", "value": "capitalize" }
+        ]
+      },
+      {
+        "type": "range",
+        "id": "button_letter_spacing",
+        "label": "Button letter spacing",
+        "min": 0,
+        "max": 3,
+        "step": 0.25,
+        "unit": "px",
+        "default": 0
+      },
+      {
+        "type": "select",
+        "id": "button_hover_effect",
+        "label": "Button hover effect",
+        "default": "lift",
+        "options": [
+          { "label": "None", "value": "none" },
+          { "label": "Lift", "value": "lift" },
+          { "label": "Subtle scale", "value": "scale" },
+          { "label": "Brightness", "value": "brightness" }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Cards & Surfaces",
+    "settings": [
+      {
+        "type": "range",
+        "id": "card_corner_radius",
+        "label": "Card corner radius",
+        "min": 0,
+        "max": 40,
+        "step": 2,
+        "unit": "px",
+        "default": 30
+      },
+      {
+        "type": "range",
+        "id": "card_border_width",
+        "label": "Card border width",
+        "min": 0,
+        "max": 2,
+        "step": 1,
+        "unit": "px",
+        "default": 1
+      },
+      {
+        "type": "select",
+        "id": "card_shadow",
+        "label": "Card shadow",
+        "default": "inset",
+        "options": [
+          { "label": "None", "value": "none" },
+          { "label": "Inset edge", "value": "inset" },
+          { "label": "Raised", "value": "raised" }
+        ]
+      },
+      {
+        "type": "range",
+        "id": "media_corner_radius",
+        "label": "Media corner radius",
+        "min": 0,
+        "max": 36,
+        "step": 2,
+        "unit": "px",
+        "default": 24
+      },
+      {
+        "type": "range",
+        "id": "pill_corner_radius",
+        "label": "Pill and label radius",
+        "min": 0,
+        "max": 32,
+        "step": 2,
+        "unit": "px",
+        "default": 32
+      }
+    ]
+  },
+  {
+    "name": "Forms",
+    "settings": [
+      {
+        "type": "range",
+        "id": "input_corner_radius",
+        "label": "Input group corner radius",
+        "min": 0,
+        "max": 32,
+        "step": 2,
+        "unit": "px",
+        "default": 22
+      },
+      {
+        "type": "range",
+        "id": "input_border_width",
+        "label": "Input border width",
+        "min": 0,
+        "max": 3,
+        "step": 1,
+        "unit": "px",
+        "default": 1
+      },
+      {
+        "type": "color",
+        "id": "input_focus_color",
+        "label": "Focus ring color",
+        "default": "#F15A24"
+      }
+    ]
+  },
+  {
+    "name": "Motion & Interactions",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "animations_reveal_on_scroll",
+        "label": "Reveal content on scroll",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "animations_hover_motion",
+        "label": "Enable hover motion",
+        "default": true
+      },
+      {
+        "type": "select",
+        "id": "animations_page_transition",
+        "label": "Page entrance",
+        "default": "fade",
+        "options": [
+          { "label": "None", "value": "none" },
+          { "label": "Fade", "value": "fade" },
+          { "label": "Fade and rise", "value": "rise" }
+        ]
+      },
+      {
+        "type": "select",
+        "id": "motion_speed",
+        "label": "Motion speed",
+        "default": "standard",
+        "options": [
+          { "label": "Fast", "value": "fast" },
+          { "label": "Standard", "value": "standard" },
+          { "label": "Relaxed", "value": "relaxed" }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Social Links",
+    "settings": [
+      { "type": "url", "id": "social_linkedin", "label": "LinkedIn URL" },
+      { "type": "url", "id": "social_instagram", "label": "Instagram URL" },
+      { "type": "url", "id": "social_youtube", "label": "YouTube URL" },
+      { "type": "url", "id": "social_x", "label": "X URL" },
+      {
+        "type": "checkbox",
+        "id": "social_open_new_tab",
+        "label": "Open social links in a new tab",
+        "default": true
+      }
+    ]
+  }
+]

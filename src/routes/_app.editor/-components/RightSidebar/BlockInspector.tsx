@@ -1,25 +1,25 @@
-import {
-  ArrowLeft01Icon,
-  CubeIcon,
-  Delete02Icon,
-  InformationCircleIcon,
-} from 'hugeicons-react'
+import { ArrowLeft01Icon, CubeIcon, Delete02Icon } from 'hugeicons-react'
 
 import { findBlockLocation } from '#/lib/editor/blockTree'
-import { editorActions, useEditorTemplate } from '#/store/editorStore'
+import {
+  editorActions,
+  useEditorTemplate,
+  useEditorTheme,
+} from '#/store/editorStore'
 
-import { DynamicSettingField } from './DynamicSettingField'
+import {
+  MissingEntityState,
+  SettingsFieldList,
+  UnregisteredEntityView,
+} from './inspectorShared'
 import {
   ActionIconButton,
   BackButton,
-  EmptyStateContainer,
   HeaderSubtitle,
   HeaderTitle,
   HeaderTitleGroup,
-  InspectorBody,
   InspectorHeader,
 } from './inspectorStyles'
-import { BlockRegistry } from '#themes'
 
 interface BlockInspectorProps {
   sectionId: string
@@ -28,24 +28,61 @@ interface BlockInspectorProps {
 
 export const BlockInspector = ({ sectionId, blockId }: BlockInspectorProps) => {
   const template = useEditorTemplate()
+  const { BlockRegistry } = useEditorTheme()
   const section = template.sections[sectionId]
-  const location = findBlockLocation(section.blocks, blockId)
+  const location = section.type
+    ? findBlockLocation(section.blocks, blockId)
+    : undefined
   const block = location?.block
 
   if (!block) {
     return (
-      <EmptyStateContainer>
-        <InformationCircleIcon size={32} />
-        <div>Block not found: {blockId}</div>
-      </EmptyStateContainer>
+      <MissingEntityState
+        itemType="Block"
+        itemId={blockId}
+        onRemove={() => editorActions.removeBlock(sectionId, blockId)}
+      />
     )
   }
 
+  const handleBackToParent = () => {
+    if (location.parentBlockId) {
+      const parentLocation = findBlockLocation(
+        section.blocks,
+        location.parentBlockId,
+      )
+      editorActions.selectItem({
+        type: 'block',
+        id: location.parentBlockId,
+        sectionId,
+        parentBlockId: parentLocation?.parentBlockId,
+      })
+      return
+    }
+
+    editorActions.selectItem({ type: 'section', id: sectionId })
+  }
+
   const registered = BlockRegistry[block.type]
+  const isRegistered = Boolean(registered)
+
+  if (!isRegistered) {
+    return (
+      <UnregisteredEntityView
+        type={block.type}
+        entityName="Block"
+        backTitle="Back to parent"
+        onBack={handleBackToParent}
+        onDelete={() => editorActions.removeBlock(sectionId, blockId)}
+        message={`Block type "${block.type}" is not registered in the theme registry.`}
+      />
+    )
+  }
+
   const schema = registered.schema
   const settingsList = schema.settings
   const currentSettings = block.settings
-  const handleFieldChange = (key: string, value: any) => {
+  const handleFieldChange = (key: string, value: unknown) => {
     editorActions.updateBlockSettings(sectionId, blockId, { [key]: value })
   }
 
@@ -56,23 +93,7 @@ export const BlockInspector = ({ sectionId, blockId }: BlockInspectorProps) => {
           <BackButton
             type="button"
             title="Back to parent"
-            onClick={() => {
-              if (location.parentBlockId) {
-                const parentLocation = findBlockLocation(
-                  section.blocks,
-                  location.parentBlockId,
-                )
-                editorActions.selectItem({
-                  type: 'block',
-                  id: location.parentBlockId,
-                  sectionId,
-                  parentBlockId: parentLocation?.parentBlockId,
-                })
-                return
-              }
-
-              editorActions.selectItem({ type: 'section', id: sectionId })
-            }}
+            onClick={handleBackToParent}
           >
             <ArrowLeft01Icon size={18} />
           </BackButton>
@@ -92,23 +113,13 @@ export const BlockInspector = ({ sectionId, blockId }: BlockInspectorProps) => {
         </ActionIconButton>
       </InspectorHeader>
 
-      <InspectorBody>
-        {settingsList.length === 0 ? (
-          <EmptyStateContainer>
-            <CubeIcon size={28} />
-            <div>This block has no configurable settings.</div>
-          </EmptyStateContainer>
-        ) : (
-          settingsList.map((setting, index) => (
-            <DynamicSettingField
-              key={setting.id || index}
-              setting={setting}
-              value={currentSettings[setting.id]}
-              onChange={handleFieldChange}
-            />
-          ))
-        )}
-      </InspectorBody>
+      <SettingsFieldList
+        settings={settingsList}
+        values={currentSettings}
+        onChange={handleFieldChange}
+        emptyMessage="This block has no configurable settings."
+        emptyIcon={<CubeIcon size={28} />}
+      />
     </>
   )
 }

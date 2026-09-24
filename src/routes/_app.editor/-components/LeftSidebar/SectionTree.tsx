@@ -6,7 +6,11 @@ import { isSortable } from '@dnd-kit/react/sortable'
 import { PlusSignIcon } from 'hugeicons-react'
 
 import { findBlockLocation, reorderItems } from '#/lib/editor/blockTree'
-import { editorActions, useEditorTemplate } from '#/store/editorStore'
+import {
+  editorActions,
+  useEditorTemplate,
+  useEditorTheme,
+} from '#/store/editorStore'
 
 import { AddBlockModal } from './AddBlockModal'
 import { AddSectionModal } from './AddSectionModal'
@@ -15,7 +19,6 @@ import type { SectionEntryProps } from './SectionEntry'
 import { SectionEntry } from './SectionEntry'
 import { AddSectionButton } from './sectionTreeStyles'
 import { TreeGroup } from './TreeGroup'
-import { BlockRegistry, SectionRegistry } from '#themes'
 
 interface AddBlockTarget {
   sectionId: string
@@ -24,6 +27,7 @@ interface AddBlockTarget {
 
 export const SectionTree = () => {
   const template = useEditorTemplate()
+  const { BlockRegistry, SectionRegistry } = useEditorTheme()
   const [isAddSectionModalOpen, setAddSectionModalOpen] = useState(false)
   const [addBlockTarget, setAddBlockTarget] = useState<AddBlockTarget | null>(
     null,
@@ -46,8 +50,25 @@ export const SectionTree = () => {
     options: Pick<SectionEntryProps, 'canRemove' | 'canReorder'>,
   ) => {
     const section = template.sections[sectionId]
-    const schema = SectionRegistry[section.type]?.schema
-    if (!schema) return null
+    const sectionType = section.type || 'unknown'
+    const schema = SectionRegistry[sectionType]?.schema || {
+      type: sectionType,
+      name: !section.type
+        ? `Missing (${sectionId})`
+        : `Unregistered (${sectionType})`,
+      settings: [],
+      blocks: [],
+    }
+
+    const safeSection = section.type
+      ? section
+      : {
+          id: sectionId,
+          type: sectionType,
+          settings: {},
+          blocks: {},
+          block_order: [],
+        }
 
     return (
       <SectionEntry
@@ -59,7 +80,7 @@ export const SectionTree = () => {
           setAddBlockTarget({ sectionId, parentBlockId })
         }
         schema={schema}
-        section={section}
+        section={safeSection}
         sectionId={sectionId}
       />
     )

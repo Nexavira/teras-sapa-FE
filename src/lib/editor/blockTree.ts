@@ -1,7 +1,7 @@
 import type { BlockInstance } from '#themes'
 
 export interface BlockCollection {
-  block_order?: string[]
+  block_order?: Array<string>
   blocks?: Record<string, BlockInstance>
 }
 
@@ -64,8 +64,15 @@ export function removeBlockFromCollection(
   collection: BlockCollection,
   blockId: string,
 ): BlockCollection {
-  if (collection.blocks?.[blockId]) {
-    const blocks = { ...collection.blocks }
+  const inBlocks = Boolean(
+    collection.blocks && Object.hasOwn(collection.blocks, blockId),
+  )
+  const inOrder = Boolean(
+    collection.block_order && collection.block_order.includes(blockId),
+  )
+
+  if (inBlocks || inOrder) {
+    const blocks = collection.blocks ? { ...collection.blocks } : {}
     delete blocks[blockId]
 
     return {
@@ -98,7 +105,7 @@ export function removeBlockFromCollection(
   return collection
 }
 
-export function getDescendantBlockIds(block: BlockInstance): string[] {
+export function getDescendantBlockIds(block: BlockInstance): Array<string> {
   return Object.entries(block.blocks || {}).flatMap(([childId, child]) => [
     childId,
     ...getDescendantBlockIds(child),
@@ -106,10 +113,10 @@ export function getDescendantBlockIds(block: BlockInstance): string[] {
 }
 
 export function reorderItems(
-  order: string[],
+  order: Array<string>,
   fromIndex: number,
   toIndex: number,
-): string[] {
+): Array<string> {
   if (
     fromIndex === toIndex ||
     fromIndex < 0 ||

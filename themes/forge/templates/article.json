@@ -1,0 +1,100 @@
+{
+  "name": "Article",
+  "layout": "theme",
+  "sections": {
+    "header_main": {
+      "type": "header",
+      "settings": {
+        "logo_text": "ATLAS / INDUSTRIES",
+        "cta_label": "Start a project",
+        "cta_url": "/preview?theme=forge&template=contact"
+      }
+    },
+    "hero": {
+      "type": "company_hero",
+      "settings": {
+        "title": "Designing production resilience into every cell",
+        "intro": "How modular thinking and digital commissioning reduce risk before equipment reaches the factory floor.",
+        "image": "https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?auto=format&fit=crop&w=1800&q=88",
+        "show_stamp": true,
+        "stamp_text": "Read time\n08 min\n↘"
+      }
+    },
+    "article_content": {
+      "type": "company_article",
+      "settings": {
+        "eyebrow": "Field note / 018",
+        "author_name": "Raka Santoso",
+        "author_role": "Director of Engineering",
+        "read_time": "8 minute read",
+        "date": "18 September 2026"
+      },
+      "blocks": {
+        "p1": {
+          "type": "article_paragraph",
+          "settings": {
+            "content": "Resilience is often discussed as inventory, redundancy or contingency. In manufacturing systems, it begins much earlier: with the architecture of the line itself."
+          }
+        },
+        "p2": {
+          "type": "article_paragraph",
+          "settings": {
+            "content": "The most dependable production cells are not simply overbuilt. They are legible. Their functions are modular, their interfaces explicit, and their failure modes considered before steel is cut."
+          }
+        },
+        "h1": {
+          "type": "article_subheading",
+          "settings": {
+            "title": "Start with the handoffs"
+          }
+        },
+        "p3": {
+          "type": "article_paragraph",
+          "settings": {
+            "content": "Every interface is a potential source of uncertainty. Mechanical, electrical, controls and operator workflows must be designed as one connected system—not as parallel workstreams joined at commissioning."
+          }
+        },
+        "q1": {
+          "type": "article_quote",
+          "settings": {
+            "quote": "“The best time to discover a collision is inside a digital model, not during a production ramp.”"
+          }
+        },
+        "p4": {
+          "type": "article_paragraph",
+          "settings": {
+            "content": "Digital commissioning lets teams test sequences, access zones and recovery states while changes are still inexpensive. It turns review from a presentation into a working session."
+          }
+        },
+        "h2": {
+          "type": "article_subheading",
+          "settings": {
+            "title": "Modularity is operational leverage"
+          }
+        },
+        "p5": {
+          "type": "article_paragraph",
+          "settings": {
+            "content": "A modular cell can absorb product variants, isolate maintenance and scale throughput without forcing a complete redesign. The value appears not only at launch, but through every year of the equipment lifecycle."
+          }
+        },
+        "p6": {
+          "type": "article_paragraph",
+          "settings": {
+            "content": "Good manufacturing engineering makes change less dramatic. That is the quiet advantage of designing resilience into the system from day one."
+          }
+        }
+      },
+      "block_order": ["p1", "p2", "h1", "p3", "q1", "p4", "h2", "p5", "p6"]
+    },
+    "footer_main": {
+      "type": "footer",
+      "settings": {
+        "heading": "Built for what comes next.",
+        "email": "projects@atlas-industries.com",
+        "location": "West Java · Indonesia"
+      }
+    }
+  },
+  "order": ["header_main", "hero", "article_content", "footer_main"]
+}

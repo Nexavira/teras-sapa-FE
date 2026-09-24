@@ -2,10 +2,11 @@ import type { ReactNode } from 'react'
 import { useState } from 'react'
 
 import { useSortable } from '@dnd-kit/react/sortable'
-import { Delete02Icon } from 'hugeicons-react'
+import { AlertCircleIcon, Delete02Icon } from 'hugeicons-react'
 
 import { editorActions, useEditorSelectedItem } from '#/store/editorStore'
 
+import { getBlockDndGroup } from './editorDnd'
 import { EditorItemIcon } from './EditorItemIcon'
 import { SortableEntry, SubNavList } from './sectionTreeStyles'
 import { ActionIconButton, TreeItem } from './TreeItem'
@@ -17,6 +18,7 @@ interface SortableBlockEntryProps {
   blockSchema: BlockSchema
   children?: ReactNode
   index: number
+  isError?: boolean
   parentBlockId?: string
   sectionId: string
 }
@@ -27,6 +29,7 @@ export const SortableBlockEntry = ({
   blockSchema,
   children,
   index,
+  isError = false,
   parentBlockId,
   sectionId,
 }: SortableBlockEntryProps) => {
@@ -35,9 +38,9 @@ export const SortableBlockEntry = ({
   const { handleRef, isDragging, ref } = useSortable({
     id: `block:${blockId}`,
     index,
-    group: `blocks:${sectionId}:${parentBlockId || 'root'}`,
+    group: getBlockDndGroup(sectionId, parentBlockId),
   })
-  const hasChildren = Boolean(block.block_order?.length)
+  const supportsChildren = Boolean(blockSchema.blocks?.length)
 
   return (
     <SortableEntry $isDragging={isDragging} ref={ref}>
@@ -57,8 +60,14 @@ export const SortableBlockEntry = ({
         }
         active={selectedItem?.type === 'block' && selectedItem.id === blockId}
         buttonRef={handleRef}
-        hasChildren={hasChildren}
-        icon={<EditorItemIcon kind="block" size={14} type={block.type} />}
+        hasChildren={supportsChildren}
+        icon={
+          isError ? (
+            <AlertCircleIcon size={14} style={{ color: '#ef4444' }} />
+          ) : (
+            <EditorItemIcon kind="block" size={14} type={block.type} />
+          )
+        }
         index={index}
         isOpen={!isCollapsed}
         level={parentBlockId ? 2 : 1}
@@ -72,10 +81,14 @@ export const SortableBlockEntry = ({
         }
         onToggleOpen={() => setCollapsed((collapsed) => !collapsed)}
       >
-        {blockSchema.name || block.type}
+        <span
+          style={isError ? { color: '#dc2626', fontWeight: 500 } : undefined}
+        >
+          {blockSchema.name || block.type}
+        </span>
       </TreeItem>
 
-      {hasChildren && (
+      {supportsChildren && (
         <SubNavList $isOpen={!isCollapsed} aria-hidden={isCollapsed}>
           {children}
         </SubNavList>

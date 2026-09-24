@@ -1,6 +1,10 @@
 import { ArrowLeft01Icon, Settings02Icon } from 'hugeicons-react'
 
-import { editorActions, useEditorGlobalSettings } from '#/store/editorStore'
+import {
+  editorActions,
+  useEditorGlobalSettings,
+  useEditorTheme,
+} from '#/store/editorStore'
 
 import { ColorSchemeGroupManager } from './ColorSchemeGroupManager'
 import { DynamicSettingField } from './DynamicSettingField'
@@ -14,7 +18,6 @@ import {
   InspectorHeader,
 } from './inspectorStyles'
 import type { SettingDefinition } from '#themes'
-import { settingsSchemaData } from '#themes'
 
 interface GlobalCategoryInspectorProps {
   categoryName: string
@@ -24,6 +27,7 @@ export const GlobalCategoryInspector = ({
   categoryName,
 }: GlobalCategoryInspectorProps) => {
   const globalSettings = useEditorGlobalSettings()
+  const { settingsSchemaData } = useEditorTheme()
   const categories = (settingsSchemaData as any[]).filter(
     (category) => category.name !== 'theme_info',
   )

@@ -1,6 +1,8 @@
 export * from './active'
 export { dawnTheme } from './dawn'
+export { forgeTheme } from './forge'
 export * from './registry'
+export * from './shared/components'
 export * from './shared/editor-context'
 export * from './shared/types/theme'
 export * from './shared/utils/colors'
