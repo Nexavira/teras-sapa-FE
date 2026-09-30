@@ -30,7 +30,7 @@ const starter: TenantPackage = {
   trial_days: 7,
   features: [{ text: 'E-Commerce Templates', is_highlighted: true }],
 }
-const packages: TenantPackage[] = [
+const packages: Array<TenantPackage> = [
   starter,
   {
     ...starter,
@@ -81,7 +81,7 @@ describe('API package selection', () => {
     ).toBeNull()
     expect(
       screen
-        .getByRole('button', { name: 'Subscribe' })
+        .getByRole('button', { name: 'Berlangganan' })
         .hasAttribute('disabled'),
     ).toBe(true)
     fireEvent.click(commerce)
@@ -95,28 +95,93 @@ describe('API package selection', () => {
       screen.queryByRole('heading', { name: 'Company Starter' }),
     ).toBeNull()
     fireEvent.click(
-      screen.getByRole('button', { name: 'Select Commerce Starter' }),
+      screen.getByRole('button', { name: 'Pilih Commerce Starter' }),
     )
     expect(
       screen
-        .getByRole('button', { name: 'Select Commerce Starter' })
+        .getByRole('button', { name: 'Pilih Commerce Starter' })
         .getAttribute('aria-pressed'),
     ).toBe('true')
     fireEvent.click(screen.getByRole('button', { name: 'Company Profile' }))
     expect(
       screen
-        .getByRole('button', { name: 'Subscribe' })
+        .getByRole('button', { name: 'Berlangganan' })
         .hasAttribute('disabled'),
     ).toBe(true)
     expect(
       screen.queryByRole('heading', { name: 'Commerce Starter' }),
     ).toBeNull()
     fireEvent.click(
-      screen.getByRole('button', { name: 'Select Company Starter' }),
+      screen.getByRole('button', { name: 'Pilih Company Starter' }),
     )
-    fireEvent.click(screen.getByRole('button', { name: 'Subscribe' }))
+    fireEvent.click(screen.getByRole('button', { name: 'Berlangganan' }))
     await waitFor(() =>
       expect(onSubmit).toHaveBeenCalledWith({ package_uuid: 'profile-basic' }),
+    )
+  })
+
+  it('filters packages by monthly and annual billing cycle', async () => {
+    const multiCyclePackages: Array<TenantPackage> = [
+      {
+        ...starter,
+        uuid: 'commerce-monthly',
+        title: 'Commerce Monthly Plan',
+        billing_cycle: 'monthly',
+      },
+      {
+        ...starter,
+        uuid: 'commerce-annual',
+        title: 'Commerce Annual Plan',
+        billing_cycle: 'annually',
+      },
+    ]
+    vi.stubGlobal(
+      'fetch',
+      vi.fn().mockResolvedValue(response(multiCyclePackages)),
+    )
+    const onSubmit = vi.fn().mockResolvedValue(undefined)
+    renderWithQuery(<SubscriptionForm isPending={false} onSubmit={onSubmit} />)
+
+    fireEvent.click(await screen.findByRole('button', { name: 'Commerce' }))
+
+    expect(
+      screen.getByRole('heading', { name: 'Commerce Monthly Plan' }),
+    ).toBeTruthy()
+    expect(
+      screen.queryByRole('heading', { name: 'Commerce Annual Plan' }),
+    ).toBeNull()
+
+    fireEvent.click(
+      screen.getByRole('button', { name: 'Pilih Commerce Monthly Plan' }),
+    )
+    expect(
+      screen
+        .getByRole('button', { name: 'Pilih Commerce Monthly Plan' })
+        .getAttribute('aria-pressed'),
+    ).toBe('true')
+
+    fireEvent.click(screen.getByRole('button', { name: 'Tahunan' }))
+    expect(
+      screen.queryByRole('heading', { name: 'Commerce Monthly Plan' }),
+    ).toBeNull()
+    expect(
+      screen.getByRole('heading', { name: 'Commerce Annual Plan' }),
+    ).toBeTruthy()
+
+    expect(
+      screen
+        .getByRole('button', { name: 'Berlangganan' })
+        .hasAttribute('disabled'),
+    ).toBe(true)
+
+    fireEvent.click(
+      screen.getByRole('button', { name: 'Pilih Commerce Annual Plan' }),
+    )
+    fireEvent.click(screen.getByRole('button', { name: 'Berlangganan' }))
+    await waitFor(() =>
+      expect(onSubmit).toHaveBeenCalledWith({
+        package_uuid: 'commerce-annual',
+      }),
     )
   })
 
@@ -154,9 +219,9 @@ describe('API package selection', () => {
       .mockResolvedValueOnce(response(packages))
     vi.stubGlobal('fetch', fetchMock)
     renderWithQuery(<SubscriptionForm isPending={false} onSubmit={vi.fn()} />)
-    expect(screen.getByRole('status').textContent).toContain('Loading packages')
+    expect(screen.getByRole('status').textContent).toContain('Memuat paket')
     await screen.findByRole('alert')
-    fireEvent.click(screen.getByRole('button', { name: 'Try again' }))
+    fireEvent.click(screen.getByRole('button', { name: 'Coba lagi' }))
     await screen.findByRole('button', { name: 'Commerce' })
     expect(fetchMock).toHaveBeenCalledTimes(2)
   })
@@ -165,11 +230,11 @@ describe('API package selection', () => {
     vi.stubGlobal('fetch', vi.fn().mockResolvedValue(response([])))
     renderWithQuery(<SubscriptionForm isPending={false} onSubmit={vi.fn()} />)
     await screen.findByText(
-      'No packages are available yet. Please check back later.',
+      'Belum ada paket tersedia. Silakan kembali lagi nanti.',
     )
     expect(
       screen
-        .getByRole('button', { name: 'Subscribe' })
+        .getByRole('button', { name: 'Berlangganan' })
         .hasAttribute('disabled'),
     ).toBe(true)
   })
@@ -182,7 +247,7 @@ describe('API package selection', () => {
     )
     fireEvent.click(await screen.findByRole('button', { name: 'Commerce' }))
     fireEvent.click(
-      screen.getByRole('button', { name: 'Select Commerce Starter' }),
+      screen.getByRole('button', { name: 'Pilih Commerce Starter' }),
     )
     client.setQueryData(
       ['tenant-packages'],
@@ -191,11 +256,11 @@ describe('API package selection', () => {
     await waitFor(() =>
       expect(
         screen
-          .getByRole('button', { name: 'Subscribe' })
+          .getByRole('button', { name: 'Berlangganan' })
           .hasAttribute('disabled'),
       ).toBe(true),
     )
-    fireEvent.submit(screen.getByRole('form', { name: 'Subscription package' }))
+    fireEvent.submit(screen.getByRole('form', { name: 'Paket langganan' }))
     await screen.findByRole('alert')
     expect(onSubmit).not.toHaveBeenCalled()
   })

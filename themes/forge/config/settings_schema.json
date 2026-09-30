@@ -538,6 +538,36 @@
           { "label": "Standard", "value": "standard" },
           { "label": "Relaxed", "value": "relaxed" }
         ]
+      },
+      {
+        "type": "range",
+        "id": "reveal_duration",
+        "label": "Reveal animation duration",
+        "min": 200,
+        "max": 2000,
+        "step": 50,
+        "unit": "ms",
+        "default": 900
+      },
+      {
+        "type": "range",
+        "id": "reveal_delay",
+        "label": "Reveal start delay",
+        "min": 0,
+        "max": 1000,
+        "step": 50,
+        "unit": "ms",
+        "default": 0
+      },
+      {
+        "type": "range",
+        "id": "reveal_stagger",
+        "label": "Text & items stagger delay",
+        "min": 0,
+        "max": 400,
+        "step": 25,
+        "unit": "ms",
+        "default": 100
       }
     ]
   },

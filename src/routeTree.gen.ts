@@ -18,11 +18,15 @@ import { Route as LoginIndexRouteImport } from './routes/login/index'
 import { Route as PreviewIndexRouteImport } from './routes/preview/index'
 import { Route as RegisterIndexRouteImport } from './routes/register/index'
 import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin/index'
+import { Route as AuthenticatedAdminArticlesIndexRouteImport } from './routes/_authenticated/admin/articles/index'
+import { Route as AuthenticatedAdminArticlesCreateRouteImport } from './routes/_authenticated/admin/articles/create'
 import { Route as AuthenticatedAdminCollectionsIndexRouteImport } from './routes/_authenticated/admin/collections/index'
 import { Route as AuthenticatedAdminCollectionsCreateRouteImport } from './routes/_authenticated/admin/collections/create'
 import { Route as AuthenticatedAdminProductsIndexRouteImport } from './routes/_authenticated/admin/products/index'
 import { Route as AuthenticatedAdminProductsCreateRouteImport } from './routes/_authenticated/admin/products/create'
 import { Route as AuthenticatedAdminThemesIndexRouteImport } from './routes/_authenticated/admin/themes/index'
+import { Route as AuthenticatedAdminArticlesArticleIdIndexRouteImport } from './routes/_authenticated/admin/articles/$articleId.index'
+import { Route as AuthenticatedAdminArticlesArticleIdEditRouteImport } from './routes/_authenticated/admin/articles/$articleId.edit'
 import { Route as AuthenticatedAdminCollectionsCollectionIdEditRouteImport } from './routes/_authenticated/admin/collections/$collectionId.edit'
 import { Route as AuthenticatedAdminProductsProductIdEditRouteImport } from './routes/_authenticated/admin/products/$productId.edit'
 
@@ -69,6 +73,18 @@ const AuthenticatedAdminIndexRoute = AuthenticatedAdminIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AuthenticatedAdminRoute,
 } as any)
+const AuthenticatedAdminArticlesIndexRoute =
+  AuthenticatedAdminArticlesIndexRouteImport.update({
+    id: '/articles/',
+    path: '/articles/',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminArticlesCreateRoute =
+  AuthenticatedAdminArticlesCreateRouteImport.update({
+    id: '/articles/create',
+    path: '/articles/create',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
 const AuthenticatedAdminCollectionsIndexRoute =
   AuthenticatedAdminCollectionsIndexRouteImport.update({
     id: '/collections/',
@@ -99,6 +115,18 @@ const AuthenticatedAdminThemesIndexRoute =
     path: '/themes/',
     getParentRoute: () => AuthenticatedAdminRoute,
   } as any)
+const AuthenticatedAdminArticlesArticleIdIndexRoute =
+  AuthenticatedAdminArticlesArticleIdIndexRouteImport.update({
+    id: '/articles/$articleId/',
+    path: '/articles/$articleId/',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminArticlesArticleIdEditRoute =
+  AuthenticatedAdminArticlesArticleIdEditRouteImport.update({
+    id: '/articles/$articleId/edit',
+    path: '/articles/$articleId/edit',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
 const AuthenticatedAdminCollectionsCollectionIdEditRoute =
   AuthenticatedAdminCollectionsCollectionIdEditRouteImport.update({
     id: '/collections/$collectionId/edit',
@@ -120,13 +148,17 @@ export interface FileRoutesByFullPath {
   '/preview/': typeof PreviewIndexRoute
   '/register/': typeof RegisterIndexRoute
   '/admin/': typeof AuthenticatedAdminIndexRoute
+  '/admin/articles/create': typeof AuthenticatedAdminArticlesCreateRoute
   '/admin/collections/create': typeof AuthenticatedAdminCollectionsCreateRoute
   '/admin/products/create': typeof AuthenticatedAdminProductsCreateRoute
+  '/admin/articles/': typeof AuthenticatedAdminArticlesIndexRoute
   '/admin/collections/': typeof AuthenticatedAdminCollectionsIndexRoute
   '/admin/products/': typeof AuthenticatedAdminProductsIndexRoute
   '/admin/themes/': typeof AuthenticatedAdminThemesIndexRoute
+  '/admin/articles/$articleId/edit': typeof AuthenticatedAdminArticlesArticleIdEditRoute
   '/admin/collections/$collectionId/edit': typeof AuthenticatedAdminCollectionsCollectionIdEditRoute
   '/admin/products/$productId/edit': typeof AuthenticatedAdminProductsProductIdEditRoute
+  '/admin/articles/$articleId/': typeof AuthenticatedAdminArticlesArticleIdIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -135,13 +167,17 @@ export interface FileRoutesByTo {
   '/preview': typeof PreviewIndexRoute
   '/register': typeof RegisterIndexRoute
   '/admin': typeof AuthenticatedAdminIndexRoute
+  '/admin/articles/create': typeof AuthenticatedAdminArticlesCreateRoute
   '/admin/collections/create': typeof AuthenticatedAdminCollectionsCreateRoute
   '/admin/products/create': typeof AuthenticatedAdminProductsCreateRoute
+  '/admin/articles': typeof AuthenticatedAdminArticlesIndexRoute
   '/admin/collections': typeof AuthenticatedAdminCollectionsIndexRoute
   '/admin/products': typeof AuthenticatedAdminProductsIndexRoute
   '/admin/themes': typeof AuthenticatedAdminThemesIndexRoute
+  '/admin/articles/$articleId/edit': typeof AuthenticatedAdminArticlesArticleIdEditRoute
   '/admin/collections/$collectionId/edit': typeof AuthenticatedAdminCollectionsCollectionIdEditRoute
   '/admin/products/$productId/edit': typeof AuthenticatedAdminProductsProductIdEditRoute
+  '/admin/articles/$articleId': typeof AuthenticatedAdminArticlesArticleIdIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -154,13 +190,17 @@ export interface FileRoutesById {
   '/preview/': typeof PreviewIndexRoute
   '/register/': typeof RegisterIndexRoute
   '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
+  '/_authenticated/admin/articles/create': typeof AuthenticatedAdminArticlesCreateRoute
   '/_authenticated/admin/collections/create': typeof AuthenticatedAdminCollectionsCreateRoute
   '/_authenticated/admin/products/create': typeof AuthenticatedAdminProductsCreateRoute
+  '/_authenticated/admin/articles/': typeof AuthenticatedAdminArticlesIndexRoute
   '/_authenticated/admin/collections/': typeof AuthenticatedAdminCollectionsIndexRoute
   '/_authenticated/admin/products/': typeof AuthenticatedAdminProductsIndexRoute
   '/_authenticated/admin/themes/': typeof AuthenticatedAdminThemesIndexRoute
+  '/_authenticated/admin/articles/$articleId/edit': typeof AuthenticatedAdminArticlesArticleIdEditRoute
   '/_authenticated/admin/collections/$collectionId/edit': typeof AuthenticatedAdminCollectionsCollectionIdEditRoute
   '/_authenticated/admin/products/$productId/edit': typeof AuthenticatedAdminProductsProductIdEditRoute
+  '/_authenticated/admin/articles/$articleId/': typeof AuthenticatedAdminArticlesArticleIdIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -172,13 +212,17 @@ export interface FileRouteTypes {
     | '/preview/'
     | '/register/'
     | '/admin/'
+    | '/admin/articles/create'
     | '/admin/collections/create'
     | '/admin/products/create'
+    | '/admin/articles/'
     | '/admin/collections/'
     | '/admin/products/'
     | '/admin/themes/'
+    | '/admin/articles/$articleId/edit'
     | '/admin/collections/$collectionId/edit'
     | '/admin/products/$productId/edit'
+    | '/admin/articles/$articleId/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -187,13 +231,17 @@ export interface FileRouteTypes {
     | '/preview'
     | '/register'
     | '/admin'
+    | '/admin/articles/create'
     | '/admin/collections/create'
     | '/admin/products/create'
+    | '/admin/articles'
     | '/admin/collections'
     | '/admin/products'
     | '/admin/themes'
+    | '/admin/articles/$articleId/edit'
     | '/admin/collections/$collectionId/edit'
     | '/admin/products/$productId/edit'
+    | '/admin/articles/$articleId'
   id:
     | '__root__'
     | '/'
@@ -205,13 +253,17 @@ export interface FileRouteTypes {
     | '/preview/'
     | '/register/'
     | '/_authenticated/admin/'
+    | '/_authenticated/admin/articles/create'
     | '/_authenticated/admin/collections/create'
     | '/_authenticated/admin/products/create'
+    | '/_authenticated/admin/articles/'
     | '/_authenticated/admin/collections/'
     | '/_authenticated/admin/products/'
     | '/_authenticated/admin/themes/'
+    | '/_authenticated/admin/articles/$articleId/edit'
     | '/_authenticated/admin/collections/$collectionId/edit'
     | '/_authenticated/admin/products/$productId/edit'
+    | '/_authenticated/admin/articles/$articleId/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -288,6 +340,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminIndexRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
+    '/_authenticated/admin/articles/': {
+      id: '/_authenticated/admin/articles/'
+      path: '/articles'
+      fullPath: '/admin/articles/'
+      preLoaderRoute: typeof AuthenticatedAdminArticlesIndexRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/articles/create': {
+      id: '/_authenticated/admin/articles/create'
+      path: '/articles/create'
+      fullPath: '/admin/articles/create'
+      preLoaderRoute: typeof AuthenticatedAdminArticlesCreateRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
     '/_authenticated/admin/collections/': {
       id: '/_authenticated/admin/collections/'
       path: '/collections'
@@ -323,6 +389,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminThemesIndexRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
+    '/_authenticated/admin/articles/$articleId/': {
+      id: '/_authenticated/admin/articles/$articleId/'
+      path: '/articles/$articleId'
+      fullPath: '/admin/articles/$articleId/'
+      preLoaderRoute: typeof AuthenticatedAdminArticlesArticleIdIndexRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/articles/$articleId/edit': {
+      id: '/_authenticated/admin/articles/$articleId/edit'
+      path: '/articles/$articleId/edit'
+      fullPath: '/admin/articles/$articleId/edit'
+      preLoaderRoute: typeof AuthenticatedAdminArticlesArticleIdEditRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
     '/_authenticated/admin/collections/$collectionId/edit': {
       id: '/_authenticated/admin/collections/$collectionId/edit'
       path: '/collections/$collectionId/edit'
@@ -352,28 +432,38 @@ const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
 
 interface AuthenticatedAdminRouteChildren {
   AuthenticatedAdminIndexRoute: typeof AuthenticatedAdminIndexRoute
+  AuthenticatedAdminArticlesCreateRoute: typeof AuthenticatedAdminArticlesCreateRoute
   AuthenticatedAdminCollectionsCreateRoute: typeof AuthenticatedAdminCollectionsCreateRoute
   AuthenticatedAdminProductsCreateRoute: typeof AuthenticatedAdminProductsCreateRoute
+  AuthenticatedAdminArticlesIndexRoute: typeof AuthenticatedAdminArticlesIndexRoute
   AuthenticatedAdminCollectionsIndexRoute: typeof AuthenticatedAdminCollectionsIndexRoute
   AuthenticatedAdminProductsIndexRoute: typeof AuthenticatedAdminProductsIndexRoute
   AuthenticatedAdminThemesIndexRoute: typeof AuthenticatedAdminThemesIndexRoute
+  AuthenticatedAdminArticlesArticleIdEditRoute: typeof AuthenticatedAdminArticlesArticleIdEditRoute
   AuthenticatedAdminCollectionsCollectionIdEditRoute: typeof AuthenticatedAdminCollectionsCollectionIdEditRoute
   AuthenticatedAdminProductsProductIdEditRoute: typeof AuthenticatedAdminProductsProductIdEditRoute
+  AuthenticatedAdminArticlesArticleIdIndexRoute: typeof AuthenticatedAdminArticlesArticleIdIndexRoute
 }
 
 const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
   AuthenticatedAdminIndexRoute: AuthenticatedAdminIndexRoute,
+  AuthenticatedAdminArticlesCreateRoute: AuthenticatedAdminArticlesCreateRoute,
   AuthenticatedAdminCollectionsCreateRoute:
     AuthenticatedAdminCollectionsCreateRoute,
   AuthenticatedAdminProductsCreateRoute: AuthenticatedAdminProductsCreateRoute,
+  AuthenticatedAdminArticlesIndexRoute: AuthenticatedAdminArticlesIndexRoute,
   AuthenticatedAdminCollectionsIndexRoute:
     AuthenticatedAdminCollectionsIndexRoute,
   AuthenticatedAdminProductsIndexRoute: AuthenticatedAdminProductsIndexRoute,
   AuthenticatedAdminThemesIndexRoute: AuthenticatedAdminThemesIndexRoute,
+  AuthenticatedAdminArticlesArticleIdEditRoute:
+    AuthenticatedAdminArticlesArticleIdEditRoute,
   AuthenticatedAdminCollectionsCollectionIdEditRoute:
     AuthenticatedAdminCollectionsCollectionIdEditRoute,
   AuthenticatedAdminProductsProductIdEditRoute:
     AuthenticatedAdminProductsProductIdEditRoute,
+  AuthenticatedAdminArticlesArticleIdIndexRoute:
+    AuthenticatedAdminArticlesArticleIdIndexRoute,
 }
 
 const AuthenticatedAdminRouteWithChildren =

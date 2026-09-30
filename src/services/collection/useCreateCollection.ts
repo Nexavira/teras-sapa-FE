@@ -33,7 +33,7 @@ export const useCreateCollection = () => {
         slug: body.slug,
         description: body.description,
         image: body.image,
-        productUuids: body.productUuids || [],
+        productUuids: body.productUuids,
       })
     },
     onSuccess: () => {

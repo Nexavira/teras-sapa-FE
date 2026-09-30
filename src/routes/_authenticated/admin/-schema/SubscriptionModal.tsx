@@ -28,6 +28,7 @@ export const SubscriptionModal = ({
     useState<CurrentTenantPayment | null>(null)
   const [error, setError] = useState('')
   const payment = current.data ?? createdPayment
+  const isPaymentStep = Boolean(payment)
   const refresh = () => {
     void current.refetch()
     onRefresh()
@@ -35,8 +36,14 @@ export const SubscriptionModal = ({
   return (
     <OnboardingModal
       wide={!current.isPending && !current.isError && !payment}
-      title="Activate your subscription"
-      description={`Choose a subscription for ${tenant.name} to continue.`}
+      title={
+        isPaymentStep ? 'Complete your payment' : 'Activate your subscription'
+      }
+      description={
+        isPaymentStep
+          ? `Pay for ${tenant.name} by bank transfer and upload the receipt.`
+          : `Choose a subscription for ${tenant.name} to continue.`
+      }
     >
       {current.isPending ? (
         <Form as="div">
@@ -70,6 +77,7 @@ export const SubscriptionModal = ({
         )
       ) : (
         <SubscriptionForm
+          initialWebsiteType="commerce"
           isPending={mutation.isPending}
           error={error}
           onSubmit={async (values) => {

@@ -37,7 +37,7 @@ const Wrapper = styled.div`
 
 export const ContactInfoBlock: React.FC<
   BlockComponentProps<ContactInfoSettings>
-> = ({ settings }) => {
+> = ({ settings, ...restProps }) => {
   const {
     address = 'Jl. Industri Selatan 18\nBandung, West Java 40286',
     phone = '+62 22 555 0187',
@@ -45,7 +45,7 @@ export const ContactInfoBlock: React.FC<
   } = settings
 
   return (
-    <Wrapper>
+    <Wrapper {...restProps}>
       <div>{address}</div>
       <div className="meta-lines">
         {phone && <a href={`tel:${phone.replace(/\s+/g, '')}`}>{phone}</a>}

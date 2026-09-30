@@ -64,7 +64,7 @@ const StyledCTA = styled.a<{ buttonStyle: string }>`
 
 export const ButtonBlock: React.FC<
   BlockComponentProps<ButtonBlockSettings>
-> = ({ settings }) => {
+> = ({ settings, ...restProps }) => {
   const {
     button_label = 'Shop Collection',
     button_link = '/collections/all',
@@ -74,7 +74,7 @@ export const ButtonBlock: React.FC<
   if (!button_label) return null
 
   return (
-    <StyledCTA href={button_link} buttonStyle={button_style}>
+    <StyledCTA href={button_link} buttonStyle={button_style} {...restProps}>
       {button_label}
     </StyledCTA>
   )

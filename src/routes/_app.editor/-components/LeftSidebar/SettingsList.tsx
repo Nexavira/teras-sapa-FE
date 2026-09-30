@@ -15,7 +15,7 @@ export const SettingsList = () => {
 
   return (
     <TreeGroup title="Global Theme Settings">
-      {(settingsSchemaData as any[])
+      {(settingsSchemaData as Array<any>)
         .filter((cat) => cat.name !== 'theme_info')
         .map((cat) => (
           <TreeItem

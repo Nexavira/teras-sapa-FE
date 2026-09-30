@@ -7,7 +7,7 @@
  * and the Theme Customizer Inspector.
  */
 
-import type { ComponentType, ReactNode } from 'react'
+import type { ComponentType, HTMLAttributes, ReactNode } from 'react'
 
 // ============================================================================
 // 1. Setting Types Taxonomy
@@ -326,11 +326,21 @@ export interface SectionInstance {
   blocks?: Record<string, BlockInstance>
 }
 
+export interface SectionGroupData {
+  name: string
+  type: 'header' | 'footer' | 'aside'
+  sections: Record<string, SectionInstance>
+  order: Array<string>
+}
+
 export interface TemplateData {
   name?: string
   layout?: string
+  wrapper?: string
   sections: Record<string, SectionInstance>
   order: Array<string>
+  header_group?: SectionGroupData
+  footer_group?: SectionGroupData
 }
 
 // ============================================================================
@@ -405,6 +415,8 @@ export interface ThemeDefinition {
   defaultSettingsData: GlobalSettingsData
   settingsSchemaData: GlobalSettingsSchema
   templateCatalog: Record<string, ThemeTemplateEntry>
+  headerGroup?: SectionGroupData
+  footerGroup?: SectionGroupData
   getTemplate: (id?: string) => TemplateData
   normalizeTemplate: (template: TemplateData) => TemplateData
 }
@@ -421,9 +433,19 @@ export interface SectionComponentProps<TSettings = Record<string, any>> {
   isEditor?: boolean
 }
 
-export interface BlockComponentProps<TSettings = Record<string, any>> {
+export interface BlockComponentProps<
+  TSettings = Record<string, any>,
+> extends HTMLAttributes<HTMLElement> {
   id: string
   settings: TSettings
   isEditor?: boolean
+  isSelected?: boolean
   children?: ReactNode
+  'data-block-id'?: string
+  'data-parent-block-id'?: string
+  'data-section-id'?: string
+  'data-block-type'?: string
+  'data-block-label'?: string
+  'data-editor-surface'?: boolean | string
+  'data-selected'?: boolean | string
 }

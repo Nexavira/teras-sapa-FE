@@ -79,4 +79,67 @@ describe('BlockList', () => {
     fireEvent.click(addBlockButtons[0])
     expect(onAddBlock).toHaveBeenCalledExactlyOnceWith('actions')
   })
+
+  it('renders nested child blocks when container block lacks explicit id property', () => {
+    const onAddBlock = vi.fn()
+    const metricSchema = {
+      type: 'metric_item',
+      name: 'Metric item',
+      settings: [],
+    }
+    const gridSchema = {
+      type: 'grid',
+      name: 'Grid container',
+      settings: [],
+      blocks: [metricSchema],
+    }
+    const metricsSectionSchema = {
+      type: 'company_metrics',
+      name: 'Metrics & stats',
+      settings: [],
+      blocks: [gridSchema],
+    }
+
+    render(
+      <ThemeProvider>
+        <DragDropProvider sensors={editorSensors}>
+          <SectionEntry
+            canRemove={false}
+            canReorder={false}
+            index={0}
+            onAddBlock={onAddBlock}
+            schema={metricsSectionSchema}
+            section={{
+              id: 'metrics',
+              type: 'company_metrics',
+              settings: {},
+              blocks: {
+                grid_metrics: {
+                  type: 'grid',
+                  settings: {},
+                  block_order: ['metric_1', 'metric_2'],
+                  blocks: {
+                    metric_1: {
+                      type: 'metric_item',
+                      settings: { stat: '38' },
+                    },
+                    metric_2: {
+                      type: 'metric_item',
+                      settings: { stat: '0.01' },
+                    },
+                  },
+                },
+              },
+              block_order: ['grid_metrics'],
+            }}
+            sectionId="metrics"
+          />
+        </DragDropProvider>
+      </ThemeProvider>,
+    )
+
+    expect(screen.getByText('Grid container')).not.toBeNull()
+    const metricNavItems = screen.getAllByText('Metric item')
+    expect(metricNavItems).toHaveLength(2)
+  })
 })

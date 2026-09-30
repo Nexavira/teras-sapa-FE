@@ -3,6 +3,7 @@ import React from 'react'
 import styled from '@emotion/styled'
 
 import { BlockRenderer } from '#themes/forge/blocks/BlockRenderer'
+import { Reveal } from '#themes/forge/snippets/Reveal'
 import { useReveal } from '#themes/forge/snippets/useReveal'
 import type { SectionComponentProps } from '#themes/shared/types/theme'
 
@@ -23,22 +24,6 @@ const SectionContainer = styled.section`
   @media (max-width: 767px) {
     width: 100%;
     padding: var(--forge-section-space-mobile) var(--forge-gutter-mobile);
-  }
-`
-
-const Reveal = styled.div`
-  opacity: 0;
-  transform: translateY(54px);
-  filter: blur(7px);
-  transition:
-    transform 900ms var(--forge-ease),
-    opacity 900ms var(--forge-ease),
-    filter 900ms var(--forge-ease);
-
-  &.is-visible {
-    opacity: 1;
-    transform: translateY(0);
-    filter: blur(0);
   }
 `
 
@@ -94,7 +79,7 @@ export const CompanyArticle: React.FC<
 
   return (
     <SectionContainer ref={rootRef}>
-      <Reveal data-reveal>
+      <Reveal isEditor={isEditor}>
         <ArticleGrid>
           <MetaSidebar>
             {eyebrow && <Eyebrow>{eyebrow}</Eyebrow>}

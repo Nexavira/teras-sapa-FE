@@ -26,6 +26,7 @@ const FlexContainer = styled.div<Required<FlexBlockSettings>>`
 export const FlexBlock: React.FC<BlockComponentProps<FlexBlockSettings>> = ({
   children,
   settings,
+  ...restProps
 }) => {
   const {
     direction = 'row',
@@ -42,6 +43,7 @@ export const FlexBlock: React.FC<BlockComponentProps<FlexBlockSettings>> = ({
       gap={gap}
       justify_content={justify_content}
       wrap={wrap}
+      {...restProps}
     >
       {children}
     </FlexContainer>

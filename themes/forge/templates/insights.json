@@ -13,11 +13,40 @@
     "hero": {
       "type": "company_hero",
       "settings": {
-        "title": "Perspectives on process, tolerance, and industrial scale.",
-        "intro": "Field notes and technical commentary from our design and production teams.",
-        "image": "https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?auto=format&fit=crop&w=1800&q=88",
-        "show_stamp": true,
-        "stamp_text": "Made to\nendure\n↘"
+        "layout_style": "frame",
+        "text_alignment": "left",
+        "color_scheme": "scheme-1",
+        "padding_top": 160,
+        "padding_bottom": 34
+      },
+      "block_order": ["heading_1", "text_1", "image_1"],
+      "blocks": {
+        "heading_1": {
+          "type": "heading",
+          "settings": {
+            "heading": "Perspectives on process, tolerance, and industrial scale.",
+            "heading_size": "display",
+            "heading_tag": "h1"
+          }
+        },
+        "text_1": {
+          "type": "text",
+          "settings": {
+            "text": "Field notes and technical commentary from our design and production teams.",
+            "text_style": "intro",
+            "max_width": 620
+          }
+        },
+        "image_1": {
+          "type": "image",
+          "settings": {
+            "image": "https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?auto=format&fit=crop&w=1800&q=88",
+            "media_height": "large",
+            "overlay_opacity": 40,
+            "show_stamp": true,
+            "stamp_text": "Made to\nendure\n↘"
+          }
+        }
       }
     },
     "articles": {

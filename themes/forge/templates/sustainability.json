@@ -13,47 +13,96 @@
     "hero": {
       "type": "company_hero",
       "settings": {
-        "title": "Cleaner footprints through engineered efficiency.",
-        "intro": "Reducing material intensity, reclaiming production energy, and building equipment meant to endure.",
-        "image": "https://images.unsplash.com/photo-1565793298595-6a879b1d9492?auto=format&fit=crop&w=1800&q=88",
-        "show_stamp": true,
-        "stamp_text": "Made to\nendure\n↘"
+        "layout_style": "frame",
+        "text_alignment": "left",
+        "color_scheme": "scheme-1",
+        "padding_top": 160,
+        "padding_bottom": 34
+      },
+      "block_order": ["heading_1", "text_1", "image_1"],
+      "blocks": {
+        "heading_1": {
+          "type": "heading",
+          "settings": {
+            "heading": "Cleaner footprints through engineered efficiency.",
+            "heading_size": "display",
+            "heading_tag": "h1"
+          }
+        },
+        "text_1": {
+          "type": "text",
+          "settings": {
+            "text": "Reducing material intensity, reclaiming production energy, and building equipment meant to endure.",
+            "text_style": "intro",
+            "max_width": 620
+          }
+        },
+        "image_1": {
+          "type": "image",
+          "settings": {
+            "image": "https://images.unsplash.com/photo-1565793298595-6a879b1d9492?auto=format&fit=crop&w=1800&q=88",
+            "media_height": "large",
+            "overlay_opacity": 40,
+            "show_stamp": true,
+            "stamp_text": "Made to\nendure\n↘"
+          }
+        }
       }
     },
     "targets": {
       "type": "company_metrics",
       "settings": {
-        "eyebrow": "2026 targets",
-        "heading": "Less material. Less energy. More value from both.",
+        "color_scheme": "scheme-2",
         "dark_mode": true
       },
       "blocks": {
-        "t_1": {
-          "type": "metric_item",
+        "targets_heading": {
+          "type": "heading",
           "settings": {
-            "stat": "−42%",
-            "label": "operational carbon since 2019",
-            "accent": true
+            "heading": "Less material. Less energy. More value from both.",
+            "heading_size": "large",
+            "heading_tag": "h2"
           }
         },
-        "t_2": {
-          "type": "metric_item",
+        "grid_targets": {
+          "type": "grid",
           "settings": {
-            "stat": "96%",
-            "label": "metal scrap recovered",
-            "accent": false
-          }
-        },
-        "t_3": {
-          "type": "metric_item",
-          "settings": {
-            "stat": "31%",
-            "label": "renewable electricity",
-            "accent": false
+            "columns": 3,
+            "gap": 16
+          },
+          "block_order": ["t_1", "t_2", "t_3"],
+          "blocks": {
+            "t_1": {
+              "type": "metric_item",
+              "settings": {
+                "stat": "−42%",
+                "label": "operational carbon since 2019",
+                "accent": true,
+                "width": "1"
+              }
+            },
+            "t_2": {
+              "type": "metric_item",
+              "settings": {
+                "stat": "96%",
+                "label": "metal scrap recovered",
+                "accent": false,
+                "width": "1"
+              }
+            },
+            "t_3": {
+              "type": "metric_item",
+              "settings": {
+                "stat": "31%",
+                "label": "renewable electricity",
+                "accent": false,
+                "width": "1"
+              }
+            }
           }
         }
       },
-      "block_order": ["t_1", "t_2", "t_3"]
+      "block_order": ["targets_heading", "grid_targets"]
     },
     "approach": {
       "type": "company_split",

@@ -9,16 +9,43 @@ export interface TextBlockSettings {
   text_style?: 'intro' | 'body' | 'caption'
   text_align?: 'left' | 'center' | 'right'
   max_width?: number
+  width?: '1' | '2' | '3' | string
 }
 
 const StyledParagraph = styled.p<{
   textStyle: 'intro' | 'body' | 'caption'
   align: 'left' | 'center' | 'right'
   maxWidth?: number
+  gridWidth?: string
 }>`
   margin: 0;
   text-align: ${({ align }) => align};
-  max-width: ${({ maxWidth }) => (maxWidth ? `${maxWidth}px` : '620px')};
+  max-width: ${({ maxWidth, gridWidth }) => {
+    if (
+      gridWidth === 'full' ||
+      (Number(gridWidth) >= 3 && !isNaN(Number(gridWidth)))
+    )
+      return '100%'
+    if (gridWidth === '2') return '800px'
+    return maxWidth ? `${maxWidth}px` : '620px'
+  }};
+  width: 100%;
+  box-sizing: border-box;
+
+  ${({ gridWidth }) => {
+    if (gridWidth === 'full') {
+      return 'grid-column: 1 / -1;'
+    }
+    const num = Number(gridWidth)
+    if (!isNaN(num) && num >= 1 && num <= 12) {
+      return `grid-column: span ${num};`
+    }
+    return 'grid-column: span 1;'
+  }}
+
+  @media (max-width: 767px) {
+    grid-column: span 1 !important;
+  }
 
   ${({ align }) => {
     if (align === 'center') return 'margin-left: auto; margin-right: auto;'
@@ -55,21 +82,25 @@ const StyledParagraph = styled.p<{
 
 export const TextBlock: React.FC<BlockComponentProps<TextBlockSettings>> = ({
   settings,
+  ...restProps
 }) => {
   const {
     text = 'Precision manufacturing for the systems that keep the world moving.',
     text_style = 'intro',
     text_align = 'left',
     max_width = 620,
+    width = '1',
   } = settings
 
   if (!text) return null
 
   return (
     <StyledParagraph
-      textStyle={text_style}
       align={text_align}
+      gridWidth={width}
       maxWidth={max_width}
+      textStyle={text_style}
+      {...restProps}
     >
       {text}
     </StyledParagraph>

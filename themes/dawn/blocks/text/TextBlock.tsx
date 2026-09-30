@@ -24,6 +24,7 @@ const StyledParagraph = styled.p<{ isSubheading: boolean }>`
 
 export const TextBlock: React.FC<BlockComponentProps<TextBlockSettings>> = ({
   settings,
+  ...restProps
 }) => {
   const {
     text = 'Discover the latest seasonal collection crafted with sustainable materials and timeless silhouettes.',
@@ -31,7 +32,7 @@ export const TextBlock: React.FC<BlockComponentProps<TextBlockSettings>> = ({
   } = settings
 
   return (
-    <StyledParagraph isSubheading={text_style === 'subheading'}>
+    <StyledParagraph isSubheading={text_style === 'subheading'} {...restProps}>
       {text}
     </StyledParagraph>
   )

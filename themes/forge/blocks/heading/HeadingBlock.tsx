@@ -56,7 +56,7 @@ const StyledHeading = styled.h1<{
 
 export const HeadingBlock: React.FC<
   BlockComponentProps<HeadingBlockSettings>
-> = ({ settings }) => {
+> = ({ settings, ...restProps }) => {
   const {
     heading = 'Engineered with intent. Built without compromise.',
     heading_size = 'display',
@@ -67,7 +67,12 @@ export const HeadingBlock: React.FC<
   if (!heading) return null
 
   return (
-    <StyledHeading as={heading_tag} size={heading_size} align={text_align}>
+    <StyledHeading
+      as={heading_tag}
+      size={heading_size}
+      align={text_align}
+      {...restProps}
+    >
       {heading}
     </StyledHeading>
   )

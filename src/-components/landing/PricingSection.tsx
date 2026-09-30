@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import styled from '@emotion/styled'
 import { ArrowUpRight01Icon } from 'hugeicons-react'
@@ -6,6 +6,7 @@ import { ArrowUpRight01Icon } from 'hugeicons-react'
 import { TextReveal } from '#/-components/ui'
 import { Button } from '#/-components/ui/primitives/Button'
 import { useTenantPackages } from '#/services/tenant/useTenantPackages'
+import type { BillingCycleType } from '#/utils/billingCycle'
 
 import { PackageCatalog } from './PackageCatalog'
 import { Container, SectionHeading } from './shared'
@@ -27,7 +28,15 @@ const Header = styled.header`
 
 export const PricingSection = () => {
   const packages = useTenantPackages()
-  const [websiteType, setWebsiteType] = useState('')
+  const [websiteType, setWebsiteType] = useState('commerce')
+  const [billingCycle, setBillingCycle] = useState<BillingCycleType>('monthly')
+
+  useEffect(() => {
+    const types = [...new Set(packages.data?.map((pkg) => pkg.website_type))]
+    if (!types.includes(websiteType)) {
+      setWebsiteType(types[0])
+    }
+  }, [packages.data, websiteType])
 
   return (
     <Section id="pricing">
@@ -43,7 +52,8 @@ export const PricingSection = () => {
           query={packages}
           websiteType={websiteType}
           onWebsiteTypeChange={setWebsiteType}
-          locale="id"
+          billingCycle={billingCycle}
+          onBillingCycleChange={setBillingCycle}
           renderAction={(pkg) => (
             <Button
               nativeButton={false}

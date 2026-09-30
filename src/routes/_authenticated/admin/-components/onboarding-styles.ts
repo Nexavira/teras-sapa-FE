@@ -69,6 +69,77 @@ export const Description = styled.p`
   line-height: 1.6;
 `
 
+export const PaymentSummary = styled.div`
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+
+  > div {
+    display: grid;
+    gap: 4px;
+    padding: 12px 14px;
+    border: 1px solid ${theme.colors.border};
+    border-radius: ${theme.radius.md};
+    background: ${theme.colors.background};
+  }
+
+  span {
+    color: ${theme.colors.text.secondary};
+    font-size: 0.72rem;
+  }
+
+  strong {
+    color: ${theme.colors.text.primary};
+    font-size: 0.9rem;
+  }
+
+  @media (max-width: 420px) {
+    grid-template-columns: 1fr;
+  }
+`
+
+export const BankDetails = styled.dl`
+  display: grid;
+  gap: 0;
+  margin: 0;
+  overflow: hidden;
+  border: 1px solid ${theme.colors.border};
+  border-radius: ${theme.radius.md};
+  background: ${theme.colors.background};
+
+  > div {
+    display: grid;
+    grid-template-columns: minmax(110px, 0.8fr) minmax(0, 1.2fr);
+    gap: 16px;
+    padding: 12px 14px;
+  }
+
+  > div + div {
+    border-top: 1px solid ${theme.colors.border};
+  }
+
+  dt {
+    color: ${theme.colors.text.secondary};
+    font-size: 0.78rem;
+  }
+
+  dd {
+    min-width: 0;
+    margin: 0;
+    color: ${theme.colors.text.primary};
+    font-size: 0.85rem;
+    font-weight: 650;
+    overflow-wrap: anywhere;
+  }
+
+  @media (max-width: 420px) {
+    > div {
+      grid-template-columns: 1fr;
+      gap: 4px;
+    }
+  }
+`
+
 export const Form = styled.form`
   display: flex;
   flex-direction: column;

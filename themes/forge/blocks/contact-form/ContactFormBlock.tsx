@@ -108,7 +108,7 @@ const Form = styled.form`
 
 export const ContactFormBlock: React.FC<
   BlockComponentProps<ContactFormSettings>
-> = ({ settings }) => {
+> = ({ settings, ...restProps }) => {
   const {
     submit_label = 'Send enquiry',
     name_placeholder = 'Your name',
@@ -118,7 +118,7 @@ export const ContactFormBlock: React.FC<
   } = settings
 
   return (
-    <Form onSubmit={(e) => e.preventDefault()}>
+    <Form onSubmit={(e) => e.preventDefault()} {...restProps}>
       <label>
         Name
         <input name="name" placeholder={name_placeholder} />

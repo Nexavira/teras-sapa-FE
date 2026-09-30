@@ -94,6 +94,9 @@ export const ThemeLayout: React.FC<ThemeLayoutProps> = ({
       --forge-info: ${current.color_info || '#356899'};
       --forge-ease: cubic-bezier(0.32, 0.72, 0, 1);
       --forge-motion-duration: ${motionDuration};
+      --forge-reveal-duration: ${current.reveal_duration ?? 900}ms;
+      --forge-reveal-delay: ${current.reveal_delay ?? 0}ms;
+      --forge-reveal-stagger: ${current.reveal_stagger ?? 100}ms;
       --forge-logo-width: ${current.logo_width ?? 180}px;
       --forge-logo-width-mobile: ${current.logo_width_mobile ?? 140}px;
     }
@@ -129,10 +132,27 @@ export const ThemeLayout: React.FC<ThemeLayoutProps> = ({
       font-weight: var(--forge-heading-weight) !important;
       text-transform: var(--forge-heading-text-transform);
     }
-    [data-forge-reveal='off'] [data-reveal] {
+    [data-reveal] {
+      opacity: 0;
+      transform: translateY(54px);
+      filter: blur(7px);
+      transition:
+        transform var(--forge-reveal-duration, 900ms) var(--forge-ease),
+        opacity var(--forge-reveal-duration, 900ms) var(--forge-ease),
+        filter var(--forge-reveal-duration, 900ms) var(--forge-ease);
+      transition-delay: var(--reveal-delay, var(--forge-reveal-delay, 0ms));
+    }
+    [data-reveal].is-visible {
+      opacity: 1;
+      transform: translateY(0);
+      filter: blur(0);
+    }
+    [data-forge-reveal='off'] [data-reveal],
+    [data-reveal-disabled='true'] {
       opacity: 1 !important;
       transform: none !important;
       filter: none !important;
+      transition: none !important;
     }
     [data-forge-hover='off'] a:hover,
     [data-forge-hover='off'] button:hover {

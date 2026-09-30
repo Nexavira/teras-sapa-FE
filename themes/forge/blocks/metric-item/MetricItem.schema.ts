@@ -25,5 +25,16 @@ export const MetricItemSchema: BlockSchema = {
       label: 'Accent highlight (Orange background)',
       default: false,
     },
+    {
+      type: 'select',
+      id: 'width',
+      label: 'Grid width',
+      default: '1',
+      options: [
+        { label: '1 column', value: '1' },
+        { label: '2 columns', value: '2' },
+        { label: '3 columns (Full width)', value: '3' },
+      ],
+    },
   ],
 }

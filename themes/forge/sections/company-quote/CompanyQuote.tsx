@@ -2,6 +2,7 @@ import React from 'react'
 
 import styled from '@emotion/styled'
 
+import { Reveal } from '#themes/forge/snippets/Reveal'
 import { useReveal } from '#themes/forge/snippets/useReveal'
 import type { SectionComponentProps } from '#themes/shared/types/theme'
 
@@ -22,22 +23,6 @@ const SectionContainer = styled.section`
   }
 `
 
-const Reveal = styled.div`
-  opacity: 0;
-  transform: translateY(54px);
-  filter: blur(7px);
-  transition:
-    transform 900ms var(--forge-ease),
-    opacity 900ms var(--forge-ease),
-    filter 900ms var(--forge-ease);
-
-  &.is-visible {
-    opacity: 1;
-    transform: translateY(0);
-    filter: blur(0);
-  }
-`
-
 const Quote = styled.blockquote`
   max-width: 1060px;
   margin: 0;
@@ -52,7 +37,7 @@ const Quote = styled.blockquote`
 
 export const CompanyQuote: React.FC<
   SectionComponentProps<CompanyQuoteSettings>
-> = ({ settings }) => {
+> = ({ settings, isEditor = false }) => {
   const rootRef = useReveal()
   const {
     quote = 'We make the critical parts behind everyday momentum.',
@@ -74,7 +59,7 @@ export const CompanyQuote: React.FC<
 
   return (
     <SectionContainer ref={rootRef}>
-      <Reveal data-reveal>
+      <Reveal isEditor={isEditor}>
         <Quote>{quoteContent}</Quote>
       </Reveal>
     </SectionContainer>

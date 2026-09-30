@@ -8,15 +8,32 @@ export interface MetricItemSettings {
   stat?: string
   label?: string
   accent?: boolean
+  width?: '1' | '2' | '3' | string
+  column_span?: 'auto' | '2' | '3' | 'full' | string
 }
 
-const Shell = styled.div`
+const Shell = styled.div<{ gridWidth?: string }>`
   padding: 6px;
   border-radius: 26px;
   background: rgba(23, 25, 21, 0.06);
   box-shadow: inset 0 0 0 1px rgba(23, 25, 21, 0.045);
   height: 100%;
   box-sizing: border-box;
+
+  ${({ gridWidth }) => {
+    if (gridWidth === 'full') {
+      return 'grid-column: 1 / -1;'
+    }
+    const num = Number(gridWidth)
+    if (!isNaN(num) && num >= 1 && num <= 12) {
+      return `grid-column: span ${num};`
+    }
+    return 'grid-column: span 1;'
+  }}
+
+  @media (max-width: 767px) {
+    grid-column: span 1 !important;
+  }
 `
 
 const Card = styled.div<{ accent?: boolean }>`
@@ -48,15 +65,20 @@ const Card = styled.div<{ accent?: boolean }>`
 
 export const MetricItem: React.FC<BlockComponentProps<MetricItemSettings>> = ({
   settings,
+  ...restProps
 }) => {
   const {
     stat = '38',
     label = 'years of engineering craft',
     accent = false,
+    width,
+    column_span,
   } = settings
 
+  const gridWidth = width || column_span || '1'
+
   return (
-    <Shell>
+    <Shell gridWidth={gridWidth} {...restProps}>
       <Card accent={accent}>
         <strong>{stat}</strong>
         <span>{label}</span>

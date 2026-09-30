@@ -19,14 +19,7 @@ const AdminLayoutRoute = () => {
     )
   const user = session.data.user
   return (
-    <AdminLayout
-      storeName={
-        (
-          user.tenants.find((tenant) => tenant.active_subscription) ??
-          user.tenants.at(0)
-        )?.name ?? 'My Store'
-      }
-    >
+    <AdminLayout storeName={user.tenants.at(0)?.name ?? 'My Store'}>
       <Outlet />
       <TenantOnboarding key={user.uuid} user={user} />
     </AdminLayout>

@@ -1,4 +1,10 @@
-import type { FC, MouseEvent, ReactNode } from 'react'
+import type {
+  CSSProperties,
+  FC,
+  KeyboardEvent,
+  MouseEvent,
+  ReactNode,
+} from 'react'
 
 import { Layers01Icon } from 'hugeicons-react'
 
@@ -165,6 +171,46 @@ export const BlockRenderer: FC<BlockRendererProps> = ({
       )
     })
 
+    const blockPadding: SpacingValue | undefined = block.settings.padding
+    const blockStyle: CSSProperties | undefined = blockPadding
+      ? {
+          paddingTop: `${blockPadding.top || 0}px`,
+          paddingRight: `${blockPadding.right || 0}px`,
+          paddingBottom: `${blockPadding.bottom || 0}px`,
+          paddingLeft: `${blockPadding.left || 0}px`,
+        }
+      : undefined
+
+    const blockProps = {
+      id: `teras-sapa-block-${blockId}`,
+      'data-block-id': blockId,
+      'data-parent-block-id': parentBlockId,
+      'data-section-id': sectionId,
+      'data-block-type': block.type,
+      'data-block-label': registered.schema.name || block.type,
+      'data-reveal-disabled':
+        block.settings.enable_reveal === false ? 'true' : undefined,
+      'data-editor-surface': isEditor ? 'true' : undefined,
+      'data-selected': isSelected ? 'true' : undefined,
+      tabIndex: isEditor ? 0 : undefined,
+      'aria-label': isEditor
+        ? `Edit ${registered.schema.name || block.type}`
+        : undefined,
+      style: blockStyle,
+      onClick: isEditor ? handleBlockClick : undefined,
+      onKeyDown: isEditor
+        ? (event: KeyboardEvent<HTMLElement>) => {
+            if (
+              event.target === event.currentTarget &&
+              (event.key === 'Enter' || event.key === ' ')
+            ) {
+              event.preventDefault()
+              event.currentTarget.click()
+            }
+          }
+        : undefined,
+    }
+
     blockContent = (
       <ThemeErrorBoundary
         kind="block"
@@ -176,9 +222,9 @@ export const BlockRenderer: FC<BlockRendererProps> = ({
         isEditor={isEditor}
       >
         <BlockComponent
-          id={blockId}
           settings={block.settings}
           isEditor={isEditor}
+          {...blockProps}
         >
           {renderedChildren}
         </BlockComponent>
@@ -186,69 +232,5 @@ export const BlockRenderer: FC<BlockRendererProps> = ({
     )
   }
 
-  const blockPadding: SpacingValue | undefined = block.settings.padding
-
-  if (!isEditor) {
-    if (blockPadding) {
-      return (
-        <div
-          data-block-id={blockId}
-          data-parent-block-id={parentBlockId}
-          data-section-id={sectionId}
-          data-block-type={block.type}
-          style={{
-            paddingTop: `${blockPadding.top || 0}px`,
-            paddingRight: `${blockPadding.right || 0}px`,
-            paddingBottom: `${blockPadding.bottom || 0}px`,
-            paddingLeft: `${blockPadding.left || 0}px`,
-          }}
-        >
-          {blockContent}
-        </div>
-      )
-    }
-    return (
-      <div
-        data-block-id={blockId}
-        data-parent-block-id={parentBlockId}
-        data-section-id={sectionId}
-        data-block-type={block.type}
-      >
-        {blockContent}
-      </div>
-    )
-  }
-
-  const blockName = registered.schema.name || block.type
-
-  return (
-    <EditorBlockWrapper
-      id={`teras-sapa-block-${blockId}`}
-      data-block-id={blockId}
-      data-parent-block-id={parentBlockId}
-      data-section-id={sectionId}
-      data-block-type={block.type}
-      data-editor-surface="true"
-      data-selected={isSelected}
-      tabIndex={0}
-      $isSelected={isSelected}
-      $padding={blockPadding}
-      aria-label={`Edit ${blockName}`}
-      onClick={handleBlockClick}
-      onKeyDown={(event) => {
-        if (
-          event.target === event.currentTarget &&
-          (event.key === 'Enter' || event.key === ' ')
-        ) {
-          event.preventDefault()
-          event.currentTarget.click()
-        }
-      }}
-    >
-      <BlockBadge data-editor-badge $isSelected={isSelected}>
-        <Layers01Icon aria-hidden="true" size={12} /> {blockName}
-      </BlockBadge>
-      {blockContent}
-    </EditorBlockWrapper>
-  )
+  return blockContent
 }

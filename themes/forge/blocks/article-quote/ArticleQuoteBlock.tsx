@@ -21,10 +21,10 @@ const QuoteWrapper = styled.blockquote`
 
 export const ArticleQuoteBlock: React.FC<
   BlockComponentProps<ArticleQuoteSettings>
-> = ({ settings }) => {
+> = ({ settings, ...restProps }) => {
   const { quote } = settings
 
   if (!quote) return null
 
-  return <QuoteWrapper>{quote}</QuoteWrapper>
+  return <QuoteWrapper {...restProps}>{quote}</QuoteWrapper>
 }

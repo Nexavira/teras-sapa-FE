@@ -3,6 +3,7 @@ import {
   ChartHistogramIcon,
   Discount01Icon,
   Invoice01Icon,
+  Note01Icon,
   PaintBoardIcon,
   Settings02Icon,
   ShoppingBag01Icon,
@@ -101,6 +102,11 @@ const NAV_ITEMS = [
       { label: 'All Products', to: '/admin/products' },
       { label: 'Collections', to: '/admin/collections' },
     ],
+  },
+  {
+    to: '/admin/articles',
+    label: 'Blog articles',
+    icon: <Note01Icon size={16} />,
   },
   {
     to: '/admin/customers',

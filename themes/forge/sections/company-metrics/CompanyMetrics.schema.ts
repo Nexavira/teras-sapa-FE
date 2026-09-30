@@ -1,4 +1,7 @@
+import { GridBlockSchema } from '#themes/forge/blocks/grid/GridBlock.schema'
+import { HeadingBlockSchema } from '#themes/forge/blocks/heading/HeadingBlock.schema'
 import { MetricItemSchema } from '#themes/forge/blocks/metric-item/MetricItem.schema'
+import { TextBlockSchema } from '#themes/forge/blocks/text/TextBlock.schema'
 import type { SectionSchema } from '#themes/shared/types/theme'
 
 export const CompanyMetricsSchema: SectionSchema = {
@@ -6,21 +9,15 @@ export const CompanyMetricsSchema: SectionSchema = {
   name: 'Metrics & stats',
   category: 'Editorial',
   description:
-    'Key operational metrics and stats grid featuring reorderable metric blocks with optional accent coloring.',
+    'Key operational metrics and stats grid featuring a configurable block grid container for metric items and editorial text.',
   tag: 'section',
   class: 'section-company-metrics',
   settings: [
     {
-      type: 'text',
-      id: 'eyebrow',
-      label: 'Eyebrow',
-      default: 'Scale / measured',
-    },
-    {
-      type: 'textarea',
-      id: 'heading',
-      label: 'Heading',
-      default: 'Industrial capability, human accountability.',
+      type: 'color_scheme',
+      id: 'color_scheme',
+      label: 'Color scheme',
+      default: 'scheme-1',
     },
     {
       type: 'checkbox',
@@ -29,39 +26,63 @@ export const CompanyMetricsSchema: SectionSchema = {
       default: false,
     },
   ],
-  blocks: [MetricItemSchema],
+  blocks: [
+    HeadingBlockSchema,
+    GridBlockSchema,
+    MetricItemSchema,
+    TextBlockSchema,
+  ],
   presets: [
     {
       name: 'Default Metrics',
       settings: {
-        eyebrow: 'Scale / measured',
-        heading: 'Industrial capability, human accountability.',
+        color_scheme: 'scheme-1',
         dark_mode: false,
       },
       blocks: [
         {
-          type: 'metric_item',
+          type: 'heading',
           settings: {
-            stat: '38',
-            label: 'years of engineering craft',
-            accent: true,
+            heading: 'Industrial capability, human accountability.',
+            heading_size: 'large',
+            heading_tag: 'h2',
           },
         },
         {
-          type: 'metric_item',
+          type: 'grid',
           settings: {
-            stat: '0.01',
-            label: 'mm verified tolerance',
-            accent: false,
+            columns: 3,
+            gap: 24,
           },
-        },
-        {
-          type: 'metric_item',
-          settings: {
-            stat: '17',
-            label: 'markets delivered',
-            accent: false,
-          },
+          blocks: [
+            {
+              type: 'metric_item',
+              settings: {
+                stat: '38',
+                label: 'years of engineering craft',
+                accent: true,
+                width: '1',
+              },
+            },
+            {
+              type: 'metric_item',
+              settings: {
+                stat: '0.01',
+                label: 'mm verified tolerance',
+                accent: false,
+                width: '1',
+              },
+            },
+            {
+              type: 'metric_item',
+              settings: {
+                stat: '17',
+                label: 'markets delivered',
+                accent: false,
+                width: '1',
+              },
+            },
+          ],
         },
       ],
     },

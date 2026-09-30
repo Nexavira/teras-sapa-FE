@@ -1,6 +1,9 @@
 import type { FC, ReactNode } from 'react'
 import { useEffect, useRef, useState } from 'react'
 
+import { Global } from '@emotion/react'
+
+import { blockEditorSurfaceStyles } from '#/-components/editor/EditorSurface'
 import type {
   EditorToPreviewMessage,
   ItemHoveredMessage,
@@ -333,6 +336,7 @@ export const PageRenderer: FC<PageRendererProps> = ({
         blockRegistry: ActiveBlockRegistry,
       }}
     >
+      {isEditor && <Global styles={blockEditorSurfaceStyles} />}
       <ActiveThemeLayout
         globalSettings={globalSettings}
         headerComponent={headerSectionNode}

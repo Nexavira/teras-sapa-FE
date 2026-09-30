@@ -99,6 +99,7 @@ export const FilterBar = <T extends string = string>({
           <Search01Icon size={16} />
           <SearchInput
             type="text"
+            aria-label={searchPlaceholder}
             placeholder={searchPlaceholder}
             value={search ?? ''}
             onChange={(e) => onSearchChange(e.target.value)}

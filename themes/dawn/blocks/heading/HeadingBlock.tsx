@@ -28,7 +28,7 @@ const StyledHeading = styled.h2<{ size: string }>`
 
 export const HeadingBlock: React.FC<
   BlockComponentProps<HeadingBlockSettings>
-> = ({ settings }) => {
+> = ({ settings, ...restProps }) => {
   const {
     heading = 'Elevate Your Everyday Style',
     heading_size = 'large',
@@ -36,7 +36,7 @@ export const HeadingBlock: React.FC<
   } = settings
 
   return (
-    <StyledHeading as={heading_tag} size={heading_size}>
+    <StyledHeading as={heading_tag} size={heading_size} {...restProps}>
       {heading}
     </StyledHeading>
   )

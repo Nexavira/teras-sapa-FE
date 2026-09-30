@@ -34,7 +34,9 @@ const ProductCard = styled.div`
 
 export const FeaturedProductBlock: React.FC<BlockComponentProps> = ({
   children,
-}) => <ProductCard>{children}</ProductCard>
+  isEditor: _isEditor,
+  ...restProps
+}) => <ProductCard {...restProps}>{children}</ProductCard>
 
 const ImageContainer = styled.div<{ imageRatio: string; singleImage: boolean }>`
   aspect-ratio: ${({ imageRatio }) => imageRatio};
@@ -58,6 +60,8 @@ const ImageContainer = styled.div<{ imageRatio: string; singleImage: boolean }>`
 
 export const ProductImageBlock: React.FC<BlockComponentProps> = ({
   settings,
+  isEditor: _isEditor,
+  ...restProps
 }) => {
   const product = useContext(FeaturedProductContext)
   const source = product.image || product.image_sheet
@@ -69,8 +73,10 @@ export const ProductImageBlock: React.FC<BlockComponentProps> = ({
         {
           backgroundImage: source ? `url("${source}")` : undefined,
           '--product-image-position': product.image_position || 'center',
+          ...(restProps.style || {}),
         } as React.CSSProperties
       }
+      {...restProps}
     >
       {!source && <Package01Icon aria-hidden="true" size={54} />}
     </ImageContainer>
@@ -89,9 +95,12 @@ const Badge = styled.span`
   font-weight: 600;
 `
 
-export const ProductBadgeBlock: React.FC<BlockComponentProps> = () => {
+export const ProductBadgeBlock: React.FC<BlockComponentProps> = ({
+  isEditor: _isEditor,
+  ...restProps
+}) => {
   const { badge } = useContext(FeaturedProductContext)
-  return badge ? <Badge>{badge}</Badge> : null
+  return badge ? <Badge {...restProps}>{badge}</Badge> : null
 }
 
 const Category = styled.span`
@@ -103,9 +112,12 @@ const Category = styled.span`
   text-transform: uppercase;
 `
 
-export const ProductCategoryBlock: React.FC<BlockComponentProps> = () => {
+export const ProductCategoryBlock: React.FC<BlockComponentProps> = ({
+  isEditor: _isEditor,
+  ...restProps
+}) => {
   const { category } = useContext(FeaturedProductContext)
-  return category ? <Category>{category}</Category> : null
+  return category ? <Category {...restProps}>{category}</Category> : null
 }
 
 const Title = styled.h3`
@@ -116,14 +128,24 @@ const Title = styled.h3`
   line-height: 1.4;
 `
 
-export const ProductTitleBlock: React.FC<BlockComponentProps> = () => {
+export const ProductTitleBlock: React.FC<BlockComponentProps> = ({
+  isEditor: _isEditor,
+  ...restProps
+}) => {
   const { title } = useContext(FeaturedProductContext)
-  return title ? <Title>{title}</Title> : null
+  return title ? <Title {...restProps}>{title}</Title> : null
 }
 
-export const ProductPriceBlock: React.FC<BlockComponentProps> = () => {
+export const ProductPriceBlock: React.FC<BlockComponentProps> = ({
+  isEditor: _isEditor,
+  ...restProps
+}) => {
   const { price = 0, compareAtPrice } = useContext(FeaturedProductContext)
-  return <Price price={price} compareAtPrice={compareAtPrice} />
+  return (
+    <div {...restProps}>
+      <Price price={price} compareAtPrice={compareAtPrice} />
+    </div>
+  )
 }
 
 const QuickAdd = styled.button`
@@ -141,4 +163,10 @@ const QuickAdd = styled.button`
 
 export const ProductQuickAddBlock: React.FC<BlockComponentProps> = ({
   settings,
-}) => <QuickAdd type="button">{settings.label || 'Quick add'}</QuickAdd>
+  isEditor: _isEditor,
+  ...restProps
+}) => (
+  <QuickAdd type="button" {...restProps}>
+    {settings.label || 'Quick add'}
+  </QuickAdd>
+)

@@ -10,6 +10,7 @@ import useCreateTenant from '#/services/tenant/useCreateTenant'
 import { useTenantCategories } from '#/services/tenant/useTenantCategories'
 import { useTenantPackages } from '#/services/tenant/useTenantPackages'
 import type { TenantType } from '#/types/tenant.type'
+import type { BillingCycleType } from '#/utils/billingCycle'
 
 import { ErrorMessage, SlugPreview } from '../-components/onboarding-styles'
 import { OnboardingModal } from '../-components/OnboardingModal'
@@ -56,7 +57,8 @@ export const CreateTenantModal = ({
   const createTenantMutation = useCreateTenant()
   const [formError, setFormError] = useState('')
   const [step, setStep] = useState(0)
-  const [websiteType, setWebsiteType] = useState('')
+  const [websiteType, setWebsiteType] = useState('commerce')
+  const [billingCycle, setBillingCycle] = useState<BillingCycleType>('monthly')
   const headingRef = useRef<HTMLHeadingElement>(null)
   const rootRef = useRef<HTMLFormElement>(null)
   const slugEditedRef = useRef(false)
@@ -86,9 +88,18 @@ export const CreateTenantModal = ({
     rootRef,
     step,
     isOpen,
-    `${categories.data?.map((item) => item.uuid).join(',')}:${websiteType}:${packages.data?.map((item) => item.uuid).join(',')}`,
+    `${categories.data?.map((item) => item.uuid).join(',')}:${websiteType}:${billingCycle}:${packages.data?.map((item) => item.uuid).join(',')}`,
     `${categoryUuid}:${packageUuid}`,
   )
+
+  useEffect(() => {
+    if (packages.data?.length) {
+      const types = [...new Set(packages.data.map((pkg) => pkg.website_type))]
+      if (!types.includes(websiteType)) {
+        setWebsiteType(types[0])
+      }
+    }
+  }, [packages.data, websiteType])
 
   useEffect(() => {
     if (isOpen && step > 0) headingRef.current?.focus()
@@ -322,6 +333,12 @@ export const CreateTenantModal = ({
                   websiteType={websiteType}
                   onWebsiteTypeChange={(type) => {
                     setWebsiteType(type)
+                    setValue('package_uuid', '', { shouldValidate: false })
+                    setFormError('')
+                  }}
+                  billingCycle={billingCycle}
+                  onBillingCycleChange={(cycle) => {
+                    setBillingCycle(cycle)
                     setValue('package_uuid', '', { shouldValidate: false })
                     setFormError('')
                   }}

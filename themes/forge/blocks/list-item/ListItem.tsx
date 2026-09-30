@@ -1,7 +1,5 @@
 import React from 'react'
 
-import { Link } from '@tanstack/react-router'
-
 import styled from '@emotion/styled'
 
 import type { BlockComponentProps } from '#themes/shared/types/theme'
@@ -14,7 +12,7 @@ export interface ListItemSettings {
   arrow_icon?: 'none' | 'up_right' | 'down_right'
 }
 
-const ItemContainer = styled(Link)<{ isLink: boolean }>`
+const ItemContainer = styled.div<{ isLink: boolean }>`
   display: grid;
   grid-template-columns: 48px 1fr auto;
   gap: 20px;
@@ -69,6 +67,7 @@ const ItemContainer = styled(Link)<{ isLink: boolean }>`
 
 export const ListItem: React.FC<BlockComponentProps<ListItemSettings>> = ({
   settings,
+  ...restProps
 }) => {
   const {
     number = '01',
@@ -101,11 +100,21 @@ export const ListItem: React.FC<BlockComponentProps<ListItemSettings>> = ({
 
   if (isLink) {
     return (
-      <ItemContainer href={link_url} isLink={true} style={{ color: 'inherit' }}>
+      <ItemContainer
+        as="a"
+        href={link_url}
+        isLink={true}
+        style={{ color: 'inherit' }}
+        {...restProps}
+      >
         {content}
       </ItemContainer>
     )
   }
 
-  return <ItemContainer isLink={false}>{content}</ItemContainer>
+  return (
+    <ItemContainer isLink={false} {...restProps}>
+      {content}
+    </ItemContainer>
+  )
 }

@@ -13,17 +13,14 @@ export const TenantOnboarding = ({ user }: { user: SessionUserType }) => {
   const [createdTenant, setCreatedTenant] = useState<
     SessionUserType['tenants'][number] | null
   >(null)
-  const tenant =
-    user.tenants.find((item) => item.active_subscription) ??
-    user.tenants.at(0) ??
-    createdTenant
+  const tenant = user.tenants.at(0) ?? createdTenant
   const refresh = () => {
     void queryClient.invalidateQueries({
       queryKey: [QUERY_KEYS.AUTH_USER_SESSION],
     })
   }
   useEffect(() => {
-    if (!tenant || tenant.active_subscription) return
+    if (!tenant?.is_suspended) return
     const timer = setInterval(() => {
       void queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.AUTH_USER_SESSION],
@@ -41,14 +38,14 @@ export const TenantOnboarding = ({ user }: { user: SessionUserType }) => {
         }}
       />
     )
-  // if (!tenant.active_subscription)
-  //   return (
-  //     <SubscriptionModal
-  //       key={tenant.uuid}
-  //       tenant={tenant}
-  //       userUuid={user.uuid}
-  //       onRefresh={refresh}
-  //     />
-  //   )
+  if (tenant.is_suspended)
+    return (
+      <SubscriptionModal
+        key={tenant.uuid}
+        tenant={tenant}
+        userUuid={user.uuid}
+        onRefresh={refresh}
+      />
+    )
   return null
 }

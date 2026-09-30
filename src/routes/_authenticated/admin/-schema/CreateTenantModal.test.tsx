@@ -17,7 +17,7 @@ const tenant = {
   uuid: 'tenant-uuid',
   name: 'Kopi Kita',
   slug: 'kopi-kita',
-  is_suspended: false,
+  is_suspended: true,
   active_subscription: null,
 }
 const payment = {
@@ -195,6 +195,90 @@ describe('Tenant onboarding', () => {
         .hasAttribute('disabled'),
     ).toBe(true)
   })
+  it('filters packages by monthly and annual subscription cycles and clears selection when cycle changes', async () => {
+    const mock = mockApi()
+    mock.mockImplementation(async (url) => {
+      const path = String(url)
+      if (path.endsWith('/master/package')) {
+        return response([
+          {
+            uuid: 'commerce-monthly',
+            title: 'Commerce Bulanan',
+            tier: 'basic',
+            website_type: 'commerce',
+            description: 'Toko online bulanan.',
+            price_prefix: '',
+            price: '150000',
+            original_price: null,
+            price_suffix: '/bulan',
+            trial_days: 0,
+            features: [],
+            billing_cycle: 'monthly',
+          },
+          {
+            uuid: 'commerce-yearly',
+            title: 'Commerce Tahunan',
+            tier: 'basic',
+            website_type: 'commerce',
+            description: 'Toko online tahunan.',
+            price_prefix: '',
+            price: '1500000',
+            original_price: null,
+            price_suffix: '/tahun',
+            trial_days: 0,
+            features: [],
+            billing_cycle: 'annually',
+          },
+        ])
+      }
+      if (path.endsWith('/tenant/categories'))
+        return response([{ uuid: 'cat-uuid', name: 'Food and drink' }])
+      if (path.includes('/current-payment/')) return response(null)
+      if (path.endsWith('/tenant/subscription')) return response(pending)
+      if (path.endsWith('/tenant')) return response(tenant)
+      return response({ ...payment, status: 'pending_verification' })
+    })
+
+    renderForm(<CreateTenantModal isOpen onCreated={vi.fn()} />)
+    await fillDetails()
+    fireEvent.click(screen.getByRole('button', { name: 'Toko online' }))
+
+    expect(screen.getByText('Commerce Bulanan')).toBeTruthy()
+    expect(screen.queryByText('Commerce Tahunan')).toBeNull()
+
+    fireEvent.click(
+      screen.getByRole('button', { name: 'Pilih Commerce Bulanan' }),
+    )
+    expect(
+      screen
+        .getByRole('button', { name: 'Terpilih' })
+        .getAttribute('aria-pressed'),
+    ).toBe('true')
+
+    fireEvent.click(screen.getByRole('button', { name: 'Tahunan' }))
+    expect(screen.queryByText('Commerce Bulanan')).toBeNull()
+    expect(screen.getByText('Commerce Tahunan')).toBeTruthy()
+    expect(screen.queryByRole('button', { name: 'Terpilih' })).toBeNull()
+    expect(
+      screen
+        .getByRole('button', { name: 'Buat website saya' })
+        .hasAttribute('disabled'),
+    ).toBe(true)
+
+    fireEvent.click(
+      screen.getByRole('button', { name: 'Pilih Commerce Tahunan' }),
+    )
+    expect(
+      screen
+        .getByRole('button', { name: 'Terpilih' })
+        .getAttribute('aria-pressed'),
+    ).toBe('true')
+    expect(
+      screen
+        .getByRole('button', { name: 'Buat website saya' })
+        .hasAttribute('disabled'),
+    ).toBe(false)
+  })
   it('asks for a business category before showing plans', async () => {
     mockApi()
     renderForm(<CreateTenantModal isOpen onCreated={vi.fn()} />)
@@ -336,15 +420,30 @@ describe('Tenant onboarding', () => {
       is_suspended: 0,
       is_trial: 1,
     })
+    fireEvent.click(await screen.findByRole('button', { name: 'Commerce' }))
+    fireEvent.click(screen.getByRole('button', { name: 'Pilih Starter' }))
+    fireEvent.click(screen.getByRole('button', { name: 'Berlangganan' }))
+    const bankAccount = await screen.findByLabelText('Payment bank account')
+    expect(bankAccount.textContent).toContain('Test Bank')
+    expect(bankAccount.textContent).toContain('123456')
+    expect(screen.getByLabelText('Payment proof')).toBeTruthy()
   })
   it('shows subscription setup for an existing tenant and never recreates the store', async () => {
     const mock = mockApi()
     renderForm(<TenantOnboarding user={{ ...user, tenants: [tenant] }} />)
     fireEvent.click(await screen.findByRole('button', { name: 'Commerce' }))
     expect(screen.queryByLabelText('Nama website')).toBeNull()
-    fireEvent.click(screen.getByRole('button', { name: 'Select Starter' }))
-    fireEvent.click(screen.getByRole('button', { name: 'Subscribe' }))
+    fireEvent.click(screen.getByRole('button', { name: 'Pilih Starter' }))
+    fireEvent.click(screen.getByRole('button', { name: 'Berlangganan' }))
     await screen.findByLabelText('Payment proof')
+    expect(
+      screen.getByRole('heading', { name: 'Complete your payment' }),
+    ).toBeTruthy()
+    const bankAccount = screen.getByLabelText('Payment bank account')
+    expect(bankAccount.textContent).toContain('Test Bank')
+    expect(bankAccount.textContent).toContain('123456')
+    expect(bankAccount.textContent).toContain('Shopiti')
+    expect(bankAccount.textContent).toContain('INV-123')
     const posts = mock.mock.calls.filter(
       ([, options]) => options?.method === 'POST',
     )
@@ -356,14 +455,18 @@ describe('Tenant onboarding', () => {
       is_trial: 0,
     })
   })
-  it('shows neither modal when a tenant has an active subscription', () => {
+  it('shows neither modal when the selected tenant is not suspended', () => {
     const mock = mockApi()
     renderForm(
       <TenantOnboarding
         user={{
           ...user,
           tenants: [
-            { ...tenant, active_subscription: { uuid: 'subscription-uuid' } },
+            {
+              ...tenant,
+              is_suspended: false,
+              active_subscription: { uuid: 'subscription-uuid' },
+            },
           ],
         }}
       />,
@@ -371,7 +474,7 @@ describe('Tenant onboarding', () => {
     expect(screen.queryByRole('dialog')).toBeNull()
     expect(mock).not.toHaveBeenCalled()
   })
-  it('accepts an active subscription on another existing tenant', () => {
+  it('uses the first tenant as selected and does not bypass its suspension', () => {
     mockApi()
     renderForm(
       <TenantOnboarding
@@ -382,13 +485,14 @@ describe('Tenant onboarding', () => {
             {
               ...tenant,
               uuid: 'second',
+              is_suspended: false,
               active_subscription: { uuid: 'subscription-uuid' },
             },
           ],
         }}
       />,
     )
-    expect(screen.queryByRole('dialog')).toBeNull()
+    expect(screen.getByRole('dialog')).toBeTruthy()
   })
   it('resumes pending verification without offering another subscription or upload', async () => {
     vi.stubGlobal(

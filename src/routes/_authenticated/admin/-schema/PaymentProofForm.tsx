@@ -10,10 +10,12 @@ import { useUploadPaymentProof } from '#/services/tenant/useUploadPaymentProof'
 import type { CurrentTenantPayment } from '#/types/tenant.type'
 
 import {
+  BankDetails,
   Description,
   ErrorMessage,
   Footnote,
   Form,
+  PaymentSummary,
 } from '../-components/onboarding-styles'
 import type { PaymentProofFormValues } from '../-utils/payment-proof-schema'
 import {
@@ -41,6 +43,16 @@ export const PaymentProofForm = ({
     },
     resolver: zodResolver(paymentProofSchema),
   })
+  const instructions = payment.transfer_instructions
+  const hasTransferInstructions = Boolean(
+    instructions?.available &&
+    instructions.bank_name &&
+    instructions.account_number &&
+    instructions.account_holder,
+  )
+  const amountDue = [instructions?.currency, payment.payment.amount_due]
+    .filter(Boolean)
+    .join(' ')
   return (
     <Form
       onSubmit={paymentForm.handleSubmit(async (values) => {
@@ -84,38 +96,52 @@ export const PaymentProofForm = ({
       ) : (
         <>
           <Description>
-            Amount due:{' '}
-            <strong>
-              {payment.transfer_instructions?.currency}{' '}
-              {payment.payment.amount_due}
-            </strong>
+            Transfer the amount below to the bank account, then upload your
+            receipt for verification.
           </Description>
-          {payment.payment.due_date && (
-            <Description>
-              Due: {payment.payment.due_date.slice(0, 10)}
-            </Description>
-          )}
+          <PaymentSummary aria-label="Payment summary">
+            <div>
+              <span>Amount due</span>
+              <strong>{amountDue}</strong>
+            </div>
+            {payment.payment.due_date && (
+              <div>
+                <span>Due date</span>
+                <strong>{payment.payment.due_date.slice(0, 10)}</strong>
+              </div>
+            )}
+          </PaymentSummary>
           {payment.payment.rejection_reason && (
             <ErrorMessage role="alert">
               {payment.payment.rejection_reason}
             </ErrorMessage>
           )}
-          {payment.transfer_instructions?.available ? (
-            <Description>
-              Bank: <strong>{payment.transfer_instructions.bank_name}</strong>
-              <br />
-              Account:{' '}
-              <strong>{payment.transfer_instructions.account_number}</strong>
-              <br />
-              Account holder: {payment.transfer_instructions.account_holder}
-              <br />
-              Transfer reference: {payment.transfer_instructions.reference}
-            </Description>
+          {hasTransferInstructions ? (
+            <BankDetails aria-label="Payment bank account">
+              <div>
+                <dt>Bank</dt>
+                <dd>{instructions?.bank_name}</dd>
+              </div>
+              <div>
+                <dt>Account number</dt>
+                <dd>{instructions?.account_number}</dd>
+              </div>
+              <div>
+                <dt>Account holder</dt>
+                <dd>{instructions?.account_holder}</dd>
+              </div>
+              {instructions?.reference && (
+                <div>
+                  <dt>Transfer reference</dt>
+                  <dd>{instructions.reference}</dd>
+                </div>
+              )}
+            </BankDetails>
           ) : (
-            <Description>
+            <ErrorMessage role="alert">
               Transfer instructions are unavailable. Please contact support for
               payment details.
-            </Description>
+            </ErrorMessage>
           )}
           <label>
             Amount paid

@@ -18,6 +18,19 @@ export default [
       '@tanstack/query': pluginQuery,
     },
     rules: {
+      "@typescript-eslint/no-unused-vars": [
+        "error",
+        {
+          "args": "all",
+          "argsIgnorePattern": "^_",
+          "caughtErrors": "all",
+          "caughtErrorsIgnorePattern": "^_",
+          "destructuredArrayIgnorePattern": "^_",
+          "varsIgnorePattern": "^_",
+          "ignoreRestSiblings": true
+        }
+      ],
+
       'import/no-cycle': 'off',
       'import/order': 'off',
       'sort-imports': 'off',

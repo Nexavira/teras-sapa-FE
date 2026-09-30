@@ -17,10 +17,10 @@ const Subheading = styled.h2`
 
 export const ArticleSubheadingBlock: React.FC<
   BlockComponentProps<ArticleSubheadingSettings>
-> = ({ settings }) => {
+> = ({ settings, ...restProps }) => {
   const { title } = settings
 
   if (!title) return null
 
-  return <Subheading>{title}</Subheading>
+  return <Subheading {...restProps}>{title}</Subheading>
 }

@@ -45,5 +45,16 @@ export const TextBlockSchema: BlockSchema = {
       unit: 'px',
       default: 620,
     },
+    {
+      type: 'select',
+      id: 'width',
+      label: 'Grid width',
+      default: '1',
+      options: [
+        { label: '1 column', value: '1' },
+        { label: '2 columns', value: '2' },
+        { label: '3 columns (Full width)', value: '3' },
+      ],
+    },
   ],
 }

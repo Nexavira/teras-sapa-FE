@@ -158,7 +158,7 @@ const StyledCTA = styled.a<{
 
 export const ButtonBlock: React.FC<
   BlockComponentProps<ButtonBlockSettings>
-> = ({ settings }) => {
+> = ({ settings, ...restProps }) => {
   const {
     button_label = 'Explore capabilities',
     button_link = '/preview?theme=forge&template=capabilities',
@@ -173,6 +173,7 @@ export const ButtonBlock: React.FC<
       href={button_link}
       buttonStyle={button_style}
       buttonSize={button_size}
+      {...restProps}
     >
       {button_label}
       <span className="arrow-badge" aria-hidden="true">

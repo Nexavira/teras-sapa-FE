@@ -55,8 +55,13 @@ const BlockListItems = ({
             settings: [],
           }
 
-        const safeBlock: BlockInstance = block.id
-          ? block
+        const safeBlock: BlockInstance = block.type
+          ? {
+              ...block,
+              id: block.id || blockId,
+              type: blockType,
+              settings: block.settings,
+            }
           : {
               id: blockId,
               type: blockType,

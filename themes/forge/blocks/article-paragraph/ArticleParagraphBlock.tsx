@@ -17,10 +17,10 @@ const Paragraph = styled.p`
 
 export const ArticleParagraphBlock: React.FC<
   BlockComponentProps<ArticleParagraphSettings>
-> = ({ settings }) => {
+> = ({ settings, ...restProps }) => {
   const { content } = settings
 
   if (!content) return null
 
-  return <Paragraph>{content}</Paragraph>
+  return <Paragraph {...restProps}>{content}</Paragraph>
 }

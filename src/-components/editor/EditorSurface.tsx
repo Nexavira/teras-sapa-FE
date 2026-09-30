@@ -1,3 +1,4 @@
+import { css } from '@emotion/react'
 import styled from '@emotion/styled'
 
 import type { SpacingValue } from '#themes'
@@ -91,4 +92,80 @@ export const EditorSurfaceBadge = styled.div<{ $isSelected: boolean }>`
   transition:
     opacity 160ms ease,
     transform 160ms ease;
+`
+
+export const blockEditorSurfaceStyles = css`
+  [data-editor-surface='true'][data-block-id] {
+    position: relative;
+    cursor: pointer;
+    outline: 2px solid transparent;
+    outline-offset: -2px;
+    transition:
+      outline-color 160ms ease,
+      box-shadow 160ms ease;
+  }
+
+  [data-editor-surface='true'][data-block-id]::before {
+    content: '⊞ ' attr(data-block-label);
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    z-index: 101;
+    display: inline-flex;
+    align-items: center;
+    max-width: calc(100% - 4px);
+    overflow: hidden;
+    white-space: nowrap;
+    padding: 3px 7px;
+    border-radius: 0 0 6px 0;
+    background: #0f172a;
+    color: #fff;
+    font:
+      600 11px/1.4 system-ui,
+      -apple-system,
+      sans-serif;
+    box-shadow: 0 2px 8px rgb(15 23 42 / 18%);
+    pointer-events: none;
+    opacity: 0;
+    transform: translateY(-2px);
+    transition:
+      opacity 160ms ease,
+      transform 160ms ease,
+      background-color 160ms ease;
+  }
+
+  [data-editor-surface='true'][data-block-id]:where(:hover, :focus-visible) {
+    outline-color: #60a5fa;
+    box-shadow: inset 0 0 0 4px rgb(59 130 246 / 10%);
+  }
+
+  [data-editor-surface='true'][data-block-id]:hover:not(
+      :has([data-editor-surface]:hover)
+    )::before,
+  [data-editor-surface='true'][data-block-id]:focus-visible::before {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  [data-editor-surface='true'][data-block-id][data-selected='true'] {
+    outline-color: #2563eb;
+    box-shadow: inset 0 0 0 4px rgb(37 99 235 / 14%);
+  }
+
+  [data-editor-surface='true'][data-block-id][data-selected='true']::before {
+    opacity: 1;
+    transform: translateY(0);
+    background: #2563eb;
+  }
+
+  [data-editor-surface='true'][data-block-id]:has(
+      [data-editor-surface]:hover
+    )::before {
+    opacity: 0;
+  }
+
+  [data-editor-surface='true'][data-block-id]:active {
+    outline-color: #1d4ed8;
+    box-shadow: inset 0 0 0 5px rgb(37 99 235 / 24%);
+  }
 `

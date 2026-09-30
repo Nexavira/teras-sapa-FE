@@ -62,6 +62,18 @@ only from the public `#themes` entry point. Deep theme imports are rejected by
 ESLint. Theme implementations may import application APIs when integration is
 required, while their internal components, schemas, and utilities stay private.
 
+### Detailed Architecture & Implementation Guides
+
+For in-depth specifications, refer to the full documentation suite in `docs/`:
+- [Master Architecture Overview](file:///home/framadhita/Documents/Projects/personal/shopiti/docs/README.md)
+- [Pages & Template Management](file:///home/framadhita/Documents/Projects/personal/shopiti/docs/pages-and-templates.md)
+- [Sections & Blocks Specification](file:///home/framadhita/Documents/Projects/personal/shopiti/docs/sections-and-blocks.md)
+- [Header & Footer Architecture](file:///home/framadhita/Documents/Projects/personal/shopiti/docs/header-and-footer.md)
+- [Media & Image Content Management](file:///home/framadhita/Documents/Projects/personal/shopiti/docs/media-and-images.md)
+- [Links & Navigation System](file:///home/framadhita/Documents/Projects/personal/shopiti/docs/links-and-navigation.md)
+- [Global Theme Settings & Tokens](file:///home/framadhita/Documents/Projects/personal/shopiti/docs/global-theme-settings.md)
+- [Advanced Shopify Patterns & Multi-Theme Scaling](file:///home/framadhita/Documents/Projects/personal/shopiti/docs/shopify-advanced-patterns.md)
+
 ---
 
 ## 3. The 6 Core Layers

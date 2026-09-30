@@ -30,7 +30,7 @@ export const WizardForm = styled.form`
   button[type='submit'] {
     min-height: 56px;
     border-color: ${colors.ink};
-    border-radius: 999px;
+    border-radius: 12px;
     background: ${colors.ink};
     color: ${colors.white};
     font-family: inherit;
@@ -109,7 +109,7 @@ export const Progress = styled.ol`
     height: 28px;
     flex-shrink: 0;
     border: 1px solid ${colors.line};
-    border-radius: 50%;
+    border-radius: 8px;
     font-size: 0.7rem;
   }
   li[aria-current='step'] {

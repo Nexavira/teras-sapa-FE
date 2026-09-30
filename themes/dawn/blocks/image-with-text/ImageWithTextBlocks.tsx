@@ -69,27 +69,38 @@ const Link = styled.a`
 
 export const EditorialImageBlock: React.FC<BlockComponentProps> = ({
   settings,
+  ...restProps
 }) => (
   <Media
     image={settings.image}
     role="img"
     aria-label={settings.alt || 'Natural everyday essentials'}
+    {...restProps}
   />
 )
 export const EditorialEyebrowBlock: React.FC<BlockComponentProps> = ({
   settings,
-}) => (settings.eyebrow ? <Eyebrow>{settings.eyebrow}</Eyebrow> : null)
+  ...restProps
+}) =>
+  settings.eyebrow ? <Eyebrow {...restProps}>{settings.eyebrow}</Eyebrow> : null
+
 export const EditorialHeadingBlock: React.FC<BlockComponentProps> = ({
   settings,
-}) => (settings.heading ? <Heading>{settings.heading}</Heading> : null)
+  ...restProps
+}) =>
+  settings.heading ? <Heading {...restProps}>{settings.heading}</Heading> : null
+
 export const EditorialTextBlock: React.FC<BlockComponentProps> = ({
   settings,
-}) => (settings.text ? <Body>{settings.text}</Body> : null)
+  ...restProps
+}) => (settings.text ? <Body {...restProps}>{settings.text}</Body> : null)
+
 export const EditorialLinkBlock: React.FC<BlockComponentProps> = ({
   settings,
+  ...restProps
 }) =>
   settings.button_label ? (
-    <Link href={settings.button_link}>
+    <Link href={settings.button_link} {...restProps}>
       {settings.button_label}
       <ArrowUpRight01Icon aria-hidden="true" size={17} />
     </Link>

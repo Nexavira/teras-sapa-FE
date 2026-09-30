@@ -16,19 +16,11 @@
         "layout_style": "frame",
         "text_alignment": "left",
         "banner_height": "auto",
-        "media_height": "large",
         "color_scheme": "scheme-1",
-        "image": "https://images.unsplash.com/photo-1565793298595-6a879b1d9492?auto=format&fit=crop&w=1800&q=88",
-        "overlay_opacity": 40,
-        "show_media": true,
-        "show_stamp": true,
-        "stamp_text": "Made to\nendure\n↘",
-        "stamp_position": "bottom-right",
-        "stamp_color": "orange",
         "padding_top": 160,
         "padding_bottom": 34
       },
-      "block_order": ["heading_1", "text_1", "button_1"],
+      "block_order": ["heading_1", "text_1", "button_1", "image_1"],
       "blocks": {
         "heading_1": {
           "type": "heading",
@@ -56,43 +48,75 @@
             "button_style": "primary",
             "button_size": "medium"
           }
+        },
+        "image_1": {
+          "type": "image",
+          "settings": {
+            "image": "https://images.unsplash.com/photo-1565793298595-6a879b1d9492?auto=format&fit=crop&w=1800&q=88",
+            "media_height": "large",
+            "overlay_opacity": 40,
+            "show_stamp": true,
+            "stamp_text": "Made to\nendure\n↘",
+            "stamp_position": "bottom-right",
+            "stamp_color": "orange"
+          }
         }
       }
     },
     "metrics": {
       "type": "company_metrics",
       "settings": {
-        "eyebrow": "Scale / measured",
-        "heading": "Industrial capability, human accountability.",
+        "color_scheme": "scheme-1",
         "dark_mode": false
       },
       "blocks": {
-        "metric_1": {
-          "type": "metric_item",
+        "metrics_heading": {
+          "type": "heading",
           "settings": {
-            "stat": "38",
-            "label": "years of engineering craft",
-            "accent": true
+            "heading": "Industrial capability, human accountability.",
+            "heading_size": "large",
+            "heading_tag": "h2"
           }
         },
-        "metric_2": {
-          "type": "metric_item",
+        "grid_metrics": {
+          "type": "grid",
           "settings": {
-            "stat": "0.01",
-            "label": "mm verified tolerance",
-            "accent": false
-          }
-        },
-        "metric_3": {
-          "type": "metric_item",
-          "settings": {
-            "stat": "17",
-            "label": "markets delivered",
-            "accent": false
+            "columns": 3,
+            "gap": 16
+          },
+          "block_order": ["metric_1", "metric_2", "metric_3"],
+          "blocks": {
+            "metric_1": {
+              "type": "metric_item",
+              "settings": {
+                "stat": "38",
+                "label": "years of engineering craft",
+                "accent": true,
+                "width": "1"
+              }
+            },
+            "metric_2": {
+              "type": "metric_item",
+              "settings": {
+                "stat": "0.01",
+                "label": "mm verified tolerance",
+                "accent": false,
+                "width": "1"
+              }
+            },
+            "metric_3": {
+              "type": "metric_item",
+              "settings": {
+                "stat": "17",
+                "label": "markets delivered",
+                "accent": false,
+                "width": "1"
+              }
+            }
           }
         }
       },
-      "block_order": ["metric_1", "metric_2", "metric_3"]
+      "block_order": ["metrics_heading", "grid_metrics"]
     },
     "capabilities": {
       "type": "company_bento",

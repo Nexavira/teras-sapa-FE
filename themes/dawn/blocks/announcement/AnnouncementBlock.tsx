@@ -36,7 +36,7 @@ const StyledLink = styled.a`
 
 export const AnnouncementBlock: React.FC<
   BlockComponentProps<AnnouncementSettings>
-> = ({ settings }) => {
+> = ({ settings, ...restProps }) => {
   const {
     text = 'Welcome to our store',
     link,
@@ -55,6 +55,7 @@ export const AnnouncementBlock: React.FC<
       className={`color-${color_scheme} gradient`}
       data-color-scheme={color_scheme}
       alignment={text_alignment}
+      {...restProps}
     >
       {content}
     </Bar>

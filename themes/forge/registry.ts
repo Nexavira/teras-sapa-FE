@@ -14,8 +14,14 @@ import { ContactInfoBlock } from './blocks/contact-info/ContactInfoBlock'
 import { ContactInfoBlockSchema } from './blocks/contact-info/ContactInfoBlock.schema'
 import { FlexBlock } from './blocks/flex/FlexBlock'
 import { FlexBlockSchema } from './blocks/flex/FlexBlock.schema'
+import { GridBlock } from './blocks/grid/GridBlock'
+import { GridBlockSchema } from './blocks/grid/GridBlock.schema'
 import { HeadingBlock } from './blocks/heading/HeadingBlock'
 import { HeadingBlockSchema } from './blocks/heading/HeadingBlock.schema'
+import { HeroMetaBlock } from './blocks/hero-meta/HeroMetaBlock'
+import { HeroMetaBlockSchema } from './blocks/hero-meta/HeroMetaBlock.schema'
+import { ImageBlock } from './blocks/image/ImageBlock'
+import { ImageBlockSchema } from './blocks/image/ImageBlock.schema'
 import { ListItem } from './blocks/list-item/ListItem'
 import { ListItemSchema } from './blocks/list-item/ListItem.schema'
 import { MetricItem } from './blocks/metric-item/MetricItem'
@@ -61,7 +67,11 @@ export const BlockRegistry: Record<string, RegisteredBlock> = {
   heading: { Component: HeadingBlock, schema: HeadingBlockSchema },
   text: { Component: TextBlock, schema: TextBlockSchema },
   button: { Component: ButtonBlock, schema: ButtonBlockSchema },
+  hero_meta: { Component: HeroMetaBlock, schema: HeroMetaBlockSchema },
   flex: { Component: FlexBlock, schema: FlexBlockSchema },
+  grid: { Component: GridBlock, schema: GridBlockSchema },
+  image: { Component: ImageBlock, schema: ImageBlockSchema },
+  hero_image: { Component: ImageBlock, schema: ImageBlockSchema },
   metric_item: { Component: MetricItem, schema: MetricItemSchema },
   bento_card: { Component: BentoCard, schema: BentoCardSchema },
   list_item: { Component: ListItem, schema: ListItemSchema },
@@ -100,6 +110,13 @@ for (const registered of [
         min: 0,
         step: 1,
         default: { top: 0, right: 0, bottom: 0, left: 0 },
+      },
+      {
+        type: 'checkbox',
+        id: 'enable_reveal',
+        label: 'Enable reveal animation',
+        info: 'Smoothly reveal this element as it enters the viewport.',
+        default: true,
       },
     ],
   }

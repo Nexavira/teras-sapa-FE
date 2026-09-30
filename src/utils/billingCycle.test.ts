@@ -1,10 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import {
-  isMonthly,
-  isYearly,
-  matchesBillingCycle,
-} from './billingCycle'
+import { isMonthly, isYearly, matchesBillingCycle } from './billingCycle'
 
 describe('billingCycle utilities', () => {
   describe('isMonthly', () => {

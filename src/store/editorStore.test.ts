@@ -155,6 +155,6 @@ describe('editorStore section and block actions', () => {
     expect(state.themeId).toBe('forge')
     expect(state.activeTemplateId).toBe('index')
     expect(state.template.name).toBe('Home')
-    expect(state.template.sections.main.type).toBe('company_page')
+    expect(state.template.sections.hero.type).toBe('company_hero')
   })
 })

@@ -126,6 +126,7 @@ const ArrowLink = styled.a<{ dark?: boolean }>`
 
 export const BentoCard: React.FC<BlockComponentProps<BentoCardSettings>> = ({
   settings,
+  ...restProps
 }) => {
   const {
     tag,
@@ -142,7 +143,7 @@ export const BentoCard: React.FC<BlockComponentProps<BentoCardSettings>> = ({
   const columnSpan = Number(span) || 4
 
   return (
-    <Shell span={columnSpan}>
+    <Shell span={columnSpan} {...restProps}>
       <Card dark={dark}>
         <div>
           {imageUrl && <ImageWrapper image={imageUrl} />}
