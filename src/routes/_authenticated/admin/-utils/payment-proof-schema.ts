@@ -8,7 +8,7 @@ export const paymentProofSchema = z.object({
         value.trim() !== '' &&
         Number.isFinite(Number(value)) &&
         Number(value) >= 0,
-      'Enter a valid amount paid.',
+      'Masukkan nominal pembayaran yang valid.',
     ),
   proof_of_payment: z.custom<File>(
     (value) =>
@@ -17,7 +17,7 @@ export const paymentProofSchema = z.object({
       ['image/jpeg', 'image/png', 'application/pdf'].includes(value.type) &&
       value.size > 0 &&
       value.size <= 50 * 1024 * 1024,
-    'Choose a JPG, PNG, or PDF file up to 50 MB.',
+    'Pilih file JPG, PNG, atau PDF hingga 50 MB.',
   ),
 })
 

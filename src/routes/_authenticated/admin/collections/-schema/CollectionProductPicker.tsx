@@ -214,10 +214,10 @@ export const CollectionProductPicker = ({
             variant="title"
             style={{ fontSize: '1.1rem', fontWeight: 700 }}
           >
-            Products in Collection ({productUuids.length})
+            Produk dalam Koleksi ({productUuids.length})
           </Typography>
           <Typography variant="caption" color="secondary">
-            Assign products to showcase within this curated bundle.
+            Pilih produk untuk ditampilkan dalam koleksi ini.
           </Typography>
         </div>
 
@@ -228,7 +228,7 @@ export const CollectionProductPicker = ({
             size="sm"
             onClick={() => setValue('productUuids', [])}
           >
-            Clear All
+            Hapus Semua
           </Button>
         )}
       </SectionHeader>
@@ -254,7 +254,7 @@ export const CollectionProductPicker = ({
         <Search01Icon size={16} />
         <input
           type="text"
-          placeholder="Search catalog to add products..."
+          placeholder="Cari katalog untuk menambahkan produk..."
           value={productSearch}
           onChange={(e) => setProductSearch(e.target.value)}
         />
@@ -270,7 +270,7 @@ export const CollectionProductPicker = ({
             }}
           >
             <Typography variant="caption">
-              No products found matching your search.
+              Tidak ada produk yang cocok dengan pencarian Anda.
             </Typography>
           </div>
         ) : (
@@ -291,7 +291,7 @@ export const CollectionProductPicker = ({
                       {p.name}
                     </Typography>
                     <Typography variant="caption" color="secondary">
-                      ${p.basePrice.toFixed(2)} • {p.category || 'General'}
+                      ${p.basePrice.toFixed(2)} • {p.category || 'Umum'}
                     </Typography>
                   </div>
                 </ProductItemInfo>
@@ -301,7 +301,13 @@ export const CollectionProductPicker = ({
                     size="sm"
                     variant={p.status === 'active' ? 'success' : 'neutral'}
                   >
-                    {p.status}
+                    {p.status === 'active'
+                      ? 'Aktif'
+                      : p.status === 'draft'
+                        ? 'Draf'
+                        : p.status === 'archived'
+                          ? 'Diarsipkan'
+                          : p.status}
                   </Badge>
                   <CheckboxIcon $checked={isSelected}>
                     {isSelected ? (

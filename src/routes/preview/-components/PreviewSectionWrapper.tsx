@@ -1,11 +1,6 @@
 import React, { useRef } from 'react'
 
-import { Layers01Icon } from 'hugeicons-react'
-
-import {
-  EditorSurface as StyledEditorSectionBox,
-  EditorSurfaceBadge as SectionBadge,
-} from '#/-components/editor/EditorSurface'
+import { EditorSurface as StyledEditorSectionBox } from '#/-components/editor/EditorSurface'
 import type { ItemHoveredMessage } from '#/lib/editor/previewBridge'
 
 import type { SpacingValue } from '#themes'
@@ -95,6 +90,7 @@ export const PreviewSectionWrapper: React.FC<SectionWrapperProps> = ({
       id={`teras-sapa-section-${id}`}
       data-section-id={id}
       data-section-type={sectionType}
+      data-section-name={sectionName || sectionType}
       data-editor-surface="true"
       data-selected={isSelected}
       tabIndex={0}
@@ -131,10 +127,6 @@ export const PreviewSectionWrapper: React.FC<SectionWrapperProps> = ({
         onHover?.(null)
       }}
     >
-      <SectionBadge data-editor-badge $isSelected={isSelected}>
-        <Layers01Icon aria-hidden="true" size={12} />
-        {sectionName || sectionType}
-      </SectionBadge>
       {children}
     </StyledEditorSectionBox>
   )

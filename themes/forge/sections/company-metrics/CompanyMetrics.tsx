@@ -90,10 +90,10 @@ export const CompanyMetrics: React.FC<
   // When blocks are directly metric_item blocks without a grid container, maintain legacy grid layout
   const isDirectLegacyMetrics =
     blockOrder.length > 0 &&
-    blockOrder.every((blockId) => blocks[blockId]?.type === 'metric_item')
+    blockOrder.every((blockId) => blocks[blockId].type === 'metric_item')
 
   const hasHeadingBlock = blockOrder.some(
-    (blockId) => blocks[blockId]?.type === 'heading',
+    (blockId) => blocks[blockId].type === 'heading',
   )
   const showFallbackHeading = !hasHeadingBlock && Boolean(heading)
 

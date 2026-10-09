@@ -113,7 +113,7 @@ export const ArticleForm = ({
             message:
               error instanceof Error
                 ? error.message
-                : 'Could not save the article. Please try again.',
+                : 'Tidak dapat menyimpan artikel. Silakan coba lagi.',
           })
         }
       })}
@@ -127,7 +127,7 @@ export const ArticleForm = ({
           aria-pressed={preview}
           onClick={() => setPreview(!preview)}
         >
-          {preview ? 'Close preview' : 'Preview article'}
+          {preview ? 'Tutup pratinjau' : 'Pratinjau artikel'}
         </Button>
       </ArticleActions>
       {preview && (
@@ -148,16 +148,16 @@ export const ArticleForm = ({
               variant="title"
               style={{ fontSize: '1.1rem', fontWeight: 700 }}
             >
-              Article details
+              Detail artikel
             </Typography>
             <Typography variant="caption" color="secondary">
-              Configure the title, URL slug, author, and article content.
+              Konfigurasikan judul, slug URL, penulis, dan konten artikel.
             </Typography>
           </ArticleSectionHeader>
           <TextInput
             control={control}
             name="title"
-            label="Title"
+            label="Judul"
             variant="default"
             maxLength={255}
           />
@@ -165,14 +165,14 @@ export const ArticleForm = ({
             <TextInput
               control={control}
               name="slug"
-              label="URL slug"
+              label="Slug URL"
               variant="default"
               maxLength={255}
             />
             <TextInput
               control={control}
               name="author"
-              label="Author"
+              label="Penulis"
               variant="default"
               maxLength={120}
             />
@@ -180,7 +180,7 @@ export const ArticleForm = ({
           <TextareaInput
             control={control}
             name="excerpt"
-            label="Summary (optional)"
+            label="Ringkasan (opsional)"
             variant="default"
             rows={3}
             maxLength={500}
@@ -188,7 +188,7 @@ export const ArticleForm = ({
           <TextareaInput
             control={control}
             name="content"
-            label="Content"
+            label="Konten"
             variant="default"
             rows={16}
             aria-describedby="article-content-help"
@@ -198,7 +198,7 @@ export const ArticleForm = ({
             variant="caption"
             color="secondary"
           >
-            Write in plain text. Paragraphs and line breaks are preserved.
+            Tulis dalam teks biasa. Paragraf dan jeda baris akan dipertahankan.
           </Typography>
         </ArticleSection>
         <ArticleSection>
@@ -208,19 +208,19 @@ export const ArticleForm = ({
               variant="title"
               style={{ fontSize: '1.1rem', fontWeight: 700 }}
             >
-              Organization and publishing
+              Organisasi dan penerbitan
             </Typography>
             <Typography variant="caption" color="secondary">
-              Add a cover image and tags, then set the article status.
+              Tambahkan gambar sampul dan tag, lalu tentukan status artikel.
             </Typography>
           </ArticleSectionHeader>
           <TextInput
             control={control}
             name="coverImage"
-            label="Cover image URL (optional)"
+            label="URL gambar sampul (opsional)"
             type="url"
             variant="default"
-            placeholder="https://example.com/cover.jpg"
+            placeholder="https://example.com/sampul.jpg"
           />
           <Grid>
             <Controller
@@ -235,18 +235,18 @@ export const ArticleForm = ({
                   onChange={(event) =>
                     field.onChange(parseArticleTags(event.target.value))
                   }
-                  label="Tags (comma-separated)"
+                  label="Tag (pisahkan dengan koma)"
                   variant="default"
                   error={fieldState.error?.message}
-                  helperText="Up to 20 tags, 50 characters each."
+                  helperText="Hingga 20 tag, masing-masing maksimal 50 karakter."
                 />
               )}
             />
             <StatusLabel>
               Status
               <select {...register('status')}>
-                <option value="draft">Draft</option>
-                <option value="published">Published</option>
+                <option value="draft">Draf</option>
+                <option value="published">Diterbitkan</option>
               </select>
             </StatusLabel>
           </Grid>
@@ -263,14 +263,14 @@ export const ArticleForm = ({
           onClick={onCancel}
           disabled={pending}
         >
-          Cancel
+          Batal
         </Button>
         <Button type="submit" disabled={pending}>
           {pending
-            ? 'Saving...'
+            ? 'Menyimpan...'
             : initialData
-              ? 'Save changes'
-              : 'Create article'}
+              ? 'Simpan perubahan'
+              : 'Buat artikel'}
         </Button>
       </ArticleFormActions>
     </Form>

@@ -1,7 +1,7 @@
 import { z } from 'zod'
 
 export const subscriptionSchema = z.object({
-  package_uuid: z.string().min(1, 'Choose a subscription package.'),
+  package_uuid: z.string().min(1, 'Pilih paket langganan.'),
 })
 export type SubscriptionFormValues = z.infer<typeof subscriptionSchema>
 export const initialSubscriptionFormValues: SubscriptionFormValues = {

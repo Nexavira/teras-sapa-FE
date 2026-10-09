@@ -25,20 +25,20 @@ export const CollectionStats = ({ collections }: CollectionStatsProps) => {
       <StatCard
         icon={<GridTableIcon size={22} />}
         color={theme.colors.primary.DEFAULT}
-        label="Total Collections"
+        label="Total Koleksi"
         value={totalCount}
       />
       <StatCard
         icon={<Bookmark02Icon size={22} />}
         color="#10b981"
-        label="Curated Bundles"
-        value={`${totalCount} active`}
+        label="Koleksi Aktif"
+        value={`${totalCount} aktif`}
       />
       <StatCard
         icon={<ShoppingBag01Icon size={22} />}
         color="#6366f1"
-        label="Assigned Products"
-        value={`${totalAssignedProducts} items`}
+        label="Produk Terdaftar"
+        value={`${totalAssignedProducts} item`}
       />
     </StatsGrid>
   )

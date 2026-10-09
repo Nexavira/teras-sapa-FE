@@ -4,30 +4,38 @@ import { useQueryClient } from '@tanstack/react-query'
 
 import { QUERY_KEYS } from '#/constant'
 import type { SessionUserType } from '#/types/session-user.type'
+import type { TenantType } from '#/types/tenant.type'
 
 import { CreateTenantModal } from '../-schema/CreateTenantModal'
 import { SubscriptionModal } from '../-schema/SubscriptionModal'
 
 export const TenantOnboarding = ({ user }: { user: SessionUserType }) => {
   const queryClient = useQueryClient()
-  const [createdTenant, setCreatedTenant] = useState<
-    SessionUserType['tenants'][number] | null
-  >(null)
+  const [createdTenant, setCreatedTenant] = useState<TenantType | null>(null)
+
+  // Status payment didapat dari user session pada key tenants.
+  // Di tenant yang sedang digunakan ada key is_suspended:
+  // true  -> belum ada payment (unpaid / suspended)
+  // false -> sudah payment (paid / active)
   const tenant = user.tenants.at(0) ?? createdTenant
+  const isSuspended = Boolean(tenant?.is_suspended)
+
   const refresh = () => {
     void queryClient.invalidateQueries({
       queryKey: [QUERY_KEYS.AUTH_USER_SESSION],
     })
   }
+
   useEffect(() => {
-    if (!tenant?.is_suspended) return
+    if (!isSuspended) return
     const timer = setInterval(() => {
       void queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.AUTH_USER_SESSION],
       })
     }, 5000)
     return () => clearInterval(timer)
-  }, [tenant, queryClient])
+  }, [isSuspended, queryClient])
+
   if (!tenant)
     return (
       <CreateTenantModal
@@ -38,7 +46,8 @@ export const TenantOnboarding = ({ user }: { user: SessionUserType }) => {
         }}
       />
     )
-  if (tenant.is_suspended)
+
+  if (isSuspended)
     return (
       <SubscriptionModal
         key={tenant.uuid}
@@ -47,5 +56,6 @@ export const TenantOnboarding = ({ user }: { user: SessionUserType }) => {
         onRefresh={refresh}
       />
     )
+
   return null
 }

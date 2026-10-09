@@ -59,15 +59,15 @@ export const ArticleTable = ({
   return (
     <TableCard>
       <div style={{ overflowX: 'auto' }}>
-        <Table aria-label="Blog articles">
+        <Table aria-label="Artikel Blog">
           <Thead>
             <Tr>
-              <Th scope="col">Article</Th>
-              <Th scope="col">Author</Th>
+              <Th scope="col">Artikel</Th>
+              <Th scope="col">Penulis</Th>
               <Th scope="col">Status</Th>
-              <Th scope="col">Updated</Th>
+              <Th scope="col">Diperbarui</Th>
               <Th scope="col" style={{ textAlign: 'right' }}>
-                Actions
+                Aksi
               </Th>
             </Tr>
           </Thead>
@@ -75,7 +75,7 @@ export const ArticleTable = ({
             {isLoading ? (
               <Tr>
                 <Td colSpan={5} style={{ textAlign: 'center', padding: 36 }}>
-                  <span role="status">Loading articles...</span>
+                  <span role="status">Memuat artikel...</span>
                 </Td>
               </Tr>
             ) : articles.length === 0 ? (
@@ -84,12 +84,12 @@ export const ArticleTable = ({
                   <EmptyState
                     icon={<Note01Icon size={44} />}
                     title={
-                      filtered ? 'No matching articles' : 'No articles yet'
+                      filtered ? 'Tidak ada artikel yang cocok' : 'Belum ada artikel'
                     }
                     description={
                       filtered
-                        ? 'Try a different search or clear your filters.'
-                        : 'Create your first article to start your blog.'
+                        ? 'Coba pencarian lain atau hapus filter Anda.'
+                        : 'Buat artikel pertama Anda untuk memulai blog.'
                     }
                     action={
                       filtered && (
@@ -98,7 +98,7 @@ export const ArticleTable = ({
                           color="neutral"
                           onClick={onClearFilters}
                         >
-                          Clear filters
+                          Hapus filter
                         </Button>
                       )
                     }
@@ -149,7 +149,7 @@ export const ArticleTable = ({
                         article.status === 'published' ? 'success' : 'warning'
                       }
                     >
-                      {article.status}
+                      {article.status === 'published' ? 'Diterbitkan' : 'Draf'}
                     </Badge>
                   </Td>
                   <Td style={{ whiteSpace: 'nowrap' }}>
@@ -158,7 +158,7 @@ export const ArticleTable = ({
                   <Td>
                     <Actions>
                       <ActionIconButton
-                        title="Edit article"
+                        title="Edit artikel"
                         aria-label={`Edit ${article.title}`}
                         onClick={() =>
                           void navigate({
@@ -171,8 +171,8 @@ export const ArticleTable = ({
                       </ActionIconButton>
                       <ActionIconButton
                         danger
-                        title="Delete article"
-                        aria-label={`Delete ${article.title}`}
+                        title="Hapus artikel"
+                        aria-label={`Hapus ${article.title}`}
                         disabled={isDeleting}
                         onClick={() => onDelete(article)}
                       >

@@ -69,8 +69,7 @@ export const ProductTableRow = ({
               {product.name}
             </Typography>
             <Typography variant="caption" color="secondary">
-              {variantCount} variant{variantCount === 1 ? '' : 's'} •{' '}
-              {product.slug}
+              {variantCount} varian • {product.slug}
             </Typography>
           </div>
         </ProductCell>
@@ -78,7 +77,7 @@ export const ProductTableRow = ({
 
       <Td>
         <Badge size="sm" variant="neutral">
-          {product.category || 'General'}
+          {product.category || 'Umum'}
         </Badge>
       </Td>
 
@@ -94,7 +93,13 @@ export const ProductTableRow = ({
           }
           dot
         >
-          {product.status}
+          {product.status === 'active'
+            ? 'Aktif'
+            : product.status === 'draft'
+              ? 'Draf'
+              : product.status === 'archived'
+                ? 'Diarsipkan'
+                : product.status}
         </Badge>
       </Td>
 
@@ -109,7 +114,7 @@ export const ProductTableRow = ({
                 : theme.colors.text.primary,
           }}
         >
-          {product.totalInventory} in stock
+          {product.totalInventory} stok tersedia
         </Typography>
       </Td>
 
@@ -136,7 +141,7 @@ export const ProductTableRow = ({
             to="/admin/products/$productId/edit"
             params={{ productId: product.uuid }}
           >
-            <ActionIconButton title="Edit Product" aria-label="Edit Product">
+            <ActionIconButton title="Edit Produk" aria-label="Edit Produk">
               <Edit02Icon size={16} />
             </ActionIconButton>
           </Link>
@@ -144,8 +149,8 @@ export const ProductTableRow = ({
           <ActionIconButton
             danger
             onClick={() => onDelete(product)}
-            title="Delete Product"
-            aria-label="Delete Product"
+            title="Hapus Produk"
+            aria-label="Hapus Produk"
           >
             <Delete02Icon size={16} />
           </ActionIconButton>

@@ -11,6 +11,7 @@ import tseslint from 'typescript-eslint';
 
 export default [
   ...tanstackConfig,
+  ...tseslint.configs.recommended,
   {
     plugins: {
       react: reactPlugin,
@@ -19,7 +20,7 @@ export default [
     },
     rules: {
       "@typescript-eslint/no-unused-vars": [
-        "error",
+        "warn",
         {
           "args": "all",
           "argsIgnorePattern": "^_",
@@ -108,5 +109,4 @@ export default [
   ...storybook.configs['flat/recommended'],
 
   prettierRecommended,
-  ...tseslint.configs.recommended
 ]

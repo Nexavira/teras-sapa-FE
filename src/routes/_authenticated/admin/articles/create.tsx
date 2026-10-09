@@ -16,8 +16,8 @@ export const ArticleCreatePage = () => {
   return (
     <ArticleContainer $narrow>
       <PageHeader
-        title="Create article"
-        description="Write a new blog article and choose its publication status."
+        title="Buat artikel"
+        description="Tulis artikel blog baru dan tentukan status publikasinya."
         backTo="/admin/articles"
       />
       {scope ? (
@@ -31,7 +31,7 @@ export const ArticleCreatePage = () => {
           }}
         />
       ) : (
-        <p>Create a store to start managing articles.</p>
+        <p>Buat toko terlebih dahulu untuk mulai mengelola artikel.</p>
       )}
     </ArticleContainer>
   )

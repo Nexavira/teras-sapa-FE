@@ -33,8 +33,6 @@ const TypeChoices = styled.div`
 `
 
 const TypeButton = styled(Button)`
-  gap: 16px;
-  min-height: 48px;
   border-radius: ${({ theme }) => theme.radius.lg};
 
   &[aria-pressed='true'] {
@@ -51,6 +49,7 @@ const TypeButton = styled(Button)`
 const BillingToggle = styled.div`
   display: inline-flex;
   align-items: center;
+  gap: 4px;
   padding: 4px;
   border: 1px solid #dce5de;
   border-radius: ${({ theme }) => theme.radius.lg};
@@ -61,8 +60,6 @@ const BillingToggleButton = styled(Button)`
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  min-height: 38px;
-  padding: 6px 16px;
   border: none;
   border-radius: ${({ theme }) => theme.radius.md};
   font-size: 0.85rem;

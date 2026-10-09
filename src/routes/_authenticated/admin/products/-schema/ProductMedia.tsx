@@ -79,10 +79,10 @@ export const ProductMedia = ({ control }: ProductMediaProps) => {
           variant="title"
           style={{ fontSize: '1.1rem', fontWeight: 700 }}
         >
-          Media & Imagery
+          Media & Gambar
         </Typography>
         <Typography variant="caption" color="secondary">
-          Display photography for storefront catalog cards and product pages.
+          Tampilkan foto untuk kartu katalog dan halaman produk di toko online.
         </Typography>
       </SectionHeader>
 
@@ -90,23 +90,23 @@ export const ProductMedia = ({ control }: ProductMediaProps) => {
         <TextInput
           control={control}
           name="images.0"
-          label="Main Image URL"
+          label="URL Gambar Utama"
           placeholder="https://images.unsplash.com/photo-..."
         />
 
         {primaryImage ? (
           <ThumbnailPreview>
-            <img src={primaryImage} alt="Product preview" />
+            <img src={primaryImage} alt="Pratinjau produk" />
             <div>
               <Typography
                 variant="body"
                 style={{ fontWeight: 600, fontSize: '0.9rem' }}
               >
-                Image Preview
+                Pratinjau Gambar
               </Typography>
               <Typography variant="caption" color="secondary">
-                This image will appear on the storefront, checkout, and
-                inventory views.
+                Gambar ini akan muncul di toko online, halaman checkout, dan
+                daftar inventaris.
               </Typography>
             </div>
           </ThumbnailPreview>
@@ -120,11 +120,11 @@ export const ProductMedia = ({ control }: ProductMediaProps) => {
                 variant="body"
                 style={{ fontWeight: 600, fontSize: '0.9rem' }}
               >
-                No image attached yet
+                Belum ada gambar yang dilampirkan
               </Typography>
               <Typography variant="caption" color="secondary">
-                Paste an image link above, or leave blank to use the curated
-                default aesthetic placeholder.
+                Tempel tautan gambar di atas, atau biarkan kosong untuk menggunakan
+                gambar default yang telah disediakan.
               </Typography>
             </div>
           </ThumbnailPreview>

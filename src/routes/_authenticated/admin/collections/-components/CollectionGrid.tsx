@@ -46,7 +46,7 @@ export const CollectionGrid = ({
       <GridContainer>
         <FullWidthBox>
           <Typography variant="body" color="muted">
-            Loading collections...
+            Memuat koleksi...
           </Typography>
         </FullWidthBox>
       </GridContainer>
@@ -59,8 +59,8 @@ export const CollectionGrid = ({
         <FullWidthBox style={{ padding: 0 }}>
           <EmptyState
             icon={<GridTableIcon size={48} />}
-            title="No collections found"
-            description="Create your first collection to showcase grouped products across your storefront theme."
+            title="Tidak ada koleksi ditemukan"
+            description="Buat koleksi pertama Anda untuk menampilkan grup produk di toko online."
           />
         </FullWidthBox>
       </GridContainer>

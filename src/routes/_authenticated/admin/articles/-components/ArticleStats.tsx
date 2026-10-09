@@ -14,13 +14,13 @@ export const ArticleStats = ({ articles }: { articles: Array<Article> }) => (
     <StatCard
       icon={<Note01Icon size={22} />}
       color={theme.colors.primary.DEFAULT}
-      label="Total Articles"
+      label="Total Artikel"
       value={articles.length}
     />
     <StatCard
       icon={<CheckmarkCircle02Icon size={22} />}
       color="#10b981"
-      label="Published"
+      label="Diterbitkan"
       value={
         articles.filter((article) => article.status === 'published').length
       }
@@ -28,7 +28,7 @@ export const ArticleStats = ({ articles }: { articles: Array<Article> }) => (
     <StatCard
       icon={<AlertCircleIcon size={22} />}
       color="#f59e0b"
-      label="Drafts"
+      label="Draf"
       value={articles.filter((article) => article.status === 'draft').length}
     />
   </StatsGrid>

@@ -5,7 +5,9 @@ import { useQueryClient } from '@tanstack/react-query'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 
+import { FileInput, TextInput } from '#/-components/ui'
 import { Button } from '#/-components/ui/primitives/Button'
+import { QUERY_KEYS } from '#/constant'
 import { useUploadPaymentProof } from '#/services/tenant/useUploadPaymentProof'
 import type { CurrentTenantPayment } from '#/types/tenant.type'
 
@@ -13,7 +15,6 @@ import {
   BankDetails,
   Description,
   ErrorMessage,
-  Footnote,
   Form,
   PaymentSummary,
 } from '../-components/onboarding-styles'
@@ -27,32 +28,37 @@ export const PaymentProofForm = ({
   payment,
   onRefresh,
 }: {
-  payment: CurrentTenantPayment
+  payment?: CurrentTenantPayment | null
   onRefresh: () => void
 }) => {
   const queryClient = useQueryClient()
   const upload = useUploadPaymentProof()
   const [formError, setFormError] = useState('')
   const [submitted, setSubmitted] = useState(
-    payment.payment.status === 'pending_verification',
+    payment?.payment.status === 'pending_verification',
   )
   const paymentForm = useForm<PaymentProofFormValues>({
     defaultValues: {
       ...initialPaymentProofFormValues,
-      amount_paid: String(payment.payment.amount_due),
+      amount_paid: payment?.payment.amount_due
+        ? String(payment.payment.amount_due)
+        : '',
     },
     resolver: zodResolver(paymentProofSchema),
   })
-  const instructions = payment.transfer_instructions
+  const instructions = payment?.transfer_instructions
   const hasTransferInstructions = Boolean(
     instructions?.available &&
     instructions.bank_name &&
     instructions.account_number &&
     instructions.account_holder,
   )
-  const amountDue = [instructions?.currency, payment.payment.amount_due]
-    .filter(Boolean)
-    .join(' ')
+  const amountDue = payment
+    ? [instructions?.currency, payment.payment.amount_due]
+        .filter(Boolean)
+        .join(' ')
+    : null
+
   return (
     <Form
       onSubmit={paymentForm.handleSubmit(async (values) => {
@@ -60,19 +66,19 @@ export const PaymentProofForm = ({
         setFormError('')
         try {
           await upload.mutateAsync({
-            payment_uuid: payment.payment.uuid,
             amount_paid: values.amount_paid,
             proof_of_payment: values.proof_of_payment,
           })
           setSubmitted(true)
           void queryClient.invalidateQueries({
-            queryKey: ['current-payment'],
+            queryKey: [QUERY_KEYS.AUTH_USER_SESSION],
           })
+          onRefresh()
         } catch (error) {
           setFormError(
             error instanceof Error
               ? error.message
-              : 'Upload failed. Please try again.',
+              : 'Gagal mengunggah. Silakan coba lagi.',
           )
         }
       })}
@@ -86,98 +92,80 @@ export const PaymentProofForm = ({
       {submitted ? (
         <>
           <Description role="status">
-            Payment proof received. Your subscription will be activated after
-            approval.
+            Bukti pembayaran telah diterima. Toko Anda akan aktif setelah disetujui.
           </Description>
           <Button type="button" onClick={() => onRefresh()}>
-            Refresh subscription status
+            Perbarui status langganan
           </Button>
         </>
       ) : (
         <>
           <Description>
-            Transfer the amount below to the bank account, then upload your
-            receipt for verification.
+            {hasTransferInstructions
+              ? 'Transfer nominal di bawah ini ke rekening bank, lalu unggah bukti transfer Anda untuk verifikasi.'
+              : 'Unggah bukti pembayaran Anda untuk verifikasi.'}
           </Description>
-          <PaymentSummary aria-label="Payment summary">
-            <div>
-              <span>Amount due</span>
-              <strong>{amountDue}</strong>
-            </div>
-            {payment.payment.due_date && (
+          {amountDue && (
+            <PaymentSummary aria-label="Ringkasan pembayaran">
               <div>
-                <span>Due date</span>
-                <strong>{payment.payment.due_date.slice(0, 10)}</strong>
+                <span>Total tagihan</span>
+                <strong>{amountDue}</strong>
               </div>
-            )}
-          </PaymentSummary>
-          {payment.payment.rejection_reason && (
+              {payment?.payment.due_date && (
+                <div>
+                  <span>Batas waktu</span>
+                  <strong>{payment.payment.due_date.slice(0, 10)}</strong>
+                </div>
+              )}
+            </PaymentSummary>
+          )}
+          {payment?.payment.rejection_reason && (
             <ErrorMessage role="alert">
               {payment.payment.rejection_reason}
             </ErrorMessage>
           )}
-          {hasTransferInstructions ? (
-            <BankDetails aria-label="Payment bank account">
+          {hasTransferInstructions && (
+            <BankDetails aria-label="Rekening bank tujuan">
               <div>
                 <dt>Bank</dt>
                 <dd>{instructions?.bank_name}</dd>
               </div>
               <div>
-                <dt>Account number</dt>
+                <dt>Nomor rekening</dt>
                 <dd>{instructions?.account_number}</dd>
               </div>
               <div>
-                <dt>Account holder</dt>
+                <dt>Nama pemilik rekening</dt>
                 <dd>{instructions?.account_holder}</dd>
               </div>
               {instructions?.reference && (
                 <div>
-                  <dt>Transfer reference</dt>
+                  <dt>Referensi transfer</dt>
                   <dd>{instructions.reference}</dd>
                 </div>
               )}
             </BankDetails>
-          ) : (
-            <ErrorMessage role="alert">
-              Transfer instructions are unavailable. Please contact support for
-              payment details.
-            </ErrorMessage>
           )}
-          <label>
-            Amount paid
-            <input
-              aria-label="Amount paid"
-              type="number"
-              min="0"
-              step="0.01"
-              required
-              {...paymentForm.register('amount_paid')}
-              disabled={upload.isPending}
-            />
-          </label>
-          <label>
-            Payment proof
-            <input
-              aria-label="Payment proof"
-              type="file"
-              accept="image/jpeg,image/png,application/pdf"
-              required
-              disabled={upload.isPending}
-              onChange={(event) =>
-                paymentForm.setValue(
-                  'proof_of_payment',
-                  event.target.files?.[0] as File,
-                  { shouldValidate: true },
-                )
-              }
-            />
-          </label>
-          <Footnote>
-            JPG, PNG, or PDF, up to 50 MB. Upload the receipt after making your
-            transfer.
-          </Footnote>
+          <TextInput
+            control={paymentForm.control}
+            name="amount_paid"
+            label="Jumlah yang dibayar"
+            type="number"
+            min="0"
+            step="0.01"
+            disabled={upload.isPending}
+          />
+          <FileInput
+            control={paymentForm.control}
+            name="proof_of_payment"
+            label="Bukti pembayaran"
+            accept="image/jpeg,image/png,application/pdf"
+            maxSize={50 * 1024 * 1024}
+            disabled={upload.isPending}
+            helperText="JPG, PNG, atau PDF, hingga 50 MB. Unggah bukti pembayaran setelah melakukan transfer."
+          />
           <Button type="submit" isLoading={upload.isPending}>
-            Submit payment proof
+            Kirim bukti pembayaran
           </Button>
         </>
       )}

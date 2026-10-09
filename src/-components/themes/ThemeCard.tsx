@@ -96,12 +96,12 @@ export const ThemeCard = ({ theme, recommended = false }: ThemeCardProps) => {
           loading="lazy"
           src={previewUrl}
           tabIndex={-1}
-          title={`${theme.name} theme preview`}
+          title={`Pratinjau tema ${theme.name}`}
         />
         {recommended && (
           <PreviewLabel>
             <Badge size="sm" variant="success">
-              Recommended
+              Direkomendasikan
             </Badge>
           </PreviewLabel>
         )}
@@ -127,7 +127,7 @@ export const ThemeCard = ({ theme, recommended = false }: ThemeCardProps) => {
               startIcon={<PaintBoardIcon size={16} />}
               variant="solid"
             >
-              Customize
+              Sesuaikan
             </Button>
           </Link>
           <a href={previewUrl} rel="noreferrer" target="_blank">
@@ -136,7 +136,7 @@ export const ThemeCard = ({ theme, recommended = false }: ThemeCardProps) => {
               endIcon={<ArrowUpRight01Icon size={16} />}
               variant="outline"
             >
-              Preview
+              Pratinjau
             </Button>
           </a>
         </Actions>

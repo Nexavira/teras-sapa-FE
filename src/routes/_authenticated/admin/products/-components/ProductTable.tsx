@@ -31,12 +31,12 @@ export const ProductTable = ({
       <Table>
         <Thead>
           <Tr>
-            <Th>Product</Th>
-            <Th>Category</Th>
+            <Th>Produk</Th>
+            <Th>Kategori</Th>
             <Th>Status</Th>
-            <Th>Inventory</Th>
-            <Th>Price</Th>
-            <Th style={{ textAlign: 'right' }}>Actions</Th>
+            <Th>Inventaris</Th>
+            <Th>Harga</Th>
+            <Th style={{ textAlign: 'right' }}>Aksi</Th>
           </Tr>
         </Thead>
         <Tbody>
@@ -44,7 +44,7 @@ export const ProductTable = ({
             <Tr>
               <Td colSpan={6} style={{ textAlign: 'center', padding: 36 }}>
                 <Typography variant="body" color="muted">
-                  Loading catalog items...
+                  Memuat item katalog...
                 </Typography>
               </Td>
             </Tr>
@@ -53,8 +53,8 @@ export const ProductTable = ({
               <Td colSpan={6}>
                 <EmptyState
                   icon={<ShoppingBag01Icon size={44} />}
-                  title="No products found"
-                  description="Try adjusting your search query or status filter to find what you're looking for."
+                  title="Tidak ada produk ditemukan"
+                  description="Coba sesuaikan kata kunci pencarian atau filter status untuk menemukan apa yang Anda cari."
                 />
               </Td>
             </Tr>

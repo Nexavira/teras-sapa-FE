@@ -113,10 +113,10 @@ const createStore = async () => {
 const selectProof = (
   file = new File(['receipt'], 'receipt.png', { type: 'image/png' }),
 ) => {
-  fireEvent.change(screen.getByLabelText('Payment proof'), {
+  fireEvent.change(screen.getByLabelText('Bukti pembayaran'), {
     target: { files: [file] },
   })
-  fireEvent.submit(screen.getByLabelText('Payment proof').closest('form')!)
+  fireEvent.submit(screen.getByLabelText('Bukti pembayaran').closest('form')!)
   return file
 }
 
@@ -401,11 +401,11 @@ describe('Tenant onboarding', () => {
       ),
     ).toHaveLength(2)
   })
-  it('creates the tenant with required backend fields then switches to subscription setup', async () => {
+  it('creates the tenant with required backend fields then switches to payment proof upload', async () => {
     const mock = mockApi()
     renderForm(<TenantOnboarding user={user} />)
     await createStore()
-    await screen.findByRole('heading', { name: 'Activate your subscription' })
+    await screen.findByRole('heading', { name: 'Selesaikan pembayaran Anda' })
     expect(screen.queryByLabelText('Nama website')).toBeNull()
     const call = mock.mock.calls.find(
       ([url, options]) =>
@@ -420,40 +420,17 @@ describe('Tenant onboarding', () => {
       is_suspended: 0,
       is_trial: 1,
     })
-    fireEvent.click(await screen.findByRole('button', { name: 'Commerce' }))
-    fireEvent.click(screen.getByRole('button', { name: 'Pilih Starter' }))
-    fireEvent.click(screen.getByRole('button', { name: 'Berlangganan' }))
-    const bankAccount = await screen.findByLabelText('Payment bank account')
-    expect(bankAccount.textContent).toContain('Test Bank')
-    expect(bankAccount.textContent).toContain('123456')
-    expect(screen.getByLabelText('Payment proof')).toBeTruthy()
+    expect(screen.getByLabelText('Bukti pembayaran')).toBeTruthy()
   })
-  it('shows subscription setup for an existing tenant and never recreates the store', async () => {
-    const mock = mockApi()
+  it('shows payment proof upload for an existing tenant and never recreates the store', async () => {
+    mockApi()
     renderForm(<TenantOnboarding user={{ ...user, tenants: [tenant] }} />)
-    fireEvent.click(await screen.findByRole('button', { name: 'Commerce' }))
     expect(screen.queryByLabelText('Nama website')).toBeNull()
-    fireEvent.click(screen.getByRole('button', { name: 'Pilih Starter' }))
-    fireEvent.click(screen.getByRole('button', { name: 'Berlangganan' }))
-    await screen.findByLabelText('Payment proof')
+    await screen.findByLabelText('Bukti pembayaran')
     expect(
-      screen.getByRole('heading', { name: 'Complete your payment' }),
+      screen.getByRole('heading', { name: 'Selesaikan pembayaran Anda' }),
     ).toBeTruthy()
-    const bankAccount = screen.getByLabelText('Payment bank account')
-    expect(bankAccount.textContent).toContain('Test Bank')
-    expect(bankAccount.textContent).toContain('123456')
-    expect(bankAccount.textContent).toContain('Shopiti')
-    expect(bankAccount.textContent).toContain('INV-123')
-    const posts = mock.mock.calls.filter(
-      ([, options]) => options?.method === 'POST',
-    )
-    expect(posts).toHaveLength(1)
-    expect(String(posts[0][0])).toMatch(/tenant\/subscription$/)
-    expect(JSON.parse(posts[0][1]!.body as string)).toEqual({
-      package_uuid: 'package-uuid',
-      tenant_uuid: 'tenant-uuid',
-      is_trial: 0,
-    })
+    expect(screen.getByLabelText('Jumlah yang dibayar')).toBeTruthy()
   })
   it('shows neither modal when the selected tenant is not suspended', () => {
     const mock = mockApi()
@@ -494,43 +471,54 @@ describe('Tenant onboarding', () => {
     )
     expect(screen.getByRole('dialog')).toBeTruthy()
   })
-  it('resumes pending verification without offering another subscription or upload', async () => {
-    vi.stubGlobal(
-      'fetch',
-      vi.fn<typeof fetch>().mockResolvedValue(
-        response({
+  it('resumes pending verification when initial payment is provided without offering another subscription or upload', async () => {
+    renderForm(
+      <PaymentProofForm
+        payment={{
           ...pending,
           payment: { ...payment, status: 'pending_verification' },
-        }),
-      ),
-    )
-    renderForm(
-      <SubscriptionModal
-        tenant={tenant}
-        userUuid={user.uuid}
+        }}
         onRefresh={vi.fn()}
       />,
     )
-    await screen.findByText(/Payment proof received/)
-    expect(screen.queryByLabelText('Payment proof')).toBeNull()
-    expect(screen.queryByLabelText('Subscription package')).toBeNull()
+    await screen.findByText(/Bukti pembayaran telah diterima/)
+    expect(screen.queryByLabelText('Bukti pembayaran')).toBeNull()
   })
-  it('keeps payment lookup errors separate from a missing subscription payment', async () => {
-    vi.stubGlobal(
-      'fetch',
-      vi
-        .fn<typeof fetch>()
-        .mockResolvedValue(new Response('', { status: 500 })),
-    )
+  it('detects paid status when tenant is_suspended is false in user session tenants', () => {
+    const mock = mockApi()
     renderForm(
-      <SubscriptionModal
-        tenant={tenant}
-        userUuid={user.uuid}
-        onRefresh={vi.fn()}
+      <TenantOnboarding
+        user={{
+          ...user,
+          tenants: [
+            {
+              ...tenant,
+              is_suspended: false,
+            },
+          ],
+        }}
       />,
     )
-    await screen.findByRole('alert')
-    expect(screen.queryByRole('button', { name: 'Subscribe' })).toBeNull()
+    expect(screen.queryByRole('dialog')).toBeNull()
+    expect(mock).not.toHaveBeenCalled()
+  })
+  it('detects unpaid status when tenant is_suspended is true in user session tenants', async () => {
+    mockApi()
+    renderForm(
+      <TenantOnboarding
+        user={{
+          ...user,
+          tenants: [
+            {
+              ...tenant,
+              is_suspended: true,
+            },
+          ],
+        }}
+      />,
+    )
+    expect(screen.getByRole('dialog')).toBeTruthy()
+    await screen.findByRole('heading', { name: 'Selesaikan pembayaran Anda' })
   })
   it('uploads multipart payment proof from the separate payment form', async () => {
     const mock = mockApi()

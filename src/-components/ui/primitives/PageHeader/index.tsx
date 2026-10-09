@@ -77,12 +77,12 @@ export const PageHeader = ({
         <TitleRow>
           {backTo ? (
             <Link to={backTo}>
-              <BackButton type="button" aria-label="Go back">
+              <BackButton type="button" aria-label="Kembali">
                 <ArrowLeft02Icon size={18} />
               </BackButton>
             </Link>
           ) : onBack ? (
-            <BackButton type="button" onClick={onBack} aria-label="Go back">
+            <BackButton type="button" onClick={onBack} aria-label="Kembali">
               <ArrowLeft02Icon size={18} />
             </BackButton>
           ) : null}

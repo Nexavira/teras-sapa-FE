@@ -25,12 +25,12 @@ export const ArticleEditPage = () => {
   return (
     <ArticleContainer $narrow>
       <PageHeader
-        title="Edit article"
-        description="Update your article content and publication status."
+        title="Edit artikel"
+        description="Perbarui konten artikel dan status publikasinya."
         backTo="/admin/articles"
       />
       {!scope ? (
-        <p>Create a store to start managing articles.</p>
+        <p>Buat toko terlebih dahulu untuk mulai mengelola artikel.</p>
       ) : query.isPending ? (
         <ArticleLoading />
       ) : query.isError ? (
@@ -41,13 +41,13 @@ export const ArticleEditPage = () => {
             color="neutral"
             onClick={() => void query.refetch()}
           >
-            Retry
+            Coba lagi
           </Button>
         </ArticleError>
       ) : !query.data ? (
         <EmptyState
-          title="Article not found"
-          description="This article may have been deleted. Return to the article list to continue."
+          title="Artikel tidak ditemukan"
+          description="Artikel ini mungkin telah dihapus. Kembali ke daftar artikel untuk melanjutkan."
         />
       ) : (
         <ArticleForm

@@ -111,7 +111,7 @@ export const ProductForm = ({
       <FormActionsCard>
         {onCancel && (
           <Button type="button" variant="outline" onClick={onCancel}>
-            Cancel
+            Batal
           </Button>
         )}
         <Button
@@ -121,10 +121,10 @@ export const ProductForm = ({
           disabled={pending}
         >
           {pending
-            ? 'Saving...'
+            ? 'Menyimpan...'
             : initialData
-              ? 'Update Product'
-              : 'Save Product'}
+              ? 'Perbarui Produk'
+              : 'Simpan Produk'}
         </Button>
       </FormActionsCard>
     </FormContainer>

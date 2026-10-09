@@ -43,9 +43,9 @@ export const CollectionEditPage = () => {
   if (isLoading) {
     return (
       <Container>
-        <PageHeader title="Edit Collection" backTo="/admin/collections" />
+        <PageHeader title="Edit Koleksi" backTo="/admin/collections" />
         <Typography variant="body" color="muted">
-          Loading collection details...
+          Memuat detail koleksi...
         </Typography>
       </Container>
     )
@@ -54,17 +54,17 @@ export const CollectionEditPage = () => {
   if (!collection) {
     return (
       <Container>
-        <PageHeader title="Edit Collection" backTo="/admin/collections" />
+        <PageHeader title="Edit Koleksi" backTo="/admin/collections" />
         <EmptyState
           icon={<AlertCircleIcon size={44} />}
-          title="Collection Not Found"
-          description="The collection you are trying to edit does not exist or has been removed."
+          title="Koleksi Tidak Ditemukan"
+          description="Koleksi yang ingin Anda edit tidak ada atau telah dihapus."
           action={
             <Button
               variant="outline"
               onClick={() => navigate({ to: '/admin/collections' })}
             >
-              Return to Collections
+              Kembali ke Koleksi
             </Button>
           }
         />
@@ -76,7 +76,7 @@ export const CollectionEditPage = () => {
     <Container>
       <PageHeader
         title={`Edit ${collection.title}`}
-        description="Curate products into groups for storefront lists and themed sections."
+        description="Kelompokkan produk ke dalam koleksi untuk daftar tampilan toko dan seksi bertema."
         backTo="/admin/collections"
       />
 

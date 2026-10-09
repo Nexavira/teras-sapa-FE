@@ -153,7 +153,7 @@ export const CollectionCardItem = ({
             </Typography>
           </div>
           <Badge size="sm" variant="neutral">
-            {count} product{count === 1 ? '' : 's'}
+            {count} produk
           </Badge>
         </CardTitleRow>
 
@@ -189,7 +189,7 @@ export const CollectionCardItem = ({
                   fontWeight: 600,
                 }}
               >
-                +{assigned.length - 5} more
+                +{assigned.length - 5} lainnya
               </span>
             )}
           </ProductStack>
@@ -198,7 +198,7 @@ export const CollectionCardItem = ({
 
       <CardFooter>
         <Typography variant="caption" color="secondary">
-          Ready for editor
+          Siap untuk editor
         </Typography>
 
         <ActionButtons>
@@ -207,8 +207,8 @@ export const CollectionCardItem = ({
             params={{ collectionId: collection.uuid }}
           >
             <ActionIconButton
-              title="Edit Collection"
-              aria-label="Edit Collection"
+              title="Edit Koleksi"
+              aria-label="Edit Koleksi"
             >
               <Edit02Icon size={16} />
             </ActionIconButton>
@@ -217,8 +217,8 @@ export const CollectionCardItem = ({
           <ActionIconButton
             danger
             onClick={() => onDelete(collection)}
-            title="Delete Collection"
-            aria-label="Delete Collection"
+            title="Hapus Koleksi"
+            aria-label="Hapus Koleksi"
           >
             <Delete02Icon size={16} />
           </ActionIconButton>

@@ -85,11 +85,10 @@ export const ProductPricing = ({ control, register }: ProductPricingProps) => {
           variant="title"
           style={{ fontSize: '1.1rem', fontWeight: 700 }}
         >
-          Pricing & Availability
+          Harga & Ketersediaan
         </Typography>
         <Typography variant="caption" color="secondary">
-          Set base pricing, promotional compare-at price, and fulfillment
-          status.
+          Atur harga dasar, harga promosi (coret), dan status produk.
         </Typography>
       </SectionHeader>
 
@@ -97,7 +96,7 @@ export const ProductPricing = ({ control, register }: ProductPricingProps) => {
         <TextInput
           control={control}
           name="basePrice"
-          label="Base Price ($)"
+          label="Harga Dasar ($)"
           type="number"
           step="0.01"
           placeholder="0.00"
@@ -105,7 +104,7 @@ export const ProductPricing = ({ control, register }: ProductPricingProps) => {
         <TextInput
           control={control}
           name="compareAtPrice"
-          label="Compare At ($)"
+          label="Harga Coret ($)"
           type="number"
           step="0.01"
           placeholder="0.00"
@@ -113,16 +112,16 @@ export const ProductPricing = ({ control, register }: ProductPricingProps) => {
         <FormGroup>
           <Label>Status</Label>
           <Select {...register('status')}>
-            <option value="active">Active (Published)</option>
-            <option value="draft">Draft</option>
-            <option value="archived">Archived</option>
+            <option value="active">Aktif (Diterbitkan)</option>
+            <option value="draft">Draf</option>
+            <option value="archived">Diarsipkan</option>
           </Select>
         </FormGroup>
         <FormGroup>
-          <Label>Product Type</Label>
+          <Label>Tipe Produk</Label>
           <Select {...register('type')}>
-            <option value="physical">Physical Item</option>
-            <option value="digital">Digital Product</option>
+            <option value="physical">Produk Fisik</option>
+            <option value="digital">Produk Digital</option>
           </Select>
         </FormGroup>
       </FieldGrid>

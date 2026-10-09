@@ -45,15 +45,15 @@ export const ThemesPage = () => {
   return (
     <Page>
       <PageHeader
-        description="Choose a storefront foundation, then customize its pages, sections, and global settings in the editor."
-        title="Themes"
+        description="Pilih fondasi etalase toko, lalu sesuaikan halaman, seksi, dan pengaturan globalnya di editor."
+        title="Tema"
       />
 
       <InfoCard padding="md" variant="flat">
         <PaintBoardIcon size={22} />
         <Typography color="inherit" variant="body">
-          Every theme includes a live preview. The editor loads the pages,
-          sections, and settings for the theme you open.
+          Setiap tema menyertakan pratinjau langsung. Editor memuat halaman,
+          seksi, dan pengaturan untuk tema yang Anda buka.
         </Typography>
       </InfoCard>
 
@@ -72,7 +72,7 @@ export const ThemesPage = () => {
 
 export const Route = createFileRoute('/_authenticated/admin/themes/')({
   head: () => ({
-    meta: [{ title: 'Themes | Teras Sapa' }],
+    meta: [{ title: 'Tema | Teras Sapa' }],
   }),
   component: ThemesPage,
 })

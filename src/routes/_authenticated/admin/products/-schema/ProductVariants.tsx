@@ -64,7 +64,7 @@ export const ProductVariants = ({ control }: ProductVariantsProps) => {
   const handleAddVariant = () => {
     append({
       sku: `SKU-${Date.now().toString().slice(-4)}`,
-      name: 'Standard Option',
+      name: 'Opsi Standar',
       stockQuantity: 10,
       priceOverride: null,
     })
@@ -78,10 +78,10 @@ export const ProductVariants = ({ control }: ProductVariantsProps) => {
             variant="title"
             style={{ fontSize: '1.1rem', fontWeight: 700 }}
           >
-            Product Variants ({fields.length})
+            Varian Produk ({fields.length})
           </Typography>
           <Typography variant="caption" color="secondary">
-            Manage distinct SKUs, sizes, colors, and stock quantities.
+            Kelola SKU, ukuran, warna, dan jumlah stok varian.
           </Typography>
         </div>
 
@@ -91,7 +91,7 @@ export const ProductVariants = ({ control }: ProductVariantsProps) => {
           size="sm"
           onClick={handleAddVariant}
         >
-          <PlusSignIcon size={14} /> Add Variant
+          <PlusSignIcon size={14} /> Tambah Varian
         </Button>
       </SectionHeader>
 
@@ -101,8 +101,8 @@ export const ProductVariants = ({ control }: ProductVariantsProps) => {
           color="muted"
           style={{ fontStyle: 'italic', padding: '12px 0' }}
         >
-          No specific variants defined. The base price and standard single
-          inventory count will apply.
+          Belum ada varian yang ditentukan. Harga dasar dan stok tunggal standar
+          yang akan berlaku.
         </Typography>
       ) : (
         <VariantsList>
@@ -111,31 +111,31 @@ export const ProductVariants = ({ control }: ProductVariantsProps) => {
               <TextInput
                 control={control}
                 name={`variants.${index}.sku`}
-                placeholder="SKU Code"
+                placeholder="Kode SKU"
               />
               <TextInput
                 control={control}
                 name={`variants.${index}.name`}
-                placeholder="Option (e.g. Size M, Navy)"
+                placeholder="Opsi (misal: Ukuran M, Biru)"
               />
               <TextInput
                 control={control}
                 name={`variants.${index}.stockQuantity`}
                 type="number"
-                placeholder="Qty"
+                placeholder="Stok"
               />
               <TextInput
                 control={control}
                 name={`variants.${index}.priceOverride`}
                 type="number"
                 step="0.01"
-                placeholder="Price ($)"
+                placeholder="Harga ($)"
               />
               <ActionIconButton
                 danger
                 onClick={() => remove(index)}
-                title="Remove Variant"
-                aria-label="Remove Variant"
+                title="Hapus Varian"
+                aria-label="Hapus Varian"
               >
                 <Delete02Icon size={16} />
               </ActionIconButton>

@@ -12,10 +12,10 @@ interface ProductFiltersProps {
 }
 
 const TABS: FilterTab<ProductStatusFilter>[] = [
-  { key: 'all', label: 'All' },
-  { key: 'active', label: 'Active' },
-  { key: 'draft', label: 'Draft' },
-  { key: 'archived', label: 'Archived' },
+  { key: 'all', label: 'Semua' },
+  { key: 'active', label: 'Aktif' },
+  { key: 'draft', label: 'Draf' },
+  { key: 'archived', label: 'Diarsipkan' },
 ]
 
 export const ProductFilters = ({
@@ -28,7 +28,7 @@ export const ProductFilters = ({
     <FilterBar<ProductStatusFilter>
       search={search}
       onSearchChange={onSearchChange}
-      searchPlaceholder="Search products by title, tag, or category..."
+      searchPlaceholder="Cari produk berdasarkan judul, tag, atau kategori..."
       tabs={TABS}
       activeTab={statusFilter}
       onTabChange={onStatusFilterChange}

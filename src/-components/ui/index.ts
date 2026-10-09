@@ -8,6 +8,11 @@ export * from './primitives/Card'
 export * from './primitives/ColorPicker'
 export * from './primitives/Divider'
 export * from './primitives/EmptyState'
+export {
+  FileInputBase,
+  FileInputPrimitive,
+  type FileInputProps as FileInputPrimitiveProps,
+} from './primitives/FileInput'
 export * from './primitives/FileUpload'
 export * from './primitives/FilterBar'
 export * from './primitives/IconButton'

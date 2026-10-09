@@ -94,10 +94,10 @@ export const CollectionGeneralInfo = ({
           variant="title"
           style={{ fontSize: '1.1rem', fontWeight: 700 }}
         >
-          Collection Details
+          Detail Koleksi
         </Typography>
         <Typography variant="caption" color="secondary">
-          Configure the public title, URL handle, summary, and hero cover.
+          Konfigurasikan judul publik, slug URL, ringkasan, dan gambar sampul.
         </Typography>
       </SectionHeader>
 
@@ -105,22 +105,22 @@ export const CollectionGeneralInfo = ({
         <TextInput
           control={control}
           name="title"
-          label="Collection Title"
-          placeholder="e.g. Summer Essentials"
+          label="Judul Koleksi"
+          placeholder="Contoh: Koleksi Musim Panas"
         />
         <TextInput
           control={control}
           name="slug"
-          label="Handle / Slug"
-          placeholder="e.g. summer-essentials"
+          label="Slug URL"
+          placeholder="contoh: koleksi-musim-panas"
         />
       </FieldGrid>
 
       <TextareaInput
         control={control}
         name="description"
-        label="Description"
-        placeholder="Introduce this curated selection for customers..."
+        label="Deskripsi"
+        placeholder="Jelaskan kurasi produk ini untuk pelanggan..."
         rows={3}
       />
 
@@ -128,23 +128,23 @@ export const CollectionGeneralInfo = ({
         <TextInput
           control={control}
           name="image"
-          label="Collection Banner / Cover Image URL"
+          label="URL Banner / Gambar Sampul Koleksi"
           placeholder="https://images.unsplash.com/..."
         />
 
         {image ? (
           <ThumbnailPreview>
-            <img src={image} alt="Collection Cover" />
+            <img src={image} alt="Sampul Koleksi" />
             <div>
               <Typography
                 variant="body"
                 style={{ fontWeight: 600, fontSize: '0.9rem' }}
               >
-                Cover Preview
+                Pratinjau Sampul
               </Typography>
               <Typography variant="caption" color="secondary">
-                This image will appear on collection grids, cards, and theme
-                banners.
+                Gambar ini akan muncul di grid koleksi, kartu, dan banner tema
+                toko.
               </Typography>
             </div>
           </ThumbnailPreview>
@@ -158,11 +158,11 @@ export const CollectionGeneralInfo = ({
                 variant="body"
                 style={{ fontWeight: 600, fontSize: '0.9rem' }}
               >
-                Optional cover banner
+                Banner sampul (opsional)
               </Typography>
               <Typography variant="caption" color="secondary">
-                Paste an image URL above to display custom photography for this
-                collection.
+                Tempel URL gambar di atas untuk menampilkan foto khusus pada
+                koleksi ini.
               </Typography>
             </div>
           </ThumbnailPreview>

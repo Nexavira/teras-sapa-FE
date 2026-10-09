@@ -43,9 +43,9 @@ export const ProductEditPage = () => {
   if (isLoading) {
     return (
       <Container>
-        <PageHeader title="Edit Product" backTo="/admin/products" />
+        <PageHeader title="Edit Produk" backTo="/admin/products" />
         <Typography variant="body" color="muted">
-          Loading product details...
+          Memuat detail produk...
         </Typography>
       </Container>
     )
@@ -54,17 +54,17 @@ export const ProductEditPage = () => {
   if (!product) {
     return (
       <Container>
-        <PageHeader title="Edit Product" backTo="/admin/products" />
+        <PageHeader title="Edit Produk" backTo="/admin/products" />
         <EmptyState
           icon={<AlertCircleIcon size={44} />}
-          title="Product Not Found"
-          description="The product you are trying to edit does not exist or has been removed."
+          title="Produk Tidak Ditemukan"
+          description="Produk yang ingin Anda edit tidak ada atau telah dihapus."
           action={
             <Button
               variant="outline"
               onClick={() => navigate({ to: '/admin/products' })}
             >
-              Return to Catalog
+              Kembali ke Katalog
             </Button>
           }
         />
@@ -76,7 +76,7 @@ export const ProductEditPage = () => {
     <Container>
       <PageHeader
         title={`Edit ${product.name}`}
-        description="Update pricing, variants, tags, and catalog settings."
+        description="Perbarui harga, varian, tag, dan pengaturan katalog."
         backTo="/admin/products"
       />
 

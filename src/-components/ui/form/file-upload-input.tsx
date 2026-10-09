@@ -1,36 +1,11 @@
-import type { Control, FieldValues, Path } from 'react-hook-form'
+import type { FieldValues } from 'react-hook-form'
 
-import type { FileUploadProps } from '../primitives/FileUpload'
-import { FileUpload } from '../primitives/FileUpload'
-import ControlWrapper from './form-control-wrapper'
+import type { FileInputProps } from './file-input'
+import { FileInput } from './file-input'
 
-interface FileUploadInputProps<T extends FieldValues> extends Omit<
-  FileUploadProps,
-  'name' | 'onFileSelect' | 'error' | 'helperText'
-> {
-  name: Path<T>
-  control?: Control<T>
-}
+export type FileUploadInputProps<T extends FieldValues = FieldValues> =
+  FileInputProps<T>
 
-export const FileUploadInput = <T extends FieldValues>({
-  name,
-  control,
-  ...props
-}: FileUploadInputProps<T>) => {
-  return (
-    <ControlWrapper
-      name={name}
-      control={control}
-      render={({ error, helperText, onChange, ref, value, ...field }) => (
-        <FileUpload
-          {...props}
-          {...field}
-          ref={ref}
-          onFileSelect={onChange}
-          error={error ? helperText || 'Error' : undefined}
-          helperText={!error ? helperText : undefined}
-        />
-      )}
-    />
-  )
-}
+export const FileUploadInput = FileInput
+
+export default FileUploadInput

@@ -85,10 +85,10 @@ export const ProductGeneralInfo = ({
           variant="title"
           style={{ fontSize: '1.1rem', fontWeight: 700 }}
         >
-          General Details
+          Detail Umum
         </Typography>
         <Typography variant="caption" color="secondary">
-          Basic information that describes your product across your catalog.
+          Informasi dasar yang mendeskripsikan produk Anda di seluruh katalog.
         </Typography>
       </SectionHeader>
 
@@ -96,42 +96,42 @@ export const ProductGeneralInfo = ({
         <TextInput
           control={control}
           name="name"
-          label="Product Title"
-          placeholder="e.g. Washed Linen Overshirt"
+          label="Nama Produk"
+          placeholder="Contoh: Kemeja Linen Polos"
         />
         <TextInput
           control={control}
           name="slug"
-          label="Handle / Slug"
-          placeholder="e.g. washed-linen-overshirt"
+          label="Slug URL"
+          placeholder="contoh: kemeja-linen-polos"
         />
       </FieldGrid>
 
       <TextareaInput
         control={control}
         name="description"
-        label="Description"
-        placeholder="Provide detail on materials, fit, and craftsmanship..."
+        label="Deskripsi"
+        placeholder="Jelaskan detail mengenai bahan, ukuran, dan spesifikasi produk..."
         rows={3}
       />
 
       <FieldGrid columns={2}>
         <FormGroup>
-          <Label>Category</Label>
+          <Label>Kategori</Label>
           <Select {...register('category')}>
-            <option value="Apparel">Apparel</option>
-            <option value="Accessories">Accessories</option>
-            <option value="Home & Living">Home & Living</option>
-            <option value="Stationery">Stationery</option>
-            <option value="General">General</option>
+            <option value="Apparel">Pakaian</option>
+            <option value="Accessories">Aksesoris</option>
+            <option value="Home & Living">Perlengkapan Rumah</option>
+            <option value="Stationery">Alat Tulis</option>
+            <option value="General">Umum</option>
           </Select>
         </FormGroup>
 
         <TextInput
           control={control}
           name="vendor"
-          label="Vendor / Brand"
-          placeholder="e.g. Serein Studio"
+          label="Vendor / Merek"
+          placeholder="Contoh: Serein Studio"
         />
       </FieldGrid>
     </SectionCard>

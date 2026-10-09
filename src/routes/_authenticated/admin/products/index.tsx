@@ -37,7 +37,7 @@ export const ProductsPage = () => {
   const deleteProduct = useDeleteProduct()
 
   const handleDelete = (product: Product) => {
-    if (confirm(`Are you sure you want to delete "${product.name}"?`)) {
+    if (confirm(`Apakah Anda yakin ingin menghapus "${product.name}"?`)) {
       deleteProduct.mutate(product.uuid)
     }
   }
@@ -45,12 +45,12 @@ export const ProductsPage = () => {
   return (
     <Container>
       <PageHeader
-        title="Products"
-        description="Manage inventory, variants, categories, and pricing across your catalog."
+        title="Produk"
+        description="Kelola inventaris, varian, kategori, dan harga di seluruh katalog Anda."
         actions={
           <Link to="/admin/products/create">
             <Button variant="solid" color="primary">
-              <PlusSignIcon size={16} /> Add product
+              <PlusSignIcon size={16} /> Tambah produk
             </Button>
           </Link>
         }

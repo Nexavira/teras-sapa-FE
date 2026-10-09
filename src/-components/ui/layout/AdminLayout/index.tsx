@@ -47,7 +47,7 @@ export interface AdminLayoutProps {
 
 export const AdminLayout = ({
   children,
-  storeName = 'My Store',
+  storeName = 'Toko Saya',
 }: AdminLayoutProps) => {
   return (
     <LayoutContainer>

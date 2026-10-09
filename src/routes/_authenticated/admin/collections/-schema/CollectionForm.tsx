@@ -93,7 +93,7 @@ export const CollectionForm = ({
       <FormActionsCard>
         {onCancel && (
           <Button type="button" variant="outline" onClick={onCancel}>
-            Cancel
+            Batal
           </Button>
         )}
         <Button
@@ -103,10 +103,10 @@ export const CollectionForm = ({
           disabled={pending}
         >
           {pending
-            ? 'Saving...'
+            ? 'Menyimpan...'
             : initialData
-              ? 'Update Collection'
-              : 'Save Collection'}
+              ? 'Perbarui Koleksi'
+              : 'Simpan Koleksi'}
         </Button>
       </FormActionsCard>
     </FormContainer>

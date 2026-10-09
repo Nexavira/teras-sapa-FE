@@ -30,12 +30,12 @@ export const ArticlesPage = () => {
   const mutation = useDeleteArticle(scope)
   const filtered = Boolean(search.trim()) || status !== 'all'
   const handleDelete = async (article: Article) => {
-    if (!window.confirm(`Delete "${article.title}"? This cannot be undone.`))
+    if (!window.confirm(`Hapus "${article.title}"? Tindakan ini tidak dapat dibatalkan.`))
       return
     setFeedback('')
     try {
       await mutation.mutateAsync(article.uuid)
-      setFeedback(`Deleted "${article.title}".`)
+      setFeedback(`"${article.title}" berhasil dihapus.`)
     } catch {
       // The mutation error is displayed below the filters.
     }
@@ -44,15 +44,15 @@ export const ArticlesPage = () => {
   return (
     <ArticleContainer>
       <PageHeader
-        title="Blog articles"
-        description="Manage article content, authors, tags, and publishing status."
+        title="Artikel Blog"
+        description="Kelola konten artikel, penulis, tag, dan status penerbitan."
         actions={
           <Button
             nativeButton={false}
             render={<Link to="/admin/articles/create" />}
             disabled={!scope}
           >
-            <PlusSignIcon size={16} /> Create article
+            <PlusSignIcon size={16} /> Buat artikel
           </Button>
         }
       />
@@ -62,11 +62,11 @@ export const ArticlesPage = () => {
       <FilterBar<ArticleStatus | 'all'>
         search={search}
         onSearchChange={setSearch}
-        searchPlaceholder="Search articles by title, author, or tag..."
+        searchPlaceholder="Cari artikel berdasarkan judul, penulis, atau tag..."
         tabs={[
-          { key: 'all', label: 'All' },
-          { key: 'published', label: 'Published' },
-          { key: 'draft', label: 'Draft' },
+          { key: 'all', label: 'Semua' },
+          { key: 'published', label: 'Diterbitkan' },
+          { key: 'draft', label: 'Draf' },
         ]}
         activeTab={status}
         onTabChange={setStatus}
@@ -79,8 +79,8 @@ export const ArticlesPage = () => {
 
       {!scope ? (
         <EmptyState
-          title="Create your store first"
-          description="Complete store setup to start managing blog articles."
+          title="Buat toko Anda terlebih dahulu"
+          description="Selesaikan penyiapan toko untuk mulai mengelola artikel blog."
         />
       ) : query.isError ? (
         <ArticleError role="alert">
@@ -90,7 +90,7 @@ export const ArticlesPage = () => {
             color="neutral"
             onClick={() => void query.refetch()}
           >
-            Retry
+            Coba lagi
           </Button>
         </ArticleError>
       ) : (
@@ -108,8 +108,8 @@ export const ArticlesPage = () => {
       )}
 
       <Typography variant="caption" color="secondary">
-        Articles are saved in this browser for this store. Published status does
-        not yet publish to your live website.
+        Artikel disimpan di browser untuk toko ini. Status diterbitkan belum
+        mempublikasikan ke situs web aktif Anda.
       </Typography>
     </ArticleContainer>
   )

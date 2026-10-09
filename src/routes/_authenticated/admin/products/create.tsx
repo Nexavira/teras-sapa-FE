@@ -32,8 +32,8 @@ export const ProductCreatePage = () => {
   return (
     <Container>
       <PageHeader
-        title="Add New Product"
-        description="Configure catalog details, pricing, inventory, and variants."
+        title="Tambah Produk Baru"
+        description="Konfigurasikan detail katalog, harga, inventaris, dan varian."
         backTo="/admin/products"
       />
 

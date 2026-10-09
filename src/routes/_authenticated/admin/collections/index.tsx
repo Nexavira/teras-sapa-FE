@@ -36,7 +36,7 @@ export const CollectionsPage = () => {
   const allCollections = useGetCollections().data || []
 
   const handleDelete = (collection: Collection) => {
-    if (confirm(`Are you sure you want to delete "${collection.title}"?`)) {
+    if (confirm(`Apakah Anda yakin ingin menghapus "${collection.title}"?`)) {
       deleteCollection.mutate(collection.uuid)
     }
   }
@@ -44,12 +44,12 @@ export const CollectionsPage = () => {
   return (
     <Container>
       <PageHeader
-        title="Collections"
-        description="Group products into curated collections for promotional grids and theme lists."
+        title="Koleksi"
+        description="Kelompokkan produk ke dalam koleksi untuk promo dan daftar tampilan toko."
         actions={
           <Link to="/admin/collections/create">
             <Button variant="solid" color="primary">
-              <PlusSignIcon size={16} /> Create collection
+              <PlusSignIcon size={16} /> Buat koleksi
             </Button>
           </Link>
         }

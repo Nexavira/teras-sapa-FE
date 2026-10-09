@@ -32,8 +32,8 @@ export const CollectionCreatePage = () => {
   return (
     <Container>
       <PageHeader
-        title="Create Collection"
-        description="Curate products into groups for storefront lists and themed sections."
+        title="Buat Koleksi"
+        description="Kelompokkan produk ke dalam koleksi untuk daftar tampilan toko dan seksi bertema."
         backTo="/admin/collections"
       />
 

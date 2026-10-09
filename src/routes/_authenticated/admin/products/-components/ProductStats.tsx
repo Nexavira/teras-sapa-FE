@@ -25,26 +25,26 @@ export const ProductStats = ({ products }: ProductStatsProps) => {
       <StatCard
         icon={<ShoppingBag01Icon size={22} />}
         color={theme.colors.primary.DEFAULT}
-        label="Total Products"
+        label="Total Produk"
         value={totalCount}
       />
       <StatCard
         icon={<CheckmarkCircle02Icon size={22} />}
         color="#10b981"
-        label="Active Items"
+        label="Item Aktif"
         value={activeCount}
       />
       <StatCard
         icon={<AlertCircleIcon size={22} />}
         color="#f59e0b"
-        label="Drafts"
+        label="Draf"
         value={draftCount}
       />
       <StatCard
         icon={<PackageIcon size={22} />}
         color="#6366f1"
-        label="Total Stock"
-        value={`${totalStock} units`}
+        label="Total Stok"
+        value={`${totalStock} unit`}
       />
     </StatsGrid>
   )

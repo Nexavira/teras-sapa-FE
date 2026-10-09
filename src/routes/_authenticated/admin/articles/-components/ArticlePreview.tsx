@@ -22,29 +22,29 @@ const Cover = styled.img`
 export const ArticlePreview = ({ article }: { article: ArticleFormValues }) => (
   <ArticleSection
     role="article"
-    aria-label="Article preview"
+    aria-label="Pratinjau artikel"
     style={{ overflowWrap: 'anywhere' }}
   >
     <div>
       <Badge variant={article.status === 'published' ? 'success' : 'neutral'}>
-        {article.status === 'published' ? 'Published' : 'Draft'}
+        {article.status === 'published' ? 'Diterbitkan' : 'Draf'}
       </Badge>
     </div>
     <Typography as="h1" variant="display">
-      {article.title || 'Untitled article'}
+      {article.title || 'Artikel tanpa judul'}
     </Typography>
-    <Typography color="secondary">By {article.author || 'Author'}</Typography>
+    <Typography color="secondary">Oleh {article.author || 'Penulis'}</Typography>
     {/^https?:\/\//i.test(article.coverImage) && (
       <Cover
         src={article.coverImage}
-        alt={`Cover for ${article.title || 'this article'}`}
+        alt={`Sampul untuk ${article.title || 'artikel ini'}`}
       />
     )}
     {article.excerpt && (
       <Typography color="secondary">{article.excerpt}</Typography>
     )}
     <Content>
-      {article.content || 'Your article content will appear here.'}
+      {article.content || 'Konten artikel Anda akan muncul di sini.'}
     </Content>
     {article.tags.length > 0 && (
       <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>

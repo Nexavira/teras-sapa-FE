@@ -13,7 +13,7 @@ export const CollectionFilters = ({
     <FilterBar
       search={search}
       onSearchChange={onSearchChange}
-      searchPlaceholder="Search collections by title or slug..."
+      searchPlaceholder="Cari koleksi berdasarkan judul atau slug..."
     />
   )
 }

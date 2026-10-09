@@ -49,27 +49,27 @@ const change = (label: string, value: string) =>
 describe('article form', () => {
   it('validates required fields before saving', async () => {
     const submit = setup()
-    fireEvent.click(screen.getByRole('button', { name: 'Create article' }))
-    await screen.findByText('Enter an article title.')
+    fireEvent.click(screen.getByRole('button', { name: 'Buat artikel' }))
+    await screen.findByText('Masukkan judul artikel.')
     expect(submit).not.toHaveBeenCalled()
   })
 
   it('generates a slug, preserves a custom slug, and submits parsed tags and status', async () => {
     const submit = setup()
-    change('Title', 'Our New Collection')
-    expect(screen.getByLabelText<HTMLInputElement>('URL slug').value).toBe(
+    change('Judul', 'Our New Collection')
+    expect(screen.getByLabelText<HTMLInputElement>('Slug URL').value).toBe(
       'our-new-collection',
     )
-    change('URL slug', 'custom-slug')
-    change('Title', 'Our Updated Collection')
-    expect(screen.getByLabelText<HTMLInputElement>('URL slug').value).toBe(
+    change('Slug URL', 'custom-slug')
+    change('Judul', 'Our Updated Collection')
+    expect(screen.getByLabelText<HTMLInputElement>('Slug URL').value).toBe(
       'custom-slug',
     )
-    change('Author', 'Store team')
-    change('Content', 'First paragraph.\n\nSecond paragraph.')
-    change('Tags (comma-separated)', 'News, Collections, News')
+    change('Penulis', 'Store team')
+    change('Konten', 'First paragraph.\n\nSecond paragraph.')
+    change('Tag (pisahkan dengan koma)', 'News, Collections, News')
     change('Status', 'published')
-    fireEvent.click(screen.getByRole('button', { name: 'Create article' }))
+    fireEvent.click(screen.getByRole('button', { name: 'Buat artikel' }))
     await waitFor(() =>
       expect(submit).toHaveBeenCalledWith(
         expect.objectContaining({
@@ -84,17 +84,17 @@ describe('article form', () => {
 
   it('keeps entered content after a save error and renders preview as text', async () => {
     setup(vi.fn().mockRejectedValue(new Error('Could not save articles.')))
-    change('Title', 'News')
-    change('Author', 'Store team')
-    change('Content', '<script>alert("unsafe")</script>')
-    fireEvent.click(screen.getByRole('button', { name: 'Preview article' }))
+    change('Judul', 'News')
+    change('Penulis', 'Store team')
+    change('Konten', '<script>alert("unsafe")</script>')
+    fireEvent.click(screen.getByRole('button', { name: 'Pratinjau artikel' }))
     expect(screen.getByRole('article').querySelector('script')).toBeNull()
-    fireEvent.click(screen.getByRole('button', { name: 'Create article' }))
+    fireEvent.click(screen.getByRole('button', { name: 'Buat artikel' }))
     expect((await screen.findByRole('alert')).textContent).toBe(
       'Could not save articles.',
     )
     expect(
-      screen.getByLabelText<HTMLTextAreaElement>('Content').value,
+      screen.getByLabelText<HTMLTextAreaElement>('Konten').value,
     ).toContain('<script>')
   })
 })

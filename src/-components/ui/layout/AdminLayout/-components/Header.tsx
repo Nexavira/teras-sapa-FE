@@ -189,7 +189,7 @@ export interface HeaderProps {
   className?: string
 }
 
-export const Header = ({ storeName = 'My Store', className }: HeaderProps) => {
+export const Header = ({ storeName = 'Toko Saya', className }: HeaderProps) => {
   const [dropdownOpen, setDropdownOpen] = useState(false)
   const dropdownRef = useRef<HTMLDivElement>(null)
   const router = useRouter()
@@ -247,7 +247,7 @@ export const Header = ({ storeName = 'My Store', className }: HeaderProps) => {
           </IconButton>
         </SearchCapsule> */}
         <Input
-          placeholder="Search anything across your store..."
+          placeholder="Cari apa saja di toko Anda..."
           size="sm"
           css={{
             width: '100%',
@@ -282,8 +282,8 @@ export const Header = ({ storeName = 'My Store', className }: HeaderProps) => {
           variant="ghost"
           size="sm"
           badge={true}
-          title="Notifications"
-          aria-label="Notifications"
+          title="Notifikasi"
+          aria-label="Notifikasi"
           style={{
             border: '1px solid rgba(255,255,255,.15)',
             color: theme.colors.text.primary,
@@ -326,7 +326,7 @@ export const Header = ({ storeName = 'My Store', className }: HeaderProps) => {
                 href="/"
                 target="_blank"
                 rel="noopener noreferrer"
-                title="View Storefront"
+                title="Lihat Toko"
                 style={{ color: 'inherit', textDecoration: 'none' }}
               >
                 <IconButton variant="ghost" size="sm">
@@ -337,7 +337,7 @@ export const Header = ({ storeName = 'My Store', className }: HeaderProps) => {
 
             <DropdownItem onClick={() => setDropdownOpen(false)}>
               <Add01Icon size={16} />
-              Create new store
+              Buat toko baru
             </DropdownItem>
 
             <Divider style={{ margin: '4px 0' }} />
@@ -359,7 +359,7 @@ export const Header = ({ storeName = 'My Store', className }: HeaderProps) => {
               style={{ color: theme.colors.error }}
             >
               <Logout01Icon size={16} />
-              Log out
+              Keluar
             </DropdownItem>
           </DropdownMenu>
         )}

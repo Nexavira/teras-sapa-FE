@@ -306,26 +306,26 @@ const ViewStore = styled.a`
 
 const quickActions = [
   {
-    title: 'Products & Inventory',
-    copy: 'Manage items, pricing, stock, and product variants from one focused workspace.',
-    label: 'Catalog',
-    linkLabel: 'Manage products',
+    title: 'Produk & Inventaris',
+    copy: 'Kelola item, harga, stok, dan varian produk dari satu tempat.',
+    label: 'Katalog',
+    linkLabel: 'Kelola produk',
     to: '/admin/products',
     icon: ShoppingBag01Icon,
   },
   {
-    title: 'Storefront Builder',
-    copy: 'Customize sections, themes, and interactive blocks with a live visual editor.',
-    label: 'Visual editor',
-    linkLabel: 'Open builder',
+    title: 'Editor Toko',
+    copy: 'Sesuaikan seksi, tema, dan blok interaktif dengan editor visual langsung.',
+    label: 'Editor visual',
+    linkLabel: 'Buka editor',
     to: '/editor',
     icon: PaintBoardIcon,
   },
   {
-    title: 'Store Settings',
-    copy: 'Configure payments, shipping zones, store policies, and your connected domain.',
-    label: 'Configuration',
-    linkLabel: 'Open settings',
+    title: 'Pengaturan Toko',
+    copy: 'Konfigurasikan pembayaran, zona pengiriman, kebijakan toko, dan domain Anda.',
+    label: 'Konfigurasi',
+    linkLabel: 'Buka pengaturan',
     to: '/admin/settings',
     icon: Settings02Icon,
   },
@@ -333,29 +333,29 @@ const quickActions = [
 
 export const AdminIndexPage = () => {
   const { data: session } = useGetUserSession()
-  const userName = session?.user?.name ?? 'there'
+  const userName = session?.user?.name ?? 'Anda'
 
   return (
     <Page>
       <Hero>
         <HeroContent>
-          <Eyebrow>Store command center</Eyebrow>
+          <Eyebrow>Pusat kendali toko</Eyebrow>
           <HeroTitle>
-            Good day, <span>{userName}.</span>
+            Selamat datang, <span>{userName}.</span>
           </HeroTitle>
           <HeroCopy>
-            Your storefront is online and ready. Manage the catalog, shape your
-            visual identity, and keep every store setting within reach.
+            Toko Anda sedang online dan siap. Kelola katalog, bangun identitas
+            visual Anda, dan atur segala kebutuhan toko dengan mudah.
           </HeroCopy>
           <Actions>
             <a href="/admin/products">
               <PrimaryButton size="sm">
-                <ShoppingBag01Icon size={16} /> Add products
+                <ShoppingBag01Icon size={16} /> Tambah produk
               </PrimaryButton>
             </a>
             <Link to="/editor">
               <SecondaryButton size="sm" variant="outline">
-                <PaintBoardIcon size={16} /> Open builder
+                <PaintBoardIcon size={16} /> Buka editor
               </SecondaryButton>
             </Link>
           </Actions>
@@ -368,8 +368,8 @@ export const AdminIndexPage = () => {
       <section>
         <SectionHeader>
           <div>
-            <Eyebrow>Essentials</Eyebrow>
-            <SectionTitle>Quick navigation</SectionTitle>
+            <Eyebrow>Utama</Eyebrow>
+            <SectionTitle>Navigasi cepat</SectionTitle>
           </div>
           <Badge
             size="sm"
@@ -379,7 +379,7 @@ export const AdminIndexPage = () => {
               color: theme.colors.primary.DARKER,
             }}
           >
-            Core modules
+            Modul utama
           </Badge>
         </SectionHeader>
 
@@ -428,15 +428,15 @@ export const AdminIndexPage = () => {
               color: theme.colors.primary.DARKER,
             }}
           >
-            Live
+            Aktif
           </Badge>
           <div>
-            <h3>Storefront is currently online</h3>
-            <p>Customers can browse your products and place orders.</p>
+            <h3>Toko online sedang aktif</h3>
+            <p>Pelanggan dapat melihat produk Anda dan melakukan pemesanan.</p>
           </div>
         </StatusInfo>
         <ViewStore href="/" target="_blank" rel="noopener noreferrer">
-          <EyeIcon size={15} /> View live store
+          <EyeIcon size={15} /> Lihat toko live
         </ViewStore>
       </StatusBar>
     </Page>

@@ -12,6 +12,7 @@ import type {
 import { PREVIEW_MESSAGE_TYPES } from '#/lib/editor/previewBridge'
 import { editorActions } from '#/store/editorStore'
 
+import { EditorHoverOverlay } from './EditorHoverOverlay'
 import { PreviewSectionWrapper } from './PreviewSectionWrapper'
 import type { GlobalSettingsData, SpacingValue, TemplateData } from '#themes'
 import {
@@ -60,12 +61,15 @@ export const PageRenderer: FC<PageRendererProps> = ({
   const [selectedItem, setSelectedItem] = useState<PreviewSelectedItem | null>(
     null,
   )
+  const [hoveredItem, setHoveredItem] =
+    useState<ItemHoveredMessage['payload']>(null)
 
   useEffect(() => {
     editorActions.setTheme(selectedTheme?.id || getTheme().id)
     setTemplate(activeNormalizeTemplate(activeGetTemplate(templateId)))
     setGlobalSettings(activeDefaultSettings)
     setSelectedItem(null)
+    setHoveredItem(null)
   }, [
     activeDefaultSettings,
     activeGetTemplate,
@@ -105,6 +109,20 @@ export const PageRenderer: FC<PageRendererProps> = ({
         case PREVIEW_MESSAGE_TYPES.SELECT_ITEM: {
           setSelectedItem(data.payload)
           editorActions.selectItem(data.payload)
+          break
+        }
+
+        case PREVIEW_MESSAGE_TYPES.HOVER_ITEM: {
+          setHoveredItem(
+            data.payload
+              ? {
+                  type: data.payload.type === 'block' ? 'block' : 'section',
+                  id: data.payload.id || '',
+                  sectionId: data.payload.sectionId,
+                  parentBlockId: data.payload.parentBlockId,
+                }
+              : null,
+          )
           break
         }
 
@@ -186,6 +204,8 @@ export const PageRenderer: FC<PageRendererProps> = ({
   const handleHoverSection = (item: ItemHoveredMessage['payload']) => {
     if (!isEditor) return
 
+    setHoveredItem(item)
+
     window.parent.postMessage(
       {
         type: PREVIEW_MESSAGE_TYPES.ITEM_HOVERED,
@@ -194,6 +214,20 @@ export const PageRenderer: FC<PageRendererProps> = ({
       '*',
     )
   }
+
+  // Clear hover bounding box when cursor leaves window/document
+  useEffect(() => {
+    if (!isEditor) return
+
+    const handleMouseLeave = () => {
+      setHoveredItem(null)
+    }
+
+    document.addEventListener('mouseleave', handleMouseLeave)
+    return () => {
+      document.removeEventListener('mouseleave', handleMouseLeave)
+    }
+  }, [isEditor])
 
   // ============================================================================
   // Section Rendering Pipeline
@@ -344,6 +378,12 @@ export const PageRenderer: FC<PageRendererProps> = ({
       >
         {renderedSections}
       </ActiveThemeLayout>
+      {isEditor && (
+        <EditorHoverOverlay
+          hoveredItem={hoveredItem}
+          selectedItem={selectedItem}
+        />
+      )}
     </ThemeEditorProvider>
   )
 }
