@@ -58,7 +58,7 @@ const Card = styled.div<{ accent?: boolean }>`
   span {
     max-width: 220px;
     color: ${({ accent }) => (accent ? 'rgba(23, 25, 21, 0.7)' : '#676a63')};
-    font-size: 12px;
+    font-size: 16px;
     line-height: 1.4;
   }
 `

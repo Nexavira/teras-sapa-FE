@@ -1,8 +1,9 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, redirect } from '@tanstack/react-router'
 
 import { AuthLayout } from '#/-components/auth/AuthLayout'
 
 import { RegisterForm } from './-schema/RegisterForm'
+import { hasAuthToken } from '#/services/auth/authStorage'
 
 const RegisterPage = () => {
   return (
@@ -16,5 +17,12 @@ const RegisterPage = () => {
 }
 
 export const Route = createFileRoute('/register/')({
+  beforeLoad: () => {
+    if (hasAuthToken()) {
+      throw redirect({
+        to: '/admin',
+      })
+    }
+  },
   component: RegisterPage,
 })

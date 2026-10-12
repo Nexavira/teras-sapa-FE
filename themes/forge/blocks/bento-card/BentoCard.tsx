@@ -125,6 +125,7 @@ const ArrowLink = styled.a<{ dark?: boolean }>`
 `
 
 export const BentoCard: React.FC<BlockComponentProps<BentoCardSettings>> = ({
+  children,
   settings,
   ...restProps
 }) => {
@@ -142,22 +143,30 @@ export const BentoCard: React.FC<BlockComponentProps<BentoCardSettings>> = ({
   const imageUrl = typeof image === 'string' ? image : image?.url
   const columnSpan = Number(span) || 4
 
+  const hasChildren = React.Children.count(children) > 0
+
   return (
     <Shell span={columnSpan} {...restProps}>
       <Card dark={dark}>
-        <div>
-          {imageUrl && <ImageWrapper image={imageUrl} />}
-          {tag && <small>{tag}</small>}
-        </div>
-        <div>
-          {title && <h3>{title}</h3>}
-          {description && <p>{description}</p>}
-          {link_label && link_url && (
-            <ArrowLink dark={dark} href={link_url}>
-              {link_label} <span>↗</span>
-            </ArrowLink>
-          )}
-        </div>
+        {hasChildren ? (
+          children
+        ) : (
+          <>
+            <div>
+              {imageUrl && <ImageWrapper image={imageUrl} />}
+              {tag && <small>{tag}</small>}
+            </div>
+            <div>
+              {title && <h3>{title}</h3>}
+              {description && <p>{description}</p>}
+              {link_label && link_url && (
+                <ArrowLink dark={dark} href={link_url}>
+                  {link_label} <span>↗</span>
+                </ArrowLink>
+              )}
+            </div>
+          </>
+        )}
       </Card>
     </Shell>
   )

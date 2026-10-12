@@ -215,8 +215,7 @@ export const Header = ({ storeName = 'Toko Saya', className }: HeaderProps) => {
   const handleSignOut = async () => {
     try {
       await signOutMutation.mutateAsync()
-      router.navigate({ to: '/login' })
-    } catch {
+    } finally {
       router.navigate({ to: '/login' })
     }
   }

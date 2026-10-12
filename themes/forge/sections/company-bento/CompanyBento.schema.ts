@@ -1,4 +1,10 @@
 import { BentoCardSchema } from '#themes/forge/blocks/bento-card/BentoCard.schema'
+import { ButtonBlockSchema } from '#themes/forge/blocks/button/ButtonBlock.schema'
+import { FlexBlockSchema } from '#themes/forge/blocks/flex/FlexBlock.schema'
+import { GridBlockSchema } from '#themes/forge/blocks/grid/GridBlock.schema'
+import { HeadingBlockSchema } from '#themes/forge/blocks/heading/HeadingBlock.schema'
+import { HeroMetaBlockSchema } from '#themes/forge/blocks/hero-meta/HeroMetaBlock.schema'
+import { TextBlockSchema } from '#themes/forge/blocks/text/TextBlock.schema'
 import type { SectionSchema } from '#themes/shared/types/theme'
 
 export const CompanyBentoSchema: SectionSchema = {
@@ -6,21 +12,15 @@ export const CompanyBentoSchema: SectionSchema = {
   name: 'Bento grid showcase',
   category: 'Editorial',
   description:
-    'Versatile 12-column bento grid for showcasing capabilities, principles, project case studies, or articles.',
+    'Versatile 12-column bento grid for showcasing capabilities, principles, project case studies, or articles with modular blocks.',
   tag: 'section',
   class: 'section-company-bento',
   settings: [
     {
-      type: 'text',
-      id: 'eyebrow',
-      label: 'Eyebrow',
-      default: 'What we make',
-    },
-    {
-      type: 'textarea',
-      id: 'heading',
-      label: 'Heading',
-      default: 'One partner, from first drawing to factory floor.',
+      type: 'color_scheme',
+      id: 'color_scheme',
+      label: 'Color scheme',
+      default: 'scheme-2',
     },
     {
       type: 'checkbox',
@@ -28,62 +28,87 @@ export const CompanyBentoSchema: SectionSchema = {
       label: 'Dark style background',
       default: true,
     },
-    {
-      type: 'text',
-      id: 'cta_label',
-      label: 'Call to action label (Optional)',
-      default: 'Explore capabilities',
-    },
-    {
-      type: 'url',
-      id: 'cta_url',
-      label: 'Call to action URL',
-      default: '/preview?theme=forge&template=capabilities',
-    },
   ],
-  blocks: [BentoCardSchema],
+  blocks: [
+    HeadingBlockSchema,
+    HeroMetaBlockSchema,
+    TextBlockSchema,
+    GridBlockSchema,
+    BentoCardSchema,
+    ButtonBlockSchema,
+    FlexBlockSchema,
+  ],
   presets: [
     {
       name: 'Default Bento Showcase',
       settings: {
-        eyebrow: 'What we make',
-        heading: 'One partner, from first drawing to factory floor.',
+        color_scheme: 'scheme-2',
         dark_mode: true,
-        cta_label: 'Explore capabilities',
-        cta_url: '/preview?theme=forge&template=capabilities',
       },
       blocks: [
         {
-          type: 'bento_card',
+          type: 'hero_meta',
           settings: {
-            tag: '01 / Capability',
-            title: 'Precision fabrication',
-            description:
-              'Five-axis machining, robotic welding and complex metalwork held to microscopic tolerances.',
-            span: '7',
-            dark: true,
+            eyebrow: 'What we make',
+            meta: '',
           },
         },
         {
-          type: 'bento_card',
+          type: 'heading',
           settings: {
-            tag: '02 / Capability',
-            title: 'Systems integration',
-            description:
-              'Mechanical, electrical and control systems assembled, tested and commissioned as one.',
-            span: '5',
-            dark: true,
+            heading: 'One partner, from first drawing to factory floor.',
+            heading_size: 'large',
+            heading_tag: 'h2',
           },
         },
         {
-          type: 'bento_card',
+          type: 'grid',
           settings: {
-            tag: '03 / Capability',
-            title: 'Industrial automation',
-            description:
-              'Purpose-built production cells that improve repeatability, throughput and operator safety.',
-            span: '12',
-            dark: true,
+            columns: 12,
+            gap: 20,
+          },
+          blocks: [
+            {
+              type: 'bento_card',
+              settings: {
+                tag: '01 / Capability',
+                title: 'Precision fabrication',
+                description:
+                  'Five-axis machining, robotic welding and complex metalwork held to microscopic tolerances.',
+                span: '7',
+                dark: true,
+              },
+            },
+            {
+              type: 'bento_card',
+              settings: {
+                tag: '02 / Capability',
+                title: 'Systems integration',
+                description:
+                  'Mechanical, electrical and control systems assembled, tested and commissioned as one.',
+                span: '5',
+                dark: true,
+              },
+            },
+            {
+              type: 'bento_card',
+              settings: {
+                tag: '03 / Capability',
+                title: 'Industrial automation',
+                description:
+                  'Purpose-built production cells that improve repeatability, throughput and operator safety.',
+                span: '12',
+                dark: true,
+              },
+            },
+          ],
+        },
+        {
+          type: 'button',
+          settings: {
+            button_label: 'Explore capabilities',
+            button_link: '/preview?theme=forge&template=capabilities',
+            button_style: 'primary',
           },
         },
       ],

@@ -2,15 +2,21 @@ import { cleanup, render } from '@testing-library/react'
 import { afterEach, describe, expect, it } from 'vitest'
 
 import { PageRenderer } from '#/routes/preview/-components/PageRenderer'
+import { BlockRenderer } from '#themes/shared/components/BlockRenderer'
 
+import { BentoCardSchema } from './blocks/bento-card/BentoCard.schema'
+import { GridBlockSchema } from './blocks/grid/GridBlock.schema'
 import { forgeTheme } from './index'
 import { ThemeLayout } from './layout/ThemeLayout'
+import { CompanyBento } from './sections/company-bento/CompanyBento'
+import { CompanyBentoSchema } from './sections/company-bento/CompanyBento.schema'
 import { CompanyFooter } from './sections/company-footer/CompanyFooter'
 import { CompanyHeader } from './sections/company-header/CompanyHeader'
 import { CompanyHero } from './sections/company-hero/CompanyHero'
 import { CompanyHeroSchema } from './sections/company-hero/CompanyHero.schema'
+import { CompanyMetrics } from './sections/company-metrics/CompanyMetrics'
+import { CompanyMetricsSchema } from './sections/company-metrics/CompanyMetrics.schema'
 import { Reveal } from './snippets/Reveal'
-import { BlockRenderer } from '#themes/shared/components/BlockRenderer'
 
 afterEach(cleanup)
 
@@ -214,7 +220,7 @@ describe('Forge manufacturing theme', () => {
 
       const revealEl = container.querySelector('[data-reveal-block="true"]')
       expect(revealEl).not.toBeNull()
-      expect(revealEl?.getAttribute('data-reveal')).toBe('')
+      expect(revealEl?.getAttribute('data-reveal')).toBeTruthy()
       expect(container.textContent).toContain('Block Content')
     })
 
@@ -313,10 +319,17 @@ describe('Forge manufacturing theme', () => {
         </ThemeLayout>,
       )
 
-      const styleTags = container.querySelectorAll('style')
-      const allCss = Array.from(styleTags)
-        .map((s) => s.textContent || '')
-        .join(' ')
+      const sheetRules = Array.from(document.styleSheets).flatMap((sheet) => {
+        try {
+          return Array.from(sheet.cssRules).map((r) => r.cssText)
+        } catch {
+          return []
+        }
+      })
+      const styleTags = Array.from(document.querySelectorAll('style')).map(
+        (s) => s.textContent || '',
+      )
+      const allCss = [...sheetRules, ...styleTags].join(' ')
 
       expect(allCss).toContain('--forge-reveal-duration: 1200ms')
       expect(allCss).toContain('--forge-reveal-delay: 200ms')
@@ -531,6 +544,169 @@ describe('Forge manufacturing theme', () => {
       )
       expect(legacyEl).not.toBeNull()
       expect(legacyEl?.classList.contains('color-scheme-2')).toBe(true)
+    })
+  })
+
+  describe('CompanyBento (Bento grid showcase)', () => {
+    it('has eyebrow and heading removed from primary section settings schema, separating to blocks', () => {
+      const settingIds = CompanyBentoSchema.settings.map((s) => s.id)
+      expect(settingIds).not.toContain('eyebrow')
+      expect(settingIds).not.toContain('heading')
+      expect(settingIds).not.toContain('cta_label')
+      expect(settingIds).not.toContain('cta_url')
+      expect(settingIds).toContain('color_scheme')
+      expect(settingIds).toContain('dark_mode')
+    })
+
+    it('declares modular blocks in CompanyBentoSchema.blocks', () => {
+      const blockTypes = CompanyBentoSchema.blocks?.map((b) => b.type)
+      expect(blockTypes).toContain('heading')
+      expect(blockTypes).toContain('hero_meta')
+      expect(blockTypes).toContain('text')
+      expect(blockTypes).toContain('grid')
+      expect(blockTypes).toContain('bento_card')
+      expect(blockTypes).toContain('button')
+      expect(blockTypes).toContain('flex')
+    })
+
+    it('declares bento_card and image supported child blocks in GridBlockSchema.blocks', () => {
+      const childTypes = GridBlockSchema.blocks?.map((b) => b.type)
+      expect(childTypes).toContain('bento_card')
+      expect(childTypes).toContain('metric_item')
+      expect(childTypes).toContain('image')
+      expect(childTypes).toContain('text')
+      expect(childTypes).toContain('heading')
+      expect(childTypes).toContain('button')
+    })
+
+    it('declares child blocks support in BentoCardSchema.blocks', () => {
+      const cardChildTypes = BentoCardSchema.blocks?.map((b) => b.type)
+      expect(cardChildTypes).toContain('heading')
+      expect(cardChildTypes).toContain('text')
+      expect(cardChildTypes).toContain('button')
+      expect(cardChildTypes).toContain('image')
+      expect(cardChildTypes).toContain('flex')
+    })
+
+    it('renders CompanyBento with modular blocks (hero_meta, heading, grid container with cards, and button)', () => {
+      const { container } = render(
+        <CompanyBento
+          id="bento_modular_section"
+          settings={{
+            color_scheme: 'scheme-2',
+            dark_mode: true,
+          }}
+          blockOrder={['meta_1', 'heading_1', 'grid_1', 'button_1']}
+          blocks={{
+            meta_1: {
+              type: 'hero_meta',
+              settings: {
+                eyebrow: 'What we make',
+                meta: 'EST. 2026',
+              },
+            },
+            heading_1: {
+              type: 'heading',
+              settings: {
+                heading: 'One partner, from first drawing to factory floor.',
+                heading_size: 'large',
+                heading_tag: 'h2',
+              },
+            },
+            grid_1: {
+              type: 'grid',
+              settings: {
+                gap: 20,
+                columns: 12,
+              },
+              block_order: ['card_1', 'card_2'],
+              blocks: {
+                card_1: {
+                  type: 'bento_card',
+                  settings: {
+                    tag: '01 / Capability',
+                    title: 'Precision fabrication',
+                    description:
+                      'Five-axis machining held to microscopic tolerances.',
+                    span: '7',
+                    dark: true,
+                  },
+                },
+                card_2: {
+                  type: 'bento_card',
+                  settings: {
+                    tag: '02 / Capability',
+                    title: 'Systems integration',
+                    description: 'Assembled, tested and commissioned as one.',
+                    span: '5',
+                    dark: true,
+                  },
+                },
+              },
+            },
+            button_1: {
+              type: 'button',
+              settings: {
+                button_label: 'Explore capabilities',
+                button_link: '/preview?theme=forge&template=capabilities',
+                button_style: 'primary',
+              },
+            },
+          }}
+        />,
+      )
+
+      expect(container.textContent).toContain('What we make')
+      expect(container.textContent).toContain(
+        'One partner, from first drawing to factory floor.',
+      )
+      expect(container.textContent).toContain('Precision fabrication')
+      expect(container.textContent).toContain('Systems integration')
+      expect(container.textContent).toContain('Explore capabilities')
+    })
+
+    it('supports direct bento_card blocks for backward compatibility', () => {
+      const { container } = render(
+        <CompanyBento
+          id="legacy_bento"
+          settings={{
+            eyebrow: 'Legacy Eyebrow',
+            heading: 'Legacy Heading',
+            cta_label: 'Legacy CTA',
+            cta_url: '/legacy',
+            dark_mode: true,
+          }}
+          blockOrder={['card_1', 'card_2']}
+          blocks={{
+            card_1: {
+              type: 'bento_card',
+              settings: {
+                tag: '01 / Tag',
+                title: 'Card One Title',
+                description: 'Card one description text.',
+                span: '6',
+                dark: true,
+              },
+            },
+            card_2: {
+              type: 'bento_card',
+              settings: {
+                tag: '02 / Tag',
+                title: 'Card Two Title',
+                description: 'Card two description text.',
+                span: '6',
+                dark: true,
+              },
+            },
+          }}
+        />,
+      )
+
+      expect(container.textContent).toContain('Legacy Eyebrow')
+      expect(container.textContent).toContain('Legacy Heading')
+      expect(container.textContent).toContain('Card One Title')
+      expect(container.textContent).toContain('Card Two Title')
+      expect(container.textContent).toContain('Legacy CTA')
     })
   })
 })

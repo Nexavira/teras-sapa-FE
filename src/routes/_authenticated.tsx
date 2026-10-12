@@ -7,11 +7,11 @@ const AuthenticatedLayout = () => {
 }
 
 export const requireAuthentication = () => {
-  // if (!hasAuthToken()) {
-  //   throw redirect({
-  //     to: '/login',
-  //   })
-  // }
+  if (!hasAuthToken()) {
+    throw redirect({
+      to: '/login',
+    })
+  }
 
   return { isAuthenticated: true }
 }

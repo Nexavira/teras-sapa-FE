@@ -52,49 +52,73 @@
     "articles": {
       "type": "company_bento",
       "settings": {
-        "eyebrow": "Latest thinking",
-        "heading": "Notes from the factory floor.",
+        "color_scheme": "scheme-1",
         "dark_mode": false
       },
       "blocks": {
-        "art_1": {
-          "type": "bento_card",
+        "articles_eyebrow": {
+          "type": "hero_meta",
           "settings": {
-            "tag": "Engineering / 08 min",
-            "title": "Designing production resilience into every cell",
-            "description": "How modular thinking and digital commissioning reduce risk before equipment reaches the factory floor.",
-            "link_label": "Read article",
-            "link_url": "/preview?theme=forge&template=article",
-            "span": "7",
-            "dark": true
+            "eyebrow": "Latest thinking",
+            "meta": ""
           }
         },
-        "art_2": {
-          "type": "bento_card",
+        "articles_heading": {
+          "type": "heading",
           "settings": {
-            "tag": "Perspective / 05 min",
-            "title": "The real cost of a one-millimetre deviation",
-            "description": "Precision is not a specification at the end. It is a culture built into every handoff.",
-            "link_label": "Read article",
-            "link_url": "/preview?theme=forge&template=article",
-            "span": "5",
-            "dark": false
+            "heading": "Notes from the factory floor.",
+            "heading_size": "large",
+            "heading_tag": "h2"
           }
         },
-        "art_3": {
-          "type": "bento_card",
+        "articles_grid": {
+          "type": "grid",
           "settings": {
-            "tag": "Sustainability / 07 min",
-            "title": "Less scrap, more intelligence",
-            "description": "What closed-loop material planning means for modern fabrication.",
-            "link_label": "Read article",
-            "link_url": "/preview?theme=forge&template=article",
-            "span": "12",
-            "dark": false
-          }
+            "columns": 12,
+            "gap": 20
+          },
+          "blocks": {
+            "art_1": {
+              "type": "bento_card",
+              "settings": {
+                "tag": "Engineering / 08 min",
+                "title": "Designing production resilience into every cell",
+                "description": "How modular thinking and digital commissioning reduce risk before equipment reaches the factory floor.",
+                "link_label": "Read article",
+                "link_url": "/preview?theme=forge&template=article",
+                "span": "7",
+                "dark": true
+              }
+            },
+            "art_2": {
+              "type": "bento_card",
+              "settings": {
+                "tag": "Perspective / 05 min",
+                "title": "The real cost of a one-millimetre deviation",
+                "description": "Precision is not a specification at the end. It is a culture built into every handoff.",
+                "link_label": "Read article",
+                "link_url": "/preview?theme=forge&template=article",
+                "span": "5",
+                "dark": false
+              }
+            },
+            "art_3": {
+              "type": "bento_card",
+              "settings": {
+                "tag": "Sustainability / 07 min",
+                "title": "Less scrap, more intelligence",
+                "description": "What closed-loop material planning means for modern fabrication.",
+                "link_label": "Read article",
+                "link_url": "/preview?theme=forge&template=article",
+                "span": "12",
+                "dark": false
+              }
+            }
+          },
+          "block_order": ["art_1", "art_2", "art_3"]
         }
       },
-      "block_order": ["art_1", "art_2", "art_3"]
+      "block_order": ["articles_eyebrow", "articles_heading", "articles_grid"]
     },
     "footer_main": {
       "type": "footer",

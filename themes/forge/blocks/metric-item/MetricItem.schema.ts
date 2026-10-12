@@ -33,7 +33,7 @@ export const MetricItemSchema: BlockSchema = {
       options: [
         { label: '1 column', value: '1' },
         { label: '2 columns', value: '2' },
-        { label: '3 columns (Full width)', value: '3' },
+        { label: '3 columns', value: '3' },
       ],
     },
   ],

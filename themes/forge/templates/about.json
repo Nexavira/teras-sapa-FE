@@ -104,40 +104,64 @@
     "how_we_work": {
       "type": "company_bento",
       "settings": {
-        "eyebrow": "How we work",
-        "heading": "Clear thinking. Clean handoffs. No hidden compromises.",
+        "color_scheme": "scheme-1",
         "dark_mode": false
       },
       "blocks": {
-        "b_1": {
-          "type": "bento_card",
+        "work_eyebrow": {
+          "type": "hero_meta",
           "settings": {
-            "tag": "Principle / 01",
-            "title": "Own the outcome",
-            "description": "Every team stays accountable beyond its individual scope.",
-            "span": "6"
+            "eyebrow": "How we work",
+            "meta": ""
           }
         },
-        "b_2": {
-          "type": "bento_card",
+        "work_heading": {
+          "type": "heading",
           "settings": {
-            "tag": "Principle / 02",
-            "title": "Make it legible",
-            "description": "Good engineering should be understood, tested and maintained.",
-            "span": "3"
+            "heading": "Clear thinking. Clean handoffs. No hidden compromises.",
+            "heading_size": "large",
+            "heading_tag": "h2"
           }
         },
-        "b_3": {
-          "type": "bento_card",
+        "work_grid": {
+          "type": "grid",
           "settings": {
-            "tag": "Principle / 03",
-            "title": "Improve the system",
-            "description": "Every project leaves the process stronger than it found it.",
-            "span": "3"
-          }
+            "columns": 12,
+            "gap": 20
+          },
+          "blocks": {
+            "b_1": {
+              "type": "bento_card",
+              "settings": {
+                "tag": "Principle / 01",
+                "title": "Own the outcome",
+                "description": "Every team stays accountable beyond its individual scope.",
+                "span": "6"
+              }
+            },
+            "b_2": {
+              "type": "bento_card",
+              "settings": {
+                "tag": "Principle / 02",
+                "title": "Make it legible",
+                "description": "Good engineering should be understood, tested and maintained.",
+                "span": "3"
+              }
+            },
+            "b_3": {
+              "type": "bento_card",
+              "settings": {
+                "tag": "Principle / 03",
+                "title": "Improve the system",
+                "description": "Every project leaves the process stronger than it found it.",
+                "span": "3"
+              }
+            }
+          },
+          "block_order": ["b_1", "b_2", "b_3"]
         }
       },
-      "block_order": ["b_1", "b_2", "b_3"]
+      "block_order": ["work_eyebrow", "work_heading", "work_grid"]
     },
     "footer_main": {
       "type": "footer",
@@ -148,5 +172,12 @@
       }
     }
   },
-  "order": ["header_main", "hero", "principle", "milestones", "how_we_work", "footer_main"]
+  "order": [
+    "header_main",
+    "hero",
+    "principle",
+    "milestones",
+    "how_we_work",
+    "footer_main"
+  ]
 }

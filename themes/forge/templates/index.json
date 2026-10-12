@@ -121,45 +121,81 @@
     "capabilities": {
       "type": "company_bento",
       "settings": {
-        "eyebrow": "What we make",
-        "heading": "One partner, from first drawing to factory floor.",
-        "dark_mode": true,
-        "cta_label": "Explore capabilities",
-        "cta_url": "/preview?theme=forge&template=capabilities"
+        "color_scheme": "scheme-2",
+        "dark_mode": true
       },
       "blocks": {
-        "bento_1": {
-          "type": "bento_card",
+        "bento_eyebrow": {
+          "type": "hero_meta",
           "settings": {
-            "tag": "01 / Capability",
-            "title": "Precision fabrication",
-            "description": "Five-axis machining, robotic welding and complex metalwork held to microscopic tolerances.",
-            "span": "7",
-            "dark": true
+            "eyebrow": "What we make",
+            "meta": ""
           }
         },
-        "bento_2": {
-          "type": "bento_card",
+        "bento_heading": {
+          "type": "heading",
           "settings": {
-            "tag": "02 / Capability",
-            "title": "Systems integration",
-            "description": "Mechanical, electrical and control systems assembled, tested and commissioned as one.",
-            "span": "5",
-            "dark": true
+            "heading": "One partner, from first drawing to factory floor.",
+            "heading_size": "large",
+            "heading_tag": "h2"
           }
         },
-        "bento_3": {
-          "type": "bento_card",
+        "bento_grid": {
+          "type": "grid",
           "settings": {
-            "tag": "03 / Capability",
-            "title": "Industrial automation",
-            "description": "Purpose-built production cells that improve repeatability, throughput and operator safety.",
-            "span": "12",
-            "dark": true
+            "columns": 12,
+            "gap": 20
+          },
+          "blocks": {
+            "bento_1": {
+              "type": "bento_card",
+              "settings": {
+                "tag": "01 / Capability",
+                "title": "Precision fabrication",
+                "description": "Five-axis machining, robotic welding and complex metalwork held to microscopic tolerances.",
+                "span": "7",
+                "dark": true
+              }
+            },
+            "bento_2": {
+              "type": "bento_card",
+              "settings": {
+                "tag": "02 / Capability",
+                "title": "Systems integration",
+                "description": "Mechanical, electrical and control systems assembled, tested and commissioned as one.",
+                "span": "5",
+                "dark": true
+              }
+            },
+            "bento_3": {
+              "type": "bento_card",
+              "settings": {
+                "tag": "03 / Capability",
+                "title": "Industrial automation",
+                "description": "Purpose-built production cells that improve repeatability, throughput and operator safety.",
+                "span": "12",
+                "dark": true
+              }
+            }
+          },
+          "block_order": ["bento_1", "bento_2", "bento_3"]
+        },
+        "bento_cta": {
+          "type": "button",
+          "settings": {
+            "button_label": "Explore capabilities",
+            "button_link": "/preview?theme=forge&template=capabilities",
+            "button_style": "primary",
+            "button_size": "medium"
           }
         }
       },
-      "block_order": ["bento_1", "bento_2", "bento_3"]
+      "block_order": [
+        "bento_eyebrow",
+        "bento_heading",
+        "bento_grid",
+        "bento_cta"
+      ]
     },
     "quote": {
       "type": "company_quote",

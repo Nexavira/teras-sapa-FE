@@ -1,5 +1,7 @@
+import { BentoCardSchema } from '../bento-card/BentoCard.schema'
 import { ButtonBlockSchema } from '../button/ButtonBlock.schema'
 import { HeadingBlockSchema } from '../heading/HeadingBlock.schema'
+import { ImageBlockSchema } from '../image/ImageBlock.schema'
 import { MetricItemSchema } from '../metric-item/MetricItem.schema'
 import { TextBlockSchema } from '../text/TextBlock.schema'
 import type { BlockSchema } from '#themes/shared/types/theme'
@@ -8,7 +10,7 @@ export const GridBlockSchema: BlockSchema = {
   type: 'grid',
   name: 'Grid container',
   description:
-    'Grid layout container for organizing metric items and text blocks with 1, 2, or 3 grid width.',
+    'Responsive grid layout container for organizing bento cards, metric items, media, and text blocks.',
   settings: [
     {
       type: 'range',
@@ -33,6 +35,8 @@ export const GridBlockSchema: BlockSchema = {
   ],
   blocks: [
     MetricItemSchema,
+    BentoCardSchema,
+    ImageBlockSchema,
     TextBlockSchema,
     HeadingBlockSchema,
     ButtonBlockSchema,

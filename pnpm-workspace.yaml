@@ -1,3 +1,17 @@
-onlyBuiltDependencies:
-  - esbuild
-  - sharp
+allowBuilds:
+  esbuild: true
+  sharp: true
+  unrs-resolver: true
+minimumReleaseAgeExclude:
+  - '@tanstack/eslint-plugin-query@5.104.2'
+  - react-hook-form@7.90.0
+  - zod@4.6.6
+permissions:
+  '@tanstack/devtools-event-client':
+    skills: true
+  '@tanstack/devtools-vite':
+    skills: true
+  '@tanstack/react-start':
+    skills: true
+  '@tanstack/router-plugin':
+    skills: true

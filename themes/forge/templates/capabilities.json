@@ -52,53 +52,77 @@
     "scope": {
       "type": "company_bento",
       "settings": {
-        "eyebrow": "Integrated scope",
-        "heading": "Fewer handoffs. Better control.",
+        "color_scheme": "scheme-1",
         "dark_mode": false
       },
       "blocks": {
-        "c_1": {
-          "type": "bento_card",
+        "scope_eyebrow": {
+          "type": "hero_meta",
           "settings": {
-            "tag": "01 / Discipline",
-            "title": "Precision fabrication",
-            "description": "Five-axis machining, robotic welding and complex metalwork held to microscopic tolerances.",
-            "span": "7",
-            "dark": true
+            "eyebrow": "Integrated scope",
+            "meta": ""
           }
         },
-        "c_2": {
-          "type": "bento_card",
+        "scope_heading": {
+          "type": "heading",
           "settings": {
-            "tag": "02 / Discipline",
-            "title": "Systems integration",
-            "description": "Mechanical, electrical and control systems assembled, tested and commissioned as one.",
-            "span": "5",
-            "dark": false
+            "heading": "Fewer handoffs. Better control.",
+            "heading_size": "large",
+            "heading_tag": "h2"
           }
         },
-        "c_3": {
-          "type": "bento_card",
+        "scope_grid": {
+          "type": "grid",
           "settings": {
-            "tag": "03 / Discipline",
-            "title": "Industrial automation",
-            "description": "Purpose-built production cells that improve repeatability, throughput and operator safety.",
-            "span": "5",
-            "dark": false
-          }
-        },
-        "c_4": {
-          "type": "bento_card",
-          "settings": {
-            "tag": "04 / Discipline",
-            "title": "Quality assurance",
-            "description": "Traceable inspection from incoming material through final dimensional and performance validation.",
-            "span": "7",
-            "dark": true
-          }
+            "columns": 12,
+            "gap": 20
+          },
+          "blocks": {
+            "c_1": {
+              "type": "bento_card",
+              "settings": {
+                "tag": "01 / Discipline",
+                "title": "Precision fabrication",
+                "description": "Five-axis machining, robotic welding and complex metalwork held to microscopic tolerances.",
+                "span": "7",
+                "dark": true
+              }
+            },
+            "c_2": {
+              "type": "bento_card",
+              "settings": {
+                "tag": "02 / Discipline",
+                "title": "Systems integration",
+                "description": "Mechanical, electrical and control systems assembled, tested and commissioned as one.",
+                "span": "5",
+                "dark": false
+              }
+            },
+            "c_3": {
+              "type": "bento_card",
+              "settings": {
+                "tag": "03 / Discipline",
+                "title": "Industrial automation",
+                "description": "Purpose-built production cells that improve repeatability, throughput and operator safety.",
+                "span": "5",
+                "dark": false
+              }
+            },
+            "c_4": {
+              "type": "bento_card",
+              "settings": {
+                "tag": "04 / Discipline",
+                "title": "Quality assurance",
+                "description": "Traceable inspection from incoming material through final dimensional and performance validation.",
+                "span": "7",
+                "dark": true
+              }
+            }
+          },
+          "block_order": ["c_1", "c_2", "c_3", "c_4"]
         }
       },
-      "block_order": ["c_1", "c_2", "c_3", "c_4"]
+      "block_order": ["scope_eyebrow", "scope_heading", "scope_grid"]
     },
     "system": {
       "type": "company_split",
