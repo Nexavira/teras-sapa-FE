@@ -8,6 +8,12 @@ export const CompanyHeaderSchema: SectionSchema = {
   limit: 1,
   settings: [
     {
+      type: 'color_scheme',
+      id: 'color_scheme',
+      label: 'Color scheme',
+      default: 'scheme-1',
+    },
+    {
       type: 'text',
       id: 'logo_text',
       label: 'Company name',

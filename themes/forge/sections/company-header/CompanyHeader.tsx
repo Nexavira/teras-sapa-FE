@@ -9,6 +9,7 @@ import type {
 } from '#themes/shared/types/theme'
 
 interface HeaderSettings {
+  color_scheme?: string
   logo_text?: string
   cta_label?: string
   cta_url?: string | UrlValue
@@ -254,10 +255,12 @@ const pageUrl = (template: string) =>
   `/preview?theme=forge&template=${template}`
 
 export const CompanyHeader: React.FC<SectionComponentProps<HeaderSettings>> = ({
+  id,
   settings,
 }) => {
   const [open, setOpen] = useState(false)
   const globalSettings = useForgeSettings()
+  const { color_scheme = 'scheme-1' } = settings
   const ctaUrl =
     typeof settings.cta_url === 'string'
       ? settings.cta_url
@@ -272,7 +275,11 @@ export const CompanyHeader: React.FC<SectionComponentProps<HeaderSettings>> = ({
   }, [open])
 
   return (
-    <HeaderLayer>
+    <HeaderLayer
+      className={`color-${color_scheme}`}
+      data-color-scheme={color_scheme}
+      id={id}
+    >
       <Nav aria-label="Main navigation">
         <Logo href={pageUrl('index')}>
           {globalSettings.logo ? (

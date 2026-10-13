@@ -25,6 +25,7 @@ export type PageKind =
 
 export interface CompanyPageSettings {
   page?: PageKind
+  color_scheme?: string
   eyebrow?: string
   title?: string
   intro?: string
@@ -39,6 +40,7 @@ export const CompanyPage: React.FC<
   SectionComponentProps<CompanyPageSettings>
 > = ({ settings, isEditor = false }) => {
   const rootRef = useReveal()
+  const { color_scheme = 'scheme-1' } = settings
   const page = settings.page || 'home'
   const pageKey = page === 'home' ? 'index' : page
   const templateEntry = templateCatalog[pageKey]
@@ -50,7 +52,11 @@ export const CompanyPage: React.FC<
   )
 
   return (
-    <PageRoot ref={rootRef}>
+    <PageRoot
+      className={`color-${color_scheme}`}
+      data-color-scheme={color_scheme}
+      ref={rootRef}
+    >
       {contentSectionIds.map((sectionId) => {
         const sectionInstance = templateData.sections[sectionId]
         if (!sectionInstance.type) return null
@@ -90,11 +96,6 @@ export const CompanyPage: React.FC<
               mergedBlocks[blockId] = {
                 ...block,
                 settings: { ...block.settings, image: settings.image },
-              }
-            } else if (block.type === 'hero_meta' && settings.eyebrow) {
-              mergedBlocks[blockId] = {
-                ...block,
-                settings: { ...block.settings, eyebrow: settings.eyebrow },
               }
             }
           }

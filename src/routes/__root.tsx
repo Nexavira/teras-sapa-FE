@@ -2,6 +2,7 @@ import { TanStackDevtools } from '@tanstack/react-devtools'
 import type { QueryClient } from '@tanstack/react-query'
 import {
   createRootRouteWithContext,
+  ErrorComponent,
   HeadContent,
   Scripts,
 } from '@tanstack/react-router'
@@ -65,5 +66,6 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
       },
     ],
   }),
+  errorComponent: ErrorComponent,
   shellComponent: RootDocument,
 })

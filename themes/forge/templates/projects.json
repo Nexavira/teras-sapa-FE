@@ -56,13 +56,6 @@
         "dark_mode": false
       },
       "blocks": {
-        "work_eyebrow": {
-          "type": "hero_meta",
-          "settings": {
-            "eyebrow": "Selected work",
-            "meta": ""
-          }
-        },
         "work_heading": {
           "type": "heading",
           "settings": {
@@ -112,7 +105,7 @@
           "block_order": ["p_1", "p_2", "p_3"]
         }
       },
-      "block_order": ["work_eyebrow", "work_heading", "work_grid"]
+      "block_order": ["work_heading", "work_grid"]
     },
     "footer_main": {
       "type": "footer",

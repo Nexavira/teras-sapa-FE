@@ -1,7 +1,6 @@
 import { ButtonBlockSchema } from '#themes/forge/blocks/button/ButtonBlock.schema'
 import { FlexBlockSchema } from '#themes/forge/blocks/flex/FlexBlock.schema'
 import { HeadingBlockSchema } from '#themes/forge/blocks/heading/HeadingBlock.schema'
-import { HeroMetaBlockSchema } from '#themes/forge/blocks/hero-meta/HeroMetaBlock.schema'
 import { ImageBlockSchema } from '#themes/forge/blocks/image/ImageBlock.schema'
 import { TextBlockSchema } from '#themes/forge/blocks/text/TextBlock.schema'
 import type { SectionSchema } from '#themes/shared/types/theme'
@@ -11,7 +10,7 @@ export const CompanyHeroSchema: SectionSchema = {
   name: 'Hero banner',
   category: 'Hero',
   description:
-    'Full-bleed industrial hero with modular blocks, editorial eyebrow, headline, introduction, and configurable media frame with endurance stamp.',
+    'Full-bleed industrial hero with modular blocks, headline, introduction, and configurable media frame with endurance stamp.',
   tag: 'section',
   class: 'section-company-hero',
   settings: [
@@ -98,7 +97,6 @@ export const CompanyHeroSchema: SectionSchema = {
     HeadingBlockSchema,
     TextBlockSchema,
     ButtonBlockSchema,
-    HeroMetaBlockSchema,
     FlexBlockSchema,
     ImageBlockSchema,
   ],

@@ -52,20 +52,73 @@
     "principle": {
       "type": "company_split",
       "settings": {
-        "eyebrow": "Our principle",
-        "heading": "Capability earns attention. Consistency earns trust.",
-        "intro": "Atlas began as a twelve-person machine shop in 1987. Today, more than 620 specialists work across design, fabrication, automation and quality. The scale changed. The standard never did.",
-        "dark_mode": false
+        "dark_mode": false,
+        "show_watermark": true,
+        "watermark_text": "Atlas Ref. Spec 02"
+      },
+      "block_order": [
+        "principle_heading",
+        "principle_ruler",
+        "principle_manifesto"
+      ],
+      "blocks": {
+        "principle_heading": {
+          "type": "heading",
+          "settings": {
+            "heading": "Capability earns attention. Consistency earns trust.",
+            "heading_size": "large",
+            "heading_tag": "h2"
+          }
+        },
+        "principle_ruler": {
+          "type": "accent_ruler",
+          "settings": {
+            "tag": "PHILOSOPHY",
+            "show_bar": true,
+            "show_tag": true
+          }
+        },
+        "principle_manifesto": {
+          "type": "manifesto_card",
+          "settings": {
+            "quote": "Atlas began as a twelve-person machine shop in 1987. Today, more than 620 specialists work across design, fabrication, automation and quality. The scale changed. The standard never did.",
+            "show_glyph": true
+          }
+        }
       }
     },
     "milestones": {
       "type": "company_split",
       "settings": {
-        "eyebrow": "Milestones",
-        "heading": "Four decades of continuous evolution.",
-        "dark_mode": true
+        "dark_mode": true,
+        "show_watermark": true,
+        "watermark_text": "Atlas Ref. Spec 02"
       },
+      "block_order": [
+        "milestones_heading",
+        "milestones_ruler",
+        "m_1",
+        "m_2",
+        "m_3",
+        "m_4"
+      ],
       "blocks": {
+        "milestones_heading": {
+          "type": "heading",
+          "settings": {
+            "heading": "Four decades of continuous evolution.",
+            "heading_size": "large",
+            "heading_tag": "h2"
+          }
+        },
+        "milestones_ruler": {
+          "type": "accent_ruler",
+          "settings": {
+            "tag": "INDEX / 02",
+            "show_bar": true,
+            "show_tag": true
+          }
+        },
         "m_1": {
           "type": "list_item",
           "settings": {
@@ -98,8 +151,7 @@
             "description": "Third carbon-neutral production hall opens"
           }
         }
-      },
-      "block_order": ["m_1", "m_2", "m_3", "m_4"]
+      }
     },
     "how_we_work": {
       "type": "company_bento",
@@ -107,14 +159,8 @@
         "color_scheme": "scheme-1",
         "dark_mode": false
       },
+      "block_order": ["work_heading", "work_grid"],
       "blocks": {
-        "work_eyebrow": {
-          "type": "hero_meta",
-          "settings": {
-            "eyebrow": "How we work",
-            "meta": ""
-          }
-        },
         "work_heading": {
           "type": "heading",
           "settings": {
@@ -129,6 +175,7 @@
             "columns": 12,
             "gap": 20
           },
+          "block_order": ["b_1", "b_2", "b_3"],
           "blocks": {
             "b_1": {
               "type": "bento_card",
@@ -137,6 +184,23 @@
                 "title": "Own the outcome",
                 "description": "Every team stays accountable beyond its individual scope.",
                 "span": "6"
+              },
+              "block_order": ["b_1_heading", "b_1_text"],
+              "blocks": {
+                "b_1_heading": {
+                  "type": "heading",
+                  "settings": {
+                    "heading": "Own the outcome",
+                    "heading_size": "medium",
+                    "heading_tag": "h3"
+                  }
+                },
+                "b_1_text": {
+                  "type": "text",
+                  "settings": {
+                    "text": "Every team stays accountable beyond its individual scope."
+                  }
+                }
               }
             },
             "b_2": {
@@ -146,6 +210,23 @@
                 "title": "Make it legible",
                 "description": "Good engineering should be understood, tested and maintained.",
                 "span": "3"
+              },
+              "block_order": ["b_2_heading", "b_2_text"],
+              "blocks": {
+                "b_2_heading": {
+                  "type": "heading",
+                  "settings": {
+                    "heading": "Make it legible",
+                    "heading_size": "medium",
+                    "heading_tag": "h3"
+                  }
+                },
+                "b_2_text": {
+                  "type": "text",
+                  "settings": {
+                    "text": "Good engineering should be understood, tested and maintained."
+                  }
+                }
               }
             },
             "b_3": {
@@ -155,13 +236,28 @@
                 "title": "Improve the system",
                 "description": "Every project leaves the process stronger than it found it.",
                 "span": "3"
+              },
+              "block_order": ["b_3_heading", "b_3_text"],
+              "blocks": {
+                "b_3_heading": {
+                  "type": "heading",
+                  "settings": {
+                    "heading": "Improve the system",
+                    "heading_size": "medium",
+                    "heading_tag": "h3"
+                  }
+                },
+                "b_3_text": {
+                  "type": "text",
+                  "settings": {
+                    "text": "Every project leaves the process stronger than it found it."
+                  }
+                }
               }
             }
-          },
-          "block_order": ["b_1", "b_2", "b_3"]
+          }
         }
-      },
-      "block_order": ["work_eyebrow", "work_heading", "work_grid"]
+      }
     },
     "footer_main": {
       "type": "footer",

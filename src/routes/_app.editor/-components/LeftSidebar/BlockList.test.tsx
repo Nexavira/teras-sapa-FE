@@ -3,7 +3,9 @@ import { cleanup, fireEvent, render, screen } from '@testing-library/react'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 
 import { ThemeProvider } from '#/-components/ui/ThemeProvider'
+import { editorActions } from '#/store/editorStore'
 
+import { BlockItemErrorBoundary } from './BlockList'
 import { editorSensors } from './editorDnd'
 import { SectionEntry } from './SectionEntry'
 
@@ -141,5 +143,153 @@ describe('BlockList', () => {
     expect(screen.getByText('Grid container')).not.toBeNull()
     const metricNavItems = screen.getAllByText('Metric item')
     expect(metricNavItems).toHaveLength(2)
+  })
+
+  it('catches missing/undefined blocks and displays which block has an error', () => {
+    const onAddBlock = vi.fn()
+    const removeBlockSpy = vi
+      .spyOn(editorActions, 'removeBlock')
+      .mockImplementation(() => {})
+    const sectionSchema = {
+      type: 'hero_banner',
+      name: 'Image Banner',
+      settings: [],
+      blocks: [
+        {
+          type: 'heading',
+          name: 'Heading',
+          settings: [],
+        },
+      ],
+    }
+
+    render(
+      <ThemeProvider>
+        <DragDropProvider sensors={editorSensors}>
+          <SectionEntry
+            canRemove={false}
+            canReorder={false}
+            index={0}
+            onAddBlock={onAddBlock}
+            schema={sectionSchema}
+            section={{
+              id: 'hero',
+              type: 'hero_banner',
+              settings: {},
+              blocks: {
+                valid_block: {
+                  type: 'heading',
+                  settings: {},
+                },
+                // corrupted_block_1 is missing in blocks dictionary
+              },
+              block_order: ['valid_block', 'corrupted_block_1'],
+            }}
+            sectionId="hero"
+          />
+        </DragDropProvider>
+      </ThemeProvider>,
+    )
+
+    // Should render the valid block normally
+    expect(screen.getByText('Heading')).not.toBeNull()
+    // Should catch the missing block and tell which block had an error
+    expect(screen.getByText('Missing block (corrupted_block_1)')).not.toBeNull()
+
+    // Can delete the broken block
+    const deleteButtons = screen.getAllByRole('button', {
+      name: /delete block/i,
+    })
+    expect(deleteButtons.length).toBeGreaterThanOrEqual(1)
+    fireEvent.click(deleteButtons[deleteButtons.length - 1])
+    expect(removeBlockSpy).toHaveBeenCalledWith('hero', 'corrupted_block_1')
+
+    removeBlockSpy.mockRestore()
+  })
+
+  it('catches unregistered block types and displays which block type is unregistered', () => {
+    const onAddBlock = vi.fn()
+    const sectionSchema = {
+      type: 'hero_banner',
+      name: 'Image Banner',
+      settings: [],
+      blocks: [
+        {
+          type: 'heading',
+          name: 'Heading',
+          settings: [],
+        },
+      ],
+    }
+
+    render(
+      <ThemeProvider>
+        <DragDropProvider sensors={editorSensors}>
+          <SectionEntry
+            canRemove={false}
+            canReorder={false}
+            index={0}
+            onAddBlock={onAddBlock}
+            schema={sectionSchema}
+            section={{
+              id: 'hero',
+              type: 'hero_banner',
+              settings: {},
+              blocks: {
+                unregistered_1: {
+                  type: 'non_existent_type',
+                  settings: {},
+                },
+              },
+              block_order: ['unregistered_1'],
+            }}
+            sectionId="hero"
+          />
+        </DragDropProvider>
+      </ThemeProvider>,
+    )
+
+    expect(screen.getByText('Unregistered (non_existent_type)')).not.toBeNull()
+  })
+
+  it('catches runtime render crashes and displays error for that specific block', () => {
+    const consoleErrorSpy = vi
+      .spyOn(console, 'error')
+      .mockImplementation(() => {})
+    const removeBlockSpy = vi
+      .spyOn(editorActions, 'removeBlock')
+      .mockImplementation(() => {})
+
+    const CrashingComponent = () => {
+      throw new Error('Simulated render crash')
+    }
+
+    render(
+      <ThemeProvider>
+        <BlockItemErrorBoundary
+          blockId="crash_block_123"
+          index={0}
+          sectionId="section_test"
+        >
+          <CrashingComponent />
+        </BlockItemErrorBoundary>
+      </ThemeProvider>,
+    )
+
+    expect(
+      screen.getByText('Error (crash_block_123): Simulated render crash'),
+    ).not.toBeNull()
+
+    const deleteBtn = screen.getByRole('button', {
+      name: /delete error block crash_block_123/i,
+    })
+    fireEvent.click(deleteBtn)
+    expect(removeBlockSpy).toHaveBeenCalledWith(
+      'section_test',
+      'crash_block_123',
+    )
+
+    consoleErrorSpy.mockRestore()
+    removeBlockSpy.mockRestore()
   })
 })

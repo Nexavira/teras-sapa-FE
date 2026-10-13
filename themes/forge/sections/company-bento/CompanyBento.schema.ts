@@ -3,7 +3,6 @@ import { ButtonBlockSchema } from '#themes/forge/blocks/button/ButtonBlock.schem
 import { FlexBlockSchema } from '#themes/forge/blocks/flex/FlexBlock.schema'
 import { GridBlockSchema } from '#themes/forge/blocks/grid/GridBlock.schema'
 import { HeadingBlockSchema } from '#themes/forge/blocks/heading/HeadingBlock.schema'
-import { HeroMetaBlockSchema } from '#themes/forge/blocks/hero-meta/HeroMetaBlock.schema'
 import { TextBlockSchema } from '#themes/forge/blocks/text/TextBlock.schema'
 import type { SectionSchema } from '#themes/shared/types/theme'
 
@@ -31,7 +30,6 @@ export const CompanyBentoSchema: SectionSchema = {
   ],
   blocks: [
     HeadingBlockSchema,
-    HeroMetaBlockSchema,
     TextBlockSchema,
     GridBlockSchema,
     BentoCardSchema,
@@ -46,13 +44,6 @@ export const CompanyBentoSchema: SectionSchema = {
         dark_mode: true,
       },
       blocks: [
-        {
-          type: 'hero_meta',
-          settings: {
-            eyebrow: 'What we make',
-            meta: '',
-          },
-        },
         {
           type: 'heading',
           settings: {
@@ -71,7 +62,7 @@ export const CompanyBentoSchema: SectionSchema = {
             {
               type: 'bento_card',
               settings: {
-                tag: '01 / Capability',
+                tag: 'Capability',
                 title: 'Precision fabrication',
                 description:
                   'Five-axis machining, robotic welding and complex metalwork held to microscopic tolerances.',
@@ -82,7 +73,7 @@ export const CompanyBentoSchema: SectionSchema = {
             {
               type: 'bento_card',
               settings: {
-                tag: '02 / Capability',
+                tag: 'Capability',
                 title: 'Systems integration',
                 description:
                   'Mechanical, electrical and control systems assembled, tested and commissioned as one.',
@@ -93,7 +84,7 @@ export const CompanyBentoSchema: SectionSchema = {
             {
               type: 'bento_card',
               settings: {
-                tag: '03 / Capability',
+                tag: 'Capability',
                 title: 'Industrial automation',
                 description:
                   'Purpose-built production cells that improve repeatability, throughput and operator safety.',

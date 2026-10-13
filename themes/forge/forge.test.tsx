@@ -16,6 +16,10 @@ import { CompanyHero } from './sections/company-hero/CompanyHero'
 import { CompanyHeroSchema } from './sections/company-hero/CompanyHero.schema'
 import { CompanyMetrics } from './sections/company-metrics/CompanyMetrics'
 import { CompanyMetricsSchema } from './sections/company-metrics/CompanyMetrics.schema'
+import { CompanyQuote } from './sections/company-quote/CompanyQuote'
+import { CompanyQuoteSchema } from './sections/company-quote/CompanyQuote.schema'
+import { CompanySplit } from './sections/company-split/CompanySplit'
+import { CompanySplitSchema } from './sections/company-split/CompanySplit.schema'
 import { Reveal } from './snippets/Reveal'
 
 afterEach(cleanup)
@@ -99,7 +103,6 @@ describe('Forge manufacturing theme', () => {
     expect(blockTypes).toContain('heading')
     expect(blockTypes).toContain('text')
     expect(blockTypes).toContain('button')
-    expect(blockTypes).toContain('hero_meta')
     expect(blockTypes).toContain('flex')
     expect(blockTypes).toContain('image')
   })
@@ -108,11 +111,12 @@ describe('Forge manufacturing theme', () => {
     expect(forgeTheme.BlockRegistry.heading).toBeDefined()
     expect(forgeTheme.BlockRegistry.text).toBeDefined()
     expect(forgeTheme.BlockRegistry.button).toBeDefined()
-    expect(forgeTheme.BlockRegistry.hero_meta).toBeDefined()
     expect(forgeTheme.BlockRegistry.flex).toBeDefined()
     expect(forgeTheme.BlockRegistry.grid).toBeDefined()
     expect(forgeTheme.BlockRegistry.image).toBeDefined()
     expect(forgeTheme.BlockRegistry.metric_item).toBeDefined()
+    expect(forgeTheme.BlockRegistry.accent_ruler).toBeDefined()
+    expect(forgeTheme.BlockRegistry.manifesto_card).toBeDefined()
   })
 
   it('renders CompanyHero with child blocks', () => {
@@ -123,12 +127,8 @@ describe('Forge manufacturing theme', () => {
           layout_style: 'frame',
           dark_mode: false,
         }}
-        blockOrder={['meta_1', 'heading_1', 'text_1', 'button_1', 'image_1']}
+        blockOrder={['heading_1', 'text_1', 'button_1', 'image_1']}
         blocks={{
-          meta_1: {
-            type: 'hero_meta',
-            settings: {},
-          },
           heading_1: {
             type: 'heading',
             settings: {
@@ -163,8 +163,6 @@ describe('Forge manufacturing theme', () => {
       />,
     )
 
-    expect(container.textContent).toContain('Industrial / 01')
-    expect(container.textContent).toContain('EST. 2026')
     expect(container.textContent).toContain('Precision Engineering Unit')
     expect(container.textContent).toContain(
       'Custom crafted industrial components.',
@@ -547,6 +545,60 @@ describe('Forge manufacturing theme', () => {
     })
   })
 
+  describe('CompanyQuote (Featured quote section)', () => {
+    it('declares quote and highlight settings in CompanyQuoteSchema', () => {
+      const settingIds = CompanyQuoteSchema.settings.map((s) => s.id)
+      expect(settingIds).toContain('color_scheme')
+      expect(settingIds).toContain('quote')
+      expect(settingIds).toContain('highlight')
+      expect(settingIds).not.toContain('eyebrow')
+      expect(settingIds).not.toContain('author')
+      expect(settingIds).not.toContain('badge')
+      expect(settingIds).not.toContain('framed')
+      expect(settingIds).not.toContain('dark_mode')
+    })
+
+    it('renders quote statement with highlighted accent text', () => {
+      const { container } = render(
+        <CompanyQuote
+          id="quote_test"
+          settings={{
+            quote: 'Speed is nothing without dimensional stability.',
+            highlight: 'dimensional stability.',
+          }}
+        />,
+      )
+
+      expect(container.textContent).toContain(
+        'Speed is nothing without dimensional stability.',
+      )
+      const emEl = container.querySelector('em')
+      expect(emEl).not.toBeNull()
+      expect(emEl?.textContent).toBe('dimensional stability.')
+    })
+
+    it('renders architectural quotation mark glyph and watermark', () => {
+      const { container } = render(
+        <CompanyQuote id="quote_glyphs" settings={{}} />,
+      )
+      const svgs = container.querySelectorAll('svg')
+      expect(svgs.length).toBeGreaterThanOrEqual(1)
+    })
+
+    it('applies the selected color scheme to the quote section', () => {
+      const { container } = render(
+        <CompanyQuote
+          id="quote_color_scheme"
+          settings={{ color_scheme: 'scheme-2' }}
+        />,
+      )
+
+      const quoteEl = container.querySelector('[data-color-scheme="scheme-2"]')
+      expect(quoteEl).not.toBeNull()
+      expect(quoteEl?.classList.contains('color-scheme-2')).toBe(true)
+    })
+  })
+
   describe('CompanyBento (Bento grid showcase)', () => {
     it('has eyebrow and heading removed from primary section settings schema, separating to blocks', () => {
       const settingIds = CompanyBentoSchema.settings.map((s) => s.id)
@@ -561,7 +613,6 @@ describe('Forge manufacturing theme', () => {
     it('declares modular blocks in CompanyBentoSchema.blocks', () => {
       const blockTypes = CompanyBentoSchema.blocks?.map((b) => b.type)
       expect(blockTypes).toContain('heading')
-      expect(blockTypes).toContain('hero_meta')
       expect(blockTypes).toContain('text')
       expect(blockTypes).toContain('grid')
       expect(blockTypes).toContain('bento_card')
@@ -588,7 +639,7 @@ describe('Forge manufacturing theme', () => {
       expect(cardChildTypes).toContain('flex')
     })
 
-    it('renders CompanyBento with modular blocks (hero_meta, heading, grid container with cards, and button)', () => {
+    it('renders CompanyBento with modular blocks (heading, grid container with cards, and button)', () => {
       const { container } = render(
         <CompanyBento
           id="bento_modular_section"
@@ -596,15 +647,8 @@ describe('Forge manufacturing theme', () => {
             color_scheme: 'scheme-2',
             dark_mode: true,
           }}
-          blockOrder={['meta_1', 'heading_1', 'grid_1', 'button_1']}
+          blockOrder={['heading_1', 'grid_1', 'button_1']}
           blocks={{
-            meta_1: {
-              type: 'hero_meta',
-              settings: {
-                eyebrow: 'What we make',
-                meta: 'EST. 2026',
-              },
-            },
             heading_1: {
               type: 'heading',
               settings: {
@@ -624,7 +668,7 @@ describe('Forge manufacturing theme', () => {
                 card_1: {
                   type: 'bento_card',
                   settings: {
-                    tag: '01 / Capability',
+                    tag: 'Capability',
                     title: 'Precision fabrication',
                     description:
                       'Five-axis machining held to microscopic tolerances.',
@@ -635,7 +679,7 @@ describe('Forge manufacturing theme', () => {
                 card_2: {
                   type: 'bento_card',
                   settings: {
-                    tag: '02 / Capability',
+                    tag: 'Capability',
                     title: 'Systems integration',
                     description: 'Assembled, tested and commissioned as one.',
                     span: '5',
@@ -656,7 +700,6 @@ describe('Forge manufacturing theme', () => {
         />,
       )
 
-      expect(container.textContent).toContain('What we make')
       expect(container.textContent).toContain(
         'One partner, from first drawing to factory floor.',
       )
@@ -709,4 +752,160 @@ describe('Forge manufacturing theme', () => {
       expect(container.textContent).toContain('Legacy CTA')
     })
   })
+
+  describe('CompanySplit (Split content & list)', () => {
+    it('declares Split content & list settings and supported blocks in schema', () => {
+      expect(CompanySplitSchema.name).toBe('Split content & list')
+      expect(CompanySplitSchema.type).toBe('company_split')
+      const settingIds = CompanySplitSchema.settings?.map((s) => s.id)
+      expect(settingIds).toContain('color_scheme')
+      expect(settingIds).toContain('eyebrow')
+      expect(settingIds).toContain('heading')
+      expect(settingIds).toContain('intro')
+      expect(settingIds).toContain('dark_mode')
+      const blockTypes = CompanySplitSchema.blocks?.map((b) => b.type)
+      expect(blockTypes).toContain('list_item')
+      expect(blockTypes).toContain('accent_ruler')
+      expect(blockTypes).toContain('manifesto_card')
+    })
+
+    it('renders editorial manifesto split when no child blocks are provided', () => {
+      const { container } = render(
+        <CompanySplit
+          id="principle"
+          isEditor={true}
+          settings={{
+            heading: 'Capability earns attention. Consistency earns trust.',
+            intro: 'Atlas began as a twelve-person machine shop in 1987.',
+            dark_mode: false,
+          }}
+          blockOrder={[]}
+          blocks={{}}
+        />,
+      )
+
+      expect(container.textContent).toContain(
+        'Capability earns attention. Consistency earns trust.',
+      )
+      expect(container.textContent).toContain(
+        'Atlas began as a twelve-person machine shop in 1987.',
+      )
+      expect(container.textContent).toContain('Operational Benchmark')
+      expect(container.textContent).toContain('Verified Standard')
+      expect(container.textContent).toContain('PHILOSOPHY')
+    })
+
+    it('renders milestones with list items in dark mode', () => {
+      const { container } = render(
+        <CompanySplit
+          id="milestones"
+          isEditor={true}
+          settings={{
+            eyebrow: 'Milestones',
+            heading: 'Four decades of continuous evolution.',
+            dark_mode: true,
+          }}
+          blockOrder={['m_1', 'm_2']}
+          blocks={{
+            m_1: {
+              type: 'list_item',
+              settings: {
+                number: '01',
+                title: '1987',
+                description: 'First workshop opens in Bandung',
+              },
+            },
+            m_2: {
+              type: 'list_item',
+              settings: {
+                number: '02',
+                title: '2004',
+                description: 'Integrated engineering campus commissioned',
+              },
+            },
+          }}
+        />,
+      )
+
+      expect(container.textContent).toContain('Milestones')
+      expect(container.textContent).toContain(
+        'Four decades of continuous evolution.',
+      )
+      expect(container.textContent).toContain('01')
+      expect(container.textContent).toContain('1987')
+      expect(container.textContent).toContain('First workshop opens in Bandung')
+      expect(container.textContent).toContain('02')
+      expect(container.textContent).toContain('2004')
+      expect(container.textContent).toContain('INDEX / 02')
+    })
+
+    it('renders CompanySplit with modular blocks (heading, accent_ruler, manifesto_card)', () => {
+      const { container } = render(
+        <CompanySplit
+          id="principle_modular"
+          isEditor={true}
+          settings={{
+            dark_mode: false,
+            watermark_text: 'Atlas Spec 01',
+          }}
+          blockOrder={[
+            'heading_1',
+            'ruler_1',
+            'card_1',
+          ]}
+          blocks={{
+            heading_1: {
+              type: 'heading',
+              settings: {
+                heading: 'Capability earns attention. Consistency earns trust.',
+                heading_size: 'large',
+                heading_tag: 'h2',
+              },
+            },
+            ruler_1: {
+              type: 'accent_ruler',
+              settings: {
+                tag: 'PHILOSOPHY',
+                show_bar: true,
+              },
+            },
+            card_1: {
+              type: 'manifesto_card',
+              settings: {
+                quote: 'Atlas began as a twelve-person machine shop in 1987.',
+              },
+            },
+          }}
+        />,
+      )
+
+      expect(container.textContent).toContain(
+        'Capability earns attention. Consistency earns trust.',
+      )
+      expect(container.textContent).toContain('PHILOSOPHY')
+      expect(container.textContent).toContain(
+        'Atlas began as a twelve-person machine shop in 1987.',
+      )
+      expect(container.textContent).not.toContain('Operational Benchmark')
+      expect(container.textContent).not.toContain('Verified Standard')
+      expect(container.textContent).toContain('Atlas Spec 01')
+    })
+
+    it('applies selected color scheme to CompanySplit', () => {
+      const { container } = render(
+        <CompanySplit
+          id="split_color_test"
+          settings={{
+            color_scheme: 'scheme-2',
+            heading: 'Testing color scheme',
+          }}
+        />,
+      )
+
+      const sectionEl = container.querySelector('section')
+      expect(sectionEl?.getAttribute('data-color-scheme')).toBe('scheme-2')
+      expect(sectionEl?.classList.contains('color-scheme-2')).toBe(true)
+    })
+  })
 })
+

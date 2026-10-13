@@ -149,7 +149,22 @@ export const BentoCard: React.FC<BlockComponentProps<BentoCardSettings>> = ({
     <Shell span={columnSpan} {...restProps}>
       <Card dark={dark}>
         {hasChildren ? (
-          children
+          <>
+            {(imageUrl || tag) && (
+              <div>
+                {imageUrl && <ImageWrapper image={imageUrl} />}
+                {tag && <small>{tag}</small>}
+              </div>
+            )}
+            <div>
+              {children}
+              {link_label && link_url && (
+                <ArrowLink dark={dark} href={link_url}>
+                  {link_label} <span>↗</span>
+                </ArrowLink>
+              )}
+            </div>
+          </>
         ) : (
           <>
             <div>

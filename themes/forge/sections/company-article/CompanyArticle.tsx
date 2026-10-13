@@ -8,6 +8,7 @@ import { useReveal } from '#themes/forge/snippets/useReveal'
 import type { SectionComponentProps } from '#themes/shared/types/theme'
 
 export interface CompanyArticleSettings {
+  color_scheme?: string
   eyebrow?: string
   author_name?: string
   author_role?: string
@@ -70,6 +71,7 @@ export const CompanyArticle: React.FC<
 > = ({ id, settings, blocks = {}, blockOrder = [], isEditor = false }) => {
   const rootRef = useReveal()
   const {
+    color_scheme = 'scheme-1',
     eyebrow = 'Field note / 018',
     author_name = 'Raka Santoso',
     author_role = 'Director of Engineering',
@@ -78,7 +80,12 @@ export const CompanyArticle: React.FC<
   } = settings
 
   return (
-    <SectionContainer ref={rootRef}>
+    <SectionContainer
+      className={`color-${color_scheme}`}
+      data-color-scheme={color_scheme}
+      id={id}
+      ref={rootRef}
+    >
       <Reveal isEditor={isEditor}>
         <ArticleGrid>
           <MetaSidebar>

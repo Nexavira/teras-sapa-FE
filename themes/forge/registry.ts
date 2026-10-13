@@ -1,3 +1,5 @@
+import { AccentRulerBlock } from './blocks/accent-ruler/AccentRulerBlock'
+import { AccentRulerBlockSchema } from './blocks/accent-ruler/AccentRulerBlock.schema'
 import { ArticleParagraphBlock } from './blocks/article-paragraph/ArticleParagraphBlock'
 import { ArticleParagraphBlockSchema } from './blocks/article-paragraph/ArticleParagraphBlock.schema'
 import { ArticleQuoteBlock } from './blocks/article-quote/ArticleQuoteBlock'
@@ -18,12 +20,12 @@ import { GridBlock } from './blocks/grid/GridBlock'
 import { GridBlockSchema } from './blocks/grid/GridBlock.schema'
 import { HeadingBlock } from './blocks/heading/HeadingBlock'
 import { HeadingBlockSchema } from './blocks/heading/HeadingBlock.schema'
-import { HeroMetaBlock } from './blocks/hero-meta/HeroMetaBlock'
-import { HeroMetaBlockSchema } from './blocks/hero-meta/HeroMetaBlock.schema'
 import { ImageBlock } from './blocks/image/ImageBlock'
 import { ImageBlockSchema } from './blocks/image/ImageBlock.schema'
 import { ListItem } from './blocks/list-item/ListItem'
 import { ListItemSchema } from './blocks/list-item/ListItem.schema'
+import { ManifestoCardBlock } from './blocks/manifesto-card/ManifestoCardBlock'
+import { ManifestoCardBlockSchema } from './blocks/manifesto-card/ManifestoCardBlock.schema'
 import { MetricItem } from './blocks/metric-item/MetricItem'
 import { MetricItemSchema } from './blocks/metric-item/MetricItem.schema'
 import { TextBlock } from './blocks/text/TextBlock'
@@ -67,7 +69,6 @@ export const BlockRegistry: Record<string, RegisteredBlock> = {
   heading: { Component: HeadingBlock, schema: HeadingBlockSchema },
   text: { Component: TextBlock, schema: TextBlockSchema },
   button: { Component: ButtonBlock, schema: ButtonBlockSchema },
-  hero_meta: { Component: HeroMetaBlock, schema: HeroMetaBlockSchema },
   flex: { Component: FlexBlock, schema: FlexBlockSchema },
   grid: { Component: GridBlock, schema: GridBlockSchema },
   image: { Component: ImageBlock, schema: ImageBlockSchema },
@@ -77,6 +78,14 @@ export const BlockRegistry: Record<string, RegisteredBlock> = {
   list_item: { Component: ListItem, schema: ListItemSchema },
   contact_form: { Component: ContactFormBlock, schema: ContactFormBlockSchema },
   contact_info: { Component: ContactInfoBlock, schema: ContactInfoBlockSchema },
+  accent_ruler: {
+    Component: AccentRulerBlock,
+    schema: AccentRulerBlockSchema,
+  },
+  manifesto_card: {
+    Component: ManifestoCardBlock,
+    schema: ManifestoCardBlockSchema,
+  },
   article_paragraph: {
     Component: ArticleParagraphBlock,
     schema: ArticleParagraphBlockSchema,

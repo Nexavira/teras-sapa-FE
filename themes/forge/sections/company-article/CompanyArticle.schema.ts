@@ -13,6 +13,12 @@ export const CompanyArticleSchema: SectionSchema = {
   class: 'section-company-article',
   settings: [
     {
+      type: 'color_scheme',
+      id: 'color_scheme',
+      label: 'Color scheme',
+      default: 'scheme-1',
+    },
+    {
       type: 'text',
       id: 'eyebrow',
       label: 'Article eyebrow',

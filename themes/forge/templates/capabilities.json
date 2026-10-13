@@ -56,13 +56,6 @@
         "dark_mode": false
       },
       "blocks": {
-        "scope_eyebrow": {
-          "type": "hero_meta",
-          "settings": {
-            "eyebrow": "Integrated scope",
-            "meta": ""
-          }
-        },
         "scope_heading": {
           "type": "heading",
           "settings": {
@@ -122,7 +115,7 @@
           "block_order": ["c_1", "c_2", "c_3", "c_4"]
         }
       },
-      "block_order": ["scope_eyebrow", "scope_heading", "scope_grid"]
+      "block_order": ["scope_heading", "scope_grid"]
     },
     "system": {
       "type": "company_split",

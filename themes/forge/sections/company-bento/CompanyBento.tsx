@@ -51,15 +51,20 @@ const SectionContainer = styled.section<{
 
 const Eyebrow = styled.p<{ dark?: boolean }>`
   display: inline-flex;
+  align-items: center;
+  gap: 9px;
   margin: 0 0 24px;
-  padding: 6px 11px;
+  padding: 7px 14px 7px 10px;
   border-radius: var(--forge-pill-radius);
   background: ${({ dark }) =>
-    dark ? 'rgba(244, 241, 233, 0.1)' : 'rgba(23, 25, 21, 0.06)'};
+    dark ? 'rgba(244, 241, 233, 0.08)' : 'rgba(23, 25, 21, 0.05)'};
+  border: 1px solid
+    ${({ dark }) =>
+      dark ? 'rgba(244, 241, 233, 0.14)' : 'rgba(23, 25, 21, 0.08)'};
   color: ${({ dark }) => (dark ? 'var(--forge-paper)' : 'inherit')};
   font-size: 10px;
   font-weight: 750;
-  letter-spacing: 0.2em;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
 `
 
@@ -150,12 +155,6 @@ export const CompanyBento: React.FC<
   )
   const showFallbackHeading = !hasHeadingBlock && Boolean(heading)
 
-  const hasEyebrowBlock = blockOrder.some(
-    (blockId) =>
-      blocks[blockId]?.type === 'hero_meta' || blocks[blockId]?.type === 'text',
-  )
-  const showFallbackEyebrow = !hasEyebrowBlock && Boolean(eyebrow)
-
   const hasButtonBlock = blockOrder.some(
     (blockId) => blocks[blockId]?.type === 'button',
   )
@@ -221,7 +220,7 @@ export const CompanyBento: React.FC<
       framed={isFramed}
       ref={rootRef}
     >
-      {showFallbackEyebrow && (
+      {eyebrow && (
         <Reveal isEditor={isEditor}>
           <Eyebrow dark={isDark}>{eyebrow}</Eyebrow>
         </Reveal>

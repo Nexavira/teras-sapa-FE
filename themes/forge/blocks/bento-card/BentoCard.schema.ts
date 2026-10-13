@@ -14,8 +14,8 @@ export const BentoCardSchema: BlockSchema = {
       type: 'text',
       id: 'tag',
       label: 'Tag / Badge',
-      default: '01 / Capability',
-      placeholder: 'e.g. 01 / Capability',
+      default: 'Capability',
+      placeholder: 'e.g. Capability',
     },
     {
       type: 'text',
@@ -74,5 +74,4 @@ export const BentoCardSchema: BlockSchema = {
     ImageBlockSchema,
     FlexBlockSchema,
   ],
-  max_blocks: 8,
 }

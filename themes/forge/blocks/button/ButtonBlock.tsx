@@ -26,6 +26,7 @@ const StyledCTA = styled.a<{
   text-transform: var(--forge-button-text-transform);
   cursor: pointer;
   white-space: nowrap;
+  width: fit-content;
   transition:
     transform 600ms var(--forge-ease),
     background 600ms var(--forge-ease),

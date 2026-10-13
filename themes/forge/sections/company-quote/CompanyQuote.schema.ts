@@ -10,6 +10,12 @@ export const CompanyQuoteSchema: SectionSchema = {
   class: 'section-company-quote',
   settings: [
     {
+      type: 'color_scheme',
+      id: 'color_scheme',
+      label: 'Color scheme',
+      default: 'scheme-1',
+    },
+    {
       type: 'textarea',
       id: 'quote',
       label: 'Quote statement',
@@ -27,6 +33,7 @@ export const CompanyQuoteSchema: SectionSchema = {
     {
       name: 'Default Statement Quote',
       settings: {
+        color_scheme: 'scheme-1',
         quote: 'We make the critical parts behind everyday momentum.',
         highlight: 'everyday momentum.',
       },

@@ -9,6 +9,7 @@ import type {
   ThemeDefinition,
 } from '#themes/shared/types/theme'
 
+export * from './blocks/accent-ruler'
 export * from './blocks/article-paragraph'
 export * from './blocks/article-quote'
 export * from './blocks/article-subheading'
@@ -20,9 +21,9 @@ export * from './blocks/contact-info'
 export * from './blocks/flex'
 export * from './blocks/grid'
 export * from './blocks/heading'
-export * from './blocks/hero-meta'
 export * from './blocks/image'
 export * from './blocks/list-item'
+export * from './blocks/manifesto-card'
 export * from './blocks/metric-item'
 export * from './blocks/text'
 export * from './layout/ThemeLayout'

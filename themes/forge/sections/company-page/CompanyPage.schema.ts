@@ -7,6 +7,12 @@ export const CompanyPageSchema: SectionSchema = {
   tag: 'section',
   settings: [
     {
+      type: 'color_scheme',
+      id: 'color_scheme',
+      label: 'Color scheme',
+      default: 'scheme-1',
+    },
+    {
       type: 'select',
       id: 'page',
       label: 'Page layout',

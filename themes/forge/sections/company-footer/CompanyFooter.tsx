@@ -6,6 +6,7 @@ import { useForgeSettings } from '../../settings-context'
 import type { SectionComponentProps } from '#themes/shared/types/theme'
 
 interface FooterSettings {
+  color_scheme?: string
   heading?: string
   email?: string
   location?: string
@@ -122,8 +123,14 @@ const SocialLinks = styled.span`
   }
 `
 
+import { BlockRenderer } from '#themes/forge/blocks/BlockRenderer'
+
 export const CompanyFooter: React.FC<SectionComponentProps<FooterSettings>> = ({
+  id,
   settings,
+  blocks = {},
+  blockOrder = [],
+  isEditor = false,
 }) => {
   const globalSettings = useForgeSettings()
   const socialLinks = [
@@ -134,18 +141,54 @@ export const CompanyFooter: React.FC<SectionComponentProps<FooterSettings>> = ({
   ].filter((entry): entry is [string, string] => Boolean(entry[1]))
   const socialTarget = globalSettings.social_open_new_tab ? '_blank' : undefined
 
+  const hasBlocks = blockOrder.length > 0
+  const hasHeadingBlock = blockOrder.some(
+    (blockId) => blocks[blockId]?.type === 'heading',
+  )
+  const resolvedColorScheme = settings.color_scheme || 'scheme-2'
+
   return (
-    <Shell>
+    <Shell
+      className={`color-${resolvedColorScheme}`}
+      data-color-scheme={resolvedColorScheme}
+      id={id}
+    >
       <Core>
         <Eyebrow>
           {globalSettings.company_tagline || 'New business / Global enquiries'}
         </Eyebrow>
-        <Heading>{settings.heading || 'Built for what comes next.'}</Heading>
+        {hasHeadingBlock ? (
+          blockOrder
+            .filter((blockId) => blocks[blockId]?.type === 'heading')
+            .map((blockId) => (
+              <BlockRenderer
+                block={blocks[blockId]}
+                blockId={blockId}
+                isEditor={isEditor}
+                key={blockId}
+                sectionId={id}
+              />
+            ))
+        ) : (
+          <Heading>{settings.heading || 'Built for what comes next.'}</Heading>
+        )}
         <Contact
           href={`mailto:${settings.email || 'projects@atlas-industries.com'}`}
         >
           Discuss your project <span aria-hidden="true">↗</span>
         </Contact>
+        {hasBlocks &&
+          blockOrder
+            .filter((blockId) => blocks[blockId]?.type !== 'heading')
+            .map((blockId) => (
+              <BlockRenderer
+                block={blocks[blockId]}
+                blockId={blockId}
+                isEditor={isEditor}
+                key={blockId}
+                sectionId={id}
+              />
+            ))}
         <Sitemap aria-label="Footer navigation">
           {[
             ['About', 'about'],

@@ -12,56 +12,145 @@ export interface ListItemSettings {
   arrow_icon?: 'none' | 'up_right' | 'down_right'
 }
 
-const ItemContainer = styled.div<{ isLink: boolean }>`
+const ItemContainer = styled.div<{ isLink: boolean; href?: string }>`
+  position: relative;
   display: grid;
-  grid-template-columns: 48px 1fr auto;
-  gap: 20px;
+  grid-template-columns: auto 1fr auto;
+  gap: clamp(16px, 2.2vw, 24px);
   align-items: start;
-  padding: 24px 0;
+  padding: clamp(18px, 2.2vw, 26px) clamp(16px, 2vw, 22px);
+  border-radius: var(--forge-card-radius, 18px);
+  background: rgba(currentColor, 0.02);
+  border: 1px solid rgba(currentColor, 0.08);
   color: inherit;
   text-decoration: none;
-  box-shadow: inset 0 1px rgba(23, 25, 21, 0.1);
-  width: 100%;
   box-sizing: border-box;
-  transition:
-    transform 650ms var(--forge-ease),
-    opacity 650ms var(--forge-ease);
+  width: 100%;
   cursor: ${({ isLink }) => (isLink ? 'pointer' : 'default')};
+  transition:
+    transform 550ms var(--forge-ease),
+    background 550ms var(--forge-ease),
+    border-color 550ms var(--forge-ease),
+    box-shadow 550ms var(--forge-ease);
+  overflow: hidden;
+
+  /* Left accent marker on hover */
+  &::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%) scaleY(0);
+    width: 3px;
+    height: 32px;
+    background: var(--forge-orange);
+    border-radius: 0 3px 3px 0;
+    transition: transform 450ms var(--forge-ease);
+  }
 
   &:hover {
-    transform: ${({ isLink }) => (isLink ? 'translateX(8px)' : 'none')};
+    transform: ${({ isLink }) => (isLink ? 'translateX(6px)' : 'translateX(4px)')};
+    background: rgba(currentColor, 0.045);
+    border-color: rgba(241, 90, 36, 0.4);
+    box-shadow:
+      0 12px 28px -8px rgba(0, 0, 0, 0.12),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1);
+
+    &::before {
+      transform: translateY(-50%) scaleY(1);
+    }
+
+    small {
+      background: var(--forge-orange);
+      color: #171915;
+      border-color: var(--forge-orange);
+      opacity: 1;
+    }
+
+    .arrow-circle {
+      background: var(--forge-orange);
+      color: #171915;
+      border-color: var(--forge-orange);
+      transform: translate(2px, -2px) scale(1.08);
+    }
   }
 
   small {
-    color: #7b7e76;
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 0.12em;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 36px;
+    padding: 5px 9px;
+    border-radius: var(--forge-pill-radius);
+    background: rgba(currentColor, 0.06);
+    border: 1px solid rgba(currentColor, 0.12);
+    color: inherit;
+    font-family: var(--forge-heading);
+    font-size: 11px;
+    font-weight: 750;
+    letter-spacing: 0.14em;
+    opacity: 0.85;
+    transition: all 450ms var(--forge-ease);
+    box-sizing: border-box;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .content-body {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
   }
 
   strong {
-    font: 520 clamp(23px, 2.5vw, 34px) / 1.1 var(--forge-heading);
-    letter-spacing: -0.045em;
+    font: 520 clamp(22px, 2.6vw, 34px) / 1.12 var(--forge-heading);
+    letter-spacing: -0.04em;
     color: inherit;
+    transition: color 300ms ease;
   }
 
   p {
-    grid-column: 2 / -1;
-    max-width: 560px;
-    margin: 6px 0 0;
-    color: #676a63;
-    font-size: 13px;
-    line-height: 1.5;
+    margin: 8px 0 0;
+    max-width: 540px;
+    color: inherit;
+    opacity: 0.72;
+    font-size: 14px;
+    line-height: 1.55;
+    letter-spacing: -0.01em;
   }
 
   .arrow-indicator {
-    font-size: 18px;
-    color: inherit;
-    transition: transform 650ms var(--forge-ease);
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
-  &:hover .arrow-indicator {
-    transform: translate(2px, -2px);
+  .arrow-circle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: rgba(currentColor, 0.05);
+    border: 1px solid rgba(currentColor, 0.12);
+    color: inherit;
+    font-size: 16px;
+    font-weight: 700;
+    transition:
+      transform 450ms var(--forge-ease),
+      background 450ms var(--forge-ease),
+      color 450ms var(--forge-ease),
+      border-color 450ms var(--forge-ease);
+    flex-shrink: 0;
+  }
+
+  @media (max-width: 640px) {
+    grid-template-columns: 1fr;
+    gap: 14px;
+
+    .arrow-indicator {
+      justify-content: flex-end;
+    }
   }
 `
 
@@ -90,11 +179,15 @@ export const ListItem: React.FC<BlockComponentProps<ListItemSettings>> = ({
   const content = (
     <>
       <small>{number}</small>
-      <div>
+      <div className="content-body">
         <strong>{title}</strong>
         {description && <p>{description}</p>}
       </div>
-      {arrowSymbol && <span className="arrow-indicator">{arrowSymbol}</span>}
+      {arrowSymbol && (
+        <span className="arrow-indicator">
+          <span className="arrow-circle">{arrowSymbol}</span>
+        </span>
+      )}
     </>
   )
 
@@ -118,3 +211,4 @@ export const ListItem: React.FC<BlockComponentProps<ListItemSettings>> = ({
     </ItemContainer>
   )
 }
+
