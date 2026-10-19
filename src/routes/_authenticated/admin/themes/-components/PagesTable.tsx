@@ -87,6 +87,7 @@ export interface PagesTableProps {
   pages: TenantTemplatePageType[]
   themeId: string
   tenantTemplateUuid: string
+  tenantSlug?: string
   onAddPage: () => void
 }
 
@@ -94,6 +95,7 @@ export const PagesTable: React.FC<PagesTableProps> = ({
   pages,
   themeId,
   tenantTemplateUuid,
+  tenantSlug,
   onAddPage,
 }) => {
   return (
@@ -158,7 +160,9 @@ export const PagesTable: React.FC<PagesTableProps> = ({
                 sections?: Record<string, unknown>
               } | null
               const sectionCount = rawData?.order?.length || 0
-              const previewUrl = `/preview?theme=${encodeURIComponent(themeId)}&template=${encodeURIComponent(page.slug)}`
+              const previewUrl = tenantSlug
+                ? `/preview/${encodeURIComponent(tenantSlug)}?template=${encodeURIComponent(page.slug)}&theme=${encodeURIComponent(themeId)}`
+                : `/preview?theme=${encodeURIComponent(themeId)}&template=${encodeURIComponent(page.slug)}`
 
               return (
                 <tr key={page.uuid}>
@@ -203,6 +207,7 @@ export const PagesTable: React.FC<PagesTableProps> = ({
                           theme: themeId,
                           page: page.slug,
                           tenant_template: tenantTemplateUuid,
+                          tenant: tenantSlug,
                         }}
                       >
                         <Button

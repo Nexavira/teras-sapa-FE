@@ -235,7 +235,10 @@ export const ThemeLibrary: React.FC<ThemeLibraryProps> = ({
             themeDef.name
 
           const pageCount = template.pages?.length || 0
-          const previewUrl = `/preview?theme=${encodeURIComponent(themeDef.id)}`
+          const tenantSlug = template.tenant?.slug
+          const previewUrl = tenantSlug
+            ? `/preview/${encodeURIComponent(tenantSlug)}?theme=${encodeURIComponent(themeDef.id)}`
+            : `/preview?theme=${encodeURIComponent(themeDef.id)}`
 
           return (
             <ThemeRow key={template.uuid} isActive={isActive}>
@@ -306,6 +309,7 @@ export const ThemeLibrary: React.FC<ThemeLibraryProps> = ({
                   search={{
                     theme: themeDef.id,
                     tenant_template: template.uuid,
+                    tenant: tenantSlug,
                   }}
                 >
                   <Button

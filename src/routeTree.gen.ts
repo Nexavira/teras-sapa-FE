@@ -16,6 +16,7 @@ import { Route as AppEditorRouteImport } from './routes/_app.editor'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 import { Route as LoginIndexRouteImport } from './routes/login/index'
 import { Route as PreviewIndexRouteImport } from './routes/preview/index'
+import { Route as PreviewTenantSlugRouteImport } from './routes/preview/$tenantSlug'
 import { Route as RegisterIndexRouteImport } from './routes/register/index'
 import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin/index'
 import { Route as AuthenticatedAdminArticlesIndexRouteImport } from './routes/_authenticated/admin/articles/index'
@@ -61,6 +62,11 @@ const LoginIndexRoute = LoginIndexRouteImport.update({
 const PreviewIndexRoute = PreviewIndexRouteImport.update({
   id: '/preview/',
   path: '/preview/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PreviewTenantSlugRoute = PreviewTenantSlugRouteImport.update({
+  id: '/preview/$tenantSlug',
+  path: '/preview/$tenantSlug',
   getParentRoute: () => rootRouteImport,
 } as any)
 const RegisterIndexRoute = RegisterIndexRouteImport.update({
@@ -144,6 +150,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/editor': typeof AppEditorRoute
   '/admin': typeof AuthenticatedAdminRouteWithChildren
+  '/preview/$tenantSlug': typeof PreviewTenantSlugRoute
   '/login/': typeof LoginIndexRoute
   '/preview/': typeof PreviewIndexRoute
   '/register/': typeof RegisterIndexRoute
@@ -163,6 +170,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/editor': typeof AppEditorRoute
+  '/preview/$tenantSlug': typeof PreviewTenantSlugRoute
   '/login': typeof LoginIndexRoute
   '/preview': typeof PreviewIndexRoute
   '/register': typeof RegisterIndexRoute
@@ -186,6 +194,7 @@ export interface FileRoutesById {
   '/_authenticated': typeof AuthenticatedRouteWithChildren
   '/_app/editor': typeof AppEditorRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRouteWithChildren
+  '/preview/$tenantSlug': typeof PreviewTenantSlugRoute
   '/login/': typeof LoginIndexRoute
   '/preview/': typeof PreviewIndexRoute
   '/register/': typeof RegisterIndexRoute
@@ -208,6 +217,7 @@ export interface FileRouteTypes {
     | '/'
     | '/editor'
     | '/admin'
+    | '/preview/$tenantSlug'
     | '/login/'
     | '/preview/'
     | '/register/'
@@ -227,6 +237,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/editor'
+    | '/preview/$tenantSlug'
     | '/login'
     | '/preview'
     | '/register'
@@ -249,6 +260,7 @@ export interface FileRouteTypes {
     | '/_authenticated'
     | '/_app/editor'
     | '/_authenticated/admin'
+    | '/preview/$tenantSlug'
     | '/login/'
     | '/preview/'
     | '/register/'
@@ -270,6 +282,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AppRoute: typeof AppRouteWithChildren
   AuthenticatedRoute: typeof AuthenticatedRouteWithChildren
+  PreviewTenantSlugRoute: typeof PreviewTenantSlugRoute
   LoginIndexRoute: typeof LoginIndexRoute
   PreviewIndexRoute: typeof PreviewIndexRoute
   RegisterIndexRoute: typeof RegisterIndexRoute
@@ -324,6 +337,13 @@ declare module '@tanstack/react-router' {
       path: '/preview'
       fullPath: '/preview/'
       preLoaderRoute: typeof PreviewIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/preview/$tenantSlug': {
+      id: '/preview/$tenantSlug'
+      path: '/preview/$tenantSlug'
+      fullPath: '/preview/$tenantSlug'
+      preLoaderRoute: typeof PreviewTenantSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/register/': {
@@ -485,6 +505,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AppRoute: AppRouteWithChildren,
   AuthenticatedRoute: AuthenticatedRouteWithChildren,
+  PreviewTenantSlugRoute: PreviewTenantSlugRoute,
   LoginIndexRoute: LoginIndexRoute,
   PreviewIndexRoute: PreviewIndexRoute,
   RegisterIndexRoute: RegisterIndexRoute,

@@ -264,6 +264,12 @@ export const PageSelector: React.FC<PageSelectorProps> = ({
         </SelectChevronIcon>
       </SelectWrapper>
 
+      {activePageData?.slug && (
+        <PageMetaRow>
+          <span className="slug">/{activePageData.slug}</span>
+        </PageMetaRow>
+      )}
+
       {/* Edit Page Data Modal */}
       {isEditPageModalOpen && activePageData?.uuid && (
         <EditPageDataModal

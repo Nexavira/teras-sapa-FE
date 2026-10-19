@@ -41,6 +41,7 @@ export interface ThemeEditorProps {
   previewUrl?: string
   themeId?: string
   pageSlug?: string
+  tenantSlug?: string
   tenantTemplateUuid?: string
   onPageChange?: (slug: string) => void
 }
@@ -50,6 +51,7 @@ export const ThemeEditor: React.FC<ThemeEditorProps> = ({
   previewUrl = '/preview',
   themeId,
   pageSlug,
+  tenantSlug,
   tenantTemplateUuid,
   onPageChange,
 }) => {
@@ -188,8 +190,15 @@ export const ThemeEditor: React.FC<ThemeEditorProps> = ({
 
   if (activeTheme.id !== requestedTheme.id) return null
 
-  const separator = previewUrl.includes('?') ? '&' : '?'
-  const pagePreviewUrl = `${previewUrl}${separator}template=${encodeURIComponent(activeTemplateId)}&theme=${encodeURIComponent(activeTheme.id)}`
+  const effectiveTenantSlug =
+    tenantSlug || tenant?.slug || currentTenantTemplate?.tenant?.slug
+
+  const resolvedBasePreviewUrl = effectiveTenantSlug
+    ? `/preview/${encodeURIComponent(effectiveTenantSlug)}`
+    : previewUrl
+
+  const separator = resolvedBasePreviewUrl.includes('?') ? '&' : '?'
+  const pagePreviewUrl = `${resolvedBasePreviewUrl}${separator}template=${encodeURIComponent(activeTemplateId)}&theme=${encodeURIComponent(activeTheme.id)}`
   const iframePreviewUrl = `${pagePreviewUrl}&mode=editor`
 
   return (

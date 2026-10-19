@@ -225,9 +225,12 @@ export const CurrentThemeCard: React.FC<CurrentThemeCardProps> = ({
   themeDefinition,
 }) => {
   const pageCount = tenantTemplate.pages?.length || 0
-  const previewUrl = `/preview?theme=${encodeURIComponent(themeDefinition.id)}`
-  const storeHost = tenantTemplate.tenant?.slug
-    ? `${tenantTemplate.tenant.slug}.shopiti.app`
+  const tenantSlug = tenantTemplate.tenant?.slug
+  const previewUrl = tenantSlug
+    ? `/preview/${encodeURIComponent(tenantSlug)}?theme=${encodeURIComponent(themeDefinition.id)}`
+    : `/preview?theme=${encodeURIComponent(themeDefinition.id)}`
+  const storeHost = tenantSlug
+    ? `${tenantSlug}.shopiti.app`
     : 'tokosaya.shopiti.app'
 
   // Extract custom title from template_settings if stored, or fallback to global template title / definition name
@@ -322,6 +325,7 @@ export const CurrentThemeCard: React.FC<CurrentThemeCardProps> = ({
               search={{
                 theme: themeDefinition.id,
                 tenant_template: tenantTemplate.uuid,
+                tenant: tenantSlug,
               }}
             >
               <Button

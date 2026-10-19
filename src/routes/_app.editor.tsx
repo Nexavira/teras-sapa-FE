@@ -5,7 +5,7 @@ import { z } from 'zod'
 import { ThemeEditor } from './_app.editor/-components'
 
 const ThemeEditorRouteComponent = () => {
-  const { theme, page, tenant_template } = Route.useSearch()
+  const { theme, page, tenant_template, tenant } = Route.useSearch()
   const navigate = Route.useNavigate()
 
   const handlePageChange = (newPageSlug: string) => {
@@ -20,9 +20,9 @@ const ThemeEditorRouteComponent = () => {
   return (
     <ThemeEditor
       pageName={page ? `Page: ${page}` : 'Home page'}
-      previewUrl="/preview"
       themeId={theme}
       pageSlug={page}
+      tenantSlug={tenant}
       tenantTemplateUuid={tenant_template}
       onPageChange={handlePageChange}
     />
@@ -36,6 +36,7 @@ export const Route = createFileRoute('/_app/editor')({
         theme: z.string().optional(),
         page: z.string().optional(),
         tenant_template: z.string().optional(),
+        tenant: z.string().optional(),
       })
       .parse(search),
   component: ThemeEditorRouteComponent,

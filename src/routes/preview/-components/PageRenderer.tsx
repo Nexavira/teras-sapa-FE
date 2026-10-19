@@ -32,12 +32,19 @@ export interface PageRendererProps {
   mode?: 'editor' | 'preview'
   templateId?: string
   themeId?: string
+  initialTemplate?: TemplateData | null
+  initialGlobalSettings?: GlobalSettingsData | null
+  tenantSlug?: string
+  tenantName?: string
+  pageTitle?: string
 }
 
 export const PageRenderer: FC<PageRendererProps> = ({
   mode = 'preview',
   templateId = 'index',
   themeId,
+  initialTemplate,
+  initialGlobalSettings,
 }) => {
   const isEditor = mode === 'editor'
 
@@ -53,10 +60,12 @@ export const PageRenderer: FC<PageRendererProps> = ({
     selectedTheme?.defaultSettingsData || defaultSettingsData
 
   const [template, setTemplate] = useState<TemplateData>(() =>
-    activeNormalizeTemplate(activeGetTemplate(templateId)),
+    initialTemplate
+      ? activeNormalizeTemplate(initialTemplate)
+      : activeNormalizeTemplate(activeGetTemplate(templateId)),
   )
   const [globalSettings, setGlobalSettings] = useState<GlobalSettingsData>(
-    activeDefaultSettings,
+    () => initialGlobalSettings ?? activeDefaultSettings,
   )
   const [selectedItem, setSelectedItem] = useState<PreviewSelectedItem | null>(
     null,
@@ -66,14 +75,24 @@ export const PageRenderer: FC<PageRendererProps> = ({
 
   useEffect(() => {
     editorActions.setTheme(selectedTheme?.id || getTheme().id)
-    setTemplate(activeNormalizeTemplate(activeGetTemplate(templateId)))
-    setGlobalSettings(activeDefaultSettings)
+    if (initialTemplate) {
+      setTemplate(activeNormalizeTemplate(initialTemplate))
+    } else {
+      setTemplate(activeNormalizeTemplate(activeGetTemplate(templateId)))
+    }
+    if (initialGlobalSettings) {
+      setGlobalSettings(initialGlobalSettings)
+    } else {
+      setGlobalSettings(activeDefaultSettings)
+    }
     setSelectedItem(null)
     setHoveredItem(null)
   }, [
     activeDefaultSettings,
     activeGetTemplate,
     activeNormalizeTemplate,
+    initialGlobalSettings,
+    initialTemplate,
     selectedTheme?.id,
     templateId,
   ])

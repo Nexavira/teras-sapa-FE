@@ -84,7 +84,10 @@ export const ActiveThemeCard: React.FC<ActiveThemeCardProps> = ({
   onAddPage,
 }) => {
   const pageCount = tenantTemplate.pages?.length || 0
-  const previewUrl = `/preview?theme=${encodeURIComponent(themeDefinition.id)}`
+  const tenantSlug = tenantTemplate.tenant?.slug
+  const previewUrl = tenantSlug
+    ? `/preview/${encodeURIComponent(tenantSlug)}?theme=${encodeURIComponent(themeDefinition.id)}`
+    : `/preview?theme=${encodeURIComponent(themeDefinition.id)}`
 
   return (
     <CardRoot padding="lg" variant="flat">
@@ -120,6 +123,7 @@ export const ActiveThemeCard: React.FC<ActiveThemeCardProps> = ({
             search={{
               theme: themeDefinition.id,
               tenant_template: tenantTemplate.uuid,
+              tenant: tenantSlug,
             }}
           >
             <Button
