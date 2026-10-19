@@ -4,7 +4,9 @@ import styled from '@emotion/styled'
 
 import { theme } from '#/-components/ui/theme'
 import { useEditorActiveTab } from '#/store/editorStore'
+import type { TenantTemplatePageType } from '#/types/cms.type'
 
+import { PageSelector } from './PageSelector'
 import { SectionTree } from './SectionTree'
 import { SettingsList } from './SettingsList'
 
@@ -28,16 +30,30 @@ const SidebarContent = styled.div`
 `
 
 export interface EditorLeftSidebarProps {
+  tenantTemplateUuid?: string
+  tenantPages?: Array<TenantTemplatePageType>
+  onPageChange?: (slug: string) => void
+  onRefetchTenantPages?: () => void
   className?: string
 }
 
 export const EditorLeftSidebar: React.FC<EditorLeftSidebarProps> = ({
+  tenantTemplateUuid,
+  tenantPages,
+  onPageChange,
+  onRefetchTenantPages,
   className,
 }) => {
   const activeTab = useEditorActiveTab()
 
   return (
     <LeftSidebarRoot className={className}>
+      <PageSelector
+        tenantTemplateUuid={tenantTemplateUuid}
+        tenantPages={tenantPages}
+        onPageChange={onPageChange}
+        onRefetchTenantPages={onRefetchTenantPages}
+      />
       <SidebarContent>
         {activeTab === 'sections' ? <SectionTree /> : <SettingsList />}
       </SidebarContent>

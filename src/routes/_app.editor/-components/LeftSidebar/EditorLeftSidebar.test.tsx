@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import type { ReactNode } from 'react'
 
 import { cleanup, fireEvent, render, screen } from '@testing-library/react'
@@ -217,5 +218,82 @@ describe('Editor Left Sidebar & Header Navigation', () => {
     )
 
     expect(screen.getByText(/Global Theme Settings/i)).toBeDefined()
+  })
+
+  it('renders PageSelector in EditorLeftSidebar with store pages and triggers onPageChange on select', () => {
+    const handlePageChange = vi.fn()
+    const mockPages = [
+      {
+        id: 1,
+        uuid: 'page-home',
+        tenant_template_uuid: 'tpl-1',
+        title: 'Home Page',
+        slug: 'home',
+        is_active: 1,
+        template_data: null,
+        created_at: '',
+        updated_at: '',
+      },
+      {
+        id: 2,
+        uuid: 'page-about',
+        tenant_template_uuid: 'tpl-1',
+        title: 'Tentang Kami',
+        slug: 'tentang-kami',
+        is_active: 1,
+        template_data: null,
+        created_at: '',
+        updated_at: '',
+      },
+    ]
+
+    render(
+      <ThemeProvider>
+        <EditorLeftSidebar
+          tenantTemplateUuid="tpl-1"
+          tenantPages={mockPages}
+          onPageChange={handlePageChange}
+        />
+      </ThemeProvider>,
+    )
+
+    // Check that Halaman label and select are rendered
+    expect(screen.getByText(/halaman/i)).toBeDefined()
+    const select = screen.getByRole('combobox', { name: /pilih halaman/i })
+    expect(select).toBeDefined()
+
+    // Options for store pages exist
+    expect(
+      screen.getByRole('option', { name: /Home Page \(\/home\)/i }),
+    ).toBeDefined()
+    expect(
+      screen.getByRole('option', { name: /Tentang Kami \(\/tentang-kami\)/i }),
+    ).toBeDefined()
+
+    // Select second page
+    fireEvent.change(select, { target: { value: 'tentang-kami' } })
+    expect(handlePageChange).toHaveBeenCalledWith('tentang-kami')
+  })
+
+  it('renders action buttons in PageSelector for editing and creating pages', () => {
+    editorActions.setActivePageData({
+      uuid: 'page-current',
+      title: 'Current Page',
+      slug: 'current-slug',
+      is_active: 1,
+    })
+
+    render(
+      <ThemeProvider>
+        <EditorLeftSidebar tenantTemplateUuid="tpl-1" />
+      </ThemeProvider>,
+    )
+
+    const editBtn = screen.getByRole('button', { name: /edit data halaman/i })
+    const createBtn = screen.getByRole('button', { name: /buat halaman baru/i })
+
+    expect(editBtn).toBeDefined()
+    expect(createBtn).toBeDefined()
+    expect(screen.getByText('/current-slug')).toBeDefined()
   })
 })

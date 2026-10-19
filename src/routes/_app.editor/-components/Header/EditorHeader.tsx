@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 import { Link } from '@tanstack/react-router'
 
@@ -6,10 +6,11 @@ import styled from '@emotion/styled'
 import {
   CheckmarkCircle02Icon,
   ComputerIcon,
+  Edit02Icon,
   EyeIcon,
   GridIcon,
-  Layers01Icon,
   LogoutSquare02Icon,
+  PaintBoardIcon,
   RedoIcon,
   Settings02Icon,
   SmartPhone01Icon,
@@ -17,15 +18,24 @@ import {
   UndoIcon,
 } from 'hugeicons-react'
 
-import { Badge, Button, Divider, IconButton, theme } from '#/-components/ui'
+import {
+  Badge,
+  Button,
+  Divider,
+  IconButton,
+  theme,
+  Typography,
+} from '#/-components/ui'
 import {
   editorActions,
   useEditorActiveTab,
   useEditorCanUndoRedo,
-  useEditorStore,
   useEditorTheme,
+  useEditorThemeData,
   useEditorViewport,
 } from '#/store/editorStore'
+
+import { EditThemeDataModal } from '../../-schema'
 
 const TopHeader = styled.header`
   height: 60px;
@@ -38,13 +48,31 @@ const TopHeader = styled.header`
   z-index: 50;
   border-bottom: 1px solid ${theme.colors.border};
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+  gap: 12px;
 `
 
 const HeaderLeft = styled.div`
   display: flex;
   align-items: center;
-  gap: 12px;
-  min-width: 240px;
+  gap: 10px;
+  min-width: 0;
+`
+
+const ThemeCapsule = styled.button`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 10px;
+  border-radius: 8px;
+  border: 1px solid ${theme.colors.border};
+  background-color: #f8fafc;
+  cursor: pointer;
+  transition: all 0.15s ease;
+
+  &:hover {
+    border-color: ${theme.colors.primary.DEFAULT};
+    background-color: #f1f5f9;
+  }
 `
 
 const TabSwitcher = styled.div`
@@ -60,24 +88,7 @@ const TabSwitcher = styled.div`
 const HeaderCenter = styled.div`
   display: flex;
   align-items: center;
-  gap: 16px;
-`
-
-const PageSelectorCapsule = styled.select`
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background-color: ${theme.colors.background};
-  border: 1px solid #dddddd;
-  border-radius: 28px;
-  padding: 6px 14px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-
-  &:hover {
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-    border-color: #cccccc;
-  }
+  gap: 10px;
 `
 
 const ViewportSwitcher = styled.div`
@@ -94,23 +105,30 @@ const HeaderRight = styled.div`
   display: flex;
   align-items: center;
   gap: 10px;
+  flex-shrink: 0;
 `
 
 export interface EditorHeaderProps {
   pageName?: string
   previewUrl?: string
+  tenantTemplateUuid?: string
+  onRefetchTenantTemplates?: () => void
   className?: string
 }
 
 export const EditorHeader: React.FC<EditorHeaderProps> = ({
   previewUrl = '/',
+  tenantTemplateUuid,
+  onRefetchTenantTemplates,
   className,
 }) => {
-  const activeTemplateId = useEditorStore((state) => state.activeTemplateId)
-  const { templateCatalog } = useEditorTheme()
+  const activeTheme = useEditorTheme()
+  const themeData = useEditorThemeData()
   const activeTab = useEditorActiveTab()
   const viewport = useEditorViewport()
   const { canUndo, canRedo, isSaving, lastSavedAt } = useEditorCanUndoRedo()
+
+  const [isEditThemeModalOpen, setIsEditThemeModalOpen] = useState(false)
 
   return (
     <TopHeader className={className}>
@@ -120,7 +138,42 @@ export const EditorHeader: React.FC<EditorHeaderProps> = ({
             <LogoutSquare02Icon style={{ rotate: '180deg' }} size={16} />
           </IconButton>
         </Link>
-        <Divider orientation="vertical" />
+
+        {tenantTemplateUuid && (
+          <>
+            <ThemeCapsule
+              type="button"
+              onClick={() => setIsEditThemeModalOpen(true)}
+              title="Edit Data Tema"
+            >
+              <PaintBoardIcon size={14} color={theme.colors.primary.DEFAULT} />
+              <Typography
+                variant="caption"
+                weight="bold"
+                style={{
+                  maxWidth: '120px',
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                  whiteSpace: 'nowrap',
+                }}
+              >
+                {themeData?.title || activeTheme.name}
+              </Typography>
+              <Badge
+                size="sm"
+                variant={themeData?.isPublished ? 'success' : 'neutral'}
+              >
+                {themeData?.isPublished ? 'Live' : 'Draft'}
+              </Badge>
+              <Edit02Icon
+                size={13}
+                style={{ color: theme.colors.text.secondary }}
+              />
+            </ThemeCapsule>
+            <Divider orientation="vertical" />
+          </>
+        )}
+
         <TabSwitcher>
           <Button
             size="sm"
@@ -156,19 +209,6 @@ export const EditorHeader: React.FC<EditorHeaderProps> = ({
       </HeaderLeft>
 
       <HeaderCenter>
-        <Layers01Icon size={16} color={theme.colors.primary.DEFAULT} />
-        <PageSelectorCapsule
-          aria-label="Page template"
-          value={activeTemplateId}
-          onChange={(event) => editorActions.switchTemplate(event.target.value)}
-        >
-          {Object.entries(templateCatalog).map(([id, entry]) => (
-            <option key={id} value={id}>
-              {entry.label}
-            </option>
-          ))}
-        </PageSelectorCapsule>
-
         <ViewportSwitcher>
           <IconButton
             type="button"
@@ -241,6 +281,21 @@ export const EditorHeader: React.FC<EditorHeaderProps> = ({
           {isSaving ? 'Saving...' : 'Save Changes'}
         </Button>
       </HeaderRight>
+
+      {/* Edit Theme Data Modal */}
+      {tenantTemplateUuid && (
+        <EditThemeDataModal
+          isOpen={isEditThemeModalOpen}
+          tenantTemplateUuid={tenantTemplateUuid}
+          currentTitle={themeData?.title || activeTheme.name}
+          isPublished={Boolean(themeData?.isPublished)}
+          isActive={Boolean(themeData?.isActive ?? true)}
+          onClose={() => setIsEditThemeModalOpen(false)}
+          onSuccess={() => {
+            onRefetchTenantTemplates?.()
+          }}
+        />
+      )}
     </TopHeader>
   )
 }

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useSelector } from '@tanstack/react-store'
 import { Store } from '@tanstack/store'
 
@@ -7,6 +8,7 @@ import {
   removeBlockFromCollection,
   updateBlockInTree,
 } from '#/lib/editor/blockTree'
+import { fetchHelper } from '#/utils/fetchHelper'
 
 import type {
   BlockInstance,
@@ -32,9 +34,27 @@ export interface EditorHistorySnapshot {
   globalSettings: GlobalSettingsData
 }
 
+export interface EditorPageData {
+  uuid?: string
+  title: string
+  slug: string
+  is_active: number | boolean
+}
+
+export interface EditorThemeData {
+  uuid?: string
+  title: string
+  isActive: boolean
+  isPublished: boolean
+}
+
 export interface EditorState {
   themeId: string
   activeTemplateId: string
+  tenantTemplateUuid?: string | null
+  activePageUuid?: string | null
+  themeData: EditorThemeData | null
+  activePageData: EditorPageData | null
   templateDrafts: Record<string, TemplateData>
   template: TemplateData
   globalSettings: GlobalSettingsData
@@ -44,8 +64,8 @@ export interface EditorState {
   isSaving: boolean
   lastSavedAt: string | null
   history: {
-    past: EditorHistorySnapshot[]
-    future: EditorHistorySnapshot[]
+    past: Array<EditorHistorySnapshot>
+    future: Array<EditorHistorySnapshot>
   }
 }
 
@@ -60,6 +80,18 @@ const initialSettings: GlobalSettingsData = initialTheme.defaultSettingsData
 export const editorStore = new Store<EditorState>({
   themeId: initialTheme.id,
   activeTemplateId: 'index',
+  tenantTemplateUuid: null,
+  activePageUuid: null,
+  themeData: {
+    title: initialTheme.name,
+    isActive: true,
+    isPublished: false,
+  },
+  activePageData: {
+    title: 'Home',
+    slug: 'home',
+    is_active: 1,
+  },
   templateDrafts: {},
   template: initialTemplate,
   globalSettings: initialSettings,
@@ -82,8 +114,8 @@ export const editorStore = new Store<EditorState>({
 // ============================================================================
 
 function pushHistorySnapshot(state: EditorState): {
-  past: EditorHistorySnapshot[]
-  future: EditorHistorySnapshot[]
+  past: Array<EditorHistorySnapshot>
+  future: Array<EditorHistorySnapshot>
 } {
   const currentSnapshot: EditorHistorySnapshot = {
     template: JSON.parse(JSON.stringify(state.template)),
@@ -108,7 +140,7 @@ function generateId(prefix: string): string {
 function createBlockFromPreset(preset: BlockPreset): BlockInstance {
   const blockId = generateId(preset.type)
   const childBlocks: Record<string, BlockInstance> = {}
-  const childOrder: string[] = []
+  const childOrder: Array<string> = []
 
   for (const childPreset of preset.blocks || []) {
     const child = createBlockFromPreset(childPreset)
@@ -306,12 +338,12 @@ export const editorActions = {
   addSection(
     sectionType: string,
     presetSettings: Record<string, any> = {},
-    presetBlocks?: BlockPreset[],
+    presetBlocks?: Array<BlockPreset>,
     atIndex?: number,
   ) {
     const newSectionId = generateId(sectionType)
     const blocksMap: Record<string, BlockInstance> = {}
-    const blockOrder: string[] = []
+    const blockOrder: Array<string> = []
 
     if (presetBlocks && presetBlocks.length > 0) {
       presetBlocks.forEach((preset) => {
@@ -399,7 +431,7 @@ export const editorActions = {
   },
 
   /** Reorder entire sections array */
-  reorderSections(newOrder: string[]) {
+  reorderSections(newOrder: Array<string>) {
     editorStore.setState((state) => ({
       ...state,
       history: pushHistorySnapshot(state),
@@ -686,7 +718,11 @@ export const editorActions = {
   },
 
   /** Reorder the direct children of a section or container block. */
-  reorderBlocks(sectionId: string, newOrder: string[], parentBlockId?: string) {
+  reorderBlocks(
+    sectionId: string,
+    newOrder: Array<string>,
+    parentBlockId?: string,
+  ) {
     editorStore.setState((state) => {
       const currentSection = state.template.sections[sectionId]
       const blocks = parentBlockId
@@ -934,14 +970,129 @@ export const editorActions = {
     })
   },
 
-  /** Save template (hardcoded mock save with visual state) */
+  /** Set theme metadata (title, active/published status) */
+  setThemeData(data: Partial<EditorThemeData>) {
+    editorStore.setState((state) => ({
+      ...state,
+      themeData: state.themeData
+        ? { ...state.themeData, ...data }
+        : {
+            title: data.title ?? getTheme(state.themeId).name,
+            isActive: data.isActive ?? true,
+            isPublished: data.isPublished ?? false,
+            uuid: data.uuid,
+            ...data,
+          },
+    }))
+  },
+
+  /** Set active page metadata (title, slug, active status) */
+  setActivePageData(data: Partial<EditorPageData>) {
+    editorStore.setState((state) => ({
+      ...state,
+      activePageData: state.activePageData
+        ? { ...state.activePageData, ...data }
+        : {
+            title: data.title ?? 'Home',
+            slug: data.slug ?? 'home',
+            is_active: data.is_active ?? 1,
+            uuid: data.uuid,
+            ...data,
+          },
+    }))
+  },
+
+  /** Set backend tenant template and active page context */
+  setBackendContext(
+    tenantTemplateUuid?: string | null,
+    pageUuid?: string | null,
+    pageData?: EditorPageData | null,
+    themeData?: EditorThemeData | null,
+  ) {
+    editorStore.setState((state) => ({
+      ...state,
+      tenantTemplateUuid:
+        tenantTemplateUuid !== undefined
+          ? tenantTemplateUuid
+          : state.tenantTemplateUuid,
+      activePageUuid: pageUuid !== undefined ? pageUuid : state.activePageUuid,
+      activePageData: pageData !== undefined ? pageData : state.activePageData,
+      themeData: themeData !== undefined ? themeData : state.themeData,
+    }))
+  },
+
+  /** Hydrate editor template and settings from backend */
+  hydrateFromBackend(
+    templateData: TemplateData,
+    globalSettings?: GlobalSettingsData | null,
+    pageUuid?: string | null,
+    pageData?: EditorPageData | null,
+    themeData?: EditorThemeData | null,
+  ) {
+    editorStore.setState((state) => ({
+      ...state,
+      template: templateData,
+      globalSettings: globalSettings ?? state.globalSettings,
+      activePageUuid: pageUuid !== undefined ? pageUuid : state.activePageUuid,
+      activePageData: pageData !== undefined ? pageData : state.activePageData,
+      themeData: themeData !== undefined ? themeData : state.themeData,
+      history: {
+        past: [],
+        future: [],
+      },
+    }))
+  },
+
+  /** Save template and global settings to backend if context exists */
   async save() {
     editorStore.setState((state) => ({ ...state, isSaving: true }))
+    const state = editorStore.state
 
-    console.log('saving data...', JSON.stringify(editorStore.get(), null, 2))
+    try {
+      if (state.activePageUuid) {
+        await fetchHelper('/api/v1/dashboard/cms/tenant-template-page/update', {
+          method: 'PATCH',
+          body: {
+            tenant_template_page_uuid: state.activePageUuid,
+            template_data: state.template,
+            ...(state.activePageData
+              ? {
+                  title: state.activePageData.title,
+                  slug: state.activePageData.slug,
+                  is_active: Number(state.activePageData.is_active),
+                }
+              : {}),
+          },
+        })
+      }
 
-    // Simulate brief API delay
-    await new Promise((resolve) => setTimeout(resolve, 600))
+      if (state.tenantTemplateUuid) {
+        await fetchHelper('/api/v1/dashboard/cms/tenant-template/update', {
+          method: 'PATCH',
+          body: {
+            tenant_template_uuid: state.tenantTemplateUuid,
+            template_settings: {
+              ...state.globalSettings,
+              theme_title:
+                state.themeData?.title || getTheme(state.themeId).name,
+              theme_id: state.themeId,
+            },
+            ...(state.themeData
+              ? {
+                  active_template: state.themeData.isPublished,
+                  is_active: state.themeData.isActive ? 1 : 0,
+                }
+              : {}),
+          },
+        })
+      }
+    } catch (err) {
+      console.warn(
+        'Backend save encountered an error, keeping visual state:',
+        err,
+      )
+    }
+
     editorStore.setState((state) => ({
       ...state,
       isSaving: false,
@@ -1014,4 +1165,12 @@ export function useEditorCanUndoRedo(): {
     isSaving: s.isSaving,
     lastSavedAt: s.lastSavedAt,
   }))
+}
+
+export function useEditorThemeData(): EditorThemeData | null {
+  return useSelector(editorStore, (s) => s.themeData)
+}
+
+export function useEditorPageData(): EditorPageData | null {
+  return useSelector(editorStore, (s) => s.activePageData)
 }
