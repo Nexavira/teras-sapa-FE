@@ -41,24 +41,25 @@ graph LR
 
 Shopify defines standard template names for every core e-commerce entity. Shopiti follows this taxonomy:
 
-| Template Name | Target Route | Purpose | Context Provided |
-| :--- | :--- | :--- | :--- |
-| `index.json` | `/` | Storefront Homepage | Global store metadata, marketing banners |
-| `product.json` | `/products/:handle` | Default Product Detail Page (PDP) | Active `Product` entity (variants, media, inventory) |
-| `collection.json` | `/collections/:handle` | Collection / Catalog Listing Page (PLP) | Active `Collection` entity, paginated product list |
-| `page.json` | `/pages/:slug` | Default Generic Static Page | Active `Page` entity (title, body HTML) |
-| `blog.json` | `/blogs/:blog` | Blog Index / Post List | Active `Blog` entity, paginated article list |
-| `article.json` | `/blogs/:blog/:article` | Individual Editorial Article | Active `Article` entity (author, content, comments) |
-| `cart.json` | `/cart` | Full Cart Page | Active `Cart` entity (line items, discounts, totals) |
-| `search.json` | `/search` | Predictive & Keyword Search Results | Active search query, filtered products, articles |
-| `404.json` | `*` (Catch-all) | Not Found Error Page | Error state, suggested collections / links |
-| `customers/*.json` | `/account/*` | Customer Portal (Login, Register, Account, Order Details) | Customer authentication session & order history |
+| Template Name      | Target Route            | Purpose                                                   | Context Provided                                     |
+| :----------------- | :---------------------- | :-------------------------------------------------------- | :--------------------------------------------------- |
+| `index.json`       | `/`                     | Storefront Homepage                                       | Global store metadata, marketing banners             |
+| `product.json`     | `/products/:handle`     | Default Product Detail Page (PDP)                         | Active `Product` entity (variants, media, inventory) |
+| `collection.json`  | `/collections/:handle`  | Collection / Catalog Listing Page (PLP)                   | Active `Collection` entity, paginated product list   |
+| `page.json`        | `/pages/:slug`          | Default Generic Static Page                               | Active `Page` entity (title, body HTML)              |
+| `blog.json`        | `/blogs/:blog`          | Blog Index / Post List                                    | Active `Blog` entity, paginated article list         |
+| `article.json`     | `/blogs/:blog/:article` | Individual Editorial Article                              | Active `Article` entity (author, content, comments)  |
+| `cart.json`        | `/cart`                 | Full Cart Page                                            | Active `Cart` entity (line items, discounts, totals) |
+| `search.json`      | `/search`               | Predictive & Keyword Search Results                       | Active search query, filtered products, articles     |
+| `404.json`         | `*` (Catch-all)         | Not Found Error Page                                      | Error state, suggested collections / links           |
+| `customers/*.json` | `/account/*`            | Customer Portal (Login, Register, Account, Order Details) | Customer authentication session & order history      |
 
 ---
 
 ## 3. Alternate Templates (`[type].[suffix].json`)
 
 A store often requires different layouts for the same resource type. For example:
+
 - Most products use `product.json`, but high-ticket launch products require `product.launch.json` (with immersive video and interactive feature hotspots).
 - Standard pages use `page.json`, but the Contact page requires `page.contact.json` (with contact forms and map sections), and the About page uses `page.about.json` (with company timeline and founder quote).
 
@@ -66,7 +67,7 @@ A store often requires different layouts for the same resource type. For example
 
 1. **File Naming Convention:** An alternate template is placed in `themes/[theme]/templates/` with the filename pattern:  
    `[resource_type].[suffix].json`  
-   *(e.g., `page.about.json`, `page.contact.json`, `product.preorder.json`, `collection.lookbook.json`)*.
+   _(e.g., `page.about.json`, `page.contact.json`, `product.preorder.json`, `collection.lookbook.json`)_.
 2. **Catalog Registration:** Export the alternate template in `themes/[theme]/templates/catalog.ts`:
    ```ts
    import aboutPage from './page.about.json'
@@ -152,19 +153,17 @@ Every template in `templates/*.json` adheres to strict serialization rules:
       }
     }
   },
-  "order": [
-    "hero_banner",
-    "company_metrics"
-  ]
+  "order": ["hero_banner", "company_metrics"]
 }
 ```
 
 ### Key Field Descriptions:
-- **`name`** *(string)*: Human-readable label displayed in the Theme Customizer top header dropdown.
-- **`layout`** *(string, optional)*: Specifies the wrapper layout component (defaults to `"theme"` which maps to `ThemeLayout.tsx`). Can specify `"minimal"` or `"password"`.
-- **`wrapper`** *(string, optional)*: Optional HTML element and class name wrapping `renderedSections` (e.g. `"main.product-page"`).
-- **`sections`** *(Record<string, SectionInstance>)*: Map of section instance IDs to their type, settings, and blocks.
-- **`order`** *(Array<string>)*: An ordered array of section IDs determining the top-to-bottom rendering order on the page.
+
+- **`name`** _(string)_: Human-readable label displayed in the Theme Customizer top header dropdown.
+- **`layout`** _(string, optional)_: Specifies the wrapper layout component (defaults to `"theme"` which maps to `ThemeLayout.tsx`). Can specify `"minimal"` or `"password"`.
+- **`wrapper`** _(string, optional)_: Optional HTML element and class name wrapping `renderedSections` (e.g. `"main.product-page"`).
+- **`sections`** _(Record<string, SectionInstance>)_: Map of section instance IDs to their type, settings, and blocks.
+- **`order`** _(Array<string>)_: An ordered array of section IDs determining the top-to-bottom rendering order on the page.
 
 ---
 
@@ -223,14 +222,16 @@ export const useProductContext = () => {
 ```
 
 ### How Sections Consume Context:
+
 When building a `ProductInformation` section:
+
 1. If rendered on a `product.json` template, it consumes `useProductContext()` automatically.
 2. If rendered as a `FeaturedProduct` on the homepage, the section schema provides a `product` picker setting. The section falls back to fetching the selected product ID.
 
 ```tsx
-export const ProductInformation: React.FC<SectionComponentProps<ProductInfoSettings>> = ({
-  settings,
-}) => {
+export const ProductInformation: React.FC<
+  SectionComponentProps<ProductInfoSettings>
+> = ({ settings }) => {
   const contextualProduct = useProductContext()
   const { data: manualProduct } = useGetProduct(settings.product_id, {
     enabled: !contextualProduct && Boolean(settings.product_id),

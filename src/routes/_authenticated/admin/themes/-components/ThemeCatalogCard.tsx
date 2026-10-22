@@ -132,7 +132,7 @@ export const ThemeCatalogCard: React.FC<ThemeCatalogCardProps> = ({
           title={`Preview theme ${theme.name}`}
         />
         <BadgeContainer>
-          {recommended &&  (
+          {recommended && (
             <Badge size="sm" variant="neutral">
               Recommended
             </Badge>

@@ -1,3 +1,4 @@
+import { ImagePickerInput } from '#/-components/ui/form/image-picker-input'
 import { ColorPicker } from '#/-components/ui/primitives/ColorPicker'
 import { useGetCollections } from '#/services/collection/useGetCollections'
 
@@ -296,33 +297,33 @@ export const DynamicSettingField = ({
       )
     }
 
-    case 'image_picker':
+    case 'image_picker': {
+      const imageUrl =
+        typeof currentValue === 'string'
+          ? currentValue
+          : (currentValue?.url as string) || ''
+
       return (
         <FormField key={id}>
-          <FieldLabel htmlFor={id}>{label}</FieldLabel>
-          <TextInput
+          <ImagePickerInput
             id={id}
-            type="text"
-            placeholder="https://..."
-            value={currentValue || ''}
-            onChange={(event) => onChange(id, event.target.value)}
+            label={label}
+            placeholder={
+              setting.placeholder || 'Pilih gambar dari pustaka media...'
+            }
+            value={imageUrl}
+            onChange={(url) => {
+              if (typeof currentValue === 'object' && currentValue !== null) {
+                onChange(id, { ...currentValue, url })
+              } else {
+                onChange(id, url)
+              }
+            }}
+            helperText={info}
           />
-          {currentValue && (
-            <img
-              src={currentValue}
-              alt="Preview"
-              style={{
-                width: '100%',
-                maxHeight: 120,
-                objectFit: 'cover',
-                borderRadius: 6,
-                marginTop: 4,
-              }}
-            />
-          )}
-          {info && <FieldInfo>{info}</FieldInfo>}
         </FormField>
       )
+    }
 
     default:
       return null

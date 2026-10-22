@@ -10,7 +10,7 @@ import { theme } from '#/-components/ui/theme'
 import type { Collection } from '#/types/collection.type'
 
 interface CollectionStatsProps {
-  collections: Collection[]
+  collections: Array<Collection>
 }
 
 export const CollectionStats = ({ collections }: CollectionStatsProps) => {

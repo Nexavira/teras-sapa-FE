@@ -8,7 +8,7 @@ import { productStorage } from '../product/productStorage'
 
 const COLLECTION_STORAGE_KEY = 'shopiti_collections_data'
 
-export const INITIAL_COLLECTIONS: Collection[] = [
+export const INITIAL_COLLECTIONS: Array<Collection> = [
   {
     uuid: 'col-1',
     title: 'Summer Essentials',
@@ -47,11 +47,13 @@ export const INITIAL_COLLECTIONS: Collection[] = [
 ]
 
 export const collectionStorage = {
-  getCollections: (params: GetCollectionsParams = {}): Collection[] => {
+  getCollections: (params: GetCollectionsParams = {}): Array<Collection> => {
     if (typeof window === 'undefined') return INITIAL_COLLECTIONS
     try {
       const stored = window.localStorage.getItem(COLLECTION_STORAGE_KEY)
-      let list: Collection[] = stored ? JSON.parse(stored) : INITIAL_COLLECTIONS
+      let list: Array<Collection> = stored
+        ? JSON.parse(stored)
+        : INITIAL_COLLECTIONS
       if (!stored) {
         window.localStorage.setItem(
           COLLECTION_STORAGE_KEY,

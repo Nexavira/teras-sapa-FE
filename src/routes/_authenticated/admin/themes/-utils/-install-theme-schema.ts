@@ -27,14 +27,14 @@ export const createTenantTemplateRequestSchema = z.object({
   global_template_uuid: z.string().optional(),
   active_template: z.boolean().optional(),
   is_active: z.number().optional(),
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
   template_settings: z.any().optional(),
   pages: z
     .array(
       z.object({
         title: z.string(),
         slug: z.string(),
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
         template_data: z.any().optional(),
         is_active: z.number().optional(),
       }),

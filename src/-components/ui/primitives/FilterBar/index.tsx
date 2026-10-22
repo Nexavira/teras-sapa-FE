@@ -16,7 +16,7 @@ export interface FilterBarProps<T extends string = string> {
   search?: string
   onSearchChange?: (value: string) => void
   searchPlaceholder?: string
-  tabs?: FilterTab<T>[]
+  tabs?: Array<FilterTab<T>>
   activeTab?: T
   onTabChange?: (key: T) => void
   children?: ReactNode

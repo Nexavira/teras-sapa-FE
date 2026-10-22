@@ -12,7 +12,7 @@ interface ProductProps {
     basePrice: string
     brand?: { name: string } | null
     category?: { name: string } | null
-    productVariants?: any[]
+    productVariants?: Array<any>
   }
 }
 

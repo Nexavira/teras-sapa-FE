@@ -34,8 +34,8 @@ graph TD
 
 ## 2. Core Units: Sections vs. Blocks vs. Snippets
 
-| Unit              | Directory                       |                  Has Schema?                  |          Customizer Visible?           | Purpose                                                                                                      |
-| :---------------- | :------------------------------ | :-------------------------------------------: | :------------------------------------: | :----------------------------------------------------------------------------------------------------------- |
+| Unit              | Directory                            |                  Has Schema?                  |          Customizer Visible?           | Purpose                                                                                                      |
+| :---------------- | :----------------------------------- | :-------------------------------------------: | :------------------------------------: | :----------------------------------------------------------------------------------------------------------- |
 | **Section**       | `themes/dawn/sections/[name]/`       |         **YES** (`[Name].schema.ts`)          |     **YES** (Layer tree & canvas)      | High-level modular layout components (e.g. `Header`, `HeroBanner`, `FeaturedCollection`, `Footer`).          |
 | **Block**         | `themes/dawn/blocks/[name]/`         |         **YES** (`[Name].schema.ts`)          | **YES** (Nested inside parent section) | Reorderable, addable child components living within a section (e.g. `Announcement`, `Slide`, `ButtonBlock`). |
 | **Snippet**       | `themes/dawn/snippets/[name]/`       |         **NO** (Strictly prohibited)          |    **NO** (Internal developer-only)    | Reusable UI rendering helpers (e.g. `Price`, `Badge`, `RatingStars`, `QuantityInput`).                       |
@@ -709,7 +709,7 @@ Merchant customizations made in the Theme Customizer are serialized into clean, 
 
 ## 8. Benchmark Comparison
 
-| Dimension                   |   Shopify Dawn (Liquid)    |       Builder.io       |        Storyblok         |        Teras Sapa (This Specification)        |
+| Dimension                   |   Shopify Dawn (Liquid)    |       Builder.io       |        Storyblok         |      Teras Sapa (This Specification)       |
 | :-------------------------- | :------------------------: | :--------------------: | :----------------------: | :----------------------------------------: |
 | **Component Model**         |  Liquid + Web Components   |  React / Vue / Svelte  |  Vue / React Components  |       **Pure React (TSX) + Emotion**       |
 | **Schema Definition**       | JSON inside `{% schema %}` |    JS Object in SDK    | Visual GUI + JSON export |  **Type-Safe `.schema.ts` (TypeScript)**   |

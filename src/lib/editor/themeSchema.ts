@@ -13,7 +13,7 @@ export interface BlockAvailability {
 
 /** Build a fresh settings object from schema defaults for a new instance. */
 export function getSchemaDefaults(
-  definitions: SettingDefinition[],
+  definitions: Array<SettingDefinition>,
 ): Record<string, unknown> {
   return definitions.reduce<Record<string, unknown>>((defaults, definition) => {
     if (definition.default !== undefined) {

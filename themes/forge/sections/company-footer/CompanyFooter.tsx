@@ -3,6 +3,7 @@ import React from 'react'
 import styled from '@emotion/styled'
 
 import { useForgeSettings } from '../../settings-context'
+import { BlockRenderer } from '#themes/forge/blocks/BlockRenderer'
 import type { SectionComponentProps } from '#themes/shared/types/theme'
 
 interface FooterSettings {
@@ -122,8 +123,6 @@ const SocialLinks = styled.span`
     color: var(--forge-paper);
   }
 `
-
-import { BlockRenderer } from '#themes/forge/blocks/BlockRenderer'
 
 export const CompanyFooter: React.FC<SectionComponentProps<FooterSettings>> = ({
   id,

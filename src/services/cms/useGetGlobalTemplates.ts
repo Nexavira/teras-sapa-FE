@@ -8,9 +8,9 @@ export const useGetGlobalTemplates = () => {
   return useQuery({
     queryKey: ['cms', 'global-templates'],
     queryFn: async () => {
-      const response = await fetchHelper<ApiResponse<Array<GlobalTemplateType>>>(
-        '/api/v1/portal/cms/global-template',
-      )
+      const response = await fetchHelper<
+        ApiResponse<Array<GlobalTemplateType>>
+      >('/api/v1/portal/cms/global-template')
       return response.data ?? []
     },
   })

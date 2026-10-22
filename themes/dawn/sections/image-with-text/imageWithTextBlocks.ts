@@ -6,7 +6,7 @@ import type {
 
 export function getImageWithTextPresets(
   settings: SectionInstance['settings'] = {},
-): BlockPreset[] {
+): Array<BlockPreset> {
   const {
     image = '/images/dawn/hero-editorial.webp',
     eyebrow = 'Considered by design',

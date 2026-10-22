@@ -41,7 +41,7 @@ export const featuredProducts = [
 /** Preserve legacy section content when converting it to editable blocks. */
 export function getFeaturedCollectionPresets(
   settings: SectionInstance['settings'] = {},
-): BlockPreset[] {
+): Array<BlockPreset> {
   const {
     title = 'Featured Collection',
     description = 'Explore our handpicked curation of bestsellers and essential pieces.',
@@ -156,7 +156,7 @@ export function normalizeFeaturedCollections(
           )
           if (productId) {
             const product = blocks[productId]
-            const childPresets: BlockPreset[] = [
+            const childPresets: Array<BlockPreset> = [
               ...(product.settings.show_image === false
                 ? []
                 : [

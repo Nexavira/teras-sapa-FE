@@ -16,7 +16,7 @@ import type { Product } from '#/types/product.type'
 import { ProductTableRow } from './ProductTableRow'
 
 interface ProductTableProps {
-  products: Product[]
+  products: Array<Product>
   isLoading: boolean
   onDelete: (product: Product) => void
 }

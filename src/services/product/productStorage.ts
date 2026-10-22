@@ -2,7 +2,7 @@ import type { GetProductsParams, Product } from '#/types/product.type'
 
 const PRODUCT_STORAGE_KEY = 'shopiti_products_data'
 
-export const INITIAL_PRODUCTS: Product[] = [
+export const INITIAL_PRODUCTS: Array<Product> = [
   {
     uuid: 'prod-1',
     name: 'Washed Linen Overshirt',
@@ -242,11 +242,11 @@ export const INITIAL_PRODUCTS: Product[] = [
 ]
 
 export const productStorage = {
-  getProducts: (params: GetProductsParams = {}): Product[] => {
+  getProducts: (params: GetProductsParams = {}): Array<Product> => {
     if (typeof window === 'undefined') return INITIAL_PRODUCTS
     try {
       const stored = window.localStorage.getItem(PRODUCT_STORAGE_KEY)
-      let list: Product[] = stored ? JSON.parse(stored) : INITIAL_PRODUCTS
+      let list: Array<Product> = stored ? JSON.parse(stored) : INITIAL_PRODUCTS
       if (!stored) {
         window.localStorage.setItem(
           PRODUCT_STORAGE_KEY,

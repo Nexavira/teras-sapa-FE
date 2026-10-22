@@ -28,7 +28,7 @@ export const GlobalCategoryInspector = ({
 }: GlobalCategoryInspectorProps) => {
   const globalSettings = useEditorGlobalSettings()
   const { settingsSchemaData } = useEditorTheme()
-  const categories = (settingsSchemaData as any[]).filter(
+  const categories = (settingsSchemaData as Array<any>).filter(
     (category) => category.name !== 'theme_info',
   )
   const activeCategory = categories.find(
@@ -44,7 +44,7 @@ export const GlobalCategoryInspector = ({
     )
   }
 
-  const settingsList: SettingDefinition[] = activeCategory.settings
+  const settingsList: Array<SettingDefinition> = activeCategory.settings
   const currentGlobalValues = globalSettings.current
   const handleFieldChange = (key: string, value: any) => {
     editorActions.updateGlobalSetting(key, value)

@@ -53,7 +53,7 @@ export interface SubNavItem {
 export interface CollapsibleNavItemProps {
   icon?: ReactNode
   label: ReactNode
-  items?: SubNavItem[]
+  items?: Array<SubNavItem>
   children?: ReactNode
   defaultOpen?: boolean
   isOpen?: boolean

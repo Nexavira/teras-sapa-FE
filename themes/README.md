@@ -65,6 +65,7 @@ required, while their internal components, schemas, and utilities stay private.
 ### Detailed Architecture & Implementation Guides
 
 For in-depth specifications, refer to the full documentation suite in `docs/`:
+
 - [Master Architecture Overview](file:///home/framadhita/Documents/Projects/personal/shopiti/docs/README.md)
 - [Pages & Template Management](file:///home/framadhita/Documents/Projects/personal/shopiti/docs/pages-and-templates.md)
 - [Sections & Blocks Specification](file:///home/framadhita/Documents/Projects/personal/shopiti/docs/sections-and-blocks.md)
@@ -368,7 +369,7 @@ The new section is immediately available in the template JSON and editable in th
 
 ## 5. Comparison: Shopify Dawn vs. Teras Sapa React Engine
 
-| Feature                  | Shopify Dawn (Liquid)                           | Teras Sapa React Engine                                              |
+| Feature                  | Shopify Dawn (Liquid)                           | Teras Sapa React Engine                                           |
 | :----------------------- | :---------------------------------------------- | :---------------------------------------------------------------- |
 | **Language**             | Liquid + HTML + Theme JS                        | React (TypeScript + Emotion)                                      |
 | **Schema Location**      | Embedded `{% schema %}` JSON block in `.liquid` | `.schema.ts` exported alongside `.tsx` component                  |

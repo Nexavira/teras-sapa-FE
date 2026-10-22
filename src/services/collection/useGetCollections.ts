@@ -9,9 +9,9 @@ import { collectionStorage } from './collectionStorage'
 export const useGetCollections = (params: GetCollectionsParams = {}) => {
   return useQuery({
     queryKey: ['collections', params],
-    queryFn: async (): Promise<Collection[]> => {
+    queryFn: async (): Promise<Array<Collection>> => {
       try {
-        const response = await fetchHelper<ApiResponse<Collection[]>>(
+        const response = await fetchHelper<ApiResponse<Array<Collection>>>(
           '/api/v1/portal/collections',
           { query: params as Record<string, string | number> },
         )

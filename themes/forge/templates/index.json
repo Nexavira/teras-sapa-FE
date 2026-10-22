@@ -183,11 +183,7 @@
           }
         }
       },
-      "block_order": [
-        "bento_heading",
-        "bento_grid",
-        "bento_cta"
-      ]
+      "block_order": ["bento_heading", "bento_grid", "bento_cta"]
     },
     "quote": {
       "type": "company_quote",

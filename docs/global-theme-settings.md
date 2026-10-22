@@ -70,7 +70,7 @@ Global Theme Settings Categories
 | `logo_width`        | `range`        | Desktop Logo Width           | `50px - 350px` (step 10)           | `140px`                      |
 | `logo_width_mobile` | `range`        | Mobile Logo Width            | `30px - 200px` (step 5)            | `100px`                      |
 | `favicon`           | `image_picker` | Favicon                      | 32x32px or 512x512px `.png`/`.ico` | `""`                         |
-| `shop_name`         | `text`         | Store Name Fallback          | Text string                        | `"Teras Sapa Store"`            |
+| `shop_name`         | `text`         | Store Name Fallback          | Text string                        | `"Teras Sapa Store"`         |
 | `shop_tagline`      | `text`         | Brand Slogan                 | Text string                        | `"Modern Headless Commerce"` |
 
 ---

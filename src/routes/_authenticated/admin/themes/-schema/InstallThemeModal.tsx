@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react'
-import { Controller, useForm } from 'react-hook-form'
 
 import styled from '@emotion/styled'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -9,6 +8,9 @@ import {
   Layers01Icon,
   SparklesIcon,
 } from 'hugeicons-react'
+import { Controller, useForm } from 'react-hook-form'
+
+import { useQueryClient } from '@tanstack/react-query'
 
 import {
   Badge,
@@ -21,15 +23,16 @@ import {
   Typography,
 } from '#/-components/ui'
 import { useCreateTenantTemplate } from '#/services/cms/useCreateTenantTemplate'
+import { seedTenantTemplatePages } from '#/services/cms/useSeedTenantTemplatePages'
 import type { TenantTemplateType } from '#/types/cms.type'
 import type { TenantType } from '#/types/tenant.type'
 
-import type { ThemeDefinition } from '#themes'
 import type { InstallThemeFormValues } from '../-utils/-install-theme-schema'
 import {
   initialInstallThemeFormValues,
   installThemeSchema,
 } from '../-utils/-install-theme-schema'
+import type { ThemeDefinition } from '#themes'
 
 const ModalOverlay = styled.div`
   position: fixed;
@@ -155,6 +158,7 @@ export const InstallThemeModal: React.FC<InstallThemeModalProps> = ({
   hasActiveTheme = false,
   onSuccess,
 }) => {
+  const queryClient = useQueryClient()
   const createMutation = useCreateTenantTemplate()
 
   const {
@@ -181,7 +185,14 @@ export const InstallThemeModal: React.FC<InstallThemeModalProps> = ({
         include_default_pages: true,
       })
     }
-  }, [isOpen, themeDefinition, tenant.uuid, globalTemplateUuid, hasActiveTheme, reset])
+  }, [
+    isOpen,
+    themeDefinition,
+    tenant.uuid,
+    globalTemplateUuid,
+    hasActiveTheme,
+    reset,
+  ])
 
   if (!isOpen || !themeDefinition) return null
 
@@ -208,6 +219,20 @@ export const InstallThemeModal: React.FC<InstallThemeModalProps> = ({
       },
       pages: pagesPayload,
     })
+
+    // Seed all default pages to database to guarantee tenant_template_page records exist
+    if (result.uuid) {
+      await seedTenantTemplatePages({
+        tenantTemplateUuid: result.uuid,
+        themeDefinition,
+      })
+      void queryClient.invalidateQueries({
+        queryKey: ['cms', 'tenant-template-pages', result.uuid],
+      })
+      void queryClient.invalidateQueries({
+        queryKey: ['cms', 'tenant-templates'],
+      })
+    }
 
     onSuccess?.(result)
     onClose()

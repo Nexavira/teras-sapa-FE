@@ -117,14 +117,14 @@ themes/
 
 To prevent code degradation as more themes are created, all components MUST strictly adhere to this role matrix:
 
-| Architectural Layer | Location | Has Schema? | Customizer Visible? | Props / Data Source | Purpose & Example |
-| :--- | :--- | :---: | :---: | :--- | :--- |
-| **Master Layout** | `layout/ThemeLayout.tsx` | Global (`settings_schema.json`) | **YES** (Global Settings tab) | `globalSettings` | Wraps all pages, compiles `:root` CSS variables, slots Header & Footer groups. |
-| **Section Groups** | `sections/*-group.json` or `layout/` | **YES** | **YES** (Global header/footer tree) | `SectionGroupData` | Persistent multi-section groups (e.g. Announcement + Header + MegaMenu) rendered across all pages. |
-| **Sections** | `sections/[name]/` | **YES** (`[Name].schema.ts`) | **YES** (Reorderable in layer tree) | `SectionComponentProps<T>` from template JSON | Standalone high-level page modules (`HeroBanner`, `FeaturedCollection`, `ImageWithText`). |
-| **Blocks** | `blocks/[name]/` | **YES** (`[Name].schema.ts`) | **YES** (Nested under parent section) | `BlockComponentProps<T>` from section `blocks` JSON | Atomic, swappable child elements (`Heading`, `Button`, `Slide`, `AccordionItem`). |
-| **Snippets** | `snippets/[name]/` | **NO** (Strictly prohibited) | **NO** (Developer-facing only) | Pure React Props | Reusable UI rendering helpers (`Price`, `RatingBadge`, `QuantityInput`, `Icon`). |
-| **Templates** | `templates/*.json` | Pure JSON Data | **YES** (Page dropdown selector) | Serialized state | Declares which sections render on a page, their instance settings, and block order. |
+| Architectural Layer | Location                             |           Has Schema?           |          Customizer Visible?          | Props / Data Source                                 | Purpose & Example                                                                                  |
+| :------------------ | :----------------------------------- | :-----------------------------: | :-----------------------------------: | :-------------------------------------------------- | :------------------------------------------------------------------------------------------------- |
+| **Master Layout**   | `layout/ThemeLayout.tsx`             | Global (`settings_schema.json`) |     **YES** (Global Settings tab)     | `globalSettings`                                    | Wraps all pages, compiles `:root` CSS variables, slots Header & Footer groups.                     |
+| **Section Groups**  | `sections/*-group.json` or `layout/` |             **YES**             |  **YES** (Global header/footer tree)  | `SectionGroupData`                                  | Persistent multi-section groups (e.g. Announcement + Header + MegaMenu) rendered across all pages. |
+| **Sections**        | `sections/[name]/`                   |  **YES** (`[Name].schema.ts`)   |  **YES** (Reorderable in layer tree)  | `SectionComponentProps<T>` from template JSON       | Standalone high-level page modules (`HeroBanner`, `FeaturedCollection`, `ImageWithText`).          |
+| **Blocks**          | `blocks/[name]/`                     |  **YES** (`[Name].schema.ts`)   | **YES** (Nested under parent section) | `BlockComponentProps<T>` from section `blocks` JSON | Atomic, swappable child elements (`Heading`, `Button`, `Slide`, `AccordionItem`).                  |
+| **Snippets**        | `snippets/[name]/`                   |  **NO** (Strictly prohibited)   |    **NO** (Developer-facing only)     | Pure React Props                                    | Reusable UI rendering helpers (`Price`, `RatingBadge`, `QuantityInput`, `Icon`).                   |
+| **Templates**       | `templates/*.json`                   |         Pure JSON Data          |   **YES** (Page dropdown selector)    | Serialized state                                    | Declares which sections render on a page, their instance settings, and block order.                |
 
 ---
 
@@ -133,25 +133,25 @@ To prevent code degradation as more themes are created, all components MUST stri
 This master document provides a high-level overview. For comprehensive, exhaustive implementation guidelines, refer to the dedicated documentation modules:
 
 1. **[Pages & Template Architecture](file:///home/framadhita/Documents/Projects/personal/shopiti/docs/pages-and-templates.md)**  
-   *Deep dive into template hierarchy, JSON structure, route resolution, alternate templates (`page.about.json`), contextual data injection (Product/Collection models), and layout selection.*
+   _Deep dive into template hierarchy, JSON structure, route resolution, alternate templates (`page.about.json`), contextual data injection (Product/Collection models), and layout selection._
 
 2. **[Sections & Blocks Architecture](file:///home/framadhita/Documents/Projects/personal/shopiti/docs/sections-and-blocks.md)**  
-   *Exhaustive specification of Section and Block schemas, editable attributes taxonomy (6 tiers), conditional visibility (`visible_if`), limits, container blocks, and lifecycle rendering.*
+   _Exhaustive specification of Section and Block schemas, editable attributes taxonomy (6 tiers), conditional visibility (`visible_if`), limits, container blocks, and lifecycle rendering._
 
 3. **[Header & Footer Architecture](file:///home/framadhita/Documents/Projects/personal/shopiti/docs/header-and-footer.md)**  
-   *Section Groups architecture (`header-group.json`, `footer-group.json`), persistent layouts, sticky navigation, mega menus, announcement tickers, mobile drawers, and multi-column footers.*
+   _Section Groups architecture (`header-group.json`, `footer-group.json`), persistent layouts, sticky navigation, mega menus, announcement tickers, mobile drawers, and multi-column footers._
 
 4. **[Media & Image Management](file:///home/framadhita/Documents/Projects/personal/shopiti/docs/media-and-images.md)**  
-   *Content management for images, reusable media library CMS, the `ImageValue` schema, focal point cropping, art direction, responsive `srcset`, and WebP/AVIF optimization.*
+   _Content management for images, reusable media library CMS, the `ImageValue` schema, focal point cropping, art direction, responsive `srcset`, and WebP/AVIF optimization._
 
 5. **[Links & Navigation System](file:///home/framadhita/Documents/Projects/personal/shopiti/docs/links-and-navigation.md)**  
-   *The Omnibox Link Picker (`UrlValue`), internal route resolution, catalog handles, external URL protocols, anchor tags, navigation menus, and editor iframe click safety.*
+   _The Omnibox Link Picker (`UrlValue`), internal route resolution, catalog handles, external URL protocols, anchor tags, navigation menus, and editor iframe click safety._
 
 6. **[Global Theme Settings Specification](file:///home/framadhita/Documents/Projects/personal/shopiti/docs/global-theme-settings.md)**  
-   *The 13 global settings categories: 5-Scheme Color Matrix, Typography system, Layout & Grid dimensions, Buttons, Cards, Badges, Cart Drawer, and CSS variable compilation.*
+   _The 13 global settings categories: 5-Scheme Color Matrix, Typography system, Layout & Grid dimensions, Buttons, Cards, Badges, Cart Drawer, and CSS variable compilation._
 
 7. **[Shopify-Inspired Advanced Patterns & Scaling](file:///home/framadhita/Documents/Projects/personal/shopiti/docs/shopify-advanced-patterns.md)**  
-   *Section Presets, App Blocks / App Embeds, dynamic data bindings, CLI schema validation, and rules for scaling to 10+ themes without technical debt.*
+   _Section Presets, App Blocks / App Embeds, dynamic data bindings, CLI schema validation, and rules for scaling to 10+ themes without technical debt._
 
 ---
 

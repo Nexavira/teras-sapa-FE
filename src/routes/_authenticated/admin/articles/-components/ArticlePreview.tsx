@@ -33,7 +33,9 @@ export const ArticlePreview = ({ article }: { article: ArticleFormValues }) => (
     <Typography as="h1" variant="display">
       {article.title || 'Artikel tanpa judul'}
     </Typography>
-    <Typography color="secondary">Oleh {article.author || 'Penulis'}</Typography>
+    <Typography color="secondary">
+      Oleh {article.author || 'Penulis'}
+    </Typography>
     {/^https?:\/\//i.test(article.coverImage) && (
       <Cover
         src={article.coverImage}

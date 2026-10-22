@@ -16,15 +16,15 @@ Theme Component Taxonomy
 └── 3. Snippets  (themes/[theme]/snippets/[name]/) -> Developer UI helpers with NO schema
 ```
 
-| Trait | Section | Block | Snippet |
-| :--- | :--- | :--- | :--- |
-| **Location** | `themes/[theme]/sections/[name]/` | `themes/[theme]/blocks/[name]/` | `themes/[theme]/snippets/[name]/` |
-| **Has Schema?** | **YES** (`[Name].schema.ts`) | **YES** (`[Name].schema.ts`) | **NO** (Strictly forbidden) |
-| **Theme Customizer** | Top-level item in page layer tree | Nested item under parent section | Invisible in customizer |
-| **Reorderable?** | Yes, anywhere in page body | Yes, inside parent section | Rendered statically in code |
-| **Props Contract** | `SectionComponentProps<T>` | `BlockComponentProps<T>` | Custom React Props interface |
-| **Persistence** | `templates/*.json` -> `sections[id]` | `templates/*.json` -> `blocks[id]` | No direct persistence |
-| **Example Use Cases**| `HeroBanner`, `FeaturedCollection`, `ImageWithText` | `Heading`, `Button`, `Slide`, `AccordionItem` | `PriceDisplay`, `Badge`, `Icon`, `QuantityInput` |
+| Trait                 | Section                                             | Block                                         | Snippet                                          |
+| :-------------------- | :-------------------------------------------------- | :-------------------------------------------- | :----------------------------------------------- |
+| **Location**          | `themes/[theme]/sections/[name]/`                   | `themes/[theme]/blocks/[name]/`               | `themes/[theme]/snippets/[name]/`                |
+| **Has Schema?**       | **YES** (`[Name].schema.ts`)                        | **YES** (`[Name].schema.ts`)                  | **NO** (Strictly forbidden)                      |
+| **Theme Customizer**  | Top-level item in page layer tree                   | Nested item under parent section              | Invisible in customizer                          |
+| **Reorderable?**      | Yes, anywhere in page body                          | Yes, inside parent section                    | Rendered statically in code                      |
+| **Props Contract**    | `SectionComponentProps<T>`                          | `BlockComponentProps<T>`                      | Custom React Props interface                     |
+| **Persistence**       | `templates/*.json` -> `sections[id]`                | `templates/*.json` -> `blocks[id]`            | No direct persistence                            |
+| **Example Use Cases** | `HeroBanner`, `FeaturedCollection`, `ImageWithText` | `Heading`, `Button`, `Slide`, `AccordionItem` | `PriceDisplay`, `Badge`, `Icon`, `QuantityInput` |
 
 ---
 
@@ -60,7 +60,8 @@ export const HeroBannerSchema: SectionSchema = {
   type: 'hero-banner',
   name: 'Hero Banner',
   category: 'Hero',
-  description: 'An immersive full-width banner with background image, headings, and CTAs.',
+  description:
+    'An immersive full-width banner with background image, headings, and CTAs.',
   icon: 'lucide:layout-template',
 
   // 2. HTML Semantics & Layout
@@ -176,11 +177,17 @@ export const HeroBannerSchema: SectionSchema = {
         },
         {
           type: 'text',
-          settings: { text: 'Explore our latest arrivals crafted from sustainably sourced materials.' },
+          settings: {
+            text: 'Explore our latest arrivals crafted from sustainably sourced materials.',
+          },
         },
         {
           type: 'button',
-          settings: { label: 'Shop New Arrivals', link: '/collections/new', style: 'primary' },
+          settings: {
+            label: 'Shop New Arrivals',
+            link: '/collections/new',
+            style: 'primary',
+          },
         },
       ],
     },
@@ -195,6 +202,7 @@ export const HeroBannerSchema: SectionSchema = {
 The customizer inspector renders visual controls dynamically according to the `type` field of each `SettingDefinition`:
 
 ### Tier 1: Primitives & Basic Form Controls
+
 - **`text`**: Single-line text input (`placeholder`, `maxlength`).
 - **`textarea`**: Multi-line text area (`rows`, `placeholder`).
 - **`number`**: Numeric input stepper (`min`, `max`, `step`).
@@ -206,6 +214,7 @@ The customizer inspector renders visual controls dynamically according to the `t
 - **`button_group`**: Segmented pill button group (e.g. alignment: `Left | Center | Right`).
 
 ### Tier 2: Rich Media & Assets
+
 - **`image_picker`**: Media Library asset selector with upload, browse, focal point, and alt text.
 - **`video`**: Uploaded direct video (MP4/WebM) with poster and autoplay toggles.
 - **`video_url`**: External video embed parser (YouTube / Vimeo URL parser).
@@ -213,12 +222,14 @@ The customizer inspector renders visual controls dynamically according to the `t
 - **`file_picker`**: Document download link (PDF, spec sheets, ZIP).
 
 ### Tier 3: Rich Content & Typography
+
 - **`inline_richtext`**: Lightweight WYSIWYG for titles allowing bold, italic, and inline links without wrapping `<p>` tags.
 - **`richtext`**: Full WYSIWYG editor (Headings, Paragraphs, Lists, Quotes, Links).
 - **`html`**: Raw HTML embed code editor with syntax highlighting.
 - **`liquid`**: Dynamic template token editor (`{{ product.title }}`).
 
 ### Tier 4: Design System & Styling Controls
+
 - **`color`**: Direct HEX/RGBA color picker.
 - **`color_scheme`**: Scheme dropdown selecting from global 5-scheme matrix (`scheme-1`, `scheme-2`...).
 - **`color_background`**: Gradient or solid background color picker.
@@ -230,6 +241,7 @@ The customizer inspector renders visual controls dynamically according to the `t
 - **`shadow`**: Elevation drop-shadow preset selector (none, sm, md, lg, xl).
 
 ### Tier 5: Headless Commerce & Dynamic Pickers
+
 - **`product`**: Single product picker dropdown / modal searching the catalog.
 - **`product_list`**: Multi-product selector with drag-and-drop reordering.
 - **`collection`**: Collection category picker dropdown / modal.
@@ -239,6 +251,7 @@ The customizer inspector renders visual controls dynamically according to the `t
 - **`url`**: Omnibox link picker supporting internal routes, products, collections, anchors, and external URLs.
 
 ### Tier 6: UI Organization & Structure
+
 - **`header`**: Visual typography separator dividing settings into distinct logical groups.
 - **`paragraph`**: Descriptive instructional text rendering helper in the sidebar.
 - **`divider`**: Subtle horizontal rule line separating inspector fields.
@@ -290,9 +303,11 @@ visible_if: {
 ## 6. Blocks: Purpose, Reordering & Container Blocks
 
 ### Why Use Blocks?
+
 Sections are high-level structural containers. Without blocks, adding a button, heading, or accordion item would require hardcoding JSX in the section.
 
 By delegating content to blocks:
+
 1. **Reorderability:** The merchant can drag the "Heading" below the "Button" or above an "Image".
 2. **Add / Delete:** The merchant can add 3, 5, or 8 testimonial quotes or FAQ items.
 3. **Granular Controls:** Each block has its own isolated settings schema.
@@ -322,9 +337,23 @@ export const HeroBanner: React.FC<SectionComponentProps<HeroSettings>> = ({
 
           switch (block.type) {
             case 'heading':
-              return <HeadingBlock key={blockId} id={blockId} settings={block.settings} isEditor={isEditor} />
+              return (
+                <HeadingBlock
+                  key={blockId}
+                  id={blockId}
+                  settings={block.settings}
+                  isEditor={isEditor}
+                />
+              )
             case 'button':
-              return <ButtonBlock key={blockId} id={blockId} settings={block.settings} isEditor={isEditor} />
+              return (
+                <ButtonBlock
+                  key={blockId}
+                  id={blockId}
+                  settings={block.settings}
+                  isEditor={isEditor}
+                />
+              )
             default:
               return null
           }
@@ -336,9 +365,11 @@ export const HeroBanner: React.FC<SectionComponentProps<HeroSettings>> = ({
 ```
 
 ### Container Blocks (Nested Blocks):
+
 In advanced layouts (such as multi-column bento grids or flex rows), a block can act as a **container** that holds its own nested child blocks.
 
 The `BlockSchema` supports:
+
 ```ts
 export interface BlockSchema {
   type: string
@@ -363,7 +394,9 @@ To ensure all sections look cohesive across different merchant stores and themes
    ```tsx
    import styled from '@emotion/styled'
 
-   const SectionWrapper = styled.section<{ padding?: { top: number; bottom: number } }>`
+   const SectionWrapper = styled.section<{
+     padding?: { top: number; bottom: number }
+   }>`
      width: 100%;
      padding-top: ${({ padding }) => padding?.top ?? 60}px;
      padding-bottom: ${({ padding }) => padding?.bottom ?? 60}px;
@@ -371,7 +404,9 @@ To ensure all sections look cohesive across different merchant stores and themes
      color: var(--color-foreground);
      font-family: var(--font-body);
 
-     h1, h2, h3 {
+     h1,
+     h2,
+     h3 {
        font-family: var(--font-heading);
        letter-spacing: var(--heading-letter-spacing);
      }

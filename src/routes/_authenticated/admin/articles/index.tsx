@@ -30,7 +30,11 @@ export const ArticlesPage = () => {
   const mutation = useDeleteArticle(scope)
   const filtered = Boolean(search.trim()) || status !== 'all'
   const handleDelete = async (article: Article) => {
-    if (!window.confirm(`Hapus "${article.title}"? Tindakan ini tidak dapat dibatalkan.`))
+    if (
+      !window.confirm(
+        `Hapus "${article.title}"? Tindakan ini tidak dapat dibatalkan.`,
+      )
+    )
       return
     setFeedback('')
     try {

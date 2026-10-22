@@ -1,13 +1,9 @@
 import React, { useEffect } from 'react'
-import { useForm, useWatch } from 'react-hook-form'
 
 import styled from '@emotion/styled'
 import { zodResolver } from '@hookform/resolvers/zod'
-import {
-  Cancel01Icon,
-  File01Icon,
-  PlusSignIcon,
-} from 'hugeicons-react'
+import { Cancel01Icon, File01Icon, PlusSignIcon } from 'hugeicons-react'
+import { useForm, useWatch } from 'react-hook-form'
 
 import {
   Badge,
@@ -21,12 +17,12 @@ import { TextInput } from '#/-components/ui/form/text-input'
 import { useCreateTenantTemplatePage } from '#/services/cms/useCreateTenantTemplatePage'
 import type { TenantTemplatePageType } from '#/types/cms.type'
 
-import type { ThemeDefinition } from '#themes'
 import type { CreatePageFormValues } from '../-utils/-create-page-schema'
 import {
   createPageSchema,
   initialCreatePageFormValues,
 } from '../-utils/-create-page-schema'
+import type { ThemeDefinition } from '#themes'
 
 const ModalOverlay = styled.div`
   position: fixed;
@@ -158,8 +154,8 @@ export const CreatePageModal: React.FC<CreatePageModalProps> = ({
   useEffect(() => {
     if (isOpen) {
       const defaultEntry = catalogEntries[0]
-      const defaultKey = defaultEntry ? defaultEntry[0] : ''
-      const defaultLabel = defaultEntry ? defaultEntry[1].label : ''
+      const defaultKey = defaultEntry[0]
+      const defaultLabel = defaultEntry[1].label
       const defaultSlug =
         defaultKey === 'index'
           ? 'home-baru'
@@ -178,7 +174,7 @@ export const CreatePageModal: React.FC<CreatePageModalProps> = ({
   if (!isOpen) return null
 
   const selectedEntry = themeDefinition.templateCatalog[selectedTemplateKey]
-  const sectionKeys = selectedEntry?.data?.order || []
+  const sectionKeys = selectedEntry.data.order
 
   const handleSelectTemplate = (key: string) => {
     const entry = themeDefinition.templateCatalog[key]
@@ -195,7 +191,7 @@ export const CreatePageModal: React.FC<CreatePageModalProps> = ({
 
   const onSubmit = async (values: CreatePageFormValues) => {
     const templateData =
-      themeDefinition.templateCatalog[values.template_key]?.data || null
+      themeDefinition.templateCatalog[values.template_key].data
 
     const result = await createPageMutation.mutateAsync({
       tenant_template_uuid: values.tenant_template_uuid,
@@ -216,7 +212,7 @@ export const CreatePageModal: React.FC<CreatePageModalProps> = ({
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
             <File01Icon size={20} color={theme.colors.primary.DEFAULT} />
             <Typography variant="title" weight="bold">
-              Buat Halaman dari Template
+              Buat Halaman dari Template Bawaan
             </Typography>
           </div>
           <IconButton variant="ghost" size="sm" onClick={onClose}>
@@ -228,10 +224,11 @@ export const CreatePageModal: React.FC<CreatePageModalProps> = ({
           <ModalBody>
             <div>
               <Typography variant="body" weight="medium">
-                Pilih Template Halaman:
+                Pilih Template Bawaan Tema:
               </Typography>
               <Typography variant="caption" color="secondary">
-                Pilih jenis tata letak yang ingin Anda buat untuk website Anda:
+                Pilih cetak biru (blueprint) tata letak bawaan tema sebagai
+                dasar untuk membuat halaman toko baru Anda:
               </Typography>
               <TemplateSelectionGrid style={{ marginTop: '8px' }}>
                 {catalogEntries.map(([key, entry]) => (
@@ -290,7 +287,9 @@ export const CreatePageModal: React.FC<CreatePageModalProps> = ({
               </TemplatePreviewSections>
             )}
 
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+            <div
+              style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}
+            >
               <TextInput
                 control={control}
                 name="title"

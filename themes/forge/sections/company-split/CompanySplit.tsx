@@ -392,9 +392,7 @@ export const CompanySplit: React.FC<
               <ManifestoQuoteGlyph>
                 <QuoteGlyphSvg />
               </ManifestoQuoteGlyph>
-              {intro && (
-                <ManifestoText dark={isDark}>{intro}</ManifestoText>
-              )}
+              {intro && <ManifestoText dark={isDark}>{intro}</ManifestoText>}
               <ManifestoFooter dark={isDark}>
                 <span>Operational Benchmark</span>
                 <span className="stamp">● Verified Standard</span>
@@ -406,4 +404,3 @@ export const CompanySplit: React.FC<
     </SectionContainer>
   )
 }
-

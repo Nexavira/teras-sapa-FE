@@ -32,7 +32,7 @@ const RevealItem = ({ children }: { children: ReactNode }) => (
   <span data-reveal-item>{children}</span>
 )
 
-function splitCharacters(value: string, keyPrefix: string): ReactNode[] {
+function splitCharacters(value: string, keyPrefix: string): Array<ReactNode> {
   return value.split(/(\s+)/).map((part, partIndex) => {
     const partKey = `${keyPrefix}-part-${partIndex}`
     if (/^\s+$/.test(part)) return part
@@ -49,7 +49,7 @@ function splitCharacters(value: string, keyPrefix: string): ReactNode[] {
   })
 }
 
-function splitWords(value: string, keyPrefix: string): ReactNode[] {
+function splitWords(value: string, keyPrefix: string): Array<ReactNode> {
   return value.split(/(\s+)/).map((part, index) => {
     if (/^\s+$/.test(part)) return part
     return (

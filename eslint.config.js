@@ -7,7 +7,7 @@ import reactPlugin from 'eslint-plugin-react'
 import prettierRecommended from 'eslint-plugin-prettier/recommended'
 import simpleImportSort from 'eslint-plugin-simple-import-sort'
 import pluginQuery from '@tanstack/eslint-plugin-query'
-import tseslint from 'typescript-eslint';
+import tseslint from 'typescript-eslint'
 
 export default [
   ...tanstackConfig,
@@ -19,17 +19,17 @@ export default [
       '@tanstack/query': pluginQuery,
     },
     rules: {
-      "@typescript-eslint/no-unused-vars": [
-        "warn",
+      '@typescript-eslint/no-unused-vars': [
+        'warn',
         {
-          "args": "all",
-          "argsIgnorePattern": "^_",
-          "caughtErrors": "all",
-          "caughtErrorsIgnorePattern": "^_",
-          "destructuredArrayIgnorePattern": "^_",
-          "varsIgnorePattern": "^_",
-          "ignoreRestSiblings": true
-        }
+          args: 'all',
+          argsIgnorePattern: '^_',
+          caughtErrors: 'all',
+          caughtErrorsIgnorePattern: '^_',
+          destructuredArrayIgnorePattern: '^_',
+          varsIgnorePattern: '^_',
+          ignoreRestSiblings: true,
+        },
       ],
 
       'import/no-cycle': 'off',

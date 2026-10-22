@@ -22,7 +22,7 @@ const sectionSchema: SectionSchema = {
   max_blocks: 3,
 }
 
-const createSection = (types: string[]): SectionInstance => ({
+const createSection = (types: Array<string>): SectionInstance => ({
   type: 'hero',
   settings: {},
   block_order: types.map((_, index) => `block-${index}`),

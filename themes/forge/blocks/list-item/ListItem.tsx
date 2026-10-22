@@ -211,4 +211,3 @@ export const ListItem: React.FC<BlockComponentProps<ListItemSettings>> = ({
     </ItemContainer>
   )
 }
-

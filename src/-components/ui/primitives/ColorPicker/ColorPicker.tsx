@@ -296,7 +296,7 @@ export interface ColorPickerProps {
   error?: string
   allowGradient?: boolean
   allowAlpha?: boolean
-  presets?: string[]
+  presets?: Array<string>
   onChange?: (color: string) => void
   onLiveChange?: (color: string) => void
 }

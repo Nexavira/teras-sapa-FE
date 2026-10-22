@@ -1,15 +1,20 @@
+import type { ErrorInfo, ReactNode } from 'react'
+import { Component } from 'react'
+
 import type { DragEndEvent } from '@dnd-kit/react'
 import { DragDropProvider } from '@dnd-kit/react'
 import { isSortable } from '@dnd-kit/react/sortable'
 import { AlertCircleIcon, Delete02Icon, PlusSignIcon } from 'hugeicons-react'
-import type { ErrorInfo, ReactNode } from 'react'
-import { Component } from 'react'
 
 import { findBlockLocation, reorderItems } from '#/lib/editor/blockTree'
 import { editorActions, useEditorTheme } from '#/store/editorStore'
 
 import { editorSensors, getBlockParentIdFromDndGroup } from './editorDnd'
-import { AddBlockButton, NestedBlockList, SortableEntry } from './sectionTreeStyles'
+import {
+  AddBlockButton,
+  NestedBlockList,
+  SortableEntry,
+} from './sectionTreeStyles'
 import { SortableBlockEntry } from './SortableBlockEntry'
 import { ActionIconButton, TreeItem } from './TreeItem'
 import type { BlockInstance, BlockSchema, SectionSchema } from '#themes'
@@ -39,7 +44,9 @@ export class BlockItemErrorBoundary extends Component<
     }
   }
 
-  static getDerivedStateFromError(error: Error): Partial<BlockItemErrorBoundaryState> {
+  static getDerivedStateFromError(
+    error: Error,
+  ): Partial<BlockItemErrorBoundaryState> {
     return { hasError: true, error }
   }
 
@@ -120,9 +127,15 @@ export const BlockErrorEntry = ({
       >
         <span
           style={{ color: '#dc2626', fontWeight: 500 }}
-          title={errorMessage ? `Error: ${errorMessage}` : `Error in block ${blockId}`}
+          title={
+            errorMessage
+              ? `Error: ${errorMessage}`
+              : `Error in block ${blockId}`
+          }
         >
-          {errorMessage ? `Error (${blockId}): ${errorMessage}` : `Error in block (${blockId})`}
+          {errorMessage
+            ? `Error (${blockId}): ${errorMessage}`
+            : `Error in block (${blockId})`}
         </span>
       </TreeItem>
     </SortableEntry>
@@ -175,7 +188,6 @@ const BlockListItems = ({
           }
 
           const blockSchema: BlockSchema = candidateSchema ||
-            // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
             registeredSchema || {
               type: blockType,
               name: isMissing
@@ -237,7 +249,9 @@ const BlockListItems = ({
           return (
             <BlockErrorEntry
               blockId={blockId}
-              errorMessage={error instanceof Error ? error.message : String(error)}
+              errorMessage={
+                error instanceof Error ? error.message : String(error)
+              }
               index={index}
               key={blockId}
               parentBlockId={parentBlockId}

@@ -6,13 +6,13 @@ export interface Collection {
   slug: string
   description?: string
   image?: string
-  productUuids: string[]
+  productUuids: Array<string>
   createdAt: string
   updatedAt: string
 }
 
 export interface CollectionWithProducts extends Collection {
-  products: Product[]
+  products: Array<Product>
 }
 
 export interface GetCollectionsParams {

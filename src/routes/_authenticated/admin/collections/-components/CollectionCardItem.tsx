@@ -109,7 +109,7 @@ const ActionButtons = styled.div`
 
 interface CollectionCardItemProps {
   collection: Collection
-  allProducts: Product[]
+  allProducts: Array<Product>
   onDelete: (collection: Collection) => void
 }
 
@@ -206,10 +206,7 @@ export const CollectionCardItem = ({
             to="/admin/collections/$collectionId/edit"
             params={{ collectionId: collection.uuid }}
           >
-            <ActionIconButton
-              title="Edit Koleksi"
-              aria-label="Edit Koleksi"
-            >
+            <ActionIconButton title="Edit Koleksi" aria-label="Edit Koleksi">
               <Edit02Icon size={16} />
             </ActionIconButton>
           </Link>

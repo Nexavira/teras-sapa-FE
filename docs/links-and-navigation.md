@@ -8,12 +8,14 @@
 ## 1. Architectural Philosophy: Why Raw Text Links Fail
 
 In basic editors, links are simple text fields where users manually paste URLs. In an enterprise e-commerce platform, this leads to significant vulnerabilities:
+
 1. **Broken Links & Typos:** A typo like `/produts/jacket` results in a 404 error and lost sales.
 2. **Handle/Slug Changes:** If an admin renames a product handle from `/products/shirt-v1` to `/products/oxford-shirt`, hardcoded strings break across dozens of banners and buttons.
 3. **Security Vulnerabilities:** External links without `rel="noopener noreferrer"` expose users to reverse tab-nabbing attacks.
 4. **Editor Shell Crashes:** Clicking an external link or unhandled route inside a customizer preview iframe can hijack the entire browser window and kick the merchant out of the visual customizer.
 
 ### The Shopiti Solution:
+
 An **Omnibox Link Picker (`url` / `link_picker`)** that allows merchants to search internal catalog entities directly, paired with a safe navigation bridge in the Theme Customizer.
 
 ```mermaid
@@ -86,6 +88,7 @@ export interface UrlValue {
 ```
 
 ### Schema Setting Definition:
+
 ```ts
 {
   type: 'url',
@@ -103,6 +106,7 @@ export interface UrlValue {
 Beyond single link settings, themes frequently render complex navigation structures (header dropdowns, mega menus, footer multi-columns).
 
 ### 1. The `menu` Setting Type
+
 Rather than configuring dozens of individual link settings, the schema references a centralized store navigation menu:
 
 ```ts
@@ -115,6 +119,7 @@ Rather than configuring dozens of individual link settings, the schema reference
 ```
 
 ### 2. Multi-Level Menu Data Structure:
+
 ```json
 {
   "id": "main-menu",
@@ -130,8 +135,16 @@ Rather than configuring dozens of individual link settings, the schema reference
           "title": "Clothing",
           "url": "/collections/clothing",
           "items": [
-            { "id": "jackets", "title": "Jackets & Coats", "url": "/collections/jackets" },
-            { "id": "knitwear", "title": "Sweaters & Knits", "url": "/collections/knitwear" }
+            {
+              "id": "jackets",
+              "title": "Jackets & Coats",
+              "url": "/collections/jackets"
+            },
+            {
+              "id": "knitwear",
+              "title": "Sweaters & Knits",
+              "url": "/collections/knitwear"
+            }
           ]
         },
         {
@@ -154,6 +167,7 @@ Rather than configuring dozens of individual link settings, the schema reference
 In the Theme Customizer, the center canvas runs inside an `<iframe>` to guarantee CSS and DOM isolation.
 
 ### The Critical Rule:
+
 **Links clicked inside the customizer preview MUST NOT cause full page reloads or navigate out of the editor.**
 
 In `src/routes/preview/-components/PreviewSectionWrapper.tsx`:
@@ -178,7 +192,7 @@ export const StorefrontLink: React.FC<{
       if (!isExternal && href.startsWith('/')) {
         window.parent.postMessage(
           { type: 'PREVIEW_NAVIGATE_ROUTE', payload: { path: href } },
-          '*'
+          '*',
         )
       }
     }

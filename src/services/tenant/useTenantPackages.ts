@@ -6,7 +6,7 @@ import type { TenantPackage } from '#/types/tenant.type'
 import { fetchHelper } from '#/utils/fetchHelper'
 
 export const useTenantPackages = (
-  options?: Omit<UndefinedInitialDataOptions<TenantPackage[]>, 'queryKey'>,
+  options?: Omit<UndefinedInitialDataOptions<Array<TenantPackage>>, 'queryKey'>,
 ) =>
   useQuery({
     ...options,

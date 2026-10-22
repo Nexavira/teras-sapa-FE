@@ -10,13 +10,7 @@ import {
   PlusSignIcon,
 } from 'hugeicons-react'
 
-import {
-  Badge,
-  Button,
-  Card,
-  theme,
-  Typography,
-} from '#/-components/ui'
+import { Badge, Button, Card, theme, Typography } from '#/-components/ui'
 import type { TenantTemplatePageType } from '#/types/cms.type'
 
 const TableContainer = styled(Card)`
@@ -84,7 +78,7 @@ const EmptyBox = styled.div`
 `
 
 export interface PagesTableProps {
-  pages: TenantTemplatePageType[]
+  pages: Array<TenantTemplatePageType>
   themeId: string
   tenantTemplateUuid: string
   tenantSlug?: string
@@ -156,7 +150,7 @@ export const PagesTable: React.FC<PagesTableProps> = ({
           <tbody>
             {pages.map((page) => {
               const rawData = page.template_data as {
-                order?: string[]
+                order?: Array<string>
                 sections?: Record<string, unknown>
               } | null
               const sectionCount = rawData?.order?.length || 0
@@ -167,7 +161,13 @@ export const PagesTable: React.FC<PagesTableProps> = ({
               return (
                 <tr key={page.uuid}>
                   <td>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <div
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '8px',
+                      }}
+                    >
                       <File01Icon
                         size={16}
                         color={theme.colors.primary.DEFAULT}
@@ -188,7 +188,10 @@ export const PagesTable: React.FC<PagesTableProps> = ({
                     </Typography>
                   </td>
                   <td>
-                    <Badge size="sm" variant={page.is_active ? 'success' : 'neutral'}>
+                    <Badge
+                      size="sm"
+                      variant={page.is_active ? 'success' : 'neutral'}
+                    >
                       {page.is_active ? 'Aktif' : 'Nonaktif'}
                     </Badge>
                   </td>

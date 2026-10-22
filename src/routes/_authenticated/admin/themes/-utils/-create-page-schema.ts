@@ -34,7 +34,7 @@ export const createTenantTemplatePageRequestSchema = z.object({
   tenant_template_uuid: z.string().min(1),
   title: z.string().min(1),
   slug: z.string().min(1),
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
   template_data: z.any().optional(),
   is_active: z.number().optional(),
 })

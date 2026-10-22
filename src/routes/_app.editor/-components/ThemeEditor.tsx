@@ -1,10 +1,11 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef } from 'react'
 
 import styled from '@emotion/styled'
 
 import { theme } from '#/-components/ui/theme'
 import { useGetTenantTemplatePages } from '#/services/cms/useGetTenantTemplatePages'
 import { useGetTenantTemplates } from '#/services/cms/useGetTenantTemplates'
+import { seedTenantTemplatePages } from '#/services/cms/useSeedTenantTemplatePages'
 import { useGetCurrentTenant } from '#/services/tenant/useGetCurrentTenant'
 import {
   editorActions,
@@ -62,8 +63,39 @@ export const ThemeEditor: React.FC<ThemeEditorProps> = ({
   const { tenant } = useGetCurrentTenant()
   const { data: tenantTemplates, refetch: refetchTenantTemplates } =
     useGetTenantTemplates(tenant?.uuid)
-  const { data: tenantPages = [], refetch: refetchTenantPages } =
-    useGetTenantTemplatePages(tenantTemplateUuid)
+  const {
+    data: tenantPages = [],
+    refetch: refetchTenantPages,
+    isLoading: isLoadingTenantPages,
+  } = useGetTenantTemplatePages(tenantTemplateUuid)
+
+  const hasSeededRef = useRef(false)
+
+  // Auto-seed default pages from theme catalog if tenant has 0 pages in database
+  useEffect(() => {
+    if (
+      tenantTemplateUuid &&
+      !isLoadingTenantPages &&
+      tenantPages.length === 0 &&
+      !hasSeededRef.current
+    ) {
+      hasSeededRef.current = true
+      void seedTenantTemplatePages({
+        tenantTemplateUuid,
+        themeDefinition: requestedTheme,
+      }).then((seeded) => {
+        if (seeded.length > 0) {
+          void refetchTenantPages()
+        }
+      })
+    }
+  }, [
+    tenantTemplateUuid,
+    isLoadingTenantPages,
+    tenantPages.length,
+    requestedTheme,
+    refetchTenantPages,
+  ])
 
   const currentTenantTemplate =
     tenantTemplates?.find((t) => t.uuid === tenantTemplateUuid) ?? null

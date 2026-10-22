@@ -11,7 +11,7 @@ import { theme } from '#/-components/ui/theme'
 import type { Product } from '#/types/product.type'
 
 interface ProductStatsProps {
-  products: Product[]
+  products: Array<Product>
 }
 
 export const ProductStats = ({ products }: ProductStatsProps) => {

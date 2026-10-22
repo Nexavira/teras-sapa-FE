@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react'
-import { useForm } from 'react-hook-form'
 
 import styled from '@emotion/styled'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -8,6 +7,7 @@ import {
   Cancel01Icon,
   CheckmarkCircle02Icon,
 } from 'hugeicons-react'
+import { useForm } from 'react-hook-form'
 
 import {
   Button,
@@ -148,8 +148,8 @@ export const PublishConfirmModal: React.FC<PublishConfirmModalProps> = ({
         <form onSubmit={handleSubmit(onSubmit)}>
           <ModalBody>
             <Typography variant="body">
-              Kamu yakin ingin mempublikasikan tema{' '}
-              <strong>{themeName}</strong> sebagai tema aktif di store kamu?
+              Kamu yakin ingin mempublikasikan tema <strong>{themeName}</strong>{' '}
+              sebagai tema aktif di store kamu?
             </Typography>
 
             <NoticeBox>

@@ -19,11 +19,11 @@ export interface Product {
   type: ProductType
   basePrice: number
   compareAtPrice?: number | null
-  images: string[]
+  images: Array<string>
   category?: string
   vendor?: string
-  tags?: string[]
-  variants: ProductVariant[]
+  tags?: Array<string>
+  variants: Array<ProductVariant>
   totalInventory: number
   createdAt: string
   updatedAt: string

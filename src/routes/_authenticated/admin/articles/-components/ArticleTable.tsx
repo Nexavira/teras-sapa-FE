@@ -84,7 +84,9 @@ export const ArticleTable = ({
                   <EmptyState
                     icon={<Note01Icon size={44} />}
                     title={
-                      filtered ? 'Tidak ada artikel yang cocok' : 'Belum ada artikel'
+                      filtered
+                        ? 'Tidak ada artikel yang cocok'
+                        : 'Belum ada artikel'
                     }
                     description={
                       filtered

@@ -29,8 +29,8 @@ const FullWidthBox = styled.div`
 `
 
 interface CollectionGridProps {
-  collections: Collection[]
-  allProducts: Product[]
+  collections: Array<Collection>
+  allProducts: Array<Product>
   isLoading: boolean
   onDelete: (collection: Collection) => void
 }

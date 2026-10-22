@@ -1,9 +1,9 @@
 import { createFileRoute, redirect } from '@tanstack/react-router'
 
 import { AuthLayout } from '#/-components/auth/AuthLayout'
+import { hasAuthToken } from '#/services/auth/authStorage'
 
 import { RegisterForm } from './-schema/RegisterForm'
-import { hasAuthToken } from '#/services/auth/authStorage'
 
 const RegisterPage = () => {
   return (

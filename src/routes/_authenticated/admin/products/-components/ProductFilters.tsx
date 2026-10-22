@@ -11,7 +11,7 @@ interface ProductFiltersProps {
   onStatusFilterChange: (status: ProductStatusFilter) => void
 }
 
-const TABS: FilterTab<ProductStatusFilter>[] = [
+const TABS: Array<FilterTab<ProductStatusFilter>> = [
   { key: 'all', label: 'Semua' },
   { key: 'active', label: 'Aktif' },
   { key: 'draft', label: 'Draf' },

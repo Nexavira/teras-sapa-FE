@@ -9,9 +9,9 @@ import { productStorage } from './productStorage'
 export const useGetProducts = (params: GetProductsParams = {}) => {
   return useQuery({
     queryKey: ['products', params],
-    queryFn: async (): Promise<Product[]> => {
+    queryFn: async (): Promise<Array<Product>> => {
       try {
-        const response = await fetchHelper<ApiResponse<Product[]>>(
+        const response = await fetchHelper<ApiResponse<Array<Product>>>(
           '/api/v1/portal/products',
           { query: params as Record<string, string | number> },
         )

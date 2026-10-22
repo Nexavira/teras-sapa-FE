@@ -4,6 +4,7 @@ import styled from '@emotion/styled'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Controller, useForm, useWatch } from 'react-hook-form'
 
+import { ImagePickerInput } from '#/-components/ui/form/image-picker-input'
 import { TextInput } from '#/-components/ui/form/text-input'
 import { TextareaInput } from '#/-components/ui/form/textarea-input'
 import { Button } from '#/-components/ui/primitives/Button'
@@ -214,13 +215,12 @@ export const ArticleForm = ({
               Tambahkan gambar sampul dan tag, lalu tentukan status artikel.
             </Typography>
           </ArticleSectionHeader>
-          <TextInput
+          <ImagePickerInput
             control={control}
             name="coverImage"
-            label="URL gambar sampul (opsional)"
-            type="url"
-            variant="default"
-            placeholder="https://example.com/sampul.jpg"
+            label="Gambar Sampul (Opsional)"
+            placeholder="Pilih atau unggah gambar sampul..."
+            helperText="Pilih dari pustaka media atau unggah gambar baru untuk sampul artikel."
           />
           <Grid>
             <Controller

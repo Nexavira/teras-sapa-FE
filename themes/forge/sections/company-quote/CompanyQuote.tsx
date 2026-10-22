@@ -136,11 +136,7 @@ const AccentRule = styled.div`
 `
 
 const QuoteMarkSvg: React.FC = () => (
-  <svg
-    viewBox="0 0 44 32"
-    fill="currentColor"
-    aria-hidden="true"
-  >
+  <svg viewBox="0 0 44 32" fill="currentColor" aria-hidden="true">
     <path d="M12.8 0C5.7 0 0 5.4 0 12.1c0 6.6 5.3 12 12.1 12.1h1.9C12.3 28.5 8 31.4 3 32v0c10.4-.6 16.9-7.9 16.9-18.9V0H12.8zm24.3 0c-7.1 0-12.8 5.4-12.8 12.1 0 6.6 5.3 12 12.1 12.1h1.9c-1.7 4.3-6 7.2-11 7.8v0c10.4-.6 16.9-7.9 16.9-18.9V0H37.1z" />
   </svg>
 )
@@ -198,5 +194,3 @@ export const CompanyQuote: React.FC<
     </SectionContainer>
   )
 }
-
-

@@ -8,7 +8,7 @@ import {
   PlusSignIcon,
 } from 'hugeicons-react'
 
-import { Badge, IconButton, theme, Typography } from '#/-components/ui'
+import { IconButton, theme, Typography } from '#/-components/ui'
 import { CreatePageModal } from '#/routes/_authenticated/admin/themes/-schema/CreatePageModal'
 import {
   editorActions,
@@ -135,7 +135,6 @@ export const PageSelector: React.FC<PageSelectorProps> = ({
 
   const activeTheme = useEditorTheme()
   const activePageData = useEditorPageData()
-  const { templateCatalog } = activeTheme
 
   const [isEditPageModalOpen, setIsEditPageModalOpen] = useState(false)
   const [isCreatePageModalOpen, setIsCreatePageModalOpen] = useState(false)
@@ -144,6 +143,8 @@ export const PageSelector: React.FC<PageSelectorProps> = ({
     event: React.ChangeEvent<HTMLSelectElement>,
   ) => {
     const nextKey = event.target.value
+    if (!nextKey) return
+
     const matchedPage = tenantPages.find((p) => p.slug === nextKey)
 
     if (matchedPage) {
@@ -175,14 +176,12 @@ export const PageSelector: React.FC<PageSelectorProps> = ({
       const templateKey = nextKey === 'home' ? 'index' : nextKey
       editorActions.switchTemplate(templateKey)
       onPageChange?.(nextKey)
-    } else {
-      editorActions.setBackendContext(effectiveTenantTemplateUuid, null, null)
-      editorActions.switchTemplate(nextKey)
-      onPageChange?.(nextKey)
     }
   }
 
-  const currentSelectValue = activePageData?.slug ?? activeTemplateId
+  const currentSelectValue =
+    activePageData?.slug ??
+    (tenantPages.length > 0 ? tenantPages[0].slug : activeTemplateId)
 
   return (
     <PageSelectorRoot className={className}>
@@ -235,28 +234,19 @@ export const PageSelector: React.FC<PageSelectorProps> = ({
           onChange={handlePageSelectChange}
         >
           {tenantPages.length > 0 ? (
-            <>
-              <optgroup label="Halaman Toko">
-                {tenantPages.map((page) => (
-                  <option key={page.uuid} value={page.slug}>
-                    {page.title} (/{page.slug})
-                  </option>
-                ))}
-              </optgroup>
-              <optgroup label="Template Bawaan">
-                {Object.entries(templateCatalog).map(([id, entry]) => (
-                  <option key={id} value={id}>
-                    {entry.label}
-                  </option>
-                ))}
-              </optgroup>
-            </>
-          ) : (
-            Object.entries(templateCatalog).map(([id, entry]) => (
-              <option key={id} value={id}>
-                {entry.label}
+            tenantPages.map((page) => (
+              <option key={page.uuid} value={page.slug}>
+                {page.title} (/{page.slug})
               </option>
             ))
+          ) : activePageData ? (
+            <option value={activePageData.slug}>
+              {activePageData.title} (/{activePageData.slug})
+            </option>
+          ) : (
+            <option value="" disabled>
+              Belum ada halaman toko
+            </option>
           )}
         </StyledSelect>
         <SelectChevronIcon>

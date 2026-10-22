@@ -1,9 +1,7 @@
 import styled from '@emotion/styled'
-import { Image01Icon } from 'hugeicons-react'
 import type { Control } from 'react-hook-form'
-import { useWatch } from 'react-hook-form'
 
-import { TextInput } from '#/-components/ui/form/text-input'
+import { ImagePickerInput } from '#/-components/ui/form/image-picker-input'
 import { Card } from '#/-components/ui/primitives/Card'
 import { Typography } from '#/-components/ui/primitives/Typography'
 import { theme } from '#/-components/ui/theme'
@@ -34,44 +32,11 @@ const FormGroup = styled.div`
   gap: 6px;
 `
 
-const ThumbnailPreview = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  margin-top: 10px;
-  padding: 12px;
-  border-radius: 10px;
-  background: ${theme.colors.paper};
-
-  img {
-    width: 72px;
-    height: 72px;
-    object-fit: cover;
-    border: 1px solid ${theme.colors.border};
-    border-radius: 8px;
-  }
-`
-
-const Placeholder = styled.div`
-  width: 72px;
-  height: 72px;
-  border-radius: 8px;
-  background: ${theme.colors.white};
-  border: 1px dashed ${theme.colors.border};
-  display: grid;
-  place-items: center;
-  color: ${theme.colors.muted};
-  flex-shrink: 0;
-`
-
 interface ProductMediaProps {
   control: Control<ProductFormValues>
 }
 
 export const ProductMedia = ({ control }: ProductMediaProps) => {
-  const images = useWatch({ control, name: 'images' })
-  const primaryImage = images?.[0] || ''
-
   return (
     <SectionCard>
       <SectionHeader>
@@ -79,56 +44,22 @@ export const ProductMedia = ({ control }: ProductMediaProps) => {
           variant="title"
           style={{ fontSize: '1.1rem', fontWeight: 700 }}
         >
-          Media & Gambar
+          Media & Gambar Produk
         </Typography>
         <Typography variant="caption" color="secondary">
-          Tampilkan foto untuk kartu katalog dan halaman produk di toko online.
+          Kelola foto untuk kartu katalog dan tampilan detail produk di toko
+          online.
         </Typography>
       </SectionHeader>
 
       <FormGroup>
-        <TextInput
+        <ImagePickerInput
           control={control}
           name="images.0"
-          label="URL Gambar Utama"
-          placeholder="https://images.unsplash.com/photo-..."
+          label="Foto Produk Utama"
+          placeholder="Pilih atau unggah foto produk..."
+          helperText="Pilih dari pustaka media atau unggah foto baru untuk produk ini."
         />
-
-        {primaryImage ? (
-          <ThumbnailPreview>
-            <img src={primaryImage} alt="Pratinjau produk" />
-            <div>
-              <Typography
-                variant="body"
-                style={{ fontWeight: 600, fontSize: '0.9rem' }}
-              >
-                Pratinjau Gambar
-              </Typography>
-              <Typography variant="caption" color="secondary">
-                Gambar ini akan muncul di toko online, halaman checkout, dan
-                daftar inventaris.
-              </Typography>
-            </div>
-          </ThumbnailPreview>
-        ) : (
-          <ThumbnailPreview>
-            <Placeholder>
-              <Image01Icon size={26} />
-            </Placeholder>
-            <div>
-              <Typography
-                variant="body"
-                style={{ fontWeight: 600, fontSize: '0.9rem' }}
-              >
-                Belum ada gambar yang dilampirkan
-              </Typography>
-              <Typography variant="caption" color="secondary">
-                Tempel tautan gambar di atas, atau biarkan kosong untuk menggunakan
-                gambar default yang telah disediakan.
-              </Typography>
-            </div>
-          </ThumbnailPreview>
-        )}
       </FormGroup>
     </SectionCard>
   )

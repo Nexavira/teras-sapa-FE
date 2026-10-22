@@ -92,7 +92,8 @@ export const PaymentProofForm = ({
       {submitted ? (
         <>
           <Description role="status">
-            Bukti pembayaran telah diterima. Toko Anda akan aktif setelah disetujui.
+            Bukti pembayaran telah diterima. Toko Anda akan aktif setelah
+            disetujui.
           </Description>
           <Button type="button" onClick={() => onRefresh()}>
             Perbarui status langganan

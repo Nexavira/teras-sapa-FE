@@ -10,7 +10,7 @@ export interface NavItemProps {
   to?: string
   icon?: ReactNode
   children: ReactNode
-  items?: SubNavItem[]
+  items?: Array<SubNavItem>
   defaultOpen?: boolean
   isOpen?: boolean
   onToggle?: (open: boolean) => void

@@ -67,11 +67,4 @@ export const BentoCardSchema: BlockSchema = {
       ],
     },
   ],
-  blocks: [
-    HeadingBlockSchema,
-    TextBlockSchema,
-    ButtonBlockSchema,
-    ImageBlockSchema,
-    FlexBlockSchema,
-  ],
 }

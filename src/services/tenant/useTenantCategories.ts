@@ -6,7 +6,10 @@ import type { TenantCategory } from '#/types/tenant.type'
 import { fetchHelper } from '#/utils/fetchHelper'
 
 export const useTenantCategories = (
-  options?: Omit<UndefinedInitialDataOptions<TenantCategory[]>, 'queryKey'>,
+  options?: Omit<
+    UndefinedInitialDataOptions<Array<TenantCategory>>,
+    'queryKey'
+  >,
 ) =>
   useQuery({
     ...options,

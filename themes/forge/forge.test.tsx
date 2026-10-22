@@ -2,7 +2,6 @@ import { cleanup, render } from '@testing-library/react'
 import { afterEach, describe, expect, it } from 'vitest'
 
 import { PageRenderer } from '#/routes/preview/-components/PageRenderer'
-import { BlockRenderer } from '#themes/shared/components/BlockRenderer'
 
 import { BentoCardSchema } from './blocks/bento-card/BentoCard.schema'
 import { GridBlockSchema } from './blocks/grid/GridBlock.schema'
@@ -21,6 +20,7 @@ import { CompanyQuoteSchema } from './sections/company-quote/CompanyQuote.schema
 import { CompanySplit } from './sections/company-split/CompanySplit'
 import { CompanySplitSchema } from './sections/company-split/CompanySplit.schema'
 import { Reveal } from './snippets/Reveal'
+import { BlockRenderer } from '#themes/shared/components/BlockRenderer'
 
 afterEach(cleanup)
 
@@ -848,11 +848,7 @@ describe('Forge manufacturing theme', () => {
             dark_mode: false,
             watermark_text: 'Atlas Spec 01',
           }}
-          blockOrder={[
-            'heading_1',
-            'ruler_1',
-            'card_1',
-          ]}
+          blockOrder={['heading_1', 'ruler_1', 'card_1']}
           blocks={{
             heading_1: {
               type: 'heading',
@@ -908,4 +904,3 @@ describe('Forge manufacturing theme', () => {
     })
   })
 })
-

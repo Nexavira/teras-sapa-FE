@@ -8,11 +8,13 @@
 ## 1. Architectural Philosophy: Why Raw Image URLs Fail
 
 In primitive website builders, images are handled as basic text fields where users paste image URLs. This creates severe problems:
+
 1. **No Reusability:** If a merchant uploads their brand logo or a hero image, they must re-upload or track down the URL every time they want to use it in another section or block.
 2. **Broken Responsive Layouts:** A landscape banner designed for a 1440px desktop screen gets cropped awkwardly on a 375px mobile device, cutting off product details or faces.
 3. **Huge Payloads & Poor SEO:** Uploading unoptimized 8MB PNGs destroys Google Core Web Vitals (LCP / CLS) scores and kills conversion rates.
 
 ### The Shopiti Solution:
+
 A **Centralized Media Asset Library (CMS)** paired with the **`image_picker`** setting type, supporting asset reusability, focal point positioning, dynamic CDN resizing, and responsive `<picture>` art direction.
 
 ```mermaid
@@ -43,11 +45,13 @@ graph TD
 When a merchant interacts with an `image_picker` field in the Theme Customizer, clicking the field opens the **Media Picker Modal**:
 
 ### 1. Tab 1: "Store Media Library"
+
 - Displays a searchable, paginated grid of all previously uploaded assets.
 - Filter by media type (Images, Videos, Documents) and tags (Products, Banners, Logos).
 - Selecting any existing image attaches it to the section or block immediately, **reusing the exact asset without duplicating storage**.
 
 ### 2. Tab 2: "Upload New"
+
 - Drag-and-drop file upload zone supporting JPG, PNG, WebP, SVG, and GIF.
 - Client-side preflight validation (checks dimensions, format, file size).
 - Once uploaded, the asset is saved to the store's media database and is instantly available for all other sections across the theme.
@@ -79,6 +83,7 @@ export interface ImageValue {
 ```
 
 ### Schema Setting Definition:
+
 ```ts
 {
   type: 'image_picker',
@@ -94,10 +99,13 @@ export interface ImageValue {
 ## 4. Focal Point Cropping & Positioning
 
 ### The Problem:
+
 An image of a model wearing a watch has dimensions `1920x1080` (16:9). When viewed on a smartphone (`375x812`), CSS `object-fit: cover` defaults to centering (`50% 50%`), cutting off the model's head and the watch.
 
 ### The Solution:
+
 In the Theme Customizer, the merchant can click anywhere on the image thumbnail to place an interactive **Focal Point Pin**.
+
 - The pin coordinates are saved as `{ x: 65, y: 25 }` (percentages from top-left).
 - In the frontend component, this maps directly to CSS `object-position`:
 
@@ -137,6 +145,7 @@ export const BannerImage: React.FC<{ image?: ImageValue }> = ({ image }) => {
 For hero banners, a single image cropped differently is often insufficient. Designers frequently produce a distinct landscape banner for desktop and a portrait banner for mobile.
 
 ### Schema Pattern:
+
 ```ts
 settings: [
   {
@@ -155,6 +164,7 @@ settings: [
 ```
 
 ### Component Implementation using `<picture>`:
+
 ```tsx
 export const ResponsiveHeroImage: React.FC<{
   imageDesktop?: ImageValue

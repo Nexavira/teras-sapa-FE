@@ -14,7 +14,7 @@ export type AutocompleteOption = {
 }
 
 export type AutocompleteProps = InputProps & {
-  options: AutocompleteOption[]
+  options: Array<AutocompleteOption>
   label?: string
   error?: string
   helperText?: string
@@ -82,7 +82,7 @@ const StyledItem = styled(BaseAutocomplete.Item)`
 `
 
 const AutocompleteList = ({ isLoading }: { isLoading: boolean }) => {
-  const filteredOptions: AutocompleteOption[] =
+  const filteredOptions: Array<AutocompleteOption> =
     BaseAutocomplete.useFilteredItems()
 
   if (isLoading) {

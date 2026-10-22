@@ -26,7 +26,11 @@ export const useCreateTenantTemplatePage = () => {
     },
     onSuccess: (_, variables) => {
       void queryClient.invalidateQueries({
-        queryKey: ['cms', 'tenant-template-pages', variables.tenant_template_uuid],
+        queryKey: [
+          'cms',
+          'tenant-template-pages',
+          variables.tenant_template_uuid,
+        ],
       })
       void queryClient.invalidateQueries({
         queryKey: ['cms', 'tenant-templates'],

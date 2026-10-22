@@ -235,8 +235,7 @@ export const CurrentThemeCard: React.FC<CurrentThemeCardProps> = ({
 
   // Extract custom title from template_settings if stored, or fallback to global template title / definition name
   const customSettings = tenantTemplate.template_settings as
-    | Record<string, unknown>
-    | undefined
+    Record<string, unknown> | undefined
   const displayTitle =
     (customSettings?.theme_title as string) ||
     tenantTemplate.global_template?.title ||

@@ -29,15 +29,19 @@ graph TD
 ## 2. Section Presets & Block Defaults
 
 ### The Problem:
+
 When a merchant clicks **"Add Section"** in the customizer, adding an empty section with zero blocks creates frustration and confusion. The merchant does not know what the section looks like or what settings to configure.
 
 ### The Solution:
+
 Every section schema MUST declare one or more **Presets**. When a preset is selected from the library modal, the Theme Engine automatically:
+
 1. Generates a new unique section instance ID.
 2. Applies the preset's initial setting values.
 3. Generates all child blocks specified in the preset with unique IDs and settings.
 
 ### Schema Implementation:
+
 ```ts
 // themes/dawn/sections/testimonials/Testimonials.schema.ts
 export const TestimonialsSchema: SectionSchema = {
@@ -45,17 +49,44 @@ export const TestimonialsSchema: SectionSchema = {
   name: 'Testimonials Slider',
   category: 'Promotional',
   settings: [
-    { type: 'text', id: 'heading', label: 'Section Heading', default: 'What Our Customers Say' },
-    { type: 'color_scheme', id: 'color_scheme', label: 'Color Scheme', default: 'scheme-2' },
+    {
+      type: 'text',
+      id: 'heading',
+      label: 'Section Heading',
+      default: 'What Our Customers Say',
+    },
+    {
+      type: 'color_scheme',
+      id: 'color_scheme',
+      label: 'Color Scheme',
+      default: 'scheme-2',
+    },
   ],
   blocks: [
     {
       type: 'quote',
       name: 'Customer Review',
       settings: [
-        { type: 'range', id: 'rating', label: 'Star Rating', min: 1, max: 5, default: 5 },
-        { type: 'textarea', id: 'quote', label: 'Review Text', default: 'Outstanding craftsmanship and attention to detail.' },
-        { type: 'text', id: 'author', label: 'Customer Name', default: 'Sarah M.' },
+        {
+          type: 'range',
+          id: 'rating',
+          label: 'Star Rating',
+          min: 1,
+          max: 5,
+          default: 5,
+        },
+        {
+          type: 'textarea',
+          id: 'quote',
+          label: 'Review Text',
+          default: 'Outstanding craftsmanship and attention to detail.',
+        },
+        {
+          type: 'text',
+          id: 'author',
+          label: 'Customer Name',
+          default: 'Sarah M.',
+        },
       ],
     },
   ],
@@ -73,7 +104,8 @@ export const TestimonialsSchema: SectionSchema = {
           type: 'quote',
           settings: {
             rating: 5,
-            quote: 'The best investment I have made this year. Beautiful and durable.',
+            quote:
+              'The best investment I have made this year. Beautiful and durable.',
             author: 'Elena R. — Verified Buyer',
           },
         },
@@ -89,7 +121,8 @@ export const TestimonialsSchema: SectionSchema = {
           type: 'quote',
           settings: {
             rating: 5,
-            quote: 'Customer support answered my questions within minutes. Highly recommended.',
+            quote:
+              'Customer support answered my questions within minutes. Highly recommended.',
             author: 'David L. — Verified Buyer',
           },
         },
@@ -106,11 +139,14 @@ export const TestimonialsSchema: SectionSchema = {
 In high-growth e-commerce, stores install numerous apps: product reviews, size charts, live chat, loyalty rewards, and analytics.
 
 ### Why App Blocks Matter:
+
 If app developers edit section code directly, updating the theme wipes out the app code, and uninstalling an app leaves orphaned zombie code.
 
 ### The Shopiti Architecture:
+
 1. **App Blocks (In-Page):**
    Sections that support app integration (like `MainProduct` or `FeaturedProduct`) declare `@app` in their allowed blocks:
+
    ```ts
    // In ProductInformation.schema.ts
    blocks: [
@@ -120,6 +156,7 @@ If app developers edit section code directly, updating the theme wipes out the a
      { type: 'buy_buttons', name: 'Buy Buttons', settings: [] },
    ]
    ```
+
    A merchant can drag a **Judge.me Reviews Widget** or **Klaviyo Back-in-Stock Alert** directly between the Product Price and Buy Buttons!
 
 2. **App Embeds (Floating / Global):**
@@ -132,11 +169,14 @@ If app developers edit section code directly, updating the theme wipes out the a
 In modern Shopify themes, settings do not have to be static strings. A text setting can connect to a dynamic resource property (Metafield).
 
 ### Example Use Case:
+
 A merchant wants a "Care Instructions" accordion on every product page. But each product has different care instructions!
+
 - Without data bindings, the merchant would need a separate template for every single product.
 - With data bindings, the accordion block setting is connected to `product.metafields.custom.care_instructions`. The same template dynamically resolves the unique care text for each product!
 
 ### Data Binding Syntax in Templates:
+
 ```json
 {
   "type": "accordion_item",
@@ -164,6 +204,7 @@ graph TD
 ```
 
 ### Governance Invariants (Strictly Enforced):
+
 1. **Self-Contained Theme Packages:**
    All components, schemas, templates, and config files for a theme MUST reside inside its theme directory (`themes/[theme-id]/`).
 2. **Zero Cross-Theme Dependencies:**

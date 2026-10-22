@@ -42,5 +42,5 @@ export interface TenantTemplateType {
     title: string
     tier?: string
   } | null
-  pages?: TenantTemplatePageType[]
+  pages?: Array<TenantTemplatePageType>
 }
