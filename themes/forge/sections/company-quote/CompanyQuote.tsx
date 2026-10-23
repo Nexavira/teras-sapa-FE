@@ -96,8 +96,12 @@ const QuotationIconWrapper = styled.div`
 
 const QuoteText = styled.blockquote`
   margin: 0;
-  font: 520 clamp(38px, 5.8vw, 82px) / 1.04 var(--forge-heading);
-  letter-spacing: -0.055em;
+  font-family: var(--forge-heading);
+  font-weight: var(--forge-heading-weight, 520);
+  font-size: calc(clamp(38px, 5.8vw, 82px) * var(--forge-heading-scale, 1));
+  line-height: 1.04;
+  letter-spacing: var(--forge-heading-letter-spacing, -0.055em);
+  text-transform: var(--forge-heading-text-transform, none);
   text-wrap: balance;
   color: inherit;
 

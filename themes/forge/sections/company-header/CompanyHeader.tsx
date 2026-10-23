@@ -27,7 +27,7 @@ const Nav = styled.nav`
   left: 50%;
   z-index: 20;
   display: flex;
-  width: min(1180px, calc(100vw - 48px));
+  width: min(calc(var(--forge-page-width) - 48px), calc(100vw - 48px));
   min-height: 66px;
   align-items: center;
   justify-content: space-between;
@@ -134,11 +134,15 @@ const NavCta = styled.a`
   gap: 13px;
   padding: 5px 6px 5px 18px;
   border-radius: var(--forge-button-radius);
+  border: var(--forge-button-border-width, 1px) solid transparent;
   background: var(--forge-ink);
   color: var(--forge-paper);
   text-decoration: none;
   font-size: 12px;
   font-weight: 700;
+  letter-spacing: var(--forge-button-letter-spacing, 0px);
+  text-transform: var(--forge-button-text-transform, none);
+  box-shadow: var(--forge-button-shadow, none);
   transition:
     transform 650ms var(--forge-ease),
     background 650ms var(--forge-ease);
@@ -306,9 +310,12 @@ export const CompanyHeader: React.FC<SectionComponentProps<HeaderSettings>> = ({
                   />
                 </svg>
               </LogoMark>
-              {settings.logo_text ||
-                globalSettings.company_name ||
-                'ATLAS / INDUSTRIES'}
+              {settings.logo_text && settings.logo_text !== 'ATLAS / INDUSTRIES'
+                ? settings.logo_text
+                : globalSettings.company_name ||
+                  globalSettings.shop_name ||
+                  settings.logo_text ||
+                  'ATLAS / INDUSTRIES'}
             </>
           )}
         </Logo>

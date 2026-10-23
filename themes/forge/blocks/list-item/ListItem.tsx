@@ -62,14 +62,14 @@ const ItemContainer = styled.div<{ isLink: boolean; href?: string }>`
 
     small {
       background: var(--forge-orange);
-      color: #171915;
+      color: var(--forge-ink);
       border-color: var(--forge-orange);
       opacity: 1;
     }
 
     .arrow-circle {
       background: var(--forge-orange);
-      color: #171915;
+      color: var(--forge-ink);
       border-color: var(--forge-orange);
       transform: translate(2px, -2px) scale(1.08);
     }

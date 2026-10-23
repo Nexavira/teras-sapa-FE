@@ -5,6 +5,8 @@ import { PageRenderer } from '#/routes/preview/-components/PageRenderer'
 
 import { BentoCardSchema } from './blocks/bento-card/BentoCard.schema'
 import { GridBlockSchema } from './blocks/grid/GridBlock.schema'
+import { HeadingBlock } from './blocks/heading/HeadingBlock'
+import { TextBlock } from './blocks/text/TextBlock'
 import { forgeTheme } from './index'
 import { ThemeLayout } from './layout/ThemeLayout'
 import { CompanyBento } from './sections/company-bento/CompanyBento'
@@ -82,6 +84,50 @@ describe('Forge manufacturing theme', () => {
         'a[href="https://linkedin.com/company/northstar"]',
       ),
     ).not.toBeNull()
+  })
+
+  it('connects global typography and brand settings dynamically', () => {
+    const { container } = render(
+      <ThemeLayout
+        globalSettings={{
+          current: {
+            ...forgeTheme.defaultSettingsData.current,
+            company_name: 'Apex Robotics',
+            font_heading: 'Outfit, sans-serif',
+            heading_scale: 120,
+            heading_letter_spacing: 1,
+            font_heading_weight: '700',
+            font_body_base_size: 18,
+          },
+        }}
+        headerComponent={
+          <CompanyHeader
+            id="header"
+            settings={{ logo_text: 'ATLAS / INDUSTRIES' }}
+          />
+        }
+      >
+        <HeadingBlock
+          blockId="h1"
+          settings={{ heading: 'Autonomous Systems', heading_size: 'display' }}
+        />
+        <TextBlock
+          blockId="p1"
+          settings={{
+            text: 'Pioneering heavy automation.',
+            text_style: 'body',
+          }}
+        />
+      </ThemeLayout>,
+    )
+
+    expect(container.textContent).toContain('Apex Robotics')
+    const h1 = container.querySelector('h1')
+    expect(h1).not.toBeNull()
+    expect(h1?.textContent).toBe('Autonomous Systems')
+    const p = container.querySelector('p')
+    expect(p).not.toBeNull()
+    expect(p?.textContent).toBe('Pioneering heavy automation.')
   })
 
   it.each(Object.keys(forgeTheme.templateCatalog))(

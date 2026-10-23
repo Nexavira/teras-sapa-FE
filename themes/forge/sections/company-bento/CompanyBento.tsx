@@ -71,8 +71,12 @@ const Eyebrow = styled.p<{ dark?: boolean }>`
 const H2 = styled.h2`
   max-width: var(--forge-content-width);
   margin: 0 0 32px;
-  font: 520 clamp(42px, 6.1vw, 88px) / 0.93 var(--forge-heading);
-  letter-spacing: -0.065em;
+  font-family: var(--forge-heading);
+  font-weight: var(--forge-heading-weight, 520);
+  font-size: calc(clamp(42px, 6.1vw, 88px) * var(--forge-heading-scale, 1));
+  line-height: 0.93;
+  letter-spacing: var(--forge-heading-letter-spacing, -0.065em);
+  text-transform: var(--forge-heading-text-transform, none);
   text-wrap: balance;
 `
 
@@ -151,12 +155,12 @@ export const CompanyBento: React.FC<
     isDark || (Boolean(color_scheme) && color_scheme !== 'scheme-1')
 
   const hasHeadingBlock = blockOrder.some(
-    (blockId) => blocks[blockId]?.type === 'heading',
+    (blockId) => blocks[blockId].type === 'heading',
   )
   const showFallbackHeading = !hasHeadingBlock && Boolean(heading)
 
   const hasButtonBlock = blockOrder.some(
-    (blockId) => blocks[blockId]?.type === 'button',
+    (blockId) => blocks[blockId].type === 'button',
   )
   const showFallbackCta =
     !hasButtonBlock && Boolean(cta_label) && Boolean(cta_url)
@@ -189,7 +193,6 @@ export const CompanyBento: React.FC<
 
     blockOrder.forEach((blockId, index) => {
       const block = blocks[blockId]
-      if (!block) return
 
       if (block.type === 'bento_card') {
         currentBentoCards.push(blockId)

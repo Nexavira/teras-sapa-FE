@@ -1,8 +1,3 @@
-import { ButtonBlockSchema } from '../button/ButtonBlock.schema'
-import { FlexBlockSchema } from '../flex/FlexBlock.schema'
-import { HeadingBlockSchema } from '../heading/HeadingBlock.schema'
-import { ImageBlockSchema } from '../image/ImageBlock.schema'
-import { TextBlockSchema } from '../text/TextBlock.schema'
 import type { BlockSchema } from '#themes/shared/types/theme'
 
 export const BentoCardSchema: BlockSchema = {

@@ -17,10 +17,8 @@ const ManifestoShell = styled.div`
   padding: clamp(32px, 4vw, 54px);
   border-radius: var(--forge-card-radius, 28px);
   background: rgba(currentColor, 0.035);
-  border: 1px solid rgba(currentColor, 0.1);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.15),
-    0 20px 48px -12px rgba(0, 0, 0, 0.25);
+  border: var(--forge-card-border-width, 1px) solid rgba(currentColor, 0.1);
+  box-shadow: var(--forge-card-shadow);
   box-sizing: border-box;
   display: flex;
   flex-direction: column;

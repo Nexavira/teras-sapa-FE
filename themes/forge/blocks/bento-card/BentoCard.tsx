@@ -23,7 +23,8 @@ const Shell = styled.div<{ span: number }>`
   padding: 6px;
   border-radius: var(--forge-card-radius);
   background: rgba(23, 25, 21, 0.055);
-  box-shadow: inset 0 0 0 1px rgba(23, 25, 21, 0.045);
+  box-shadow: var(--forge-card-shadow);
+  border: var(--forge-card-border-width, 1px) solid rgba(23, 25, 21, 0.06);
   box-sizing: border-box;
 
   @media (max-width: 767px) {

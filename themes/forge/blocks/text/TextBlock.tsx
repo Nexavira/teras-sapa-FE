@@ -47,6 +47,9 @@ const StyledParagraph = styled.p<{
     grid-column: span 1 !important;
   }
 
+  font-family: var(--forge-body);
+  font-weight: var(--forge-body-weight, 400);
+
   ${({ align }) => {
     if (align === 'center') return 'margin-left: auto; margin-right: auto;'
     if (align === 'right') return 'margin-left: auto;'
@@ -58,23 +61,23 @@ const StyledParagraph = styled.p<{
       case 'intro':
         return `
           color: rgba(var(--color-foreground), 0.72);
-          font-size: clamp(17px, 1.7vw, 22px);
-          line-height: 1.55;
+          font-size: calc(var(--forge-body-size, 15px) * 1.25);
+          line-height: var(--forge-body-line-height, 1.55);
           letter-spacing: -0.02em;
         `
       case 'caption':
         return `
           color: rgba(var(--color-foreground), 0.62);
-          font-size: 13px;
-          line-height: 1.5;
+          font-size: calc(var(--forge-body-size, 15px) * 0.85);
+          line-height: var(--forge-body-line-height, 1.5);
           letter-spacing: 0.02em;
         `
       case 'body':
       default:
         return `
           color: rgba(var(--color-foreground), 0.82);
-          font-size: 15px;
-          line-height: 1.65;
+          font-size: var(--forge-body-size, 15px);
+          line-height: var(--forge-body-line-height, 1.65);
         `
     }
   }}

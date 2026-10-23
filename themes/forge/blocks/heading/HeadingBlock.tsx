@@ -19,36 +19,40 @@ const StyledHeading = styled.h1<{
   text-wrap: balance;
   text-align: ${({ align }) => align};
   color: inherit;
+  font-family: var(--forge-heading);
+  font-weight: var(--forge-heading-weight, 520);
+  letter-spacing: var(--forge-heading-letter-spacing, -0.05em);
+  text-transform: var(--forge-heading-text-transform, none);
 
   ${({ size }) => {
     switch (size) {
       case 'display':
         return `
-          font: 520 clamp(58px, 9.6vw, 146px) / 0.84 var(--forge-heading);
-          letter-spacing: -0.078em;
+          font-size: calc(clamp(58px, 9.6vw, 146px) * var(--forge-heading-scale, 1));
+          line-height: 0.84;
           @media (max-width: 767px) {
-            font-size: clamp(48px, 15vw, 72px);
+            font-size: calc(clamp(48px, 15vw, 72px) * var(--forge-heading-scale, 1));
             line-height: 0.88;
           }
         `
       case 'large':
         return `
-          font: 520 clamp(42px, 6.1vw, 88px) / 0.93 var(--forge-heading);
-          letter-spacing: -0.065em;
+          font-size: calc(clamp(42px, 6.1vw, 88px) * var(--forge-heading-scale, 1));
+          line-height: 0.93;
           @media (max-width: 767px) {
-            font-size: clamp(34px, 8vw, 48px);
+            font-size: calc(clamp(34px, 8vw, 48px) * var(--forge-heading-scale, 1));
           }
         `
       case 'medium':
         return `
-          font: 520 clamp(28px, 3.8vw, 54px) / 1.05 var(--forge-heading);
-          letter-spacing: -0.04em;
+          font-size: calc(clamp(28px, 3.8vw, 54px) * var(--forge-heading-scale, 1));
+          line-height: 1.05;
         `
       case 'small':
       default:
         return `
-          font: 520 clamp(22px, 2.5vw, 34px) / 1.15 var(--forge-heading);
-          letter-spacing: -0.02em;
+          font-size: calc(clamp(22px, 2.5vw, 34px) * var(--forge-heading-scale, 1));
+          line-height: 1.15;
         `
     }
   }}

@@ -49,8 +49,12 @@ const HeaderArea = styled.div`
 const H2 = styled.h2`
   max-width: var(--forge-content-width);
   margin: 0;
-  font: 520 clamp(42px, 6.1vw, 88px) / 0.93 var(--forge-heading);
-  letter-spacing: -0.065em;
+  font-family: var(--forge-heading);
+  font-weight: var(--forge-heading-weight, 520);
+  font-size: calc(clamp(42px, 6.1vw, 88px) * var(--forge-heading-scale, 1));
+  line-height: 0.93;
+  letter-spacing: var(--forge-heading-letter-spacing, -0.065em);
+  text-transform: var(--forge-heading-text-transform, none);
   text-wrap: balance;
 `
 

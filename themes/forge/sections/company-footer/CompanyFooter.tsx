@@ -36,8 +36,12 @@ const Eyebrow = styled.p`
 const Heading = styled.h2`
   max-width: var(--forge-content-width);
   margin: 0 0 64px;
-  font: 500 clamp(52px, 9vw, 126px)/0.86 var(--forge-heading);
-  letter-spacing: -0.075em;
+  font-family: var(--forge-heading);
+  font-weight: var(--forge-heading-weight, 500);
+  font-size: calc(clamp(52px, 9vw, 126px) * var(--forge-heading-scale, 1));
+  line-height: 0.86;
+  letter-spacing: var(--forge-heading-letter-spacing, -0.075em);
+  text-transform: var(--forge-heading-text-transform, none);
 `
 const Contact = styled.a`
   display: inline-flex;
@@ -45,10 +49,14 @@ const Contact = styled.a`
   gap: 14px;
   padding: 7px 8px 7px 22px;
   border-radius: var(--forge-button-radius);
+  border: var(--forge-button-border-width, 1px) solid transparent;
   background: var(--forge-orange);
   color: var(--forge-ink);
   text-decoration: none;
   font-weight: 750;
+  letter-spacing: var(--forge-button-letter-spacing, 0px);
+  text-transform: var(--forge-button-text-transform, none);
+  box-shadow: var(--forge-button-shadow, none);
   transition: transform 700ms var(--forge-ease);
   span {
     display: grid;

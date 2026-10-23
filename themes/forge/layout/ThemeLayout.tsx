@@ -99,6 +99,36 @@ export const ThemeLayout: React.FC<ThemeLayoutProps> = ({
       --forge-reveal-stagger: ${current.reveal_stagger ?? 100}ms;
       --forge-logo-width: ${current.logo_width ?? 180}px;
       --forge-logo-width-mobile: ${current.logo_width_mobile ?? 140}px;
+
+      /* Standard theme variable aliases for cross-theme compatibility */
+      --page-width: ${current.page_width ?? 1440}px;
+      --content-width: ${current.content_width ?? 930}px;
+      --gutter-desktop: ${current.gutter_desktop ?? 72}px;
+      --gutter-mobile: ${current.gutter_mobile ?? 16}px;
+      --grid-gap-horizontal: ${(current as Record<string, any>).grid_gap_horizontal ?? current.grid_gap ?? 8}px;
+      --grid-gap-vertical: ${(current as Record<string, any>).grid_gap_vertical ?? current.grid_gap ?? 8}px;
+      --section-space-desktop: ${current.section_space_desktop ?? 120}px;
+      --section-space-mobile: ${current.section_space_mobile ?? 88}px;
+      --font-heading: var(--forge-heading);
+      --font-heading-weight: var(--forge-heading-weight);
+      --heading-scale: var(--forge-heading-scale);
+      --heading-letter-spacing: var(--forge-heading-letter-spacing);
+      --heading-text-transform: var(--forge-heading-text-transform);
+      --font-body: var(--forge-body);
+      --font-body-weight: var(--forge-body-weight);
+      --font-body-size: var(--forge-body-size);
+      --font-body-line-height: var(--forge-body-line-height);
+      --button-radius: var(--forge-button-radius);
+      --button-border-width: var(--forge-button-border-width);
+      --button-letter-spacing: var(--forge-button-letter-spacing);
+      --button-text-transform: var(--forge-button-text-transform);
+      --card-radius: var(--forge-card-radius);
+      --card-border-width: var(--forge-card-border-width);
+      --card-shadow: var(--forge-card-shadow);
+      --color-success: ${current.color_success || '#247a4a'};
+      --color-warning: ${current.color_warning || '#b76b1d'};
+      --color-error: ${current.color_error || '#b6382f'};
+      --color-info: ${current.color_info || '#356899'};
     }
 
     ${generateColorSchemeCss(current.color_schemes)}
@@ -130,6 +160,7 @@ export const ThemeLayout: React.FC<ThemeLayoutProps> = ({
     h6 {
       font-family: var(--forge-heading) !important;
       font-weight: var(--forge-heading-weight) !important;
+      letter-spacing: var(--forge-heading-letter-spacing);
       text-transform: var(--forge-heading-text-transform);
     }
     [data-reveal] {
